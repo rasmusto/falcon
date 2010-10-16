@@ -27,7 +27,7 @@ PushECOToAnnotationFile=1
 DItemRevisionGUID=
 
 [Document1]
-DocumentPath=fcu.SchDoc
+DocumentPath=fcu.PcbDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -42,6 +42,21 @@ ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
 [Document2]
+DocumentPath=fcu.SchDoc
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=1
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=0
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+
+[Document3]
 DocumentPath=..\Hardware Library\Unsorted\TXB0108.SchLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -56,7 +71,7 @@ ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
-[Document3]
+[Document4]
 DocumentPath=..\Hardware Library\Generic\SOIC.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -71,7 +86,7 @@ ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
-[Document4]
+[Document5]
 DocumentPath=..\Hardware Library\Generic\SOP.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -86,7 +101,7 @@ ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
-[Document5]
+[Document6]
 DocumentPath=..\Hardware Library\Generic\SOT23.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -101,7 +116,7 @@ ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
-[Document6]
+[Document7]
 DocumentPath=..\Hardware Library\Generic\SMT Chip.SchLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -116,7 +131,7 @@ ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
-[Document7]
+[Document8]
 DocumentPath=..\Hardware Library\Generic\SMT Chips.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -131,10 +146,14 @@ ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
+[GeneratedDocument1]
+DocumentPath=Project Outputs for fcu\Move Component(s) Origin To Grid - fcu.html
+DItemRevisionGUID=
+
 [OutputGroup1]
 Name=Netlist Outputs
 Description=
-TargetPrinter=\\printserv\kec1130
+TargetPrinter=Microsoft XPS Document Writer
 PrinterOptions=Record=PrinterOptions|Copies=1|Duplex=1|TrueTypeOptions=3|Collate=1|PrintWhat=1
 OutputType1=CadnetixNetlist
 OutputName1=Cadnetix Netlist
@@ -265,7 +284,7 @@ OutputDefault25=0
 [OutputGroup2]
 Name=Simulator Outputs
 Description=
-TargetPrinter=\\printserv\kec1130
+TargetPrinter=Microsoft XPS Document Writer
 PrinterOptions=Record=PrinterOptions|Copies=1|Duplex=1|TrueTypeOptions=3|Collate=1|PrintWhat=1
 OutputType1=AdvSimNetlist
 OutputName1=Mixed Sim
@@ -286,7 +305,7 @@ OutputDefault3=0
 [OutputGroup3]
 Name=Documentation Outputs
 Description=
-TargetPrinter=\\printserv\kec1130
+TargetPrinter=Microsoft XPS Document Writer
 PrinterOptions=Record=PrinterOptions|Copies=1|Duplex=1|TrueTypeOptions=3|Collate=1|PrintWhat=1
 OutputType1=Composite
 OutputName1=Composite Drawing
@@ -346,7 +365,7 @@ PageOptions9=Record=PageOptions|CenterHorizontal=True|CenterVertical=True|PrintS
 [OutputGroup4]
 Name=Assembly Outputs
 Description=
-TargetPrinter=\\printserv\kec1130
+TargetPrinter=Microsoft XPS Document Writer
 PrinterOptions=Record=PrinterOptions|Copies=1|Duplex=1|TrueTypeOptions=3|Collate=1|PrintWhat=1
 OutputType1=Assembly
 OutputName1=Assembly Drawings
@@ -368,7 +387,7 @@ OutputDefault3=0
 [OutputGroup5]
 Name=Fabrication Outputs
 Description=
-TargetPrinter=\\printserv\kec1130
+TargetPrinter=Microsoft XPS Document Writer
 PrinterOptions=Record=PrinterOptions|Copies=1|Duplex=1|TrueTypeOptions=3|Collate=1|PrintWhat=1
 OutputType1=CompositeDrill
 OutputName1=Composite Drill Drawing
@@ -424,7 +443,7 @@ OutputDefault9=0
 [OutputGroup6]
 Name=Report Outputs
 Description=
-TargetPrinter=\\printserv\kec1130
+TargetPrinter=Microsoft XPS Document Writer
 PrinterOptions=Record=PrinterOptions|Copies=1|Duplex=1|TrueTypeOptions=3|Collate=1|PrintWhat=1
 OutputType1=BOM_PartType
 OutputName1=Bill of Materials
@@ -473,7 +492,7 @@ OutputDefault8=0
 [OutputGroup7]
 Name=Other Outputs
 Description=
-TargetPrinter=\\printserv\kec1130
+TargetPrinter=Microsoft XPS Document Writer
 PrinterOptions=Record=PrinterOptions|Copies=1|Duplex=1|TrueTypeOptions=3|Collate=1|PrintWhat=1
 OutputType1=Text Print
 OutputName1=Text Print
@@ -872,13 +891,21 @@ L16=WWWWNWWNWWWNWWWNW
 L17=WNNNNNNNWNNNWWWWN
 
 [Annotate]
-SortOrder=3
+SortOrder=0
 MatchParameter1=Comment
 MatchStrictly1=1
 MatchParameter2=Library Reference
 MatchStrictly2=1
 PhysicalNamingFormat=$Component_$RoomName
 GlobalIndexSortOrder=3
+UniqueIDPath0=
+DocumentName0=fcu.SchDoc
+IsEnabled0=1
+SelectionScope0=All
+Order0=1
+IndexEnabled0=0
+IndexStartValue0=1
+Suffix0=
 
 [PrjClassGen]
 CompClassManualEnabled=0
@@ -891,6 +918,72 @@ NetClassManualEnabled=1
 [LibraryUpdateOptions]
 SelectedOnly=0
 PartTypes=0
+ComponentLibIdentifierKind0=Library Name And Type
+ComponentLibraryIdentifier0=Diode.SchLib
+ComponentDesignItemID0=LED
+ComponentSymbolReference0=LED
+ComponentUpdate0=1
+ComponentIsDeviceSheet0=0
+ComponentLibIdentifierKind1=Library Name And Type
+ComponentLibraryIdentifier1=LT3080.SchLib
+ComponentDesignItemID1=LT1962
+ComponentSymbolReference1=LT1962
+ComponentUpdate1=1
+ComponentIsDeviceSheet1=0
+ComponentLibIdentifierKind2=Library Name And Type
+ComponentLibraryIdentifier2=MAX3243E.SchLib
+ComponentDesignItemID2=MAX3243E
+ComponentSymbolReference2=MAX3243E
+ComponentUpdate2=1
+ComponentIsDeviceSheet2=0
+ComponentLibIdentifierKind3=Library Name And Type
+ComponentLibraryIdentifier3=Miscellaneous Connectors.IntLib
+ComponentDesignItemID3=Header 2
+ComponentSymbolReference3=Header 2
+ComponentUpdate3=1
+ComponentIsDeviceSheet3=0
+ComponentLibIdentifierKind4=Library Name And Type
+ComponentLibraryIdentifier4=Miscellaneous Connectors.IntLib
+ComponentDesignItemID4=Header 3
+ComponentSymbolReference4=Header 3
+ComponentUpdate4=1
+ComponentIsDeviceSheet4=0
+ComponentLibIdentifierKind5=Library Name And Type
+ComponentLibraryIdentifier5=Miscellaneous Connectors.IntLib
+ComponentDesignItemID5=Header 4
+ComponentSymbolReference5=Header 4
+ComponentUpdate5=1
+ComponentIsDeviceSheet5=0
+ComponentLibIdentifierKind6=Library Name And Type
+ComponentLibraryIdentifier6=Miscellaneous Connectors.IntLib
+ComponentDesignItemID6=Header 5X2
+ComponentSymbolReference6=Header 5X2
+ComponentUpdate6=1
+ComponentIsDeviceSheet6=0
+ComponentLibIdentifierKind7=Library Name And Type
+ComponentLibraryIdentifier7=SMT Chip.SchLib
+ComponentDesignItemID7=Capacitor
+ComponentSymbolReference7=Capacitor
+ComponentUpdate7=1
+ComponentIsDeviceSheet7=0
+ComponentLibIdentifierKind8=Library Name And Type
+ComponentLibraryIdentifier8=SMT Chip.SchLib
+ComponentDesignItemID8=Resistor
+ComponentSymbolReference8=Resistor
+ComponentUpdate8=1
+ComponentIsDeviceSheet8=0
+ComponentLibIdentifierKind9=Library Name And Type
+ComponentLibraryIdentifier9=TXB0108.SchLib
+ComponentDesignItemID9=TXB0108
+ComponentSymbolReference9=TXB0108
+ComponentUpdate9=1
+ComponentIsDeviceSheet9=0
+ComponentLibIdentifierKind10=Library Name And Type
+ComponentLibraryIdentifier10=XMEGA.SchLib
+ComponentDesignItemID10=ATXMEGAA3
+ComponentSymbolReference10=ATXMEGAA3
+ComponentUpdate10=1
+ComponentIsDeviceSheet10=0
 FullReplace=1
 UpdateDesignatorLock=1
 UpdatePartIDLock=1
@@ -902,6 +995,112 @@ RemoveParameters=0
 AddModels=1
 RemoveModels=1
 UpdateCurrentModels=1
+ParameterName0=Comment
+ParameterUpdate0=1
+ParameterName1=Component Kind
+ParameterUpdate1=1
+ParameterName2=Description
+ParameterUpdate2=1
+ParameterName3=LatestRevisionDate
+ParameterUpdate3=1
+ParameterName4=LatestRevisionNote
+ParameterUpdate4=1
+ParameterName5=Library Reference
+ParameterUpdate5=1
+ParameterName6=Manufacturer
+ParameterUpdate6=1
+ParameterName7=Part No.
+ParameterUpdate7=1
+ParameterName8=Price Est.
+ParameterUpdate8=1
+ParameterName9=Publisher
+ParameterUpdate9=1
+ParameterName10=Vendor
+ParameterUpdate10=1
+ModelTypeGroup0=PCBLIB
+ModelTypeUpdate0=1
+ModelType0=PCBLIB
+ModelName0=0402 (1005)
+ModelUpdate0=1
+ModelType1=PCBLIB
+ModelName1=0402 (1005) BRACKET
+ModelUpdate1=1
+ModelType2=PCBLIB
+ModelName2=0402 (1005) RECT
+ModelUpdate2=1
+ModelType3=PCBLIB
+ModelName3=0603 (1608)
+ModelUpdate3=1
+ModelType4=PCBLIB
+ModelName4=0603 (1608) BRACKET
+ModelUpdate4=1
+ModelType5=PCBLIB
+ModelName5=0603 (1608) RECT
+ModelUpdate5=1
+ModelType6=PCBLIB
+ModelName6=0805 (2012)
+ModelUpdate6=1
+ModelType7=PCBLIB
+ModelName7=0805 (2012) BRACKET
+ModelUpdate7=1
+ModelType8=PCBLIB
+ModelName8=0805 (2012) RECT
+ModelUpdate8=1
+ModelType9=PCBLIB
+ModelName9=1206 (3216)
+ModelUpdate9=1
+ModelType10=PCBLIB
+ModelName10=1206 (3216) RECT
+ModelUpdate10=1
+ModelType11=PCBLIB
+ModelName11=1210 (3225)
+ModelUpdate11=1
+ModelType12=PCBLIB
+ModelName12=1210 (3225) RECT
+ModelUpdate12=1
+ModelType13=PCBLIB
+ModelName13=2512 BRACKET
+ModelUpdate13=1
+ModelType14=PCBLIB
+ModelName14=HDR1X2
+ModelUpdate14=1
+ModelType15=PCBLIB
+ModelName15=HDR1X3
+ModelUpdate15=1
+ModelType16=PCBLIB
+ModelName16=HDR1X4
+ModelUpdate16=1
+ModelType17=PCBLIB
+ModelName17=HDR2X5
+ModelUpdate17=1
+ModelType18=PCBLIB
+ModelName18=LTST-C170GKT
+ModelUpdate18=1
+ModelType19=PCBLIB
+ModelName19=LTST-C190
+ModelUpdate19=1
+ModelType20=PCBLIB
+ModelName20=MSOP-8 (MS8E)
+ModelUpdate20=1
+ModelType21=PCBLIB
+ModelName21=QFN-64
+ModelUpdate21=1
+ModelType22=PCBLIB
+ModelName22=TSSOP-20
+ModelUpdate22=1
+ModelType23=PCBLIB
+ModelName23=TSSOP28
+ModelUpdate23=1
+ModelTypeGroup1=SI
+ModelTypeUpdate1=1
+ModelType24=SI
+ModelName24=Connector
+ModelUpdate24=1
+ModelTypeGroup2=SIM
+ModelTypeUpdate2=1
+ModelType25=SIM
+ModelName25=RES
+ModelUpdate25=1
 
 [DatabaseUpdateOptions]
 SelectedOnly=0
@@ -913,4 +1112,7 @@ ComparisonOptions1=Kind=Net Class|MinPercent=75|MinMatch=3|ShowMatch=-1|Confirm=
 ComparisonOptions2=Kind=Component Class|MinPercent=75|MinMatch=3|ShowMatch=-1|Confirm=-1|UseName=-1|InclAllRules=0
 ComparisonOptions3=Kind=Rule|MinPercent=75|MinMatch=3|ShowMatch=-1|Confirm=-1|UseName=-1|InclAllRules=0
 ComparisonOptions4=Kind=Differential Pair|MinPercent=50|MinMatch=1|ShowMatch=0|Confirm=0|UseName=0|InclAllRules=0
+
+[SmartPDF]
+PageOptions=Record=PageOptions|CenterHorizontal=True|CenterVertical=True|PrintScale=1.00|XCorrection=1.00|YCorrection=1.00|PrintKind=1|BorderSize=5000000|LeftOffset=0|BottomOffset=0|Orientation=2|PaperLength=1000|PaperWidth=1000|Scale=100|PaperSource=7|PrintQuality=-4|MediaType=1|DitherType=10|PaperKind=Letter|PrintScaleMode=1
 
