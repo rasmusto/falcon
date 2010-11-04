@@ -87,21 +87,6 @@ ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
 [Document5]
-DocumentPath=..\TXB0108.SchLib
-AnnotationEnabled=1
-AnnotateStartValue=1
-AnnotationIndexControlEnabled=0
-AnnotateSuffix=
-AnnotateScope=All
-AnnotateOrder=-1
-DoLibraryUpdate=1
-DoDatabaseUpdate=1
-ClassGenCCAutoEnabled=1
-ClassGenCCAutoRoomEnabled=1
-ClassGenNCAutoScope=None
-DItemRevisionGUID=
-
-[Document6]
 DocumentPath=..\REVO Hardware Library\Generic\DFN.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -116,7 +101,7 @@ ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
-[Document7]
+[Document6]
 DocumentPath=..\REVO Hardware Library\Generic\Diode.SchLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -131,7 +116,7 @@ ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
-[Document8]
+[Document7]
 DocumentPath=..\REVO Hardware Library\Generic\Diodes.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -146,7 +131,7 @@ ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
-[Document9]
+[Document8]
 DocumentPath=..\REVO Hardware Library\Generic\Generic Connectors.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -161,7 +146,7 @@ ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
-[Document10]
+[Document9]
 DocumentPath=..\REVO Hardware Library\Generic\Generic Connectors.SchLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -176,7 +161,7 @@ ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
-[Document11]
+[Document10]
 DocumentPath=..\REVO Hardware Library\Generic\MSOP.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -191,7 +176,7 @@ ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
-[Document12]
+[Document11]
 DocumentPath=..\REVO Hardware Library\Generic\QFN.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -206,7 +191,7 @@ ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
-[Document13]
+[Document12]
 DocumentPath=..\REVO Hardware Library\Generic\QFP.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -221,7 +206,7 @@ ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
-[Document14]
+[Document13]
 DocumentPath=..\REVO Hardware Library\Generic\SOIC.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -236,7 +221,7 @@ ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
-[Document15]
+[Document14]
 DocumentPath=..\REVO Hardware Library\Generic\SOP.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -251,7 +236,7 @@ ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
-[Document16]
+[Document15]
 DocumentPath=..\REVO Hardware Library\Generic\SOT.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -266,7 +251,7 @@ ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
-[Document17]
+[Document16]
 DocumentPath=..\REVO Hardware Library\Generic\SOT23.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
