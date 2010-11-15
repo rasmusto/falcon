@@ -57,7 +57,7 @@ ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
 [Document3]
-DocumentPath=..\falcon.PcbLib
+DocumentPath=fcu.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -72,7 +72,7 @@ ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
 [Document4]
-DocumentPath=..\falcon.SchLib
+DocumentPath=..\falcon.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -87,7 +87,7 @@ ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
 [Document5]
-DocumentPath=..\REVO Hardware Library\Generic\DFN.PcbLib
+DocumentPath=..\falcon.SchLib
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -102,7 +102,7 @@ ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
 [Document6]
-DocumentPath=..\REVO Hardware Library\Generic\Diode.SchLib
+DocumentPath=..\REVO Hardware Library\Generic\DFN.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -117,7 +117,7 @@ ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
 [Document7]
-DocumentPath=..\REVO Hardware Library\Generic\Diodes.PcbLib
+DocumentPath=..\REVO Hardware Library\Generic\Diode.SchLib
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -132,7 +132,7 @@ ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
 [Document8]
-DocumentPath=..\REVO Hardware Library\Generic\Generic Connectors.PcbLib
+DocumentPath=..\REVO Hardware Library\Generic\Diodes.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -147,7 +147,7 @@ ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
 [Document9]
-DocumentPath=..\REVO Hardware Library\Generic\Generic Connectors.SchLib
+DocumentPath=..\REVO Hardware Library\Generic\Generic Connectors.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -162,7 +162,7 @@ ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
 [Document10]
-DocumentPath=..\REVO Hardware Library\Generic\MSOP.PcbLib
+DocumentPath=..\REVO Hardware Library\Generic\Generic Connectors.SchLib
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -177,7 +177,7 @@ ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
 [Document11]
-DocumentPath=..\REVO Hardware Library\Generic\QFN.PcbLib
+DocumentPath=..\REVO Hardware Library\Generic\MSOP.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -192,7 +192,7 @@ ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
 [Document12]
-DocumentPath=..\REVO Hardware Library\Generic\QFP.PcbLib
+DocumentPath=..\REVO Hardware Library\Generic\QFN.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -207,7 +207,7 @@ ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
 [Document13]
-DocumentPath=..\REVO Hardware Library\Generic\SOIC.PcbLib
+DocumentPath=..\REVO Hardware Library\Generic\QFP.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -222,7 +222,7 @@ ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
 [Document14]
-DocumentPath=..\REVO Hardware Library\Generic\SOP.PcbLib
+DocumentPath=..\REVO Hardware Library\Generic\SOIC.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -237,7 +237,7 @@ ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
 [Document15]
-DocumentPath=..\REVO Hardware Library\Generic\SOT.PcbLib
+DocumentPath=..\REVO Hardware Library\Generic\SOP.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -252,7 +252,7 @@ ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
 [Document16]
-DocumentPath=..\REVO Hardware Library\Generic\SOT23.PcbLib
+DocumentPath=..\REVO Hardware Library\Generic\SOT.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -267,6 +267,21 @@ ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
 [Document17]
+DocumentPath=..\REVO Hardware Library\Generic\SOT23.PcbLib
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+
+[Document18]
 DocumentPath=fcu.SchLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -1050,71 +1065,83 @@ NetClassManualEnabled=1
 SelectedOnly=0
 PartTypes=0
 ComponentLibIdentifierKind0=Library Name And Type
-ComponentLibraryIdentifier0=Diode.SchLib
-ComponentDesignItemID0=LED
-ComponentSymbolReference0=LED
+ComponentLibraryIdentifier0=CP2102.SchLib
+ComponentDesignItemID0=CP2102
+ComponentSymbolReference0=CP2102
 ComponentUpdate0=1
 ComponentIsDeviceSheet0=0
 ComponentLibIdentifierKind1=Library Name And Type
-ComponentLibraryIdentifier1=LT3080.SchLib
-ComponentDesignItemID1=LT1962
-ComponentSymbolReference1=LT1962
+ComponentLibraryIdentifier1=Diode.SchLib
+ComponentDesignItemID1=LED
+ComponentSymbolReference1=LED
 ComponentUpdate1=1
 ComponentIsDeviceSheet1=0
 ComponentLibIdentifierKind2=Library Name And Type
-ComponentLibraryIdentifier2=MAX3243E.SchLib
-ComponentDesignItemID2=MAX3243E
-ComponentSymbolReference2=MAX3243E
+ComponentLibraryIdentifier2=fcu.SchLib
+ComponentDesignItemID2=ISL83072E
+ComponentSymbolReference2=ISL83072E
 ComponentUpdate2=1
 ComponentIsDeviceSheet2=0
 ComponentLibIdentifierKind3=Library Name And Type
-ComponentLibraryIdentifier3=Miscellaneous Connectors.IntLib
+ComponentLibraryIdentifier3=Generic Connectors.SchLib
 ComponentDesignItemID3=Header 2
 ComponentSymbolReference3=Header 2
 ComponentUpdate3=1
 ComponentIsDeviceSheet3=0
 ComponentLibIdentifierKind4=Library Name And Type
-ComponentLibraryIdentifier4=Miscellaneous Connectors.IntLib
-ComponentDesignItemID4=Header 3
-ComponentSymbolReference4=Header 3
+ComponentLibraryIdentifier4=LT3080.SchLib
+ComponentDesignItemID4=LT1962
+ComponentSymbolReference4=LT1962
 ComponentUpdate4=1
 ComponentIsDeviceSheet4=0
 ComponentLibIdentifierKind5=Library Name And Type
-ComponentLibraryIdentifier5=Miscellaneous Connectors.IntLib
-ComponentDesignItemID5=Header 4
-ComponentSymbolReference5=Header 4
+ComponentLibraryIdentifier5=MAX3243E.SchLib
+ComponentDesignItemID5=MAX3243E
+ComponentSymbolReference5=MAX3243E
 ComponentUpdate5=1
 ComponentIsDeviceSheet5=0
 ComponentLibIdentifierKind6=Library Name And Type
 ComponentLibraryIdentifier6=Miscellaneous Connectors.IntLib
-ComponentDesignItemID6=Header 5X2
-ComponentSymbolReference6=Header 5X2
+ComponentDesignItemID6=Header 3
+ComponentSymbolReference6=Header 3
 ComponentUpdate6=1
 ComponentIsDeviceSheet6=0
 ComponentLibIdentifierKind7=Library Name And Type
-ComponentLibraryIdentifier7=SMT Chip.SchLib
-ComponentDesignItemID7=Capacitor
-ComponentSymbolReference7=Capacitor
+ComponentLibraryIdentifier7=Miscellaneous Connectors.IntLib
+ComponentDesignItemID7=Header 4
+ComponentSymbolReference7=Header 4
 ComponentUpdate7=1
 ComponentIsDeviceSheet7=0
 ComponentLibIdentifierKind8=Library Name And Type
 ComponentLibraryIdentifier8=SMT Chip.SchLib
-ComponentDesignItemID8=Resistor
-ComponentSymbolReference8=Resistor
+ComponentDesignItemID8=Capacitor
+ComponentSymbolReference8=Capacitor
 ComponentUpdate8=1
 ComponentIsDeviceSheet8=0
 ComponentLibIdentifierKind9=Library Name And Type
-ComponentLibraryIdentifier9=TXB0108.SchLib
-ComponentDesignItemID9=TXB0108
-ComponentSymbolReference9=TXB0108
+ComponentLibraryIdentifier9=SMT Chip.SchLib
+ComponentDesignItemID9=Resistor
+ComponentSymbolReference9=Resistor
 ComponentUpdate9=1
 ComponentIsDeviceSheet9=0
 ComponentLibIdentifierKind10=Library Name And Type
-ComponentLibraryIdentifier10=XMEGA.SchLib
-ComponentDesignItemID10=ATXMEGAA3
-ComponentSymbolReference10=ATXMEGAA3
+ComponentLibraryIdentifier10=TXB0108.SchLib
+ComponentDesignItemID10=TXB0108
+ComponentSymbolReference10=TXB0108
 ComponentUpdate10=1
 ComponentIsDeviceSheet10=0
+ComponentLibIdentifierKind11=Library Name And Type
+ComponentLibraryIdentifier11=USB.SchLib
+ComponentDesignItemID11=USB Mini-B
+ComponentSymbolReference11=USB Mini-B
+ComponentUpdate11=1
+ComponentIsDeviceSheet11=0
+ComponentLibIdentifierKind12=Library Name And Type
+ComponentLibraryIdentifier12=XMEGA.SchLib
+ComponentDesignItemID12=ATXMEGAA3
+ComponentSymbolReference12=ATXMEGAA3
+ComponentUpdate12=1
+ComponentIsDeviceSheet12=0
 FullReplace=1
 UpdateDesignatorLock=1
 UpdatePartIDLock=1
@@ -1140,14 +1167,16 @@ ParameterName5=Library Reference
 ParameterUpdate5=1
 ParameterName6=Manufacturer
 ParameterUpdate6=1
-ParameterName7=Part No.
+ParameterName7=Notes
 ParameterUpdate7=1
-ParameterName8=Price Est.
+ParameterName8=Part No.
 ParameterUpdate8=1
-ParameterName9=Publisher
+ParameterName9=Price Est.
 ParameterUpdate9=1
-ParameterName10=Vendor
+ParameterName10=Publisher
 ParameterUpdate10=1
+ParameterName11=Vendor
+ParameterUpdate11=1
 ModelTypeGroup0=PCBLIB
 ModelTypeUpdate0=1
 ModelType0=PCBLIB
@@ -1193,7 +1222,7 @@ ModelType13=PCBLIB
 ModelName13=2512 BRACKET
 ModelUpdate13=1
 ModelType14=PCBLIB
-ModelName14=HDR1X2
+ModelName14=HC_PAD 2 PIN
 ModelUpdate14=1
 ModelType15=PCBLIB
 ModelName15=HDR1X3
@@ -1202,36 +1231,42 @@ ModelType16=PCBLIB
 ModelName16=HDR1X4
 ModelUpdate16=1
 ModelType17=PCBLIB
-ModelName17=HDR2X5
+ModelName17=LTST-C170GKT
 ModelUpdate17=1
 ModelType18=PCBLIB
-ModelName18=LTST-C170GKT
+ModelName18=LTST-C190
 ModelUpdate18=1
 ModelType19=PCBLIB
-ModelName19=LTST-C190
+ModelName19=MSOP-8
 ModelUpdate19=1
 ModelType20=PCBLIB
 ModelName20=MSOP-8 (MS8E)
 ModelUpdate20=1
 ModelType21=PCBLIB
-ModelName21=QFN-64
+ModelName21=QFN28 5x5 SILABS
 ModelUpdate21=1
 ModelType22=PCBLIB
-ModelName22=TSSOP-20
+ModelName22=QFN-64
 ModelUpdate22=1
 ModelType23=PCBLIB
-ModelName23=TSSOP28
+ModelName23=TSSOP-20
 ModelUpdate23=1
+ModelType24=PCBLIB
+ModelName24=TSSOP28
+ModelUpdate24=1
+ModelType25=PCBLIB
+ModelName25=USB MINI-B (PCB TAB)
+ModelUpdate25=1
 ModelTypeGroup1=SI
 ModelTypeUpdate1=1
-ModelType24=SI
-ModelName24=Connector
-ModelUpdate24=1
+ModelType26=SI
+ModelName26=Connector
+ModelUpdate26=1
 ModelTypeGroup2=SIM
 ModelTypeUpdate2=1
-ModelType25=SIM
-ModelName25=RES
-ModelUpdate25=1
+ModelType27=SIM
+ModelName27=RES
+ModelUpdate27=1
 
 [DatabaseUpdateOptions]
 SelectedOnly=0

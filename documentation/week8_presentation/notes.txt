@@ -1,0 +1,4 @@
+Competition
+ In order to participate, all entries must be autonomous, free flying (no connections or tethers), lighter than 1.5kg, smaller than 1m in every dimension, electric, equipped with a kill switch, and able to transmit data to the judges.
+OSURC
+Quadrotor platform
