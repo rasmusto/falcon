@@ -47,12 +47,12 @@ float pidIteration (volatile struct pidInfo* pid, volatile float value, uint32_t
 	float error = value - pid->target;
 	pid->i += error/*(float)(timeStamp - pid->previousTime)*/;
 	float deltaError = (error - pid->previousError)/*/(float)(timeStamp - pid->previousTime)*/;
-	
+
 	float output = pid->kp*error + pid->ki*pid->i + pid->kd*deltaError;
-	
+
 	pid->previousError = error;
 	pid->previousTime = timeStamp;
-	
+
 	return output;
 }
 
