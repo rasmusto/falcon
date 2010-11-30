@@ -1,0 +1,16 @@
+Comment,Description,Designator,Footprint,LibRef,Quantity,Manufacturer,Part No.,Price Est.,Value,Vendor
+
+"Capacitor","","C?","0603 (1608) RECT","Capacitor","10","Murata","GRM188xxxxxxxxx","$0.10","1uF, 2.2uF, 100pF","Mouser"
+"USB Mini-B","USB Mini-B","J?","USB MINI-B (PCB TAB)","USB Mini-B","1","Molex","54819-0572","$1.56","","Mouser"
+"Header 2","Header, 2-Pin","P?","HC_PAD 2 PIN","Header 2","1","","","","",""
+"Header 3","Header, 3-Pin","P?","HDR1X3","Header 3","8","","","","",""
+"Header 4","Header, 4-Pin","P?","HDR1X4","Header 4","1","","","","",""
+"Header 8","Header, 8-Pin","P?","HDR1X8","Header 8","2","","","","",""
+"Sonar","Header, 4-Pin","P?","HDR1X4","Header 4","1","","","","",""
+"Xbee","Header, 4-Pin","P?","HDR1X4","Header 4","1","","","","",""
+"Resistor","Resistor","R?","0603 (1608) BRACKET","Resistor","5","Vishay / Dale","CRCW06031K00xxxxxxxxxx","$0.06","2k, 10k, 44.2k, 330k","Mouser"
+"ATXMEGAA3","","U?","QFN-64","ATXMEGAA3","1","Atmel","ATXMEGA128A3","$8.06","","Mouser"
+"CP2102","","U?","QFN28 5x5 SILABS","CP2102","1","Silicon Labs","CP2102","$3.66","","Mouser"
+"ISL83072E","","U?","MSOP-8","ISL83072E","1","","","","",""
+"LT1962","LT1962 - 300mA, Low Noise, Micropower LDO Regulators","U?","MSOP-8 (MS8E)","LT1962","1","Linear Technology","LT1962","$2.00","","Linear Technology"
+"TXB0108","","U?","TSSOP-20","TXB0108","1","Texas Instruments","TXB0108","","","Mouser"
