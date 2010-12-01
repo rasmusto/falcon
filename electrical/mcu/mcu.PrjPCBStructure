@@ -1,0 +1,5 @@
+Record=SheetSymbol|SourceDocument=mcu.SchDoc|Designator=PWR1|SchDesignator=Repeat(PWR,1,4)|FileName=power_channel.SchDoc|SymbolType=Normal|RawFileName=power_channel.SchDoc|DesignItemId= |SourceLibraryName= |ObjectKind=Sheet Symbol
+Record=SheetSymbol|SourceDocument=mcu.SchDoc|Designator=PWR2|SchDesignator=Repeat(PWR,1,4)|FileName=power_channel.SchDoc|SymbolType=Normal|RawFileName=power_channel.SchDoc|DesignItemId= |SourceLibraryName= |ObjectKind=Sheet Symbol
+Record=SheetSymbol|SourceDocument=mcu.SchDoc|Designator=PWR3|SchDesignator=Repeat(PWR,1,4)|FileName=power_channel.SchDoc|SymbolType=Normal|RawFileName=power_channel.SchDoc|DesignItemId= |SourceLibraryName= |ObjectKind=Sheet Symbol
+Record=SheetSymbol|SourceDocument=mcu.SchDoc|Designator=PWR4|SchDesignator=Repeat(PWR,1,4)|FileName=power_channel.SchDoc|SymbolType=Normal|RawFileName=power_channel.SchDoc|DesignItemId= |SourceLibraryName= |ObjectKind=Sheet Symbol
+Record=TopLevelDocument|FileName=mcu.SchDoc
