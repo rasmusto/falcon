@@ -191,6 +191,10 @@ ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
+[GeneratedDocument1]
+DocumentPath=Project Outputs for imu_sense\Design Rule Check - imu_sense.html
+DItemRevisionGUID=
+
 [OutputGroup1]
 Name=Netlist Outputs
 Description=

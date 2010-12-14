@@ -121,10 +121,14 @@ DocumentPath=Design Rule Check - imu_2by2.html
 DItemRevisionGUID=
 
 [GeneratedDocument2]
-DocumentPath=Design Rule Check - imu_digital.html
+DocumentPath=Design Rule Check - imu_cpu.html
 DItemRevisionGUID=
 
 [GeneratedDocument3]
+DocumentPath=Design Rule Check - imu_digital.html
+DItemRevisionGUID=
+
+[GeneratedDocument4]
 DocumentPath=Net Status - imu_main.html
 DItemRevisionGUID=
 
