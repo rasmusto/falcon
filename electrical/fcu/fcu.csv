@@ -1,0 +1,25 @@
+Comment,Description,Designator,Footprint,LibRef,Part No.,Price Est.,Quantity,Vendor
+Capacitor,,"C1, C2, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12, C13, C14, C15",0603 (1608) RECT,Capacitor,490-1575-1-ND,$0.10,15,Digikey
+LED,LED - red,"D1, D2, D3, D4, D5, D6, D7, D8",LED 0603 (1608),LED,160-1176-1-ND,$0.40,4,Digikey
+,LED - green,,,,160-1179-1-ND,$0.52,4,Digikey
+USB Mini-B,USB Mini-B,J1,USB MINI-B (PCB TAB),USB Mini-B,WM17116CT-ND,$1.48,1,Digikey
+sherlock_ra_male_4,,"P1, P2, P3",sherlock_ra_male_4,sherlock_ra_male_4,WM18933-ND,$0.59,3,Digikey
+sherlock_housing_4,,,,,WM5983-ND,,3,Digikey
+2x8smd0.5female,,P4,S9007E-08-ND,2x8smd0.5female,S9007E-08-ND,$1.43,1,Digikey
+2x8smd0.5male,,P5,S9007E-08-ND-noholes,2x8smd0.5male,S9013E-08-ND,$1.43,1,Digikey
+sherlock_ra_male_10,,P6,sherlock_ra_male_10,sherlock_ra_male_10,WM18939-ND,$1.16,1,Digikey
+sherlock_housing_10,,,,,WM5989-ND,,1,Digikey
+sherlock_ra_male_3,,P7,sherlock_ra_male_3,sherlock_ra_male_3,WM18932-ND,$0.55,1,Digikey
+sherlock_housing_3,,,,,WM5982-ND,,1,Digikey
+sherlock_female,,,,,WM6050-ND,$0.50,30,Digikey
+Resistor,Resistor,"R1, R2, R3, R4, R5, R6, R7, R8, R9, R10",0603 (1608) BRACKET,Resistor,CRCW06031K00xxxxxxxxxx,,,
+,2k,,,,541-2.00KHCT-ND,$0.08,8,Digikey
+,10k,,,,541-10.0KHCT-ND,$0.08,1,Digikey
+,44.2k,,,,541-44.2KHCT-ND,$0.08,1,Digikey
+TPS71550,,U1,SOT23-5,TPS71550,296-12008-1-ND,$1.29,1,Digikey
+TPS71533,,U2,SOT23-5,TPS71533,296-12008-1-ND,$1.29,1,Digikey
+ATXMEGAA3,,U3,QFN-64,ATXMEGAA3,ATXMEGA128A3-MH-ND,$10.43,1,Digikey
+CP2102,,U4,QFN28 5x5 SILABS,CP2102,336-1160-ND,$3.17,1,Digikey
+TXB0108,,U5,TSSOP-20,TXB0108,296-21527-1-ND,$2.80,1,Digikey
+MAX3221,,U6,TSSOP-16,MAX3221,MAX3221CUE+-ND,$3.31,1,Digikey
+RK7002B,,"U7, U8, U9, U10, U11, U12, U13, U14",SOT-23,RK7002B,RK7002BT116CT-ND,$0.22,8,Digikey
