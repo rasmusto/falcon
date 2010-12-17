@@ -1,0 +1,34 @@
+Output: NC Drill Files
+Type  : NC Drill
+From  : PCB Document [panel.PcbDoc]
+   Generated File[panel.TXT]
+   Generated File[panel.DRL]
+   Generated File[panel.LDP]
+   Generated File[panel.DRR]
+
+Output: Gerber Files
+Type  : Gerber
+From  : PCB Document [panel.PcbDoc]
+   Generated File[panel.GTL]
+   Generated File[panel.GBL]
+   Generated File[panel.GPB]
+   Generated File[panel.GPT]
+   Generated File[panel.GTO]
+   Generated File[panel.GTP]
+   Generated File[panel.GTS]
+   Generated File[panel.GBS]
+   Generated File[panel.GBP]
+   Generated File[panel.GBO]
+   Generated File[panel.GM1]
+   Generated File[panel.GM13]
+   Generated File[panel.GM15]
+   Generated File[panel.GKO]
+   Generated File[panel.RUL]
+   Generated File[panel.EXTREP]
+   Generated File[panel.REP]
+
+
+Files Generated   : 21
+Documents Printed : 0
+
+Finished Output Generation At 4:01:16 AM On 12/17/2010
