@@ -469,7 +469,7 @@ PageOptions1=Record=PageOptions|CenterHorizontal=True|CenterVertical=True|PrintS
 Configuration1_Name1=Filter
 Configuration1_Item1=545046300E5446696C74657257726170706572000D46696C7465722E416374697665090F46696C7465722E43726974657269610A04000000000000000000
 Configuration1_Name2=General
-Configuration1_Item2=OpenExported=False|AddToProject=False|ForceFit=False|NotFitted=False|Database=False|IncludePCBData=False|ShowExportOptions=True|TemplateFilename=|BatchMode=5|FormWidth=1416|FormHeight=705|SupplierProdQty=1|SupplierAutoQty=False|SupplierUseCachedPricing=False|SupplierCurrency=<none>
+Configuration1_Item2=OpenExported=False|AddToProject=False|ForceFit=False|NotFitted=False|Database=False|IncludePCBData=False|ShowExportOptions=True|TemplateFilename=|BatchMode=5|FormWidth=1635|FormHeight=705|SupplierProdQty=1|SupplierAutoQty=False|SupplierUseCachedPricing=False|SupplierCurrency=<none>
 Configuration1_Name3=GroupOrder
 Configuration1_Item3=Value=True|Comment=True|Footprint=True
 Configuration1_Name4=OutputConfigurationParameter1
@@ -477,7 +477,7 @@ Configuration1_Item4=Record=BOMPrintView|ShowNoERC=True|ShowParamSet=True|ShowPr
 Configuration1_Name5=SortOrder
 Configuration1_Item5=Designator=Up|Comment=Up|Footprint=Up
 Configuration1_Name6=VisibleOrder
-Configuration1_Item6=Designator=386|Value=100|Comment=100|Description=279|Footprint=100|Part No.=100|Price Est.=100|Quantity=100|Special=100
+Configuration1_Item6=Designator=386|Value=100|Comment=100|Description=279|Footprint=100|Part No.=100|Price Est.=57|Quantity=100|Special=100|Manufacturer=100
 OutputType2=ComponentCrossReference
 OutputName2=Component Cross Reference Report
 OutputDocumentPath2=
