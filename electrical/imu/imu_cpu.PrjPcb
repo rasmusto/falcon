@@ -2,7 +2,7 @@
 Version=1.0
 HierarchyMode=0
 ChannelRoomNamingStyle=0
-OutputPath=..\imu
+OutputPath=Project outputs for imu_cpu
 LogFolderPath=C:\Users\Scott\senior_design\electrical\imu
 ChannelDesignatorFormatString=$Component_$RoomName
 ChannelRoomLevelSeperator=_
@@ -129,6 +129,90 @@ DocumentPath=Design Rule Check - imu_digital.html
 DItemRevisionGUID=
 
 [GeneratedDocument4]
+DocumentPath=Project outputs for imu_cpu\imu_cpu.DRL
+DItemRevisionGUID=
+
+[GeneratedDocument5]
+DocumentPath=imu_cpu.DRR
+DItemRevisionGUID=
+
+[GeneratedDocument6]
+DocumentPath=Project outputs for imu_cpu\imu_cpu.DRR
+DItemRevisionGUID=
+
+[GeneratedDocument7]
+DocumentPath=imu_cpu.EXTREP
+DItemRevisionGUID=
+
+[GeneratedDocument8]
+DocumentPath=Project outputs for imu_cpu\imu_cpu.EXTREP
+DItemRevisionGUID=
+
+[GeneratedDocument9]
+DocumentPath=Project outputs for imu_cpu\imu_cpu.GBL
+DItemRevisionGUID=
+
+[GeneratedDocument10]
+DocumentPath=Project outputs for imu_cpu\imu_cpu.GBO
+DItemRevisionGUID=
+
+[GeneratedDocument11]
+DocumentPath=Project outputs for imu_cpu\imu_cpu.GBP
+DItemRevisionGUID=
+
+[GeneratedDocument12]
+DocumentPath=Project outputs for imu_cpu\imu_cpu.GBS
+DItemRevisionGUID=
+
+[GeneratedDocument13]
+DocumentPath=Project outputs for imu_cpu\imu_cpu.GTL
+DItemRevisionGUID=
+
+[GeneratedDocument14]
+DocumentPath=Project outputs for imu_cpu\imu_cpu.GTO
+DItemRevisionGUID=
+
+[GeneratedDocument15]
+DocumentPath=Project outputs for imu_cpu\imu_cpu.GTP
+DItemRevisionGUID=
+
+[GeneratedDocument16]
+DocumentPath=Project outputs for imu_cpu\imu_cpu.GTS
+DItemRevisionGUID=
+
+[GeneratedDocument17]
+DocumentPath=imu_cpu.LDP
+DItemRevisionGUID=
+
+[GeneratedDocument18]
+DocumentPath=Project outputs for imu_cpu\imu_cpu.LDP
+DItemRevisionGUID=
+
+[GeneratedDocument19]
+DocumentPath=imu_cpu.REP
+DItemRevisionGUID=
+
+[GeneratedDocument20]
+DocumentPath=Project outputs for imu_cpu\imu_cpu.REP
+DItemRevisionGUID=
+
+[GeneratedDocument21]
+DocumentPath=imu_cpu.RUL
+DItemRevisionGUID=
+
+[GeneratedDocument22]
+DocumentPath=Project outputs for imu_cpu\imu_cpu.RUL
+DItemRevisionGUID=
+
+[GeneratedDocument23]
+DocumentPath=imu_cpu.TXT
+DItemRevisionGUID=
+
+[GeneratedDocument24]
+DocumentPath=Project outputs for imu_cpu\imu_cpu.TXT
+DItemRevisionGUID=
+
+[GeneratedDocument25]
 DocumentPath=Net Status - imu_main.html
 DItemRevisionGUID=
 
@@ -404,14 +488,14 @@ Name=Fabrication Outputs
 Description=
 TargetPrinter=HP PSC 1400 series
 PrinterOptions=Record=PrinterOptions|Copies=1|Duplex=1|TrueTypeOptions=3|Collate=1|PrintWhat=1
-OutputType1=CompositeDrill
-OutputName1=Composite Drill Drawing
+OutputType1=Drill
+OutputName1=Drill Drawing/Guides
 OutputDocumentPath1=
 OutputVariantName1=
 OutputDefault1=0
 PageOptions1=Record=PageOptions|CenterHorizontal=True|CenterVertical=True|PrintScale=1.00|XCorrection=1.00|YCorrection=1.00|PrintKind=1|BorderSize=5000000|LeftOffset=0|BottomOffset=0|Orientation=2|PaperLength=1000|PaperWidth=1000|Scale=100|PaperSource=7|PrintQuality=-4|MediaType=1|DitherType=10|PaperKind=Letter|PrintScaleMode=1
-OutputType2=Drill
-OutputName2=Drill Drawing/Guides
+OutputType2=Mask
+OutputName2=Solder/Paste Mask Prints
 OutputDocumentPath2=
 OutputVariantName2=
 OutputDefault2=0
@@ -422,38 +506,42 @@ OutputDocumentPath3=
 OutputVariantName3=
 OutputDefault3=0
 PageOptions3=Record=PageOptions|CenterHorizontal=True|CenterVertical=True|PrintScale=1.00|XCorrection=1.00|YCorrection=1.00|PrintKind=1|BorderSize=5000000|LeftOffset=0|BottomOffset=0|Orientation=2|PaperLength=1000|PaperWidth=1000|Scale=100|PaperSource=7|PrintQuality=-4|MediaType=1|DitherType=10|PaperKind=Letter|PrintScaleMode=1
-OutputType4=Gerber
-OutputName4=Gerber Files
+OutputType4=CompositeDrill
+OutputName4=Composite Drill Drawing
 OutputDocumentPath4=
 OutputVariantName4=
 OutputDefault4=0
-OutputType5=Mask
-OutputName5=Solder/Paste Mask Prints
+PageOptions4=Record=PageOptions|CenterHorizontal=True|CenterVertical=True|PrintScale=1.00|XCorrection=1.00|YCorrection=1.00|PrintKind=1|BorderSize=5000000|LeftOffset=0|BottomOffset=0|Orientation=2|PaperLength=1000|PaperWidth=1000|Scale=100|PaperSource=7|PrintQuality=-4|MediaType=1|DitherType=10|PaperKind=Letter|PrintScaleMode=1
+OutputType5=NC Drill
+OutputName5=NC Drill Files
 OutputDocumentPath5=
 OutputVariantName5=
 OutputDefault5=0
-PageOptions5=Record=PageOptions|CenterHorizontal=True|CenterVertical=True|PrintScale=1.00|XCorrection=1.00|YCorrection=1.00|PrintKind=1|BorderSize=5000000|LeftOffset=0|BottomOffset=0|Orientation=2|PaperLength=1000|PaperWidth=1000|Scale=100|PaperSource=7|PrintQuality=-4|MediaType=1|DitherType=10|PaperKind=Letter|PrintScaleMode=1
-OutputType6=NC Drill
-OutputName6=NC Drill Files
+Configuration5_Name1=OutputConfigurationParameter1
+Configuration5_Item1=BoardEdgeRoutToolDia=2000000|GenerateBoardEdgeRout=False|GenerateDrilledSlotsG85=False|GenerateSeparatePlatedNonPlatedFiles=False|NumberOfDecimals=4|NumberOfUnits=2|OptimizeChangeLocationCommands=True|OriginPosition=Relative|Record=DrillView|Units=Imperial|ZeroesMode=SuppressTrailingZeroes
+OutputType6=ODB
+OutputName6=ODB++ Files
 OutputDocumentPath6=
 OutputVariantName6=
 OutputDefault6=0
-OutputType7=ODB
-OutputName7=ODB++ Files
+OutputType7=Plane
+OutputName7=Power-Plane Prints
 OutputDocumentPath7=
 OutputVariantName7=
 OutputDefault7=0
-OutputType8=Plane
-OutputName8=Power-Plane Prints
+PageOptions7=Record=PageOptions|CenterHorizontal=True|CenterVertical=True|PrintScale=1.00|XCorrection=1.00|YCorrection=1.00|PrintKind=1|BorderSize=5000000|LeftOffset=0|BottomOffset=0|Orientation=2|PaperLength=1000|PaperWidth=1000|Scale=100|PaperSource=7|PrintQuality=-4|MediaType=1|DitherType=10|PaperKind=Letter|PrintScaleMode=1
+OutputType8=Test Points
+OutputName8=Test Point Report
 OutputDocumentPath8=
 OutputVariantName8=
 OutputDefault8=0
-PageOptions8=Record=PageOptions|CenterHorizontal=True|CenterVertical=True|PrintScale=1.00|XCorrection=1.00|YCorrection=1.00|PrintKind=1|BorderSize=5000000|LeftOffset=0|BottomOffset=0|Orientation=2|PaperLength=1000|PaperWidth=1000|Scale=100|PaperSource=7|PrintQuality=-4|MediaType=1|DitherType=10|PaperKind=Letter|PrintScaleMode=1
-OutputType9=Test Points
-OutputName9=Test Point Report
+OutputType9=Gerber
+OutputName9=Gerber Files
 OutputDocumentPath9=
 OutputVariantName9=
 OutputDefault9=0
+Configuration9_Name1=OutputConfigurationParameter1
+Configuration9_Item1=AddToAllPlots.Set=SerializeLayerHash.Version~2,ClassName~TLayerToBoolean|CentrePlots=False|DrillDrawingSymbol=GraphicsSymbol|DrillDrawingSymbolSize=500000|EmbeddedApertures=True|FilmBorderSize=10000000|FilmXSize=200000000|FilmYSize=160000000|FlashAllFills=False|FlashPadShapes=True|G54OnApertureChange=False|GenerateDRCRulesFile=True|GenerateReliefShapes=True|GerberUnit=Imperial|IncludeUnconnectedMidLayerPads=False|LeadingAndTrailingZeroesMode=SuppressLeadingZeroes|MaxApertureSize=2500000|MinusApertureTolerance=50|Mirror.Set=SerializeLayerHash.Version~2,ClassName~TLayerToBoolean|MirrorDrillDrawingPlots=False|MirrorDrillGuidePlots=False|NumberOfDecimals=4|OptimizeChangeLocationCommands=True|OriginPosition=Relative|Panelize=False|Plot.Set=SerializeLayerHash.Version~2,ClassName~TLayerToBoolean,16973830~1,16973832~1,16973834~1,16777217~1,16842751~1,16973835~1,16973833~1,16973831~1|PlotPositivePlaneLayers=False|PlotUsedDrillDrawingLayerPairs=False|PlotUsedDrillGuideLayerPairs=False|PlusApertureTolerance=50|Record=GerberView|SoftwareArcs=False|Sorted=False
 
 [OutputGroup6]
 Name=Report Outputs
