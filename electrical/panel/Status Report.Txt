@@ -31,4 +31,4 @@ From  : PCB Document [panel.PcbDoc]
 Files Generated   : 21
 Documents Printed : 0
 
-Finished Output Generation At 4:01:16 AM On 12/17/2010
+Finished Output Generation At 6:35:57 PM On 12/17/2010
