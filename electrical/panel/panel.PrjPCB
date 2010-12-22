@@ -57,99 +57,23 @@ ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
 [GeneratedDocument1]
-DocumentPath=panel.DRL
-DItemRevisionGUID=
-
-[GeneratedDocument2]
-DocumentPath=panel.DRR
-DItemRevisionGUID=
-
-[GeneratedDocument3]
-DocumentPath=panel.EXTREP
-DItemRevisionGUID=
-
-[GeneratedDocument4]
 DocumentPath=Project Outputs for panel\panel.EXTREP
 DItemRevisionGUID=
 
-[GeneratedDocument5]
-DocumentPath=panel.GBL
-DItemRevisionGUID=
-
-[GeneratedDocument6]
-DocumentPath=panel.GBO
-DItemRevisionGUID=
-
-[GeneratedDocument7]
-DocumentPath=panel.GBP
-DItemRevisionGUID=
-
-[GeneratedDocument8]
-DocumentPath=panel.GBS
-DItemRevisionGUID=
-
-[GeneratedDocument9]
-DocumentPath=panel.GKO
-DItemRevisionGUID=
-
-[GeneratedDocument10]
-DocumentPath=panel.GM1
-DItemRevisionGUID=
-
-[GeneratedDocument11]
-DocumentPath=panel.GM13
-DItemRevisionGUID=
-
-[GeneratedDocument12]
-DocumentPath=panel.GM15
-DItemRevisionGUID=
-
-[GeneratedDocument13]
-DocumentPath=panel.GPB
-DItemRevisionGUID=
-
-[GeneratedDocument14]
-DocumentPath=panel.GPT
-DItemRevisionGUID=
-
-[GeneratedDocument15]
-DocumentPath=panel.GTL
-DItemRevisionGUID=
-
-[GeneratedDocument16]
-DocumentPath=panel.GTO
-DItemRevisionGUID=
-
-[GeneratedDocument17]
-DocumentPath=panel.GTP
-DItemRevisionGUID=
-
-[GeneratedDocument18]
-DocumentPath=panel.GTS
-DItemRevisionGUID=
-
-[GeneratedDocument19]
+[GeneratedDocument2]
 DocumentPath=panel.LDP
 DItemRevisionGUID=
 
-[GeneratedDocument20]
-DocumentPath=panel.REP
-DItemRevisionGUID=
-
-[GeneratedDocument21]
+[GeneratedDocument3]
 DocumentPath=Project Outputs for panel\panel.REP
 DItemRevisionGUID=
 
-[GeneratedDocument22]
+[GeneratedDocument4]
 DocumentPath=panel.RUL
 DItemRevisionGUID=
 
-[GeneratedDocument23]
+[GeneratedDocument5]
 DocumentPath=Project Outputs for panel\panel.RUL
-DItemRevisionGUID=
-
-[GeneratedDocument24]
-DocumentPath=panel.TXT
 DItemRevisionGUID=
 
 [OutputGroup1]

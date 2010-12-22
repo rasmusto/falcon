@@ -117,103 +117,7 @@ ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
 [GeneratedDocument1]
-DocumentPath=Design Rule Check - imu_2by2.html
-DItemRevisionGUID=
-
-[GeneratedDocument2]
 DocumentPath=Design Rule Check - imu_cpu.html
-DItemRevisionGUID=
-
-[GeneratedDocument3]
-DocumentPath=Design Rule Check - imu_digital.html
-DItemRevisionGUID=
-
-[GeneratedDocument4]
-DocumentPath=Project outputs for imu_cpu\imu_cpu.DRL
-DItemRevisionGUID=
-
-[GeneratedDocument5]
-DocumentPath=imu_cpu.DRR
-DItemRevisionGUID=
-
-[GeneratedDocument6]
-DocumentPath=Project outputs for imu_cpu\imu_cpu.DRR
-DItemRevisionGUID=
-
-[GeneratedDocument7]
-DocumentPath=imu_cpu.EXTREP
-DItemRevisionGUID=
-
-[GeneratedDocument8]
-DocumentPath=Project outputs for imu_cpu\imu_cpu.EXTREP
-DItemRevisionGUID=
-
-[GeneratedDocument9]
-DocumentPath=Project outputs for imu_cpu\imu_cpu.GBL
-DItemRevisionGUID=
-
-[GeneratedDocument10]
-DocumentPath=Project outputs for imu_cpu\imu_cpu.GBO
-DItemRevisionGUID=
-
-[GeneratedDocument11]
-DocumentPath=Project outputs for imu_cpu\imu_cpu.GBP
-DItemRevisionGUID=
-
-[GeneratedDocument12]
-DocumentPath=Project outputs for imu_cpu\imu_cpu.GBS
-DItemRevisionGUID=
-
-[GeneratedDocument13]
-DocumentPath=Project outputs for imu_cpu\imu_cpu.GTL
-DItemRevisionGUID=
-
-[GeneratedDocument14]
-DocumentPath=Project outputs for imu_cpu\imu_cpu.GTO
-DItemRevisionGUID=
-
-[GeneratedDocument15]
-DocumentPath=Project outputs for imu_cpu\imu_cpu.GTP
-DItemRevisionGUID=
-
-[GeneratedDocument16]
-DocumentPath=Project outputs for imu_cpu\imu_cpu.GTS
-DItemRevisionGUID=
-
-[GeneratedDocument17]
-DocumentPath=imu_cpu.LDP
-DItemRevisionGUID=
-
-[GeneratedDocument18]
-DocumentPath=Project outputs for imu_cpu\imu_cpu.LDP
-DItemRevisionGUID=
-
-[GeneratedDocument19]
-DocumentPath=imu_cpu.REP
-DItemRevisionGUID=
-
-[GeneratedDocument20]
-DocumentPath=Project outputs for imu_cpu\imu_cpu.REP
-DItemRevisionGUID=
-
-[GeneratedDocument21]
-DocumentPath=imu_cpu.RUL
-DItemRevisionGUID=
-
-[GeneratedDocument22]
-DocumentPath=Project outputs for imu_cpu\imu_cpu.RUL
-DItemRevisionGUID=
-
-[GeneratedDocument23]
-DocumentPath=imu_cpu.TXT
-DItemRevisionGUID=
-
-[GeneratedDocument24]
-DocumentPath=Project outputs for imu_cpu\imu_cpu.TXT
-DItemRevisionGUID=
-
-[GeneratedDocument25]
-DocumentPath=Net Status - imu_main.html
 DItemRevisionGUID=
 
 [Generic_SmartPDF]
@@ -250,7 +154,7 @@ SaveSettingsToOutJob=0
 [OutputGroup1]
 Name=Netlist Outputs
 Description=
-TargetPrinter=HP PSC 1400 series
+TargetPrinter=PDFCreator
 PrinterOptions=Record=PrinterOptions|Copies=1|Duplex=1|TrueTypeOptions=3|Collate=1|PrintWhat=1
 OutputType1=CadnetixNetlist
 OutputName1=Cadnetix Netlist
@@ -381,7 +285,7 @@ OutputDefault25=0
 [OutputGroup2]
 Name=Simulator Outputs
 Description=
-TargetPrinter=HP PSC 1400 series
+TargetPrinter=PDFCreator
 PrinterOptions=Record=PrinterOptions|Copies=1|Duplex=1|TrueTypeOptions=3|Collate=1|PrintWhat=1
 OutputType1=AdvSimNetlist
 OutputName1=Mixed Sim
@@ -402,7 +306,7 @@ OutputDefault3=0
 [OutputGroup3]
 Name=Documentation Outputs
 Description=
-TargetPrinter=HP PSC 1400 series
+TargetPrinter=PDFCreator
 PrinterOptions=Record=PrinterOptions|Copies=1|Duplex=1|TrueTypeOptions=3|Collate=1|PrintWhat=1
 OutputType1=Composite
 OutputName1=Composite Drawing
@@ -464,7 +368,7 @@ PageOptions9=Record=PageOptions|CenterHorizontal=True|CenterVertical=True|PrintS
 [OutputGroup4]
 Name=Assembly Outputs
 Description=
-TargetPrinter=HP PSC 1400 series
+TargetPrinter=PDFCreator
 PrinterOptions=Record=PrinterOptions|Copies=1|Duplex=1|TrueTypeOptions=3|Collate=1|PrintWhat=1
 OutputType1=Assembly
 OutputName1=Assembly Drawings
@@ -486,7 +390,7 @@ OutputDefault3=0
 [OutputGroup5]
 Name=Fabrication Outputs
 Description=
-TargetPrinter=HP PSC 1400 series
+TargetPrinter=PDFCreator
 PrinterOptions=Record=PrinterOptions|Copies=1|Duplex=1|TrueTypeOptions=3|Collate=1|PrintWhat=1
 OutputType1=Drill
 OutputName1=Drill Drawing/Guides
@@ -546,7 +450,7 @@ Configuration9_Item1=AddToAllPlots.Set=SerializeLayerHash.Version~2,ClassName~TL
 [OutputGroup6]
 Name=Report Outputs
 Description=
-TargetPrinter=HP PSC 1400 series
+TargetPrinter=PDFCreator
 PrinterOptions=Record=PrinterOptions|Copies=1|Duplex=1|TrueTypeOptions=3|Collate=1|PrintWhat=1
 OutputType1=BOM_PartType
 OutputName1=Bill of Materials
@@ -607,7 +511,7 @@ OutputDefault8=0
 [OutputGroup7]
 Name=Other Outputs
 Description=
-TargetPrinter=HP PSC 1400 series
+TargetPrinter=PDFCreator
 PrinterOptions=Record=PrinterOptions|Copies=1|Duplex=1|TrueTypeOptions=3|Collate=1|PrintWhat=1
 OutputType1=Text Print
 OutputName1=Text Print
