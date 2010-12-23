@@ -61,18 +61,10 @@ DocumentPath=Project Outputs for panel\panel.EXTREP
 DItemRevisionGUID=
 
 [GeneratedDocument2]
-DocumentPath=panel.LDP
-DItemRevisionGUID=
-
-[GeneratedDocument3]
 DocumentPath=Project Outputs for panel\panel.REP
 DItemRevisionGUID=
 
-[GeneratedDocument4]
-DocumentPath=panel.RUL
-DItemRevisionGUID=
-
-[GeneratedDocument5]
+[GeneratedDocument3]
 DocumentPath=Project Outputs for panel\panel.RUL
 DItemRevisionGUID=
 
