@@ -6,7 +6,7 @@ Name=panel.OutJob
 Description=
 TargetOutputMedium=Generate Files
 IncludedInRelease=0
-TargetPrinter=PDFCreator
+TargetPrinter=Microsoft XPS Document Writer
 PrinterOptions=Record=PrinterOptions|Copies=1|Duplex=1|TrueTypeOptions=3|Collate=1|PrintWhat=1
 OutputMedium1=Print To PDFCreator
 OutputMedium1_Type=Printer
