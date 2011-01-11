@@ -1,118 +1,110 @@
 #include "fcu.h"
-/* Initialize UARTs used for motor communication */
-static void initMotorUart (void)
+
+/*! \brief Number of test data bytes. */
+#define NUM_BYTES   2
+
+/* Global variables. */
+
+/*! \brief SPI master on PORT C. */
+SPI_Master_t spiMasterC;
+
+/*! \brief SPI slave on PORT D. */
+SPI_Slave_t spiSlaveD = {NULL, NULL};
+
+/*! \brief Data packet. */
+SPI_DataPacket_t dataPacket;
+
+/*! \brief Test data to send. */
+const uint8_t sendData[NUM_BYTES + 1] = { 0x55, 0xaa, 0x00 };
+
+/*! \brief Buffer for test data reception. */
+uint8_t receivedData[NUM_BYTES + 1];
+
+/*! \brief Result of the example test. */
+bool success;
+
+
+static void init_mcu_spi (void);
+static void init_imu_spi (void);
+static void init_usb_uart (void);
+static void inti_cpu_uart (void);
+
+static USART_t usbUSART = &USART<XX>
+static USART_t cpuUSART = &USART<XX>
+static USART_t xbeeUSART = &USART<XX>
+static USART_t sonarUSART = &USART<XX>
+
+ISR(USART<XX>_RXC_vect)
 {
-    PORTD.DIRCLR   = PIN2_bm;
-    PORTD.DIRCLR   = PIN6_bm;
-    PORTC.DIRCLR   = PIN2_bm;
-    PORTC.DIRCLR   = PIN6_bm;
-
-    /* Set pins to inverting */
-    PORTD.PIN2CTRL= 0b01000000;
-    PORTD.PIN6CTRL= 0b01000000;
-    PORTC.PIN2CTRL= 0b01000000;
-    PORTC.PIN6CTRL= 0b01000000;
-
-    /* BSEL = 51 so at 32mhz clock, baud rate should be 38400 */
-
-    /* USARTD0, 8 Data bits, No Parity, 2 Stop bit. */
-    USART_Format_Set(&USARTD0, USART_CHSIZE_8BIT_gc,
-            USART_PMODE_DISABLED_gc, 1);
-    /* USARTD1, 8 Data bits, No Parity, 2 Stop bit. */
-    USART_Format_Set(&USARTD1, USART_CHSIZE_8BIT_gc,
-            USART_PMODE_DISABLED_gc, 1);
-    /* USARTC0, 8 Data bits, No Parity, 2 Stop bit. */
-    USART_Format_Set(&USARTC0, USART_CHSIZE_8BIT_gc,
-            USART_PMODE_DISABLED_gc, 1);
-    /* USARTC1, 8 Data bits, No Parity, 2 Stop bit. */
-    USART_Format_Set(&USARTC1, USART_CHSIZE_8BIT_gc,
-            USART_PMODE_DISABLED_gc, 1);
-
-    //~ USARTC0.BAUDCTRLB = 0;			// BSCALE = 0 as well
-    USARTC0.BAUDCTRLA = 0b00110111;
-    USARTC1.BAUDCTRLA = 0b00110111;
-    USARTD0.BAUDCTRLA = 0b00110111;
-    USARTD1.BAUDCTRLA = 0b00110111;
-
-    USARTC0.BAUDCTRLB = 0b10110100;
-    USARTC1.BAUDCTRLB = 0b10110100;
-    USARTD0.BAUDCTRLB = 0b10110100;
-    USARTD1.BAUDCTRLB = 0b10110100;
-
-    /* Enable TX. */
-    USART_Tx_Enable(&USARTD0);
-    USART_Tx_Enable(&USARTD1);
-    USART_Tx_Enable(&USARTC0);
-    USART_Tx_Enable(&USARTC1);
-
-    /* Enable PMIC interrupt level low. */
-    PMIC.CTRL |= PMIC_LOLVLEX_bm;
+    stdout = &debugOut;
 }
 
-static void initIMUUart (void)
+static void init_mcu_spi (void)
 {
-    PORTE.DIRCLR	=	PIN2_bm;
-    PORTE.DIRSET	=	PIN3_bm;
+    /* Init signal select pins with wired AND pull-up. */
+    PORTC.DIRSET = PIN4_bm;
+    PORTC.PIN4CTRL = PORT_OPC_WIREDANDPULL_gc;
 
-    /* USARTE0, 8 Data bits, No Parity, 1 Stop bit. */
-    USART_Format_Set(&USARTE0, USART_CHSIZE_8BIT_gc,
-            USART_PMODE_DISABLED_gc, 0);
+    /* Set SS output to high. (No slave addressed). */
+    PORTC.OUTSET = PIN4_bm;
 
-    /* Enable RXC interrupt. */
-    USART_RxdInterruptLevel_Set(&USARTE0, USART_RXCINTLVL_LO_gc);
+    /* Initialize SPI master on port C. */
+    SPI_MasterInit(     &spiMasterC,
+                        &SPIC,
+                        &PORTC,
+                        false,
+                        SPI_MODE_0_gc,
+                        SPI_INTLVL_LO_gc,
+                        false,
+                        SPI_PRESCALER_DIV4_gc);
+    /* Enable low and medium level interrupts in the interrupt controller. */
+    PMIC.CTRL |= PMIC_MEDLVLEN_bm | PMIC_LOLVLEN_bm;
+    sei();
 
-    // bscale = -6 = 0b1010
-    // bsel = 1047 
-    USART_Baudrate_Set(&USARTE0, 1070, -6);
+	/* Create data packet (SS to slave by PC4) */
+	SPI_MasterCreateDataPacket(&dataPacket,
+	                           sendData,
+	                           receivedData,
+	                           NUM_BYTES + 1,
+	                           &PORTC,
+	                           PIN4_bm);
 
-    /* Enable both RX and TX. */
-    USART_Rx_Enable(&USARTE0);
-    USART_Tx_Enable(&USARTE0);
+	/* Transmit and receive first data byte. */
+	uint8_t status;
+	do {
+		status = SPI_MasterInterruptTransceivePacket(&spiMasterC, &dataPacket);
+	} while (status != SPI_OK);
 
-    /* Enable PMIC interrupt level low. */
-    PMIC.CTRL |= PMIC_LOLVLEX_bm;
+	/* Wait for transmission to complete. */
+	while (dataPacket.complete == false) {
+
+	}
+
+	/* Check that correct data was received. Assume success at first. */
+	success = true;
+	for (uint8_t i = 0; i < NUM_BYTES; i++) {
+		if (receivedData[i + 1] != (uint8_t)(sendData[i] + 1)) {
+			success = false;
+		}
+	}
+	while(true) {
+		nop();
+	}
 }
 
-static void initDebugUart (void)
+ISR(SPIC_INT_vect)
 {
-    PORTF.DIRCLR	=	PIN2_bm;
-    PORTF.DIRSET	=	PIN3_bm;
-
-    /* USARTF0, 8 Data bits, No Parity, 1 Stop bit. */
-    USART_Format_Set(&USARTF0, USART_CHSIZE_8BIT_gc,
-            USART_PMODE_DISABLED_gc, 0);
-
-    //~ USARTC0.BAUDCTRLB = 0;			// BSCALE = 0 as well
-    USARTF0.BAUDCTRLA = 229; // 19200 baud
-    USARTF0.BAUDCTRLB = 188;
-
-    /* Enable RXC interrupt. */
-    USART_RxdInterruptLevel_Set(&USARTF0, USART_RXCINTLVL_LO_gc);
-
-    /* Enable PMIC interrupt level low. */
-    PMIC.CTRL |= PMIC_LOLVLEX_bm;
-
-    /* Enable both RX and TX. */
-    USART_Rx_Enable(&USARTF0);
-    USART_Tx_Enable(&USARTF0);
+	SPI_MasterInterruptHandler(&spiMasterC);
 }
 
-static void initCtrlUart (void)
+ISR(SPID_INT_vect)
 {
-    PORTE.DIRCLR	=	PIN6_bm;
-    PORTE.DIRSET	=	PIN7_bm;
+	/* Get received data. */
+	uint8_t data = SPI_SlaveReadByte(&spiSlaveD);
 
-    /* USARTE1, 8 Data bits, No Parity, 1 Stop bit. */
-    USART_Format_Set(&USARTE1, USART_CHSIZE_8BIT_gc, USART_PMODE_DISABLED_gc, 0);
+	/* Increment data. */
+	data++;
 
-    //~ USARTC0.BAUDCTRLB = 0;			// BSCALE = 0 as well
-    USARTE1.BAUDCTRLA = 51;
-    USARTE1.BAUDCTRLB = 0;
-
-    /* Enable RXC interrupt. */
-    USART_RxdInterruptLevel_Set(&USARTE1, USART_RXCINTLVL_LO_gc);
-
-    /* Enable both RX and TX. */
-    USART_Rx_Enable(&USARTE1);
-    USART_Tx_Enable(&USARTE1);
+	/* Send back incremented value. */
+	SPI_SlaveWriteByte(&spiSlaveD, data);
 }

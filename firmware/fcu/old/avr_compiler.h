@@ -12,8 +12,8 @@
  *      Atmel Corporation: http://www.atmel.com \n
  *      Support email: avr@atmel.com
  *
- * $Revision: 613 $
- * $Date: 2006-04-07 14:40:07 +0200 (fr, 07 apr 2006) $  \n
+ * $Revision: 2772 $
+ * $Date: 2009-09-11 12:40:26 +0200 (fr, 11 sep 2009) $  \n
  *
  * Copyright (c) 2008, Atmel Corporation All rights reserved.
  *
