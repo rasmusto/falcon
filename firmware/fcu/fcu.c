@@ -1,45 +1,13 @@
 #include "fcu.h"
 
-/*! \brief Number of test data bytes. */
-#define NUM_BYTES   2
-
-/* Global variables. */
-
-/*! \brief SPI master on PORT C. */
-SPI_Master_t spiMasterC;
-
-/*! \brief SPI slave on PORT D. */
-SPI_Slave_t spiSlaveD = {NULL, NULL};
-
-/*! \brief Data packet. */
-SPI_DataPacket_t dataPacket;
-
-/*! \brief Test data to send. */
-const uint8_t sendData[NUM_BYTES + 1] = { 0x55, 0xaa, 0x00 };
-
-/*! \brief Buffer for test data reception. */
-uint8_t receivedData[NUM_BYTES + 1];
-
-/*! \brief Result of the example test. */
-bool success;
-
-
-static void init_mcu_spi (void);
-static void init_imu_spi (void);
-static void init_usb_uart (void);
-static void inti_cpu_uart (void);
-
-static USART_t usbUSART = &USART<XX>
-static USART_t cpuUSART = &USART<XX>
-static USART_t xbeeUSART = &USART<XX>
-static USART_t sonarUSART = &USART<XX>
-
+/* USART Initialization */
 ISR(USART<XX>_RXC_vect)
 {
     stdout = &debugOut;
 }
 
-static void init_mcu_spi (void)
+/* SPI Initialization */
+static void init_spi (void)
 {
     /* Init signal select pins with wired AND pull-up. */
     PORTC.DIRSET = PIN4_bm;
@@ -66,7 +34,7 @@ static void init_mcu_spi (void)
 	                           sendData,
 	                           receivedData,
 	                           NUM_BYTES + 1,
-	                           &PORTC,
+	                           &PORTC, //THESE SHOULD BE SET TO SS PINS
 	                           PIN4_bm);
 
 	/* Transmit and receive first data byte. */
@@ -107,4 +75,11 @@ ISR(SPID_INT_vect)
 
 	/* Send back incremented value. */
 	SPI_SlaveWriteByte(&spiSlaveD, data);
+}
+
+int main (void) 
+{
+    init_spi();
+    while(1);
+    return;
 }
