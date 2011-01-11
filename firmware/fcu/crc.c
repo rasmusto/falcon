@@ -1,13 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <inttypes.h>
 #include "crc.h"
-
-//~ int main () {
-	//~ char* buffer = "1234qa78";
-	//~ int result = crc(buffer, 8, 7);
-	//~ printf ("crc:0x%x %c\n", result, result);
-//~ }
 
 uint8_t crc (char * packet, uint8_t length, char divisor) {
 	uint8_t * temp = (uint8_t*) malloc (length+1);
@@ -63,6 +54,5 @@ void printBinaryArray (char* array, int length) {
 		printf ("%c", (buf[i])?'1':'0');
 		printf (" ");
 	}
-	
 	free (buf);
 }
