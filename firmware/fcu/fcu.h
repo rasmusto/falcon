@@ -11,19 +11,40 @@
 
 /* Led bitmasks */
 //#define LED_MISC_4_GREEN() PORTF.OUTCLR=PIN4_bm;PORTF.OUTSET=PIN5_bm
+#define LED_1_RED_ON()      PORTA.OUTCLR=PIN4_bm;
+#define LED_1_RED_OFF()     PORTA.OUTSET=PIN4_bm;
+#define LED_1_GREEN_ON()    PORTA.OUTCLR=PIN5_bm;
+#define LED_1_GREEN_OFF()   PORTA.OUTSET=PIN5_bm;
+
+#define LED_2_RED_ON()      PORTA.OUTCLR=PIN6_bm;
+#define LED_2_RED_OFF()     PORTA.OUTSET=PIN6_bm;
+#define LED_2_GREEN_ON()    PORTA.OUTCLR=PIN7_bm;
+#define LED_2_GREEN_OFF()   PORTA.OUTSET=PIN7_bm;
+
+#define LED_3_RED_ON()      PORTF.OUTCLR=PIN4_bm;
+#define LED_3_RED_OFF()     PORTF.OUTSET=PIN4_bm;
+#define LED_3_GREEN_ON()    PORTF.OUTCLR=PIN5_bm;
+#define LED_3_GREEN_OFF()   PORTF.OUTSET=PIN5_bm;
+
+#define LED_4_RED_ON()      PORTF.OUTCLR=PIN6_bm;
+#define LED_4_RED_OFF()     PORTF.OUTSET=PIN6_bm;
+#define LED_4_GREEN_ON()    PORTF.OUTCLR=PIN7_bm;
+#define LED_4_GREEN_OFF()   PORTF.OUTSET=PIN7_bm;
 
 /* Function Prototypes */
-static void init_spi (void);
+static void spi_init (void);
 
-static void init_usb_uart (void);
-static void inti_cpu_uart (void);
-static void inti_xbee_uart (void);
-static void inti_sonar_uart (void);
+static void uart_usb_init (void);
+static void uart_cpu_init (void);
+static void uart_xbee_init (void);
+static void uart_sonar_init (void);
 
+/*
 static USART_t usbUSART = &USART<XX>
 static USART_t cpuUSART = &USART<XX>
 static USART_t xbeeUSART = &USART<XX>
 static USART_t sonarUSART = &USART<XX>
+*/
 
 volatile uint8_t mcu_tx_packet[8];
 volatile uint8_t mcu_rx_packet[8];

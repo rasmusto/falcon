@@ -1,13 +1,15 @@
 #include "fcu.h"
 
 /* USART Initialization */
+/*
 ISR(USART<XX>_RXC_vect)
 {
     stdout = &debugOut;
 }
+*/
 
 /* SPI Initialization */
-static void init_spi (void)
+static void spi_init (void)
 {
     /* Init signal select pins with wired AND pull-up. */
     PORTC.DIRSET = PIN4_bm;
@@ -50,7 +52,8 @@ static void init_spi (void)
 
 	/* Check that correct data was received. Assume success at first. */
 	success = true;
-	for (uint8_t i = 0; i < NUM_BYTES; i++) {
+    uint8_t i;
+	for (i = 0; i < NUM_BYTES; i++) {
 		if (receivedData[i + 1] != (uint8_t)(sendData[i] + 1)) {
 			success = false;
 		}
@@ -77,9 +80,87 @@ ISR(SPID_INT_vect)
 	SPI_SlaveWriteByte(&spiSlaveD, data);
 }
 
+static void initUarts (void)
+{
+	PORTD.DIRCLR   = PIN2_bm;
+	PORTD.DIRCLR   = PIN6_bm;
+	PORTC.DIRCLR   = PIN2_bm;
+	PORTC.DIRCLR   = PIN6_bm;
+	
+	// Set pins to inverting
+	PORTD.PIN2CTRL= 0b01000000;
+	PORTD.PIN6CTRL= 0b01000000;
+	PORTC.PIN2CTRL= 0b01000000;
+	PORTC.PIN6CTRL= 0b01000000;
+ 
+    // BSEL = 51 so at 32mhz clock, baud rate should be 38400
+
+	/* USARTD0, 8 Data bits, No Parity, 2 Stop bit. */
+	USART_Format_Set(&USARTD0, USART_CHSIZE_8BIT_gc,
+                     USART_PMODE_DISABLED_gc, 1);
+	/* USARTD1, 8 Data bits, No Parity, 2 Stop bit. */
+	USART_Format_Set(&USARTD1, USART_CHSIZE_8BIT_gc,
+                     USART_PMODE_DISABLED_gc, 1);
+	/* USARTC0, 8 Data bits, No Parity, 2 Stop bit. */
+	USART_Format_Set(&USARTC0, USART_CHSIZE_8BIT_gc,
+                     USART_PMODE_DISABLED_gc, 1);
+	/* USARTC1, 8 Data bits, No Parity, 2 Stop bit. */
+	USART_Format_Set(&USARTC1, USART_CHSIZE_8BIT_gc,
+                     USART_PMODE_DISABLED_gc, 1);
+ 
+    //~ USARTC0.BAUDCTRLB = 0;			// BSCALE = 0 as well
+    USARTC0.BAUDCTRLA = 0b00110111;
+    USARTC1.BAUDCTRLA = 0b00110111;
+    USARTD0.BAUDCTRLA = 0b00110111;
+    USARTD1.BAUDCTRLA = 0b00110111;
+    
+    USARTC0.BAUDCTRLB = 0b10110100;
+    USARTC1.BAUDCTRLB = 0b10110100;
+    USARTD0.BAUDCTRLB = 0b10110100;
+    USARTD1.BAUDCTRLB = 0b10110100;
+ 
+    /* Enable TX. */
+	USART_Tx_Enable(&USARTD0);
+	USART_Tx_Enable(&USARTD1);
+	USART_Tx_Enable(&USARTC0);
+	USART_Tx_Enable(&USARTC1);
+}
+
+/*
+static int putcharimu (char c, FILE *stream, USART_t usart)
+{
+    if (c == '\n')
+        putcharimu('\r', stream);
+    while ( !( usart.STATUS & USART_DREIF_bm) ); // Wait for the transmit buffer to be empty
+    usart.DATA = c; // Put our character into the transmit buffer
+    return 0;
+}
+*/
+
 int main (void) 
 {
-    init_spi();
-    while(1);
+    PORTA.DIRSET=0b11110000;
+    PORTF.DIRSET=0b11110000;
+    while(1)
+    {
+        LED_1_RED_ON();
+        LED_1_GREEN_ON();
+        LED_2_RED_ON();
+        LED_2_GREEN_ON();
+        LED_3_RED_ON();
+        LED_3_GREEN_ON();
+        LED_4_RED_ON();
+        LED_4_GREEN_ON();
+        _delay_ms(500);
+        LED_1_RED_OFF();
+        LED_1_GREEN_OFF();
+        LED_2_RED_OFF();
+        LED_2_GREEN_OFF();
+        LED_3_RED_OFF();
+        LED_3_GREEN_OFF();
+        LED_4_RED_OFF();
+        LED_4_GREEN_OFF();
+        _delay_ms(500);
+    }
     return;
 }
