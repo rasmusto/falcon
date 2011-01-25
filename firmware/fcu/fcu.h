@@ -69,3 +69,29 @@ uint8_t receivedData[NUM_BYTES + 1];
 /*! \brief Result of the example test. */
 bool success;
 /*** END APP NOTE CODE ***/
+
+typedef struct
+{
+    uint8_t start;
+    uint8_t mot_num;
+    uint8_t target;
+    uint8_t * crc;
+} mot_tx_pkt;
+
+typedef struct
+{
+    uint8_t start;
+    uint8_t request;
+    uint8_t * crc;
+} imu_tx_pkt;
+
+typedef struct
+{
+    uint8_t start;
+    uint8_t * data;
+    uint8_t * crc;
+} imu_rx_pkt;
+
+void mot_tx(mot_tx_pkt mot);
+void imu_tx(imu_tx_pkt imu);
+void imu_rx(imu_rx_pkt imu);
