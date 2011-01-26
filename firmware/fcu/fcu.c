@@ -1,6 +1,7 @@
 #include "fcu.h"
 
 static FILE usb_out = FDEV_SETUP_STREAM (putchar_usb, NULL, _FDEV_SETUP_WRITE);
+static FILE rs232_out = FDEV_SETUP_STREAM (putchar_rs232, NULL, _FDEV_SETUP_WRITE);
 
 /* SPI Initialization */
 //static void spi_init (void)
@@ -118,8 +119,30 @@ void init_usb_uart (int8_t bScale, uint16_t bSel)
     PMIC.CTRL |= PMIC_LOLVLEX_bm;
 }
 
+void init_rs232_uart (int8_t bScale, uint16_t bSel) 
+{
+    PORTD.DIRCLR    =   PIN6_bm;
+    PORTD.DIRSET    =   PIN7_bm;
+
+    /* USARTE0, 8 Data bits, No Parity, 1 Stop bit. */
+    USART_Format_Set (&USARTD1, USART_CHSIZE_8BIT_gc,
+                     USART_PMODE_DISABLED_gc, 0);
+                     
+    /* Enable RXC interrupt. */
+    USART_RxdInterruptLevel_Set (&USARTD1, USART_RXCINTLVL_LO_gc);
+
+    USART_Baudrate_Set (&USARTD1, bSel, bScale);
+    
+    /* Enable both RX and TX. */
+    USART_Rx_Enable (&USARTD1);
+    USART_Tx_Enable (&USARTD1);
+
+    /* Enable PMIC interrupt level low. */
+    PMIC.CTRL |= PMIC_LOLVLEX_bm;
+}
+
 //xbee
-ISR(USARTF1_RXC_vect) 
+ISR(USARTF0_RXC_vect) 
 {
     unsigned char c = USARTF1.DATA;
 }
@@ -128,9 +151,17 @@ ISR(USARTF1_RXC_vect)
 ISR(USARTC1_RXC_vect) 
 {
     unsigned char c = USARTC1.DATA;
-    //putchar_usb(c);
+    putchar_rs232(c);
     stdout = &usb_out;
-    printf("Received: %c\n\r", c);
+    printf("Received: %c via usb.\n\r", c);
+}
+
+//rs232
+ISR(USARTD1_RXC_vect) 
+{
+    unsigned char c = USARTD1.DATA;
+    stdout = &usb_out;
+    printf("Received: %c via rs232.\n\r", c);
 }
 
 void putchar_xbee (char c) 
@@ -143,6 +174,12 @@ void putchar_usb (char c)
 {
     while ( !( USARTC1.STATUS & USART_DREIF_bm) ); // Wait for the transmit buffer to be empty
     USARTC1.DATA = c; // Put our character into the transmit buffer
+}
+
+void putchar_rs232 (char c) 
+{
+    while ( !( USARTD1.STATUS & USART_DREIF_bm) ); // Wait for the transmit buffer to be empty
+    USARTD1.DATA = c; // Put our character into the transmit buffer
 }
 
 void configClock (void) 
@@ -176,8 +213,12 @@ int main (void)
     PORTA.DIRSET=0b11110000;
     PORTF.DIRSET=0b11110000;
 
+    PORTD.DIRSET=PIN5_bm; //rs232 enable pin
+    PORTD.OUTCLR=PIN5_bm;
+
     init_xbee_uart(-4, 3317); //32MHz, 9600 baud
     init_usb_uart(-4, 3317); //32MHz, 9600 baud
+    init_rs232_uart(-4, 3317); //32MHz, 9600 baud
     sei();
     while(1)
     {

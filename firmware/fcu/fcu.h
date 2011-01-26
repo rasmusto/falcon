@@ -44,8 +44,10 @@ static void uart_sonar_init (void);
 
 void init_xbee_uart (int8_t bScale, uint16_t bSel);
 void init_usb_uart (int8_t bScale, uint16_t bSel);
+void init_rs232_uart (int8_t bScale, uint16_t bSel);
 void putchar_xbee (char c);
 void putchar_usb (char c);
+void putchar_rs232 (char c);
 
 volatile uint8_t mcu_tx_packet[8];
 volatile uint8_t mcu_rx_packet[8];
