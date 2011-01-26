@@ -1,79 +1,83 @@
 #include "fcu.h"
 
+static FILE xbee_out = FDEV_SETUP_STREAM (putchar_xbee, NULL, _FDEV_SETUP_WRITE);
 static FILE usb_out = FDEV_SETUP_STREAM (putchar_usb, NULL, _FDEV_SETUP_WRITE);
 static FILE rs232_out = FDEV_SETUP_STREAM (putchar_rs232, NULL, _FDEV_SETUP_WRITE);
+static FILE sonar_out = FDEV_SETUP_STREAM (putchar_sonar, NULL, _FDEV_SETUP_WRITE);
 
-/* SPI Initialization */
-//static void spi_init (void)
-//{
-//    /* Init signal select pins with wired AND pull-up. */
-//    PORTC.DIRSET = PIN4_bm;
-//    PORTC.PIN4CTRL = PORT_OPC_WIREDANDPULL_gc;
-//
-//    /* Set SS output to high. (No slave addressed). */
-//    PORTC.OUTSET = PIN4_bm;
-//
-//    /* Initialize SPI master on port C. */
-//    SPI_MasterInit(     &spiMasterC,
-//                        &SPIC,
-//                        &PORTC,
-//                        false,
-//                        SPI_MODE_0_gc,
-//                        SPI_INTLVL_LO_gc,
-//                        false,
-//                        SPI_PRESCALER_DIV4_gc);
-//    /* Enable low and medium level interrupts in the interrupt controller. */
-//    PMIC.CTRL |= PMIC_MEDLVLEN_bm | PMIC_LOLVLEN_bm;
-//    sei();
-//
-//	/* Create data packet (SS to slave by PC4) */
-//	SPI_MasterCreateDataPacket(&dataPacket,
-//	                           sendData,
-//	                           receivedData,
-//	                           NUM_BYTES + 1,
-//	                           &PORTC, //THESE SHOULD BE SET TO SS PINS
-//	                           PIN4_bm);
-//
-//	/* Transmit and receive first data byte. */
-//	uint8_t status;
-//	do {
-//		status = SPI_MasterInterruptTransceivePacket(&spiMasterC, &dataPacket);
-//	} while (status != SPI_OK);
-//
-//	/* Wait for transmission to complete. */
-//	while (dataPacket.complete == false) {
-//
-//	}
-//
-//	/* Check that correct data was received. Assume success at first. */
-//	success = true;
-//    uint8_t i;
-//	for (i = 0; i < NUM_BYTES; i++) {
-//		if (receivedData[i + 1] != (uint8_t)(sendData[i] + 1)) {
-//			success = false;
-//		}
-//	}
-//	while(true) {
-//		nop();
-//	}
-//}
+/************************* SPI Initialization ************************/
+static void spi_init (void)
+{
+    /* Init signal select pins with wired AND pull-up. */
+    PORTC.DIRSET = PIN4_bm;
+    PORTC.PIN4CTRL = PORT_OPC_WIREDANDPULL_gc;
 
-//ISR(SPIC_INT_vect)
-//{
-//	SPI_MasterInterruptHandler(&spiMasterC);
-//}
-//
-//ISR(SPID_INT_vect)
-//{
-//	/* Get received data. */
-//	uint8_t data = SPI_SlaveReadByte(&spiSlaveD);
-//
-//	/* Increment data. */
-//	data++;
-//
-//	/* Send back incremented value. */
-//	SPI_SlaveWriteByte(&spiSlaveD, data);
-//}
+    /* Set SS output to high. (No slave addressed). */
+    PORTC.OUTSET = PIN4_bm;
+
+    /* Initialize SPI master on port C. */
+    SPI_MasterInit(     &spiMasterC,
+                        &SPIC,
+                        &PORTC,
+                        false,
+                        SPI_MODE_0_gc,
+                        SPI_INTLVL_LO_gc,
+                        false,
+                        SPI_PRESCALER_DIV4_gc);
+    /* Enable low and medium level interrupts in the interrupt controller. */
+    PMIC.CTRL |= PMIC_MEDLVLEN_bm | PMIC_LOLVLEN_bm;
+    sei();
+
+	/* Create data packet (SS to slave by PC4) */
+	SPI_MasterCreateDataPacket(&dataPacket,
+	                           sendData,
+	                           receivedData,
+	                           NUM_BYTES + 1,
+	                           &PORTC, //THESE SHOULD BE SET TO SS PINS
+	                           PIN4_bm);
+
+	/* Transmit and receive first data byte. */
+	uint8_t status;
+	do {
+		status = SPI_MasterInterruptTransceivePacket(&spiMasterC, &dataPacket);
+	} while (status != SPI_OK);
+
+	/* Wait for transmission to complete. */
+	while (dataPacket.complete == false) {
+
+	}
+
+	/* Check that correct data was received. Assume success at first. */
+	success = true;
+    uint8_t i;
+	for (i = 0; i < NUM_BYTES; i++) {
+		if (receivedData[i + 1] != (uint8_t)(sendData[i] + 1)) {
+			success = false;
+		}
+	}
+	while(true) {
+		nop();
+	}
+}
+
+ISR(SPIC_INT_vect)
+{
+	SPI_MasterInterruptHandler(&spiMasterC);
+}
+
+ISR(SPID_INT_vect)
+{
+	/* Get received data. */
+	uint8_t data = SPI_SlaveReadByte(&spiSlaveD);
+
+	/* Increment data. */
+	data++;
+
+	/* Send back incremented value. */
+	SPI_SlaveWriteByte(&spiSlaveD, data);
+}
+
+/**********************************************/
 
 void init_xbee_uart (int8_t bScale, uint16_t bSel) 
 {
@@ -141,46 +145,43 @@ void init_rs232_uart (int8_t bScale, uint16_t bSel)
     PMIC.CTRL |= PMIC_LOLVLEX_bm;
 }
 
-//xbee
-ISR(USARTF0_RXC_vect) 
+void init_sonar_uart (int8_t bScale, uint16_t bSel) 
 {
-    unsigned char c = USARTF1.DATA;
-}
+    PORTE.DIRCLR    =   PIN2_bm;
+    PORTE.DIRSET    =   PIN3_bm;
 
-//usb rx complete
-ISR(USARTC1_RXC_vect) 
-{
-    unsigned char c = USARTC1.DATA;
-    putchar_rs232(c);
-    stdout = &usb_out;
-    printf("Received: %c via usb.\n\r", c);
-}
+    /* USARTE0, 8 Data bits, No Parity, 1 Stop bit. */
+    USART_Format_Set (&USARTE0, USART_CHSIZE_8BIT_gc,
+                     USART_PMODE_DISABLED_gc, 0);
+                     
+    /* Enable RXC interrupt. */
+    USART_RxdInterruptLevel_Set (&USARTE0, USART_RXCINTLVL_LO_gc);
 
-//rs232
-ISR(USARTD1_RXC_vect) 
-{
-    unsigned char c = USARTD1.DATA;
-    stdout = &usb_out;
-    printf("Received: %c via rs232.\n\r", c);
+    USART_Baudrate_Set (&USARTE0, bSel, bScale);
+    
+    /* Enable both RX and TX. */
+    USART_Rx_Enable (&USARTE0);
+    USART_Tx_Enable (&USARTE0);
+
+    /* Enable PMIC interrupt level low. */
+    PMIC.CTRL |= PMIC_LOLVLEX_bm;
 }
 
 void putchar_xbee (char c) 
-{
-    while ( !( USARTF0.STATUS & USART_DREIF_bm) ); // Wait for the transmit buffer to be empty
-    USARTF0.DATA = c; // Put our character into the transmit buffer
-}
+{ while ( !( USARTF0.STATUS & USART_DREIF_bm) ); 
+    USARTF0.DATA = c; }
 
-void putchar_usb (char c) 
-{
-    while ( !( USARTC1.STATUS & USART_DREIF_bm) ); // Wait for the transmit buffer to be empty
-    USARTC1.DATA = c; // Put our character into the transmit buffer
-}
+void putchar_usb (char c) {
+    while ( !( USARTC1.STATUS & USART_DREIF_bm) ); 
+    USARTC1.DATA = c; }
 
 void putchar_rs232 (char c) 
-{
-    while ( !( USARTD1.STATUS & USART_DREIF_bm) ); // Wait for the transmit buffer to be empty
-    USARTD1.DATA = c; // Put our character into the transmit buffer
-}
+{ while ( !( USARTD1.STATUS & USART_DREIF_bm) );
+    USARTD1.DATA = c; }
+
+void putchar_sonar (char c)
+{ while ( !( USARTE0.STATUS & USART_DREIF_bm) );
+    USARTE0.DATA = c; }
 
 void configClock (void) 
 {
@@ -206,20 +207,78 @@ void configClock (void)
     //~ PORTCFG.CLKEVOUT = PORTCFG_CLKOUT_PD7_gc; 
 }
 
+/********* INTERRUPTS **********/
+
+/***** xbee *****/
+ISR(USARTF0_TXC_vect)
+{
+}
+
+ISR(USARTF0_RXC_vect) 
+{
+    unsigned char c = USARTF0.DATA;
+    stdout = &usb_out;
+    printf("Received: %c via xbee.\n\r", c);
+}
+
+/***** usb *****/
+ISR(USARTC1_TXC_vect) 
+{
+}
+
+ISR(USARTC1_RXC_vect) 
+{
+    unsigned char c = USARTC1.DATA;
+    putchar_rs232(c);
+    stdout = &usb_out;
+    printf("Received: %c via usb.\n\r", c);
+}
+
+/***** rs232 *****/
+ISR(USARTD1_TXC_vect)
+{
+}
+
+ISR(USARTD1_RXC_vect) 
+{
+    unsigned char c = USARTD1.DATA;
+    stdout = &usb_out;
+    printf("Received: %c via rs232.\n\r", c);
+}
+
+/***** sonar *****/
+ISR(USARTE0_TXC_vect)
+{
+}
+
+ISR(USARTE0_RXC_vect)
+{
+    unsigned char c = USARTE0.DATA;
+    stdout = &usb_out;
+    printf("Received: %c via sonar.\n\r", c);
+}
+
+
+
 int main (void) 
 {
     configClock();
+
     //set led pins as outputs
     PORTA.DIRSET=0b11110000;
     PORTF.DIRSET=0b11110000;
 
-    PORTD.DIRSET=PIN5_bm; //rs232 enable pin
+    PORTD.DIRSET=PIN5_bm; //drive rs232 enable low
     PORTD.OUTCLR=PIN5_bm;
 
-    init_xbee_uart(-4, 3317); //32MHz, 9600 baud
-    init_usb_uart(-4, 3317); //32MHz, 9600 baud
-    init_rs232_uart(-4, 3317); //32MHz, 9600 baud
+    init_xbee_uart  (-4, 3317); //32MHz, 9600 baud
+    init_usb_uart   (-4, 3317); //32MHz, 9600 baud
+    init_rs232_uart (-4, 3317); //32MHz, 9600 baud
+    init_sonar_uart (-4, 3317); //32MHz, 9600 baud
+
     sei();
+
+    /************** Main Loop ***************/
     while(1)
     {
         LED_1_RED_ON();
@@ -254,8 +313,6 @@ int main (void)
         _delay_ms(100);
         LED_4_GREEN_OFF();
         _delay_ms(100);
-        //putchar_xbee('x');
-        //putchar_usb('x');
     }
     return 0;
 }
