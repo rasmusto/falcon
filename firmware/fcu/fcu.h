@@ -15,25 +15,22 @@
 //#include "/usr/lib/avr/include/avr/iox128a3.h"
 
 /* Led bitmasks */
-#define LED_1_RED_ON()      PORTA.OUTCLR=PIN4_bm;
-#define LED_1_RED_OFF()     PORTA.OUTSET=PIN4_bm;
-#define LED_1_GREEN_ON()    PORTA.OUTCLR=PIN5_bm;
-#define LED_1_GREEN_OFF()   PORTA.OUTSET=PIN5_bm;
-
-#define LED_2_RED_ON()      PORTA.OUTCLR=PIN6_bm;
-#define LED_2_RED_OFF()     PORTA.OUTSET=PIN6_bm;
-#define LED_2_GREEN_ON()    PORTA.OUTCLR=PIN7_bm;
-#define LED_2_GREEN_OFF()   PORTA.OUTSET=PIN7_bm;
-
-#define LED_3_RED_ON()      PORTF.OUTCLR=PIN4_bm;
-#define LED_3_RED_OFF()     PORTF.OUTSET=PIN4_bm;
-#define LED_3_GREEN_ON()    PORTF.OUTCLR=PIN5_bm;
-#define LED_3_GREEN_OFF()   PORTF.OUTSET=PIN5_bm;
-
-#define LED_4_RED_ON()      PORTF.OUTCLR=PIN6_bm;
-#define LED_4_RED_OFF()     PORTF.OUTSET=PIN6_bm;
-#define LED_4_GREEN_ON()    PORTF.OUTCLR=PIN7_bm;
-#define LED_4_GREEN_OFF()   PORTF.OUTSET=PIN7_bm;
+#define LED_1_RED_ON()      PORTA.OUTSET=PIN4_bm;
+#define LED_1_RED_OFF()     PORTA.OUTCLR=PIN4_bm;
+#define LED_1_GREEN_ON()    PORTF.OUTSET=PIN4_bm;
+#define LED_1_GREEN_OFF()   PORTF.OUTCLR=PIN4_bm;
+#define LED_2_RED_ON()      PORTA.OUTSET=PIN5_bm;
+#define LED_2_RED_OFF()     PORTA.OUTCLR=PIN5_bm;
+#define LED_2_GREEN_ON()    PORTF.OUTSET=PIN5_bm;
+#define LED_2_GREEN_OFF()   PORTF.OUTCLR=PIN5_bm;
+#define LED_3_RED_ON()      PORTA.OUTSET=PIN6_bm;
+#define LED_3_RED_OFF()     PORTA.OUTCLR=PIN6_bm;
+#define LED_3_GREEN_ON()    PORTF.OUTSET=PIN6_bm;
+#define LED_3_GREEN_OFF()   PORTF.OUTCLR=PIN6_bm;
+#define LED_4_RED_ON()      PORTA.OUTSET=PIN7_bm;
+#define LED_4_RED_OFF()     PORTA.OUTCLR=PIN7_bm;
+#define LED_4_GREEN_ON()    PORTF.OUTSET=PIN7_bm;
+#define LED_4_GREEN_OFF()   PORTF.OUTCLR=PIN7_bm;
 
 /* Function Prototypes */
 static void spi_init (void);
@@ -53,24 +50,6 @@ volatile uint8_t mcu_rx_packet[8];
 
 volatile uint8_t imu_tx_packet[1];
 volatile uint8_t imu_rx_packet[16];
-
-/*** APP NOTE CODE ***/
-/*! \brief Number of test data bytes. */
-#define NUM_BYTES   2
-/* Global variables. */
-/*! \brief SPI master on PORT C. */
-SPI_Master_t spiMasterC;
-/*! \brief SPI slave on PORT D. */
-SPI_Slave_t spiSlaveD = {NULL, NULL};
-/*! \brief Data packet. */
-SPI_DataPacket_t dataPacket;
-/*! \brief Test data to send. */
-const uint8_t sendData[NUM_BYTES + 1] = { 0x55, 0xaa, 0x00 };
-/*! \brief Buffer for test data reception. */
-uint8_t receivedData[NUM_BYTES + 1];
-/*! \brief Result of the example test. */
-bool success;
-/*** END APP NOTE CODE ***/
 
 /*
 typedef struct

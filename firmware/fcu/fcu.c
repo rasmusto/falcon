@@ -5,20 +5,49 @@ static FILE usb_out = FDEV_SETUP_STREAM (putchar_usb, NULL, _FDEV_SETUP_WRITE);
 static FILE rs232_out = FDEV_SETUP_STREAM (putchar_rs232, NULL, _FDEV_SETUP_WRITE);
 static FILE sonar_out = FDEV_SETUP_STREAM (putchar_sonar, NULL, _FDEV_SETUP_WRITE);
 
+volatile char usb_rx_buf[128];
+volatile uint8_t usb_rx_count = 0;
+
 /************************* SPI Initialization ************************/
+
+/*** APP NOTE CODE ***/
+/*! \brief Number of test data bytes. */
+#define NUM_BYTES   2
+
+/* Global variables. */
+
+/*! \brief SPI master on PORT E. */
+SPI_Master_t spiMasterE;
+
+/*! \brief Data packet. */
+SPI_DataPacket_t dataPacket;
+
+/*! \brief Test data to send. */
+const uint8_t sendData[NUM_BYTES + 1] = { 0x55, 0xaa, 0x00 };
+
+/*! \brief Buffer for test data reception. */
+uint8_t receivedData[NUM_BYTES + 1];
+
+/*! \brief Result of the example test. */
+bool success;
+
+/*** END APP NOTE CODE ***/
+
 static void spi_init (void)
 {
     /* Init signal select pins with wired AND pull-up. */
-    PORTC.DIRSET = PIN4_bm;
-    PORTC.PIN4CTRL = PORT_OPC_WIREDANDPULL_gc;
+    PORTB.DIRSET = 0b11111111;
+
+    //IGNORING THIS FOR NOW
+    //PORTC.PIN4CTRL = PORT_OPC_WIREDANDPULL_gc;
 
     /* Set SS output to high. (No slave addressed). */
-    PORTC.OUTSET = PIN4_bm;
+    PORTB.OUTSET = 0b11111111;
 
-    /* Initialize SPI master on port C. */
-    SPI_MasterInit(     &spiMasterC,
+    /* Initialize SPI master on port E. */
+    SPI_MasterInit(     &spiMasterE,
                         &SPIC,
-                        &PORTC,
+                        &PORTE,
                         false,
                         SPI_MODE_0_gc,
                         SPI_INTLVL_LO_gc,
@@ -39,7 +68,7 @@ static void spi_init (void)
 	/* Transmit and receive first data byte. */
 	uint8_t status;
 	do {
-		status = SPI_MasterInterruptTransceivePacket(&spiMasterC, &dataPacket);
+		status = SPI_MasterInterruptTransceivePacket(&spiMasterE, &dataPacket);
 	} while (status != SPI_OK);
 
 	/* Wait for transmission to complete. */
@@ -62,19 +91,7 @@ static void spi_init (void)
 
 ISR(SPIC_INT_vect)
 {
-	SPI_MasterInterruptHandler(&spiMasterC);
-}
-
-ISR(SPID_INT_vect)
-{
-	/* Get received data. */
-	uint8_t data = SPI_SlaveReadByte(&spiSlaveD);
-
-	/* Increment data. */
-	data++;
-
-	/* Send back incremented value. */
-	SPI_SlaveWriteByte(&spiSlaveD, data);
+	SPI_MasterInterruptHandler(&spiMasterE);
 }
 
 /**********************************************/
@@ -231,7 +248,18 @@ ISR(USARTC1_RXC_vect)
     unsigned char c = USARTC1.DATA;
     putchar_rs232(c);
     stdout = &usb_out;
-    printf("Received: %c via usb.\n\r", c);
+    //printf("Received: %c via usb.\n\r", c);
+    if(c == '\r')
+    {
+        usb_rx_buf[usb_rx_count] = '\0';
+        printf("usb_rx_buf = %s\n\r", usb_rx_buf);
+        usb_rx_count = 0;
+    }
+    else 
+    { 
+        usb_rx_buf[usb_rx_count] = c; 
+        usb_rx_count++;
+    }
 }
 
 /***** rs232 *****/
@@ -276,43 +304,39 @@ int main (void)
     init_rs232_uart (-4, 3317); //32MHz, 9600 baud
     init_sonar_uart (-4, 3317); //32MHz, 9600 baud
 
+    LED_4_GREEN_ON();
+
     sei();
 
     /************** Main Loop ***************/
     while(1)
     {
+        /*
         LED_1_RED_ON();
-        _delay_ms(100);
-        LED_1_RED_OFF();
-        _delay_ms(100);
-        LED_1_GREEN_ON();
-        _delay_ms(100);
-        LED_1_GREEN_OFF();
-        _delay_ms(100);
-        LED_2_RED_ON();
-        _delay_ms(100);
-        LED_2_RED_OFF();
-        _delay_ms(100);
-        LED_2_GREEN_ON();
-        _delay_ms(100);
-        LED_2_GREEN_OFF();
-        _delay_ms(100);
-        LED_3_RED_ON();
-        _delay_ms(100);
-        LED_3_RED_OFF();
-        _delay_ms(100);
         LED_3_GREEN_ON();
-        _delay_ms(100);
+        _delay_ms(25);
+        LED_1_RED_OFF();
         LED_3_GREEN_OFF();
-        _delay_ms(100);
-        LED_4_RED_ON();
-        _delay_ms(100);
-        LED_4_RED_OFF();
-        _delay_ms(100);
+        _delay_ms(25);
+        LED_2_RED_ON();
         LED_4_GREEN_ON();
-        _delay_ms(100);
+        _delay_ms(25);
+        LED_2_RED_OFF();
         LED_4_GREEN_OFF();
-        _delay_ms(100);
+        _delay_ms(25);
+        LED_3_RED_ON();
+        LED_1_GREEN_ON();
+        _delay_ms(25);
+        LED_3_RED_OFF();
+        LED_1_GREEN_OFF();
+        _delay_ms(25);
+        LED_4_RED_ON();
+        LED_2_GREEN_ON();
+        _delay_ms(25);
+        LED_4_RED_OFF();
+        LED_2_GREEN_OFF();
+        _delay_ms(25);
+        */
     }
     return 0;
 }
