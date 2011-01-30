@@ -1,5 +1,4 @@
 #include "fcu.h"
-#include "wdt_driver.h"
 
 volatile char usb_rx_buf[128];
 volatile uint8_t usb_rx_count = 0;
@@ -61,6 +60,7 @@ void imu_tx_rx(volatile struct imu_tx_pkt_t * imu_tx, volatile struct imu_rx_pkt
 
 ISR(SPIC_INT_vect)
 {
+    LED_3_RED_ON();
 	SPI_MasterInterruptHandler(&spiMasterE);
 }
 
@@ -88,7 +88,6 @@ ISR(USARTC1_TXC_vect)
 ISR(USARTC1_RXC_vect) 
 {
     unsigned char c = USARTC1.DATA;
-    putchar_rs232(c);
     stdout = &usb_out;
     printf("%c", c);
     if(c == '\r')
@@ -145,8 +144,13 @@ ISR(USARTE0_RXC_vect)
 
 int main (void) 
 {
+    LED_1_GREEN_OFF();
+    LED_2_GREEN_OFF();
+    LED_3_GREEN_OFF();
+    LED_4_GREEN_OFF();
+
     init_clk();
-    //init_spi();
+    init_spi();
 
     //set led pins as outputs
     PORTA.DIRSET=0b11110000;
@@ -162,10 +166,6 @@ int main (void)
 
     LED_4_GREEN_ON();
     LED_4_RED_OFF();
-    
-    LED_1_GREEN_ON();
-    LED_2_GREEN_ON();
-    LED_3_GREEN_ON();
 
     //mot_tx_pkt_init(&mot_tx);
 
