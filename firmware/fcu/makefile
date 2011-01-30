@@ -84,7 +84,7 @@ PROJECTNAME=fcu
 # (list all files to compile, e.g. 'a.c b.cpp as.S'):
 # Use .cc, .cpp or .C suffix for C++ files, use .S 
 # (NOT .s !!!) for assembly source code files.
-PRJSRC= fcu.c usart_driver.c clksys_driver.c spi_driver.c spi.c uart.c clk.c crc.c
+PRJSRC= fcu.c usart_driver.c clksys_driver.c spi_driver.c spi.c uart.c clk.c crc.c wdt_driver.c
 
 # additional includes (e.g. -I/path/to/mydir)
 INC=-I/path/to/include
@@ -125,7 +125,7 @@ AVRDUDE_PROGRAMMERID=avr109
 
 #AVRDUDE_PORT=usb:00A000401033
 #AVRDUDE_PORT=usb
-AVRDUDE_PORT=/dev/ttyUSB0 -b 19200
+AVRDUDE_PORT=/dev/ttyUSB0 -b 115200
 
 
 ####################################################

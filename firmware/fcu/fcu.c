@@ -1,4 +1,5 @@
 #include "fcu.h"
+#include "wdt_driver.h"
 
 volatile char usb_rx_buf[128];
 volatile uint8_t usb_rx_count = 0;
@@ -89,11 +90,26 @@ ISR(USARTC1_RXC_vect)
     unsigned char c = USARTC1.DATA;
     putchar_rs232(c);
     stdout = &usb_out;
-    //printf("Received: %c via usb.\n\r", c);
+    printf("%c", c);
     if(c == '\r')
     {
         usb_rx_buf[usb_rx_count] = '\0';
-        printf("usb_rx_buf = %s\n\r", usb_rx_buf);
+        if (strcmp(usb_rx_buf, "reboot") == 0)
+        {
+            printf("\n\rFCU is shutting down\n\r");
+            CCPWrite(&RST_CTRL, RST_SWRST_bm);
+        }
+        else if(strcmp(usb_rx_buf, "clear") == 0)
+        {
+            printf("%c", 12);
+        }
+        else if(strcmp(usb_rx_buf, "help") == 0)
+        {
+            printf("Commands:\n\rreboot\n\rclear\n\rhelp\n\r");
+        }
+        else if(strlen(usb_rx_buf) > 0)
+            printf("\n\rcommand not found: %s", usb_rx_buf);
+        printf("\n\rroot@fcu: ");
         usb_rx_count = 0;
     }
     else 
@@ -139,13 +155,17 @@ int main (void)
     PORTD.DIRSET=PIN5_bm; //drive rs232 enable low
     PORTD.OUTCLR=PIN5_bm;
 
-    init_xbee_uart  (-4, 3317); //32MHz, 9600 baud
-    init_usb_uart   (-4, 3317); //32MHz, 9600 baud
-    init_rs232_uart (-4, 3317); //32MHz, 9600 baud
-    init_sonar_uart (-4, 3317); //32MHz, 9600 baud
+    init_xbee_uart  (10, 1047); //32MHz, 115200 baud
+    init_usb_uart   (10, 1047); //32MHz, 115200 baud
+    init_rs232_uart (10, 1047); //32MHz, 115200 baud
+    init_sonar_uart (10, 1047); //32MHz, 115200 baud
 
     LED_4_GREEN_ON();
     LED_4_RED_OFF();
+    
+    LED_1_GREEN_ON();
+    LED_2_GREEN_ON();
+    LED_3_GREEN_ON();
 
     //mot_tx_pkt_init(&mot_tx);
 

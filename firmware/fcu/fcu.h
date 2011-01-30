@@ -6,6 +6,7 @@
 #include <inttypes.h>
 #include <math.h>
 #include <util/delay.h>
+#include <string.h>
 
 #include "avr_compiler.h"
 #include "spi.h"
