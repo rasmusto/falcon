@@ -1,0 +1,137 @@
+   1               		.file	"uart.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  11               		.text
+  12               	.Ltext0:
+ 399               	.global	uart_init
+ 401               	uart_init:
+   0:uart.c        **** /************************************************************************/
+   1:uart.c        **** /* XBoot Extensible AVR Bootloader                                      */
+   2:uart.c        **** /*                                                                      */
+   3:uart.c        **** /* UART Module                                                          */
+   4:uart.c        **** /*                                                                      */
+   5:uart.c        **** /* uart.c                                                               */
+   6:uart.c        **** /*                                                                      */
+   7:uart.c        **** /* Alex Forencich <alex@alexforencich.com>                              */
+   8:uart.c        **** /*                                                                      */
+   9:uart.c        **** /* Copyright (c) 2010 Alex Forencich                                    */
+  10:uart.c        **** /*                                                                      */
+  11:uart.c        **** /* Permission is hereby granted, free of charge, to any person          */
+  12:uart.c        **** /* obtaining a copy of this software and associated documentation       */
+  13:uart.c        **** /* files(the "Software"), to deal in the Software without restriction,  */
+  14:uart.c        **** /* including without limitation the rights to use, copy, modify, merge, */
+  15:uart.c        **** /* publish, distribute, sublicense, and/or sell copies of the Software, */
+  16:uart.c        **** /* and to permit persons to whom the Software is furnished to do so,    */
+  17:uart.c        **** /* subject to the following conditions:                                 */
+  18:uart.c        **** /*                                                                      */
+  19:uart.c        **** /* The above copyright notice and this permission notice shall be       */
+  20:uart.c        **** /* included in all copies or substantial portions of the Software.      */
+  21:uart.c        **** /*                                                                      */
+  22:uart.c        **** /* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,      */
+  23:uart.c        **** /* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF   */
+  24:uart.c        **** /* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND                */
+  25:uart.c        **** /* NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS  */
+  26:uart.c        **** /* BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN   */
+  27:uart.c        **** /* ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN    */
+  28:uart.c        **** /* CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE     */
+  29:uart.c        **** /* SOFTWARE.                                                            */
+  30:uart.c        **** /*                                                                      */
+  31:uart.c        **** /************************************************************************/
+  32:uart.c        **** 
+  33:uart.c        **** #include "uart.h"
+  34:uart.c        **** 
+  35:uart.c        **** // Interrupts
+  36:uart.c        **** #ifdef USE_INTERRUPTS
+  37:uart.c        **** #ifdef USE_UART
+  38:uart.c        **** ISR(UART_DEVICE_RXC_ISR)
+  39:uart.c        **** {
+  40:uart.c        ****         if (comm_mode == MODE_UNDEF)
+  41:uart.c        ****         {
+  42:uart.c        ****                 comm_mode = MODE_UART;
+  43:uart.c        ****                 #ifdef USE_I2C
+  44:uart.c        ****                 #ifdef __AVR_XMEGA__
+  45:uart.c        ****                 // disable I2C interrupt
+  46:uart.c        ****                 I2C_DEVICE.SLAVE.CTRLA = 0;
+  47:uart.c        ****                 #endif // __AVR_XMEGA__
+  48:uart.c        ****                 #endif // USE_I2C
+  49:uart.c        ****         }
+  50:uart.c        ****         if (rx_char_cnt == 0)
+  51:uart.c        ****         {
+  52:uart.c        ****                 rx_buff0 = UART_DEVICE.DATA;
+  53:uart.c        ****                 rx_char_cnt = 1;
+  54:uart.c        ****         }
+  55:uart.c        ****         else
+  56:uart.c        ****         {
+  57:uart.c        ****                 rx_buff1 = UART_DEVICE.DATA;
+  58:uart.c        ****                 rx_char_cnt = 2;
+  59:uart.c        ****         }
+  60:uart.c        **** }
+  61:uart.c        **** 
+  62:uart.c        **** ISR(UART_DEVICE_TXC_ISR)
+  63:uart.c        **** {
+  64:uart.c        ****         tx_char_cnt = 0;
+  65:uart.c        **** }
+  66:uart.c        **** #endif // USE_UART
+  67:uart.c        **** #endif // USE_INTERRUPTS
+  68:uart.c        **** 
+  69:uart.c        **** // Initialize UART
+  70:uart.c        **** void __attribute__ ((always_inline)) uart_init(void)
+  71:uart.c        **** {
+ 403               	.LM0:
+ 404               	.LFBB1:
+ 405               	/* prologue: function */
+ 406               	/* frame size = 0 */
+  72:uart.c        ****         #ifdef __AVR_XMEGA__
+  73:uart.c        ****         UART_PORT.DIRSET |= (1 << UART_TX_PIN);
+ 408               	.LM1:
+ 409 0000 E0E4      		ldi r30,lo8(1600)
+ 410 0002 F6E0      		ldi r31,hi8(1600)
+ 411 0004 8181      		ldd r24,Z+1
+ 412 0006 8068      		ori r24,lo8(-128)
+ 413 0008 8183      		std Z+1,r24
+  74:uart.c        ****         UART_DEVICE.BAUDCTRLA = (UART_BSEL_VALUE & USART_BSEL_gm);
+ 415               	.LM2:
+ 416 000a E0EB      		ldi r30,lo8(2224)
+ 417 000c F8E0      		ldi r31,hi8(2224)
+ 418 000e 87E6      		ldi r24,lo8(103)
+ 419 0010 8683      		std Z+6,r24
+  75:uart.c        ****         UART_DEVICE.BAUDCTRLB = ((UART_BSCALE_VALUE << USART_BSCALE_gp) & USART_BSCALE_gm) | ((UART
+ 421               	.LM3:
+ 422 0012 1782      		std Z+7,__zero_reg__
+  76:uart.c        ****         #if UART_CLK2X
+  77:uart.c        ****         UART_DEVICE.CTRLB = USART_RXEN_bm | USART_CLK2X_bm | USART_TXEN_bm;
+  78:uart.c        ****         #else
+  79:uart.c        ****         UART_DEVICE.CTRLB = USART_RXEN_bm | USART_TXEN_bm;
+ 424               	.LM4:
+ 425 0014 88E1      		ldi r24,lo8(24)
+ 426 0016 8483      		std Z+4,r24
+ 427               	/* epilogue start */
+  80:uart.c        ****         #endif // UART_CLK2X
+  81:uart.c        ****         #ifdef USE_INTERRUPTS
+  82:uart.c        ****         UART_DEVICE.CTRLA = USART_RXCINTLVL0_bm | USART_TXCINTLVL0_bm;
+  83:uart.c        ****         #endif // USE_INTERRUPTS
+  84:uart.c        ****         #endif // __AVR_XMEGA__
+  85:uart.c        **** }
+ 429               	.LM5:
+ 430 0018 0895      		ret
+ 432               	.Lscope1:
+ 434               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 uart.c
+     /tmp/ccWsDpNe.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccWsDpNe.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccWsDpNe.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccWsDpNe.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccWsDpNe.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccWsDpNe.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccWsDpNe.s:401    .text:00000000 uart_init
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss

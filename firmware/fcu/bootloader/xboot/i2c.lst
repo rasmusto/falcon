@@ -1,0 +1,175 @@
+   1               		.file	"i2c.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  11               		.text
+  12               	.Ltext0:
+ 399               	.global	i2c_init
+ 401               	i2c_init:
+   0:i2c.c         **** /************************************************************************/
+   1:i2c.c         **** /* XBoot Extensible AVR Bootloader                                      */
+   2:i2c.c         **** /*                                                                      */
+   3:i2c.c         **** /* I2C/TWI Module                                                       */
+   4:i2c.c         **** /*                                                                      */
+   5:i2c.c         **** /* i2c.c                                                                */
+   6:i2c.c         **** /*                                                                      */
+   7:i2c.c         **** /* Alex Forencich <alex@alexforencich.com>                              */
+   8:i2c.c         **** /*                                                                      */
+   9:i2c.c         **** /* Copyright (c) 2010 Alex Forencich                                    */
+  10:i2c.c         **** /*                                                                      */
+  11:i2c.c         **** /* Permission is hereby granted, free of charge, to any person          */
+  12:i2c.c         **** /* obtaining a copy of this software and associated documentation       */
+  13:i2c.c         **** /* files(the "Software"), to deal in the Software without restriction,  */
+  14:i2c.c         **** /* including without limitation the rights to use, copy, modify, merge, */
+  15:i2c.c         **** /* publish, distribute, sublicense, and/or sell copies of the Software, */
+  16:i2c.c         **** /* and to permit persons to whom the Software is furnished to do so,    */
+  17:i2c.c         **** /* subject to the following conditions:                                 */
+  18:i2c.c         **** /*                                                                      */
+  19:i2c.c         **** /* The above copyright notice and this permission notice shall be       */
+  20:i2c.c         **** /* included in all copies or substantial portions of the Software.      */
+  21:i2c.c         **** /*                                                                      */
+  22:i2c.c         **** /* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,      */
+  23:i2c.c         **** /* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF   */
+  24:i2c.c         **** /* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND                */
+  25:i2c.c         **** /* NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS  */
+  26:i2c.c         **** /* BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN   */
+  27:i2c.c         **** /* ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN    */
+  28:i2c.c         **** /* CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE     */
+  29:i2c.c         **** /* SOFTWARE.                                                            */
+  30:i2c.c         **** /*                                                                      */
+  31:i2c.c         **** /************************************************************************/
+  32:i2c.c         **** 
+  33:i2c.c         **** #include "i2c.h"
+  34:i2c.c         **** 
+  35:i2c.c         **** // Globals
+  36:i2c.c         **** #ifdef USE_I2C
+  37:i2c.c         **** unsigned char first_byte;
+  38:i2c.c         **** #endif
+  39:i2c.c         **** 
+  40:i2c.c         **** // Interrupts
+  41:i2c.c         **** #ifdef USE_INTERRUPTS
+  42:i2c.c         **** #ifdef USE_I2C
+  43:i2c.c         **** ISR(I2C_DEVICE_ISR)
+  44:i2c.c         **** {
+  45:i2c.c         ****         if ((I2C_DEVICE.SLAVE.STATUS & TWI_SLAVE_APIF_bm) && 
+  46:i2c.c         ****                 (I2C_DEVICE.SLAVE.STATUS & TWI_SLAVE_AP_bm))
+  47:i2c.c         ****         {
+  48:i2c.c         ****                 // Address match, send ACK
+  49:i2c.c         ****                 I2C_DEVICE.SLAVE.CTRLB = 0b00000011;
+  50:i2c.c         ****                 comm_mode = MODE_I2C;
+  51:i2c.c         ****                 #ifdef USE_UART
+  52:i2c.c         ****                 #ifdef __AVR_XMEGA__
+  53:i2c.c         ****                 // disable I2C interrupt
+  54:i2c.c         ****                 UART_DEVICE.CTRLA = 0;
+  55:i2c.c         ****                 #endif // __AVR_XMEGA__
+  56:i2c.c         ****                 #endif // USE_UART
+  57:i2c.c         ****                 first_byte = 1;
+  58:i2c.c         ****         }
+  59:i2c.c         ****         if ((I2C_DEVICE.SLAVE.STATUS & TWI_SLAVE_DIF_bm) &&
+  60:i2c.c         ****                 !(I2C_DEVICE.SLAVE.STATUS & TWI_SLAVE_DIR_bm))
+  61:i2c.c         ****         {
+  62:i2c.c         ****                 // Data has arrived
+  63:i2c.c         ****                 if (rx_char_cnt == 0)
+  64:i2c.c         ****                 {
+  65:i2c.c         ****                         rx_buff0 = I2C_DEVICE.SLAVE.DATA;
+  66:i2c.c         ****                         rx_char_cnt = 1;
+  67:i2c.c         ****                 }
+  68:i2c.c         ****                 else
+  69:i2c.c         ****                 {
+  70:i2c.c         ****                         rx_buff1 = I2C_DEVICE.SLAVE.DATA;
+  71:i2c.c         ****                         rx_char_cnt = 2;
+  72:i2c.c         ****                 }
+  73:i2c.c         ****                 I2C_DEVICE.SLAVE.CTRLB = 0b00000011;
+  74:i2c.c         ****         }
+  75:i2c.c         ****         if ((I2C_DEVICE.SLAVE.STATUS & TWI_SLAVE_DIF_bm) &&
+  76:i2c.c         ****                 (I2C_DEVICE.SLAVE.STATUS & TWI_SLAVE_DIR_bm))
+  77:i2c.c         ****         {
+  78:i2c.c         ****                 if (!first_byte && I2C_DEVICE.SLAVE.STATUS & TWI_SLAVE_RXACK_bm)
+  79:i2c.c         ****                 {
+  80:i2c.c         ****                         I2C_DEVICE.SLAVE.CTRLB = 0b00000010; // end transaction
+  81:i2c.c         ****                 }
+  82:i2c.c         ****                 else
+  83:i2c.c         ****                 {
+  84:i2c.c         ****                         first_byte = 0;
+  85:i2c.c         ****                         if (tx_char_cnt == 0)
+  86:i2c.c         ****                         {
+  87:i2c.c         ****                                 // Wants data, but there is no data to send...
+  88:i2c.c         ****                                 // also include NAK
+  89:i2c.c         ****                                 I2C_DEVICE.SLAVE.DATA = '?';
+  90:i2c.c         ****                         }
+  91:i2c.c         ****                         else
+  92:i2c.c         ****                         {
+  93:i2c.c         ****                                 I2C_DEVICE.SLAVE.DATA = tx_buff0;
+  94:i2c.c         ****                                 tx_char_cnt = 0;
+  95:i2c.c         ****                         }
+  96:i2c.c         ****                         I2C_DEVICE.SLAVE.CTRLB = 0b00000110;
+  97:i2c.c         ****                 }
+  98:i2c.c         ****         }
+  99:i2c.c         **** }
+ 100:i2c.c         **** #endif // USE_I2C
+ 101:i2c.c         **** #endif // USE_INTERRUPTS
+ 102:i2c.c         **** 
+ 103:i2c.c         **** void __attribute__ ((always_inline)) i2c_init(void)
+ 104:i2c.c         **** {
+ 403               	.LM0:
+ 404               	.LFBB1:
+ 405               	/* prologue: function */
+ 406               	/* frame size = 0 */
+ 105:i2c.c         ****         #ifdef __AVR_XMEGA__
+ 106:i2c.c         ****         I2C_DEVICE.CTRL = 0;
+ 408               	.LM1:
+ 409 0000 E0EA      		ldi r30,lo8(1184)
+ 410 0002 F4E0      		ldi r31,hi8(1184)
+ 411 0004 1082      		st Z,__zero_reg__
+ 107:i2c.c         ****         #if I2C_MATCH_ANY
+ 108:i2c.c         ****         #ifdef USE_INTERRUPTS
+ 109:i2c.c         ****         I2C_DEVICE.SLAVE.CTRLA = TWI_SLAVE_ENABLE_bm | TWI_SLAVE_PMEN_bm | TWI_SLAVE_INTLVL0_bm;
+ 110:i2c.c         ****         #else
+ 111:i2c.c         ****         I2C_DEVICE.SLAVE.CTRLA = TWI_SLAVE_ENABLE_bm | TWI_SLAVE_PMEN_bm;
+ 413               	.LM2:
+ 414 0006 8AE0      		ldi r24,lo8(10)
+ 415 0008 8087      		std Z+8,r24
+ 112:i2c.c         ****         #endif // USE_INTERRUPTS
+ 113:i2c.c         ****         #else
+ 114:i2c.c         ****         #ifdef USE_INTERRUPTS
+ 115:i2c.c         ****         I2C_DEVICE.SLAVE.CTRLA = TWI_SLAVE_ENABLE_bm | TWI_SLAVE_INTLVL0_bm;
+ 116:i2c.c         ****         #else
+ 117:i2c.c         ****         I2C_DEVICE.SLAVE.CTRLA = TWI_SLAVE_ENABLE_bm;
+ 118:i2c.c         ****         #endif // USE_INTERRUPTS
+ 119:i2c.c         ****         #endif
+ 120:i2c.c         ****         #if I2C_GC_ENABLE
+ 121:i2c.c         ****         I2C_DEVICE.SLAVE.ADDR = I2C_ADDRESS | 1;
+ 417               	.LM3:
+ 418 000a 81E1      		ldi r24,lo8(17)
+ 419 000c 8387      		std Z+11,r24
+ 122:i2c.c         ****         #else
+ 123:i2c.c         ****         I2C_DEVICE.SLAVE.ADDR = I2C_ADDRESS;
+ 124:i2c.c         ****         #endif
+ 125:i2c.c         ****         I2C_DEVICE.SLAVE.ADDRMASK = 0;
+ 421               	.LM4:
+ 422 000e 1586      		std Z+13,__zero_reg__
+ 423               	/* epilogue start */
+ 126:i2c.c         ****         #endif // __AVR_XMEGA__
+ 127:i2c.c         **** }
+ 425               	.LM5:
+ 426 0010 0895      		ret
+ 428               	.Lscope1:
+ 430               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 i2c.c
+     /tmp/cc605JUi.s:2      *ABS*:0000003f __SREG__
+     /tmp/cc605JUi.s:3      *ABS*:0000003e __SP_H__
+     /tmp/cc605JUi.s:4      *ABS*:0000003d __SP_L__
+     /tmp/cc605JUi.s:5      *ABS*:00000034 __CCP__
+     /tmp/cc605JUi.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/cc605JUi.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/cc605JUi.s:401    .text:00000000 i2c_init
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss

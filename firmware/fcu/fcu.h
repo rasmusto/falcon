@@ -1,20 +1,21 @@
 #define F_CPU 32000000UL
+#include <avr/io.h>
+#include <avr/interrupt.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <inttypes.h>
-#include <avr/io.h>
-#include <util/delay.h>
 #include <math.h>
-#include <avr/interrupt.h>
+#include <util/delay.h>
 
-#include "spi_driver.h"
 #include "avr_compiler.h"
-#include "usart_driver.h"
-#include "clksys_driver.h"
+#include "spi.h"
+#include "uart.h"
+#include "clk.h"
+#include "crc.h"
 
 //#include "/usr/lib/avr/include/avr/iox128a3.h"
 
-/* Led bitmasks */
+/* LED bitmasks */
 #define LED_1_RED_ON()      PORTA.OUTSET=PIN4_bm;
 #define LED_1_RED_OFF()     PORTA.OUTCLR=PIN4_bm;
 #define LED_1_GREEN_ON()    PORTF.OUTSET=PIN4_bm;
@@ -32,51 +33,55 @@
 #define LED_4_GREEN_ON()    PORTF.OUTSET=PIN7_bm;
 #define LED_4_GREEN_OFF()   PORTF.OUTCLR=PIN7_bm;
 
-/* Function Prototypes */
-static void spi_init (void);
+#define MOT_START 0x22
 
-void init_xbee_uart (int8_t bScale, uint16_t bSel);
-void init_usb_uart (int8_t bScale, uint16_t bSel);
-void init_rs232_uart (int8_t bScale, uint16_t bSel);
-void init_sonar_uart (int8_t bScale, uint16_t bSel);
+/* Global Variables */
 
-void putchar_xbee (char c);
-void putchar_usb (char c);
-void putchar_rs232 (char c);
-void putchar_sonar (char c);
+static FILE xbee_out    = FDEV_SETUP_STREAM (putchar_xbee,  NULL, _FDEV_SETUP_WRITE);
+static FILE usb_out     = FDEV_SETUP_STREAM (putchar_usb,   NULL, _FDEV_SETUP_WRITE);
+static FILE rs232_out   = FDEV_SETUP_STREAM (putchar_rs232, NULL, _FDEV_SETUP_WRITE);
+static FILE sonar_out   = FDEV_SETUP_STREAM (putchar_sonar, NULL, _FDEV_SETUP_WRITE);
 
-volatile uint8_t mcu_tx_packet[8];
-volatile uint8_t mcu_rx_packet[8];
-
-volatile uint8_t imu_tx_packet[1];
-volatile uint8_t imu_rx_packet[16];
-
-/*
-typedef struct
+/* Data Structures */
+struct mot_tx_pkt_t
 {
     uint8_t start;
-    uint8_t mot_num;
-    uint8_t target;
-    uint8_t * crc;
-} mot_tx_pkt;
+    uint8_t tgt_1;
+    uint8_t tgt_2;
+    uint8_t tgt_3;
+    uint8_t tgt_4;
+    uint8_t crc;
+};
 
-typedef struct
+struct mot_rx_pkt_t
+{
+    uint8_t start;
+    uint8_t spd_1;
+    uint8_t spd_2;
+    uint8_t spd_3;
+    uint8_t spd_4;
+    uint8_t crc;
+};
+
+struct imu_tx_pkt_t
 {
     uint8_t start;
     uint8_t request;
-    uint8_t * crc;
-} imu_tx_pkt;
+    uint8_t crc;
+};
 
-typedef struct
+struct imu_rx_pkt_t
 {
     uint8_t start;
-    uint8_t * data;
-    uint8_t * crc;
-} imu_rx_pkt;
-*/
+    uint8_t pitch;
+    uint8_t roll;
+    uint8_t yaw;
+    uint8_t crc;
+};
 
-/*
-void mot_tx(mot_tx_pkt mot);
-void imu_tx(imu_tx_pkt imu);
-void imu_rx(imu_rx_pkt imu);
-*/
+/* Function Prototypes */
+void mot_tx_pkt_init(volatile struct mot_tx_pkt_t * mot_tx);
+void mot_tx_rx(volatile struct mot_tx_pkt_t * mot_tx, volatile struct mot_rx_pkt_t * mot_rx);
+
+void imu_tx_pkt_init(volatile struct imu_tx_pkt_t * imu_tx);
+void imu_tx_rx(volatile struct imu_tx_pkt_t * imu_tx, volatile struct imu_rx_pkt_t * imu_rx);
