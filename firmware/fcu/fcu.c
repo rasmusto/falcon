@@ -95,7 +95,7 @@ ISR(USARTC1_RXC_vect)
         usb_rx_buf[usb_rx_count] = '\0';
         if (strcmp(usb_rx_buf, "reboot") == 0)
         {
-            printf("\n\rFCU is shutting down\n\r");
+            printf("\n\rdown :(   \n\r");
             CCPWrite(&RST_CTRL, RST_SWRST_bm);
         }
         else if(strcmp(usb_rx_buf, "clear") == 0)
@@ -104,7 +104,7 @@ ISR(USARTC1_RXC_vect)
         }
         else if(strcmp(usb_rx_buf, "help") == 0)
         {
-            printf("Commands:\n\rreboot\n\rclear\n\rhelp\n\r");
+            printf("\n\rCommands:\n\rreboot\n\rclear\n\rhelp");
         }
         else if(strlen(usb_rx_buf) > 0)
             printf("\n\rcommand not found: %s", usb_rx_buf);
@@ -167,9 +167,11 @@ int main (void)
     LED_4_GREEN_ON();
     LED_4_RED_OFF();
 
-    //mot_tx_pkt_init(&mot_tx);
+    mot_tx_pkt_init(&mot_tx);
 
     stdout = &usb_out;
+    printf("%c", 12);
+    printf("up :)\n\r");
     stdout = &rs232_out;
     stdout = &xbee_out;
     stdout = &sonar_out;
@@ -179,6 +181,7 @@ int main (void)
     /************** Main Loop ***************/
     while(1)
     {
+        mot_tx_rx(&mot_tx, &mot_rx);
     }
     return 0;
 }
