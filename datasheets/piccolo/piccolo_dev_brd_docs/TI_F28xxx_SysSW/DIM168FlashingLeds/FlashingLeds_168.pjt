@@ -1,0 +1,35 @@
+; Code Composer Project File, Version 2.0 (do not modify or remove this line)
+
+[Project Settings]
+ProjectDir="C:\Texas Instruments\TI_F28xxx_SysSW\FlashingLeds_168\"
+ProjectType=Executable
+CPUFamily=TMS320C28XX
+Tool="Compiler"
+Tool="CustomBuilder"
+Tool="DspBiosBuilder"
+Tool="Linker"
+Config="C2834x_RAM"
+
+[Source Files]
+Source="..\~SupportFiles\source\DSP2834x_GlobalVariableDefs.c"
+Source="..\~SupportFiles\source\SciCommsGui.c"
+Source="C:\CCStudio_v3.3\C2000\cgtools\lib\rts2800_ml.lib"
+Source="FlashingLeds-DevInit_C2834x.c"
+Source="FlashingLeds_168-Main.c"
+Source="..\~SupportFiles\DSP2834x_headers\cmd\DSP2834x_Headers_nonBIOS.cmd"
+Source="C28345_RAM_FlashingLeds.CMD"
+
+["C2834x_RAM" Settings]
+FinalBuildCmd=rem -------------------- Begin Custom Post Build Steps -------------
+FinalBuildCmd=del *.lkf
+FinalBuildCmd=rem -------------------- End Custom Post Build Steps ---------------
+
+["Compiler" Settings: "C2834x_RAM"]
+Options=-g -pdsw225 -fr"$(Proj_dir)\2834x_RAM" -i"..\..\DSP2834x_headers" -i"..\..\DSP2834x_headers\include" -i"..\..\include" -i"..\DSP2834x_headers" -i"..\DSP2834x_headers\include" -i"..\include" -i"..\~SupportFiles\DSP2834x_headers" -i"..\~SupportFiles\DSP2834x_headers\include" -i"..\~SupportFiles\include" -i"..\~SupportFiles\lib\PowerLIB" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28
+
+["Linker" Settings: "C2834x_RAM"]
+Options=-b -c -m".\2834x_RAM\FlashingLeds.map" -o".\2834x_RAM\FlashingLeds.out" -stack0x400 -w
+
+["..\~SupportFiles\DSP2834x_headers\cmd\DSP2834x_Headers_nonBIOS.cmd" Settings: "C2834x_RAM"]
+LinkOrder=1
+

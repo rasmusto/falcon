@@ -1,0 +1,28 @@
+;*************************************************************************************
+;***************************** IQmath LIBRARY (v1.4) *********************************
+;************************ A VIRTUAL FLOATING POINT ENGINE **************************** 
+;*************************************************************************************
+
+Thank you for trying C28x IQmath Library. 
+IQmath Library is installed in C:\TIDCS\C28\IQMATH directory.
+
+Please read the README.TXT file (C:TIDC\C28\IQMATH\README.TXT) for specific details of 
+current IQmath library release.
+
+Texas Instruments TMS320C28x IQmath Library is collection of highly optimized and 
+high precision mathematical Function Library for C/C++ programmers to seamlessly port 
+the floating-point algorithm into fixed point code on TMS320C28x devices. These routines 
+are typically used in computationally intensive real-time applications where optimal 
+execution speed & high accuracy is critical. By using these routines you can achieve 
+execution speeds considerable faster than equivalent code written in standard ANSI C language. 
+In addition, by providing ready-to-use high precision functions, TI IQmath library can 
+shorten significantly your DSP application development time.
+
+
+DOCUMENTATION:
+|===============|======================================================================|
+|  DOC		| DIRECTORY LOCATION				        	       |
+|===============|======================================================================| 
+|  MODULE DOC	| C:\TIDCS\C28\IQMATH\DOC\IQMATH.PDF	  	                       |
+|======================================================================================|
+

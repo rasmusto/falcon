@@ -1,0 +1,553 @@
+******************************************************************************
+        TMS320C2000 COFF Linker PC Version 3.06.alpha (Dec 20 2002 - TI INTERNAL)
+******************************************************************************
+>> Linked Sun Mar 30 20:31:17 2003
+
+OUTPUT FILE NAME:   <./Debug/IQsampleCPP.out>
+ENTRY POINT SYMBOL: "_c_int00"  address: 003f8000
+
+
+MEMORY CONFIGURATION
+
+                  name            origin    length      used    attr    fill
+         ----------------------  --------  ---------  --------  ----  --------
+PAGE  0: RAMH0                   003f8000   00002000  00001fad  RW  
+         BOOTROM                 003ff000   00000fc0  00000b50  RW  
+         RESET                   003fffc0   00000002  00000000  RW  
+         VECTORS                 003fffc2   0000003e  00000000  RW  
+
+PAGE  1: RAMM0M1                 00000000   00000800  00000520  RW  
+         RAML0L1                 00008000   00002000  000015d8  RW  
+
+
+SECTION ALLOCATION MAP
+
+ output                                  attributes/
+section   page    origin      length       input sections
+--------  ----  ----------  ----------   ----------------
+.text      0    003f8000    00001a82     
+                  003f8000    00000046     rts2800_ml.lib : boot.obj (.text)
+                  003f8046    0000004b                    : exit.obj (.text)
+                  003f8091    00000009                    : _lock.obj (.text)
+                  003f809a    0000023e     IQsample.obj (.text)
+                  003f82d8    0000010c     rts2800_ml.lib : array.obj (.text)
+                  003f83e4    00000003                    : del_af.obj (.text)
+                  003f83e7    00000006                    : del_sof.obj (.text)
+                  003f83ed    00000090                    : fgets.obj (.text)
+                  003f847d    00000232                    : lowlev.obj (.text)
+                  003f86af    0000000e                    : memchr.obj (.text)
+                  003f86bd    00000040                    : memcpy.obj (.text)
+                  003f86fd    000001d5                    : memory.obj (.text)
+                  003f88d2    00000003                    : new_af.obj (.text)
+                  003f88d5    00000013                    : new_sof.obj (.text)
+                  003f88e8    00000020                    : printf.obj (.text)
+                  003f8908    00000009                    : strchr.obj (.text)
+                  003f8911    00000008                    : strcmp.obj (.text)
+                  003f8919    00000018                    : strncpy.obj (.text)
+                  003f8931    000001f8                    : trgdrv.obj (.text)
+                  003f8b29    00000042                    : _bufread.obj (.text)
+                  003f8b6b    0000006e                    : _io_perm.obj (.text)
+                  003f8bd9    000006a6                    : _printfi.obj (.text)
+                  003f927f    0000007c                    : ankmsg.obj (.text)
+                  003f92fb    00000030                    : atoi.obj (.text)
+                  003f932b    000000d0                    : ecvt.obj (.text)
+                  003f93fb    000000cf                    : fcvt.obj (.text)
+                  003f94ca    00000029                    : fd_cmp.obj (.text)
+                  003f94f3    0000008a                    : fd_div.obj (.text)
+                  003f957d    00000082                    : fd_mpy.obj (.text)
+                  003f95ff    00000009                    : fd_neg.obj (.text)
+                  003f9608    0000000e                    : fd_sub.obj (.text)
+                  003f9616    00000021                    : fd_toi.obj (.text)
+                  003f9637    0000001f                    : fd_tol.obj (.text)
+                  003f9656    0000004e                    : fflush.obj (.text)
+                  003f96a4    0000003f                    : fputc.obj (.text)
+                  003f96e3    0000009a                    : fputs.obj (.text)
+                  003f977d    0000001d                    : fs_tofd.obj (.text)
+                  003f979a    00000030                    : fseek.obj (.text)
+                  003f97ca    0000002a                    : l_div.obj (.text)
+                  003f97f4    00000019                    : l_tofd.obj (.text)
+                  003f980d    0000002f                    : ltoa.obj (.text)
+                  003f983c    0000000c                    : memccpy.obj (.text)
+                  003f9848    00000009                    : memset.obj (.text)
+                  003f9851    00000009                    : new_.obj (.text)
+                  003f985a    00000061                    : setvbuf.obj (.text)
+                  003f98bb    00000009                    : strcpy.obj (.text)
+                  003f98c4    0000000a                    : strlen.obj (.text)
+                  003f98ce    00000099                    : fd_add.obj (.text)
+                  003f9967    000000dd                    : fopen.obj (.text)
+                  003f9a44    0000003b                    : fclose.obj (.text)
+                  003f9a7f    00000003                    : remove.obj (.text)
+
+.cinit     0    003f9a82    00000150     
+                  003f9a82    0000000e     rts2800_ml.lib : exit.obj (.cinit)
+                  003f9a90    0000000a                    : _lock.obj (.cinit)
+                  003f9a9a    00000005     IQsample.obj (.cinit)
+                  003f9a9f    00000005     rts2800_ml.lib : array.obj (.cinit)
+                  003f9aa4    0000002d                    : lowlev.obj (.cinit)
+                  003f9ad1    00000004                    : memory.obj (.cinit)
+                  003f9ad5    000000f7                    : defs.obj (.cinit)
+                  003f9bcc    00000005                    : new_.obj (.cinit)
+                  003f9bd1    00000001     --HOLE-- [fill = 0]
+
+.econst    0    003f9bd2    000001d7     
+                  003f9bd2    000000a7     IQsample.obj (.econst)
+                  003f9c79    00000001     --HOLE-- [fill = 0]
+                  003f9c7a    0000002b     rts2800_ml.lib : _printfi.obj (.econst)
+                  003f9ca5    00000001     --HOLE-- [fill = 0]
+                  003f9ca6    00000002                    : fputs.obj (.econst)
+                  003f9ca8    00000101                    : ctype.obj (.econst)
+
+IQmath     0    003f9da9    00000200     
+                  003f9da9    0000008f     IQmath.lib : atoIQN.obj (IQmath)
+                  003f9e38    00000088                : IQ24atan2PU.obj (IQmath)
+                  003f9ec0    00000047                : IQ24div.obj (IQmath)
+                  003f9f07    00000060                : IQ24mag.obj (IQmath)
+                  003f9f67    00000011                : IQ24mpyI32int.obj (IQmath)
+                  003f9f78    00000031                : IQ24sin.obj (IQmath)
+
+.pinit     0    003f9faa    00000004     
+                  003f9faa    00000002     IQsample.obj (.pinit)
+                  003f9fac    00000002     --HOLE-- [fill = 0]
+
+IQmathTables 
+*          0    003ff000    00000b50     NOLOAD SECTION
+                  003ff000    00000b50     IQmath.lib : IQmathTables.obj (IQmathTables)
+
+.reset     0    003fffc0    00000002     DSECT
+                  003fffc0    00000002     rts2800_ml.lib : boot.obj (.reset)
+
+.stack     1    00000000    00000400     UNINITIALIZED
+
+.cio       1    00000400    00000120     UNINITIALIZED
+                  00000400    00000120     rts2800_ml.lib : ankmsg.obj (.cio)
+
+.data      1    00008000    00000000     UNINITIALIZED
+
+.bss       1    00008000    00000000     UNINITIALIZED
+
+.ebss      1    00008000    000011a4     UNINITIALIZED
+                  00008000    00000840     IQsample.obj (.ebss)
+                  00008840    00000280     rts2800_ml.lib : defs.obj (.ebss)
+                  00008ac0    00000110                    : lowlev.obj (.ebss)
+                  00008bd0    00000008                    : memory.obj (.ebss)
+                  00008bd8    00000004                    : _lock.obj (.ebss)
+                  00008bdc    00000004                    : new_.obj (.ebss)
+                  00008be0    00000002                    : array.obj (.ebss)
+                  00008c00    00000080                    : exit.obj (.ebss)
+                  00008c80    00000190                    : fcvt.obj (.ebss)
+                  00008e40    00000190                    : _printfi.obj (.ebss)
+                  00009000    00000108                    : trgdrv.obj (.ebss)
+                  00009140    00000064                    : ecvt.obj (.ebss)
+
+.const     1    000091a4    00000034     
+                  000091a4    00000014     rts2800_ml.lib : _printfi.obj (.const)
+                  000091b8    00000010                    : fcvt.obj (.const)
+                  000091c8    00000010                    : ecvt.obj (.const)
+
+.sysmem    1    000091d8    00000400     UNINITIALIZED
+
+
+GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name 
+
+address    name
+--------   ----
+00008000   .bss
+00008000   .data
+003f8000   .text
+003f806c   C$$EXIT
+003f92c7   C$$IO$$
+003f98ce   FD$$ADD
+003f94ca   FD$$CMP
+003f94f3   FD$$DIV
+003f957d   FD$$MPY
+003f95ff   FD$$NEG
+003f9608   FD$$SUB
+003f9616   FD$$TOI
+003f9637   FD$$TOL
+003f977d   FS$$TOFD
+003f97ca   L$$DIV
+003f97d9   L$$MOD
+003f97f4   L$$TOFD
+003f97e7   UL$$DIV
+003f97ee   UL$$MOD
+00008040   _Dlog
+00008000   _GlobalQ
+003f8afd   _HOSTclock
+003f8968   _HOSTclose
+003f89fb   _HOSTlseek
+003f8931   _HOSTopen
+003f898f   _HOSTread
+003f8a67   _HOSTrename
+003f8ad1   _HOSTtime
+003f8a42   _HOSTunlink
+003f89c5   _HOSTwrite
+003ffad8   _IQ10mpyRndSatTable
+003ffacc   _IQ11mpyRndSatTable
+003ffac0   _IQ12mpyRndSatTable
+003ffab4   _IQ13mpyRndSatTable
+003ffaa8   _IQ14mpyRndSatTable
+003ffa9c   _IQ15mpyRndSatTable
+003ffa90   _IQ16mpyRndSatTable
+003ffa84   _IQ17mpyRndSatTable
+003ffa78   _IQ18mpyRndSatTable
+003ffa6c   _IQ19mpyRndSatTable
+003ffb44   _IQ1mpyRndSatTable
+003ffa60   _IQ20mpyRndSatTable
+003ffa54   _IQ21mpyRndSatTable
+003ffa48   _IQ22mpyRndSatTable
+003ffa3c   _IQ23mpyRndSatTable
+003ffa30   _IQ24mpyRndSatTable
+003ffa24   _IQ25mpyRndSatTable
+003ffa18   _IQ26mpyRndSatTable
+003ffa0c   _IQ27mpyRndSatTable
+003ffa00   _IQ28mpyRndSatTable
+003ff9f4   _IQ29mpyRndSatTable
+003ffb38   _IQ2mpyRndSatTable
+003ff9e8   _IQ30mpyRndSatTable
+003ffb2c   _IQ3mpyRndSatTable
+003ffb20   _IQ4mpyRndSatTable
+003ffb14   _IQ5mpyRndSatTable
+003ffb08   _IQ6mpyRndSatTable
+003ffafc   _IQ7mpyRndSatTable
+003ffaf0   _IQ8mpyRndSatTable
+003ffae4   _IQ9mpyRndSatTable
+003ff824   _IQatan2HalfPITable
+003ff862   _IQatan2Table
+003ff9e8   _IQatan2TableEnd
+003ff100   _IQcosTable
+003ff502   _IQcosTableEnd
+003ff502   _IQdivRoundSatTable
+003ff510   _IQdivTable
+003ff712   _IQdivTableEnd
+003ff712   _IQisqrtRoundSatTable
+003ff722   _IQisqrtTable
+003ff824   _IQisqrtTableEnd
+003ff9e8   _IQmpyRndSatTable
+003ffb50   _IQmpyRndSatTableEnd
+003ff000   _IQsinTable
+003ff400   _IQsinTableEnd
+003ff712   _IQsqrtRoundSatTable
+003ff722   _IQsqrtTable
+003ff824   _IQsqrtTableEnd
+00008002   _Step
+00000400   __CIOBUF_
+003f9e38   __IQ24atan2PU
+003f9ec0   __IQ24div
+003f9f07   __IQ24mag
+003f9f67   __IQ24mpyI32int
+003f9f78   __IQ24sin
+00000400   __STACK_SIZE
+00000400   __SYSMEM_SIZE
+003f82f5   ___acctor
+003f8328   ___adelete
+003f82ec   ___anew
+00008be0   ___array_new_prefix_size
+00008000   ___bss__
+003f831b   ___cadelete
+003f82d8   ___canew
+003f9a82   ___cinit__
+00008000   ___data__
+003f83e7   ___dl__FPv
+003f83e4   ___dla__FPv
+00008000   ___edata__
+00008000   ___end__
+003f9a82   ___etext__
+003f86c0   ___memcpy
+003f86de   ___memcpy_ff
+003f86d4   ___memcpy_fn
+003f86ca   ___memcpy_nf
+003f88d5   ___nw__FUl
+003f88d2   ___nwa__FUl
+003f82e3   ___pcanew
+003f9faa   ___pinit__
+003f82d3   ___sti__IQsample_cpp_GlobalQ
+003f8000   ___text__
+003f9da9   __atoIQN
+003f8b29   __buff_read
+003f9a23   __cleanup
+00008c04   __cleanup_ptr
+003f9ca8   __ctypes_
+003f967e   __doflush
+00008c02   __dtors_ptr
+00008840   __ft_end
+00008880   __ftable
+00008bda   __lock
+003f8091   __nop
+003f8bd9   __printfi
+003f8b6b   __rd_ok
+003f8092   __register_lock
+003f8096   __register_unlock
+000091d8   __sys_memory
+00008980   __tmpnams
+00008bd8   __unlock
+003f8b9b   __wrt_ok
+003f8090   _abort
+003f84ed   _add_device
+003f833a   _alloc_array__21__Narray_cpp_61f5e116FUlT1PFUl_Pv
+003f83a1   _array_del__21__Narray_cpp_61f5e116FPvUlT2PFPvi_vbPFPv_vT5
+003f8373   _array_new__21__Narray_cpp_61f5e116FPvUlT2PFPv_vPFUl_Pv
+003f806e   _atexit
+003f92fb   _atoi
+003f8000   _c_int00
+003f887b   _calloc
+003f8895   _chkheap
+003f863b   _close
+003f835a   _dealloc_array__21__Narray_cpp_61f5e116FPvUlT2PFPv_vb
+003f9857   _default_new_handler__3stdFv
+003f932b   _ecvt
+003f8046   _exit
+003f9a44   _fclose
+003f93fb   _fcvt
+003f9656   _fflush
+003f83ed   _fgets
+003f9967   _fopen
+003f96ac   _fputc
+003f96f5   _fputs
+003f877f   _free
+003f8897   _free_memory
+003f9977   _freopen
+003f979a   _fseek
+003f8aa6   _getenv
+003f83f1   _gets
+003f860c   _lseek
+003f980d   _ltoa
+003f8105   _main
+003f8726   _malloc
+003f88b3   _max_free
+003f983c   _memccpy
+003f86af   _memchr
+003f86bd   _memcpy
+003f9848   _memset
+003f86fd   _minit
+00008bde   _new_handler_fun__3std
+00008bdc   _nothrow__3std
+003f8558   _open
+003f88e8   _printf
+003f96a4   _putc
+003f96a7   _putchar
+003f96e3   _puts
+003f85ae   _read
+003f92ca   _readmsg
+003f87d0   _realloc
+003f9a7f   _remove
+003f853e   _remove_device
+003f8686   _rename
+003f9851   _set_new_handler__3stdFPFv_v
+003f985a   _setvbuf
+003f8908   _strchr
+003f8911   _strcmp
+003f98bb   _strcpy
+003f98c4   _strlen
+003f8919   _strncpy
+003f866e   _unlink
+003f85dd   _write
+003f927f   _writemsg
+003f9a82   cinit
+00008000   edata
+00008000   end
+003f9a82   etext
+003f9faa   pinit
+
+
+GLOBAL SYMBOLS: SORTED BY Symbol Address 
+
+address    name
+--------   ----
+00000400   __CIOBUF_
+00000400   __STACK_SIZE
+00000400   __SYSMEM_SIZE
+00008000   .data
+00008000   ___data__
+00008000   ___edata__
+00008000   .bss
+00008000   _GlobalQ
+00008000   ___end__
+00008000   ___bss__
+00008000   edata
+00008000   end
+00008002   _Step
+00008040   _Dlog
+00008840   __ft_end
+00008880   __ftable
+00008980   __tmpnams
+00008bd8   __unlock
+00008bda   __lock
+00008bdc   _nothrow__3std
+00008bde   _new_handler_fun__3std
+00008be0   ___array_new_prefix_size
+00008c02   __dtors_ptr
+00008c04   __cleanup_ptr
+000091d8   __sys_memory
+003f8000   .text
+003f8000   ___text__
+003f8000   _c_int00
+003f8046   _exit
+003f806c   C$$EXIT
+003f806e   _atexit
+003f8090   _abort
+003f8091   __nop
+003f8092   __register_lock
+003f8096   __register_unlock
+003f8105   _main
+003f82d3   ___sti__IQsample_cpp_GlobalQ
+003f82d8   ___canew
+003f82e3   ___pcanew
+003f82ec   ___anew
+003f82f5   ___acctor
+003f831b   ___cadelete
+003f8328   ___adelete
+003f833a   _alloc_array__21__Narray_cpp_61f5e116FUlT1PFUl_Pv
+003f835a   _dealloc_array__21__Narray_cpp_61f5e116FPvUlT2PFPv_vb
+003f8373   _array_new__21__Narray_cpp_61f5e116FPvUlT2PFPv_vPFUl_Pv
+003f83a1   _array_del__21__Narray_cpp_61f5e116FPvUlT2PFPvi_vbPFPv_vT5
+003f83e4   ___dla__FPv
+003f83e7   ___dl__FPv
+003f83ed   _fgets
+003f83f1   _gets
+003f84ed   _add_device
+003f853e   _remove_device
+003f8558   _open
+003f85ae   _read
+003f85dd   _write
+003f860c   _lseek
+003f863b   _close
+003f866e   _unlink
+003f8686   _rename
+003f86af   _memchr
+003f86bd   _memcpy
+003f86c0   ___memcpy
+003f86ca   ___memcpy_nf
+003f86d4   ___memcpy_fn
+003f86de   ___memcpy_ff
+003f86fd   _minit
+003f8726   _malloc
+003f877f   _free
+003f87d0   _realloc
+003f887b   _calloc
+003f8895   _chkheap
+003f8897   _free_memory
+003f88b3   _max_free
+003f88d2   ___nwa__FUl
+003f88d5   ___nw__FUl
+003f88e8   _printf
+003f8908   _strchr
+003f8911   _strcmp
+003f8919   _strncpy
+003f8931   _HOSTopen
+003f8968   _HOSTclose
+003f898f   _HOSTread
+003f89c5   _HOSTwrite
+003f89fb   _HOSTlseek
+003f8a42   _HOSTunlink
+003f8a67   _HOSTrename
+003f8aa6   _getenv
+003f8ad1   _HOSTtime
+003f8afd   _HOSTclock
+003f8b29   __buff_read
+003f8b6b   __rd_ok
+003f8b9b   __wrt_ok
+003f8bd9   __printfi
+003f927f   _writemsg
+003f92c7   C$$IO$$
+003f92ca   _readmsg
+003f92fb   _atoi
+003f932b   _ecvt
+003f93fb   _fcvt
+003f94ca   FD$$CMP
+003f94f3   FD$$DIV
+003f957d   FD$$MPY
+003f95ff   FD$$NEG
+003f9608   FD$$SUB
+003f9616   FD$$TOI
+003f9637   FD$$TOL
+003f9656   _fflush
+003f967e   __doflush
+003f96a4   _putc
+003f96a7   _putchar
+003f96ac   _fputc
+003f96e3   _puts
+003f96f5   _fputs
+003f977d   FS$$TOFD
+003f979a   _fseek
+003f97ca   L$$DIV
+003f97d9   L$$MOD
+003f97e7   UL$$DIV
+003f97ee   UL$$MOD
+003f97f4   L$$TOFD
+003f980d   _ltoa
+003f983c   _memccpy
+003f9848   _memset
+003f9851   _set_new_handler__3stdFPFv_v
+003f9857   _default_new_handler__3stdFv
+003f985a   _setvbuf
+003f98bb   _strcpy
+003f98c4   _strlen
+003f98ce   FD$$ADD
+003f9967   _fopen
+003f9977   _freopen
+003f9a23   __cleanup
+003f9a44   _fclose
+003f9a7f   _remove
+003f9a82   ___cinit__
+003f9a82   ___etext__
+003f9a82   cinit
+003f9a82   etext
+003f9ca8   __ctypes_
+003f9da9   __atoIQN
+003f9e38   __IQ24atan2PU
+003f9ec0   __IQ24div
+003f9f07   __IQ24mag
+003f9f67   __IQ24mpyI32int
+003f9f78   __IQ24sin
+003f9faa   ___pinit__
+003f9faa   pinit
+003ff000   _IQsinTable
+003ff100   _IQcosTable
+003ff400   _IQsinTableEnd
+003ff502   _IQdivRoundSatTable
+003ff502   _IQcosTableEnd
+003ff510   _IQdivTable
+003ff712   _IQsqrtRoundSatTable
+003ff712   _IQisqrtRoundSatTable
+003ff712   _IQdivTableEnd
+003ff722   _IQisqrtTable
+003ff722   _IQsqrtTable
+003ff824   _IQatan2HalfPITable
+003ff824   _IQisqrtTableEnd
+003ff824   _IQsqrtTableEnd
+003ff862   _IQatan2Table
+003ff9e8   _IQ30mpyRndSatTable
+003ff9e8   _IQmpyRndSatTable
+003ff9e8   _IQatan2TableEnd
+003ff9f4   _IQ29mpyRndSatTable
+003ffa00   _IQ28mpyRndSatTable
+003ffa0c   _IQ27mpyRndSatTable
+003ffa18   _IQ26mpyRndSatTable
+003ffa24   _IQ25mpyRndSatTable
+003ffa30   _IQ24mpyRndSatTable
+003ffa3c   _IQ23mpyRndSatTable
+003ffa48   _IQ22mpyRndSatTable
+003ffa54   _IQ21mpyRndSatTable
+003ffa60   _IQ20mpyRndSatTable
+003ffa6c   _IQ19mpyRndSatTable
+003ffa78   _IQ18mpyRndSatTable
+003ffa84   _IQ17mpyRndSatTable
+003ffa90   _IQ16mpyRndSatTable
+003ffa9c   _IQ15mpyRndSatTable
+003ffaa8   _IQ14mpyRndSatTable
+003ffab4   _IQ13mpyRndSatTable
+003ffac0   _IQ12mpyRndSatTable
+003ffacc   _IQ11mpyRndSatTable
+003ffad8   _IQ10mpyRndSatTable
+003ffae4   _IQ9mpyRndSatTable
+003ffaf0   _IQ8mpyRndSatTable
+003ffafc   _IQ7mpyRndSatTable
+003ffb08   _IQ6mpyRndSatTable
+003ffb14   _IQ5mpyRndSatTable
+003ffb20   _IQ4mpyRndSatTable
+003ffb2c   _IQ3mpyRndSatTable
+003ffb38   _IQ2mpyRndSatTable
+003ffb44   _IQ1mpyRndSatTable
+003ffb50   _IQmpyRndSatTableEnd
+
+[196 symbols]

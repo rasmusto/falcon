@@ -1,0 +1,19 @@
+Current Baseline Installer Version Installed:
+1.11
+
+========
+v1.0 - Initial Release
+v1.1 - Added lib directory, added SCI cable build material
+v1.2 - Added Hex Converter Utility; minor bugfixes
+v1.3 - minor bugfixes
+v1.4 - Added support for ACDC Developer's Kit
+v1.5 - Added suport for Piccolo F2802x controlCARD
+v1.6 - Added support for Delfino C2834x controlCARD; minor bugfixes
+v1.7 - Added DC/DC Resonant Kit support
+v1.8 - Added support for Piccolo F2803x controlCARD; F2802x flash bugfix; 
+           minor bugfixes
+v1.9 - Added DMClib; added support for the Multi-Axis DMC board;
+           added a how to install and configure CCS v3.3 IDE
+v1.10 - Added support for R1.2 F28335 controlCARD;
+v1.11 - Minor bill of material changes to F2802x, F2808, and F28044 controlCARDs;
+           minor bugfixes

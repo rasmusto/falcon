@@ -1,0 +1,36 @@
+; Code Composer Project File, Version 2.0 (do not modify or remove this line)
+
+[Project Settings]
+ProjectName="IQsampleCPP"
+ProjectDir="C:\tidcs\c28\IQmath\cppIQmath\examples\F2812EzDSP_SampleCPP\"
+ProjectType=Executable
+CPUFamily=TMS320C28XX
+Tool="Compiler"
+Tool="DspBiosBuilder"
+Tool="Linker"
+Config="Debug"
+Config="Release"
+
+[Source Files]
+Source="..\..\lib\IQmath.lib"
+Source="IQsample.cpp"
+Source="F2812EzDSP_IQmath.cmd"
+
+["Compiler" Settings: "Debug"]
+Options=-gw -k -q -pe -al -as -o3 -fr"C:\tidcs\c28\IQmath\cppIQmath\examples\F2812EzDSP_SampleCPP\Debug" -i"..\..\include" -d"_DEBUG" -d"LARGE_MODEL" -mf -ml -mn -mt -v28
+
+["Compiler" Settings: "Release"]
+Options=-q -o3 -fr"C:\tidcs\c28\IQmath\cppIQmath\examples\F2812EzDSP_SampleCPP\Release" -d"LARGE_MODEL" -ml -v28
+
+["DspBiosBuilder" Settings: "Debug"]
+Options=-v28
+
+["DspBiosBuilder" Settings: "Release"]
+Options=-v28
+
+["Linker" Settings: "Debug"]
+Options=-q -c -m".\Debug\IQsampleCPP.map" -o".\Debug\IQsampleCPP.out" -x -l"rts2800_ml.lib"
+
+["Linker" Settings: "Release"]
+Options=-q -c -o".\Release\IQsampleCPP.out" -x
+

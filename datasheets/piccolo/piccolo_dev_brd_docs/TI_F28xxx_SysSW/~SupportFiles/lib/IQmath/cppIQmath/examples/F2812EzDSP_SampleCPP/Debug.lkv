@@ -1,0 +1,4 @@
+-z -q -c -m"./Debug/IQsampleCPP.map" -o"./Debug/IQsampleCPP.out" -x -i"C:/ti/c2000/bios/lib" -i"C:/ti/c2000/cgtools/lib" -l"rts2800_ml.lib"
+"C:\tidcs\c28\IQmath\cppIQmath\examples\F2812EzDSP_SampleCPP\Debug\IQsample.obj"
+"C:\tidcs\c28\IQmath\cppIQmath\lib\IQmath.lib"
+"C:\tidcs\c28\IQmath\cppIQmath\examples\F2812EzDSP_SampleCPP\F2812EzDSP_IQmath.cmd"

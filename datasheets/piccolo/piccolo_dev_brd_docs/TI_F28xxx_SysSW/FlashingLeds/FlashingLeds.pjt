@@ -1,0 +1,1138 @@
+; Code Composer Project File, Version 2.0 (do not modify or remove this line)
+
+[Project Settings]
+ProjectDir="C:\TI_F28xxx_SysSW\FlashingLeds\"
+ProjectType=Executable
+CPUFamily=TMS320C28XX
+Tool="Compiler"
+Tool="CustomBuilder"
+Tool="DspBiosBuilder"
+Tool="Linker"
+Config="C2834x_RAM"
+Config="F2802x_FLASH"
+Config="F2802x_RAM"
+Config="F2803x_FLASH"
+Config="F2803x_RAM"
+Config="F28044_FLASH"
+Config="F28044_RAM"
+Config="F280x_FLASH"
+Config="F280x_RAM"
+Config="F2833x_FLASH"
+Config="F2833x_RAM"
+
+[Source Files]
+Source="..\~SupportFiles\source\DSP2802x_CodeStartBranch.asm"
+Source="..\~SupportFiles\source\DSP2802x_GlobalVariableDefs.c"
+Source="..\~SupportFiles\source\DSP2803x_CodeStartBranch.asm"
+Source="..\~SupportFiles\source\DSP2803x_GlobalVariableDefs.c"
+Source="..\~SupportFiles\source\DSP2804x_CodeStartBranch.asm"
+Source="..\~SupportFiles\source\DSP2804x_GlobalVariableDefs.c"
+Source="..\~SupportFiles\source\DSP280x_CodeStartBranch.asm"
+Source="..\~SupportFiles\source\DSP280x_GlobalVariableDefs.c"
+Source="..\~SupportFiles\source\DSP2833x_CodeStartBranch.asm"
+Source="..\~SupportFiles\source\DSP2833x_GlobalVariableDefs.c"
+Source="..\~SupportFiles\source\DSP2834x_CodeStartBranch.asm"
+Source="..\~SupportFiles\source\DSP2834x_GlobalVariableDefs.c"
+Source="..\~SupportFiles\source\SciCommsGui.c"
+Source="C:\CCStudio_v3.3\C2000\cgtools\lib\rts2800_ml.lib"
+Source="FlashingLeds-DevInit_C2834x.c"
+Source="FlashingLeds-DevInit_F2802x.c"
+Source="FlashingLeds-DevInit_F2803x.c"
+Source="FlashingLeds-DevInit_F28044.c"
+Source="FlashingLeds-DevInit_F280x.c"
+Source="FlashingLeds-DevInit_F2833x.c"
+Source="FlashingLeds-Main.c"
+Source="..\~SupportFiles\DSP2802x_headers\cmd\DSP2802x_Headers_nonBIOS.cmd"
+Source="..\~SupportFiles\DSP2803x_headers\cmd\DSP2803x_Headers_nonBIOS.cmd"
+Source="..\~SupportFiles\source\DSP2804x_Headers_nonBIOS.cmd"
+Source="..\~SupportFiles\source\DSP280x_Headers_nonBIOS.cmd"
+Source="..\~SupportFiles\source\DSP2833x_Headers_nonBIOS.cmd"
+Source="..\~SupportFiles\source\DSP2834x_Headers_nonBIOS.cmd"
+Source="C28345_RAM_FlashingLeds.CMD"
+Source="F28027_FLASH_FlashingLeds.CMD"
+Source="F28027_RAM_FlashingLeds.CMD"
+Source="F28035_FLASH_FlashingLeds.CMD"
+Source="F28035_RAM_FlashingLeds.CMD"
+Source="F2806_FLASH_FlashingLeds.CMD"
+Source="F2806_RAM_FlashingLeds.CMD"
+Source="F28335_FLASH_FlashingLeds.CMD"
+Source="F28335_RAM_FlashingLeds.CMD"
+
+["C2834x_RAM" Settings]
+FinalBuildCmd=rem -------------------- Begin Custom Post Build Steps -------------
+FinalBuildCmd=del *.lkf
+FinalBuildCmd=rem -------------------- End Custom Post Build Steps ---------------
+
+["F2802x_FLASH" Settings]
+FinalBuildCmd=rem -------------------- Begin Custom Post Build Steps -------------
+FinalBuildCmd=del *.lkf
+FinalBuildCmd=rem -------------------- End Custom Post Build Steps ---------------
+
+["F2802x_RAM" Settings]
+FinalBuildCmd=rem -------------------- Begin Custom Post Build Steps -------------
+FinalBuildCmd=del *.lkf
+FinalBuildCmd=rem -------------------- End Custom Post Build Steps ---------------
+
+["F2803x_FLASH" Settings]
+FinalBuildCmd=rem -------------------- Begin Custom Post Build Steps -------------
+FinalBuildCmd=del *.lkf
+FinalBuildCmd=rem -------------------- End Custom Post Build Steps ---------------
+
+["F2803x_RAM" Settings]
+FinalBuildCmd=rem -------------------- Begin Custom Post Build Steps -------------
+FinalBuildCmd=del *.lkf
+FinalBuildCmd=rem -------------------- End Custom Post Build Steps ---------------
+
+["F28044_FLASH" Settings]
+FinalBuildCmd=rem -------------------- Begin Custom Post Build Steps -------------
+FinalBuildCmd=del *.lkf
+FinalBuildCmd=rem -------------------- End Custom Post Build Steps ---------------
+
+["F28044_RAM" Settings]
+FinalBuildCmd=rem -------------------- Begin Custom Post Build Steps -------------
+FinalBuildCmd=del *.lkf
+FinalBuildCmd=rem -------------------- End Custom Post Build Steps ---------------
+
+["F280x_FLASH" Settings]
+FinalBuildCmd=rem -------------------- Begin Custom Post Build Steps -------------
+FinalBuildCmd=del *.lkf
+FinalBuildCmd=rem -------------------- End Custom Post Build Steps ---------------
+
+["F280x_RAM" Settings]
+FinalBuildCmd=rem -------------------- Begin Custom Post Build Steps -------------
+FinalBuildCmd=del *.lkf
+FinalBuildCmd=rem -------------------- End Custom Post Build Steps ---------------
+
+["F2833x_FLASH" Settings]
+FinalBuildCmd=rem -------------------- Begin Custom Post Build Steps -------------
+FinalBuildCmd=del *.lkf
+FinalBuildCmd=rem -------------------- End Custom Post Build Steps ---------------
+
+["F2833x_RAM" Settings]
+FinalBuildCmd=rem -------------------- Begin Custom Post Build Steps -------------
+FinalBuildCmd=del *.lkf
+FinalBuildCmd=rem -------------------- End Custom Post Build Steps ---------------
+
+["Compiler" Settings: "C2834x_RAM"]
+Options=-g -pdsw225 -fr"$(Proj_dir)\2834x_RAM" -i"..\..\DSP2834x_headers" -i"..\..\DSP2834x_headers\include" -i"..\..\include" -i"..\DSP2834x_headers" -i"..\DSP2834x_headers\include" -i"..\include" -i"..\~SupportFiles\DSP2834x_headers" -i"..\~SupportFiles\DSP2834x_headers\include" -i"..\~SupportFiles\include" -i"..\~SupportFiles\lib\PowerLIB" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28
+
+["Compiler" Settings: "F2802x_FLASH"]
+Options=-g -pdsw225 -fr"$(Proj_dir)\2802x_FLASH" -i"..\..\DSP2802x_headers" -i"..\..\DSP2802x_headers\include" -i"..\..\include" -i"..\DSP2802x_headers" -i"..\DSP2802x_headers\include" -i"..\include" -i"..\~SupportFiles\DSP2802x_headers" -i"..\~SupportFiles\DSP2802x_headers\include" -i"..\~SupportFiles\include" -i"..\~SupportFiles\lib\PowerLIB" -d"_DEBUG" -d"LARGE_MODEL" -d"FLASH" -ml -v28
+
+["Compiler" Settings: "F2802x_RAM"]
+Options=-g -pdsw225 -fr"$(Proj_dir)\2802x_RAM" -i"..\..\DSP2802x_headers" -i"..\..\DSP2802x_headers\include" -i"..\..\include" -i"..\DSP2802x_headers" -i"..\DSP2802x_headers\include" -i"..\include" -i"..\~SupportFiles\DSP2802x_headers" -i"..\~SupportFiles\DSP2802x_headers\include" -i"..\~SupportFiles\include" -i"..\~SupportFiles\lib\PowerLIB" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28
+
+["Compiler" Settings: "F2803x_FLASH"]
+Options=-g -pdsw225 -fr"$(Proj_dir)\2803x_FLASH" -i"..\..\DSP2803x_headers" -i"..\..\DSP2803x_headers\include" -i"..\..\include" -i"..\DSP2803x_headers" -i"..\DSP2803x_headers\include" -i"..\include" -i"..\~SupportFiles\DSP2803x_headers" -i"..\~SupportFiles\DSP2803x_headers\include" -i"..\~SupportFiles\include" -i"..\~SupportFiles\lib\PowerLIB" -d"_DEBUG" -d"LARGE_MODEL" -d"FLASH" -ml -v28
+
+["Compiler" Settings: "F2803x_RAM"]
+Options=-g -pdsw225 -fr"$(Proj_dir)\2803x_RAM" -i"..\..\DSP2803x_headers" -i"..\..\DSP2803x_headers\include" -i"..\..\include" -i"..\DSP2803x_headers" -i"..\DSP2803x_headers\include" -i"..\include" -i"..\~SupportFiles\DSP2803x_headers" -i"..\~SupportFiles\DSP2803x_headers\include" -i"..\~SupportFiles\include" -i"..\~SupportFiles\lib\PowerLIB" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28
+
+["Compiler" Settings: "F28044_FLASH"]
+Options=-g -pdsw225 -fr"$(Proj_dir)\28044_FLASH" -i"..\..\DSP2804x_headers" -i"..\..\DSP2804x_headers\include" -i"..\..\include" -i"..\DSP2804x_headers" -i"..\DSP2804x_headers\include" -i"..\include" -i"..\~SupportFiles\DSP2804x_headers" -i"..\~SupportFiles\DSP2804x_headers\include" -i"..\~SupportFiles\include" -i"..\~SupportFiles\lib\PowerLIB" -d"_DEBUG" -d"LARGE_MODEL" -d"FLASH" -ml -v28
+
+["Compiler" Settings: "F28044_RAM"]
+Options=-g -pdsw225 -fr"$(Proj_dir)\28044_RAM" -i"..\..\DSP2804x_headers" -i"..\..\DSP2804x_headers\include" -i"..\..\include" -i"..\DSP2804x_headers" -i"..\DSP2804x_headers\include" -i"..\include" -i"..\~SupportFiles\DSP2804x_headers" -i"..\~SupportFiles\DSP2804x_headers\include" -i"..\~SupportFiles\include" -i"..\~SupportFiles\lib\PowerLIB" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28
+
+["Compiler" Settings: "F280x_FLASH"]
+Options=-g -pdsw225 -fr"$(Proj_dir)\280x_FLASH" -i"..\..\DSP280x_headers" -i"..\..\DSP280x_headers\include" -i"..\..\include" -i"..\DSP280x_headers" -i"..\DSP280x_headers\include" -i"..\include" -i"..\~SupportFiles\DSP280x_headers" -i"..\~SupportFiles\DSP280x_headers\include" -i"..\~SupportFiles\include" -i"..\~SupportFiles\lib\PowerLIB" -d"_DEBUG" -d"LARGE_MODEL" -d"FLASH" -ml -v28
+
+["Compiler" Settings: "F280x_RAM"]
+Options=-g -pdsw225 -fr"$(Proj_dir)\280x_RAM" -i"..\..\DSP280x_headers" -i"..\..\DSP280x_headers\include" -i"..\..\include" -i"..\DSP280x_headers" -i"..\DSP280x_headers\include" -i"..\include" -i"..\~SupportFiles\DSP280x_headers" -i"..\~SupportFiles\DSP280x_headers\include" -i"..\~SupportFiles\include" -i"..\~SupportFiles\lib\PowerLIB" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28
+
+["Compiler" Settings: "F2833x_FLASH"]
+Options=-g -pdsw225 -fr"$(Proj_dir)\2833x_FLASH" -i"..\..\DSP2833x_headers" -i"..\..\DSP2833x_headers\include" -i"..\..\include" -i"..\DSP2833x_headers" -i"..\DSP2833x_headers\include" -i"..\include" -i"..\~SupportFiles\DSP2833x_headers" -i"..\~SupportFiles\DSP2833x_headers\include" -i"..\~SupportFiles\include" -i"..\~SupportFiles\lib\PowerLIB" -d"_DEBUG" -d"LARGE_MODEL" -d"FLASH" -ml -v28
+
+["Compiler" Settings: "F2833x_RAM"]
+Options=-g -pdsw225 -fr"$(Proj_dir)\2833x_RAM" -i"..\..\DSP2833x_headers" -i"..\..\DSP2833x_headers\include" -i"..\..\include" -i"..\DSP2833x_headers" -i"..\DSP2833x_headers\include" -i"..\include" -i"..\~SupportFiles\DSP2833x_headers" -i"..\~SupportFiles\DSP2833x_headers\include" -i"..\~SupportFiles\include" -i"..\~SupportFiles\lib\PowerLIB" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28
+
+["Linker" Settings: "C2834x_RAM"]
+Options=-b -c -m".\2834x_RAM\FlashingLeds.map" -o".\2834x_RAM\FlashingLeds.out" -stack0x400 -w
+
+["Linker" Settings: "F2802x_FLASH"]
+Options=-c -m".\2802x_FLASH\FlashingLeds.map" -o".\2802x_FLASH\FlashingLeds.out" -stack0x380 -w -x
+
+["Linker" Settings: "F2802x_RAM"]
+Options=-c -m".\2802x_RAM\FlashingLeds.map" -o".\2802x_RAM\FlashingLeds.out" -stack0x380 -w -x
+
+["Linker" Settings: "F2803x_FLASH"]
+Options=-c -m".\2803x_FLASH\FlashingLeds.map" -o".\2803x_FLASH\FlashingLeds.out" -stack0x380 -w -x
+
+["Linker" Settings: "F2803x_RAM"]
+Options=-c -m".\2803x_RAM\FlashingLeds.map" -o".\2803x_RAM\FlashingLeds.out" -stack0x380 -w -x
+
+["Linker" Settings: "F28044_FLASH"]
+Options=-c -m".\28044_FLASH\FlashingLeds.map" -o".\28044_FLASH\FlashingLeds.out" -stack0x400 -w -x
+
+["Linker" Settings: "F28044_RAM"]
+Options=-b -c -m".\28044_RAM\FlashingLeds.map" -o".\28044_RAM\FlashingLeds.out" -stack0x400 -w
+
+["Linker" Settings: "F280x_FLASH"]
+Options=-c -m".\280x_FLASH\FlashingLeds.map" -o".\280x_FLASH\FlashingLeds.out" -stack0x400 -w -x
+
+["Linker" Settings: "F280x_RAM"]
+Options=-c -m".\280x_RAM\FlashingLeds.map" -o".\280x_RAM\FlashingLeds.out" -stack0x400 -w -x
+
+["Linker" Settings: "F2833x_FLASH"]
+Options=-c -m".\2833x_FLASH\FlashingLeds.map" -o".\2833x_FLASH\FlashingLeds.out" -stack0x400 -w -x
+
+["Linker" Settings: "F2833x_RAM"]
+Options=-b -c -m".\2833x_RAM\FlashingLeds.map" -o".\2833x_RAM\FlashingLeds.out" -stack0x400 -w
+
+["..\~SupportFiles\source\DSP2802x_CodeStartBranch.asm" Settings: "C2834x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2802x_CodeStartBranch.asm" Settings: "F2803x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2802x_CodeStartBranch.asm" Settings: "F2803x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2802x_CodeStartBranch.asm" Settings: "F28044_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2802x_CodeStartBranch.asm" Settings: "F28044_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2802x_CodeStartBranch.asm" Settings: "F280x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2802x_CodeStartBranch.asm" Settings: "F280x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2802x_CodeStartBranch.asm" Settings: "F2833x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2802x_CodeStartBranch.asm" Settings: "F2833x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2802x_GlobalVariableDefs.c" Settings: "C2834x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2802x_GlobalVariableDefs.c" Settings: "F2803x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2802x_GlobalVariableDefs.c" Settings: "F2803x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2802x_GlobalVariableDefs.c" Settings: "F28044_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2802x_GlobalVariableDefs.c" Settings: "F28044_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2802x_GlobalVariableDefs.c" Settings: "F280x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2802x_GlobalVariableDefs.c" Settings: "F280x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2802x_GlobalVariableDefs.c" Settings: "F2833x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2802x_GlobalVariableDefs.c" Settings: "F2833x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2803x_CodeStartBranch.asm" Settings: "C2834x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2803x_CodeStartBranch.asm" Settings: "F2802x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2803x_CodeStartBranch.asm" Settings: "F2802x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2803x_CodeStartBranch.asm" Settings: "F28044_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2803x_CodeStartBranch.asm" Settings: "F28044_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2803x_CodeStartBranch.asm" Settings: "F280x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2803x_CodeStartBranch.asm" Settings: "F280x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2803x_CodeStartBranch.asm" Settings: "F2833x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2803x_CodeStartBranch.asm" Settings: "F2833x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2803x_GlobalVariableDefs.c" Settings: "C2834x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2803x_GlobalVariableDefs.c" Settings: "F2802x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2803x_GlobalVariableDefs.c" Settings: "F2802x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2803x_GlobalVariableDefs.c" Settings: "F28044_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2803x_GlobalVariableDefs.c" Settings: "F28044_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2803x_GlobalVariableDefs.c" Settings: "F280x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2803x_GlobalVariableDefs.c" Settings: "F280x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2803x_GlobalVariableDefs.c" Settings: "F2833x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2803x_GlobalVariableDefs.c" Settings: "F2833x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2804x_CodeStartBranch.asm" Settings: "C2834x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2804x_CodeStartBranch.asm" Settings: "F2802x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2804x_CodeStartBranch.asm" Settings: "F2802x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2804x_CodeStartBranch.asm" Settings: "F2803x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2804x_CodeStartBranch.asm" Settings: "F2803x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2804x_CodeStartBranch.asm" Settings: "F280x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2804x_CodeStartBranch.asm" Settings: "F280x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2804x_CodeStartBranch.asm" Settings: "F2833x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2804x_CodeStartBranch.asm" Settings: "F2833x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2804x_GlobalVariableDefs.c" Settings: "C2834x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2804x_GlobalVariableDefs.c" Settings: "F2802x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2804x_GlobalVariableDefs.c" Settings: "F2802x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2804x_GlobalVariableDefs.c" Settings: "F2803x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2804x_GlobalVariableDefs.c" Settings: "F2803x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2804x_GlobalVariableDefs.c" Settings: "F280x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2804x_GlobalVariableDefs.c" Settings: "F280x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2804x_GlobalVariableDefs.c" Settings: "F2833x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2804x_GlobalVariableDefs.c" Settings: "F2833x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP280x_CodeStartBranch.asm" Settings: "C2834x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP280x_CodeStartBranch.asm" Settings: "F2802x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP280x_CodeStartBranch.asm" Settings: "F2802x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP280x_CodeStartBranch.asm" Settings: "F2803x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP280x_CodeStartBranch.asm" Settings: "F2803x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP280x_CodeStartBranch.asm" Settings: "F28044_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP280x_CodeStartBranch.asm" Settings: "F28044_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP280x_CodeStartBranch.asm" Settings: "F2833x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP280x_CodeStartBranch.asm" Settings: "F2833x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP280x_GlobalVariableDefs.c" Settings: "C2834x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP280x_GlobalVariableDefs.c" Settings: "F2802x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP280x_GlobalVariableDefs.c" Settings: "F2802x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP280x_GlobalVariableDefs.c" Settings: "F2803x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP280x_GlobalVariableDefs.c" Settings: "F2803x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP280x_GlobalVariableDefs.c" Settings: "F28044_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP280x_GlobalVariableDefs.c" Settings: "F28044_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP280x_GlobalVariableDefs.c" Settings: "F2833x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP280x_GlobalVariableDefs.c" Settings: "F2833x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2833x_CodeStartBranch.asm" Settings: "C2834x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2833x_CodeStartBranch.asm" Settings: "F2802x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2833x_CodeStartBranch.asm" Settings: "F2802x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2833x_CodeStartBranch.asm" Settings: "F2803x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2833x_CodeStartBranch.asm" Settings: "F2803x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2833x_CodeStartBranch.asm" Settings: "F28044_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2833x_CodeStartBranch.asm" Settings: "F28044_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2833x_CodeStartBranch.asm" Settings: "F280x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2833x_CodeStartBranch.asm" Settings: "F280x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2833x_GlobalVariableDefs.c" Settings: "C2834x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2833x_GlobalVariableDefs.c" Settings: "F2802x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2833x_GlobalVariableDefs.c" Settings: "F2802x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2833x_GlobalVariableDefs.c" Settings: "F2803x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2833x_GlobalVariableDefs.c" Settings: "F2803x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2833x_GlobalVariableDefs.c" Settings: "F28044_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2833x_GlobalVariableDefs.c" Settings: "F28044_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2833x_GlobalVariableDefs.c" Settings: "F280x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2833x_GlobalVariableDefs.c" Settings: "F280x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_CodeStartBranch.asm" Settings: "F2802x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_CodeStartBranch.asm" Settings: "F2802x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_CodeStartBranch.asm" Settings: "F2803x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_CodeStartBranch.asm" Settings: "F2803x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_CodeStartBranch.asm" Settings: "F28044_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_CodeStartBranch.asm" Settings: "F28044_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_CodeStartBranch.asm" Settings: "F280x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_CodeStartBranch.asm" Settings: "F280x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_CodeStartBranch.asm" Settings: "F2833x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_CodeStartBranch.asm" Settings: "F2833x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_GlobalVariableDefs.c" Settings: "F2802x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_GlobalVariableDefs.c" Settings: "F2802x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_GlobalVariableDefs.c" Settings: "F2803x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_GlobalVariableDefs.c" Settings: "F2803x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_GlobalVariableDefs.c" Settings: "F28044_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_GlobalVariableDefs.c" Settings: "F28044_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_GlobalVariableDefs.c" Settings: "F280x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_GlobalVariableDefs.c" Settings: "F280x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_GlobalVariableDefs.c" Settings: "F2833x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_GlobalVariableDefs.c" Settings: "F2833x_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_C2834x.c" Settings: "F2802x_FLASH"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_C2834x.c" Settings: "F2802x_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_C2834x.c" Settings: "F2803x_FLASH"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_C2834x.c" Settings: "F2803x_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_C2834x.c" Settings: "F28044_FLASH"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_C2834x.c" Settings: "F28044_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_C2834x.c" Settings: "F280x_FLASH"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_C2834x.c" Settings: "F280x_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_C2834x.c" Settings: "F2833x_FLASH"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_C2834x.c" Settings: "F2833x_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F2802x.c" Settings: "C2834x_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F2802x.c" Settings: "F2803x_FLASH"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F2802x.c" Settings: "F2803x_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F2802x.c" Settings: "F28044_FLASH"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F2802x.c" Settings: "F28044_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F2802x.c" Settings: "F280x_FLASH"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F2802x.c" Settings: "F280x_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F2802x.c" Settings: "F2833x_FLASH"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F2802x.c" Settings: "F2833x_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F2803x.c" Settings: "C2834x_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F2803x.c" Settings: "F2802x_FLASH"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F2803x.c" Settings: "F2802x_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F2803x.c" Settings: "F28044_FLASH"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F2803x.c" Settings: "F28044_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F2803x.c" Settings: "F280x_FLASH"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F2803x.c" Settings: "F280x_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F2803x.c" Settings: "F2833x_FLASH"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F2803x.c" Settings: "F2833x_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F28044.c" Settings: "C2834x_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F28044.c" Settings: "F2802x_FLASH"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F28044.c" Settings: "F2802x_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F28044.c" Settings: "F2803x_FLASH"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F28044.c" Settings: "F2803x_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F28044.c" Settings: "F280x_FLASH"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F28044.c" Settings: "F280x_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F28044.c" Settings: "F2833x_FLASH"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F28044.c" Settings: "F2833x_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F280x.c" Settings: "C2834x_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F280x.c" Settings: "F2802x_FLASH"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F280x.c" Settings: "F2802x_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F280x.c" Settings: "F2803x_FLASH"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F280x.c" Settings: "F2803x_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F280x.c" Settings: "F28044_FLASH"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F280x.c" Settings: "F28044_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F280x.c" Settings: "F2833x_FLASH"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F280x.c" Settings: "F2833x_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F2833x.c" Settings: "C2834x_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F2833x.c" Settings: "F2802x_FLASH"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F2833x.c" Settings: "F2802x_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F2833x.c" Settings: "F2803x_FLASH"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F2833x.c" Settings: "F2803x_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F2833x.c" Settings: "F28044_FLASH"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F2833x.c" Settings: "F28044_RAM"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F2833x.c" Settings: "F280x_FLASH"]
+ExcludeFromBuild=true
+
+["FlashingLeds-DevInit_F2833x.c" Settings: "F280x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\DSP2802x_headers\cmd\DSP2802x_Headers_nonBIOS.cmd" Settings: "C2834x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\DSP2802x_headers\cmd\DSP2802x_Headers_nonBIOS.cmd" Settings: "F2802x_FLASH"]
+LinkOrder=1
+
+["..\~SupportFiles\DSP2802x_headers\cmd\DSP2802x_Headers_nonBIOS.cmd" Settings: "F2802x_RAM"]
+LinkOrder=1
+
+["..\~SupportFiles\DSP2802x_headers\cmd\DSP2802x_Headers_nonBIOS.cmd" Settings: "F2803x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\DSP2802x_headers\cmd\DSP2802x_Headers_nonBIOS.cmd" Settings: "F2803x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\DSP2802x_headers\cmd\DSP2802x_Headers_nonBIOS.cmd" Settings: "F28044_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\DSP2802x_headers\cmd\DSP2802x_Headers_nonBIOS.cmd" Settings: "F28044_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\DSP2802x_headers\cmd\DSP2802x_Headers_nonBIOS.cmd" Settings: "F280x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\DSP2802x_headers\cmd\DSP2802x_Headers_nonBIOS.cmd" Settings: "F280x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\DSP2802x_headers\cmd\DSP2802x_Headers_nonBIOS.cmd" Settings: "F2833x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\DSP2802x_headers\cmd\DSP2802x_Headers_nonBIOS.cmd" Settings: "F2833x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\DSP2803x_headers\cmd\DSP2803x_Headers_nonBIOS.cmd" Settings: "C2834x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\DSP2803x_headers\cmd\DSP2803x_Headers_nonBIOS.cmd" Settings: "F2802x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\DSP2803x_headers\cmd\DSP2803x_Headers_nonBIOS.cmd" Settings: "F2802x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\DSP2803x_headers\cmd\DSP2803x_Headers_nonBIOS.cmd" Settings: "F2803x_FLASH"]
+LinkOrder=1
+
+["..\~SupportFiles\DSP2803x_headers\cmd\DSP2803x_Headers_nonBIOS.cmd" Settings: "F2803x_RAM"]
+LinkOrder=1
+
+["..\~SupportFiles\DSP2803x_headers\cmd\DSP2803x_Headers_nonBIOS.cmd" Settings: "F28044_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\DSP2803x_headers\cmd\DSP2803x_Headers_nonBIOS.cmd" Settings: "F28044_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\DSP2803x_headers\cmd\DSP2803x_Headers_nonBIOS.cmd" Settings: "F280x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\DSP2803x_headers\cmd\DSP2803x_Headers_nonBIOS.cmd" Settings: "F280x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\DSP2803x_headers\cmd\DSP2803x_Headers_nonBIOS.cmd" Settings: "F2833x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\DSP2803x_headers\cmd\DSP2803x_Headers_nonBIOS.cmd" Settings: "F2833x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2804x_Headers_nonBIOS.cmd" Settings: "C2834x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2804x_Headers_nonBIOS.cmd" Settings: "F2802x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2804x_Headers_nonBIOS.cmd" Settings: "F2802x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2804x_Headers_nonBIOS.cmd" Settings: "F2803x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2804x_Headers_nonBIOS.cmd" Settings: "F2803x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2804x_Headers_nonBIOS.cmd" Settings: "F28044_FLASH"]
+LinkOrder=1
+
+["..\~SupportFiles\source\DSP2804x_Headers_nonBIOS.cmd" Settings: "F28044_RAM"]
+LinkOrder=1
+
+["..\~SupportFiles\source\DSP2804x_Headers_nonBIOS.cmd" Settings: "F280x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2804x_Headers_nonBIOS.cmd" Settings: "F280x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2804x_Headers_nonBIOS.cmd" Settings: "F2833x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2804x_Headers_nonBIOS.cmd" Settings: "F2833x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP280x_Headers_nonBIOS.cmd" Settings: "C2834x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP280x_Headers_nonBIOS.cmd" Settings: "F2802x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP280x_Headers_nonBIOS.cmd" Settings: "F2802x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP280x_Headers_nonBIOS.cmd" Settings: "F2803x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP280x_Headers_nonBIOS.cmd" Settings: "F2803x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP280x_Headers_nonBIOS.cmd" Settings: "F28044_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP280x_Headers_nonBIOS.cmd" Settings: "F28044_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP280x_Headers_nonBIOS.cmd" Settings: "F280x_FLASH"]
+LinkOrder=1
+
+["..\~SupportFiles\source\DSP280x_Headers_nonBIOS.cmd" Settings: "F280x_RAM"]
+LinkOrder=1
+
+["..\~SupportFiles\source\DSP280x_Headers_nonBIOS.cmd" Settings: "F2833x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP280x_Headers_nonBIOS.cmd" Settings: "F2833x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2833x_Headers_nonBIOS.cmd" Settings: "C2834x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2833x_Headers_nonBIOS.cmd" Settings: "F2802x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2833x_Headers_nonBIOS.cmd" Settings: "F2802x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2833x_Headers_nonBIOS.cmd" Settings: "F2803x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2833x_Headers_nonBIOS.cmd" Settings: "F2803x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2833x_Headers_nonBIOS.cmd" Settings: "F28044_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2833x_Headers_nonBIOS.cmd" Settings: "F28044_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2833x_Headers_nonBIOS.cmd" Settings: "F280x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2833x_Headers_nonBIOS.cmd" Settings: "F280x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2833x_Headers_nonBIOS.cmd" Settings: "F2833x_FLASH"]
+LinkOrder=1
+
+["..\~SupportFiles\source\DSP2833x_Headers_nonBIOS.cmd" Settings: "F2833x_RAM"]
+LinkOrder=1
+
+["..\~SupportFiles\source\DSP2834x_Headers_nonBIOS.cmd" Settings: "C2834x_RAM"]
+LinkOrder=1
+
+["..\~SupportFiles\source\DSP2834x_Headers_nonBIOS.cmd" Settings: "F2802x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_Headers_nonBIOS.cmd" Settings: "F2802x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_Headers_nonBIOS.cmd" Settings: "F2803x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_Headers_nonBIOS.cmd" Settings: "F2803x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_Headers_nonBIOS.cmd" Settings: "F28044_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_Headers_nonBIOS.cmd" Settings: "F28044_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_Headers_nonBIOS.cmd" Settings: "F280x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_Headers_nonBIOS.cmd" Settings: "F280x_RAM"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_Headers_nonBIOS.cmd" Settings: "F2833x_FLASH"]
+ExcludeFromBuild=true
+
+["..\~SupportFiles\source\DSP2834x_Headers_nonBIOS.cmd" Settings: "F2833x_RAM"]
+ExcludeFromBuild=true
+
+["C28345_RAM_FlashingLeds.CMD" Settings: "F2802x_FLASH"]
+ExcludeFromBuild=true
+
+["C28345_RAM_FlashingLeds.CMD" Settings: "F2802x_RAM"]
+ExcludeFromBuild=true
+
+["C28345_RAM_FlashingLeds.CMD" Settings: "F2803x_FLASH"]
+ExcludeFromBuild=true
+
+["C28345_RAM_FlashingLeds.CMD" Settings: "F2803x_RAM"]
+ExcludeFromBuild=true
+
+["C28345_RAM_FlashingLeds.CMD" Settings: "F28044_FLASH"]
+ExcludeFromBuild=true
+
+["C28345_RAM_FlashingLeds.CMD" Settings: "F28044_RAM"]
+ExcludeFromBuild=true
+
+["C28345_RAM_FlashingLeds.CMD" Settings: "F280x_FLASH"]
+ExcludeFromBuild=true
+
+["C28345_RAM_FlashingLeds.CMD" Settings: "F280x_RAM"]
+ExcludeFromBuild=true
+
+["C28345_RAM_FlashingLeds.CMD" Settings: "F2833x_FLASH"]
+ExcludeFromBuild=true
+
+["C28345_RAM_FlashingLeds.CMD" Settings: "F2833x_RAM"]
+ExcludeFromBuild=true
+
+["F28027_FLASH_FlashingLeds.CMD" Settings: "C2834x_RAM"]
+ExcludeFromBuild=true
+
+["F28027_FLASH_FlashingLeds.CMD" Settings: "F2802x_RAM"]
+ExcludeFromBuild=true
+
+["F28027_FLASH_FlashingLeds.CMD" Settings: "F2803x_FLASH"]
+ExcludeFromBuild=true
+
+["F28027_FLASH_FlashingLeds.CMD" Settings: "F2803x_RAM"]
+ExcludeFromBuild=true
+
+["F28027_FLASH_FlashingLeds.CMD" Settings: "F28044_FLASH"]
+ExcludeFromBuild=true
+
+["F28027_FLASH_FlashingLeds.CMD" Settings: "F28044_RAM"]
+ExcludeFromBuild=true
+
+["F28027_FLASH_FlashingLeds.CMD" Settings: "F280x_FLASH"]
+ExcludeFromBuild=true
+
+["F28027_FLASH_FlashingLeds.CMD" Settings: "F280x_RAM"]
+ExcludeFromBuild=true
+
+["F28027_FLASH_FlashingLeds.CMD" Settings: "F2833x_FLASH"]
+ExcludeFromBuild=true
+
+["F28027_FLASH_FlashingLeds.CMD" Settings: "F2833x_RAM"]
+ExcludeFromBuild=true
+
+["F28027_RAM_FlashingLeds.CMD" Settings: "C2834x_RAM"]
+ExcludeFromBuild=true
+
+["F28027_RAM_FlashingLeds.CMD" Settings: "F2802x_FLASH"]
+ExcludeFromBuild=true
+
+["F28027_RAM_FlashingLeds.CMD" Settings: "F2803x_FLASH"]
+ExcludeFromBuild=true
+
+["F28027_RAM_FlashingLeds.CMD" Settings: "F2803x_RAM"]
+ExcludeFromBuild=true
+
+["F28027_RAM_FlashingLeds.CMD" Settings: "F28044_FLASH"]
+ExcludeFromBuild=true
+
+["F28027_RAM_FlashingLeds.CMD" Settings: "F28044_RAM"]
+ExcludeFromBuild=true
+
+["F28027_RAM_FlashingLeds.CMD" Settings: "F280x_FLASH"]
+ExcludeFromBuild=true
+
+["F28027_RAM_FlashingLeds.CMD" Settings: "F280x_RAM"]
+ExcludeFromBuild=true
+
+["F28027_RAM_FlashingLeds.CMD" Settings: "F2833x_FLASH"]
+ExcludeFromBuild=true
+
+["F28027_RAM_FlashingLeds.CMD" Settings: "F2833x_RAM"]
+ExcludeFromBuild=true
+
+["F28035_FLASH_FlashingLeds.CMD" Settings: "C2834x_RAM"]
+ExcludeFromBuild=true
+
+["F28035_FLASH_FlashingLeds.CMD" Settings: "F2802x_FLASH"]
+ExcludeFromBuild=true
+
+["F28035_FLASH_FlashingLeds.CMD" Settings: "F2802x_RAM"]
+ExcludeFromBuild=true
+
+["F28035_FLASH_FlashingLeds.CMD" Settings: "F2803x_RAM"]
+ExcludeFromBuild=true
+
+["F28035_FLASH_FlashingLeds.CMD" Settings: "F28044_FLASH"]
+ExcludeFromBuild=true
+
+["F28035_FLASH_FlashingLeds.CMD" Settings: "F28044_RAM"]
+ExcludeFromBuild=true
+
+["F28035_FLASH_FlashingLeds.CMD" Settings: "F280x_FLASH"]
+ExcludeFromBuild=true
+
+["F28035_FLASH_FlashingLeds.CMD" Settings: "F280x_RAM"]
+ExcludeFromBuild=true
+
+["F28035_FLASH_FlashingLeds.CMD" Settings: "F2833x_FLASH"]
+ExcludeFromBuild=true
+
+["F28035_FLASH_FlashingLeds.CMD" Settings: "F2833x_RAM"]
+ExcludeFromBuild=true
+
+["F28035_RAM_FlashingLeds.CMD" Settings: "C2834x_RAM"]
+ExcludeFromBuild=true
+
+["F28035_RAM_FlashingLeds.CMD" Settings: "F2802x_FLASH"]
+ExcludeFromBuild=true
+
+["F28035_RAM_FlashingLeds.CMD" Settings: "F2802x_RAM"]
+ExcludeFromBuild=true
+
+["F28035_RAM_FlashingLeds.CMD" Settings: "F2803x_FLASH"]
+ExcludeFromBuild=true
+
+["F28035_RAM_FlashingLeds.CMD" Settings: "F28044_FLASH"]
+ExcludeFromBuild=true
+
+["F28035_RAM_FlashingLeds.CMD" Settings: "F28044_RAM"]
+ExcludeFromBuild=true
+
+["F28035_RAM_FlashingLeds.CMD" Settings: "F280x_FLASH"]
+ExcludeFromBuild=true
+
+["F28035_RAM_FlashingLeds.CMD" Settings: "F280x_RAM"]
+ExcludeFromBuild=true
+
+["F28035_RAM_FlashingLeds.CMD" Settings: "F2833x_FLASH"]
+ExcludeFromBuild=true
+
+["F28035_RAM_FlashingLeds.CMD" Settings: "F2833x_RAM"]
+ExcludeFromBuild=true
+
+["F2806_FLASH_FlashingLeds.CMD" Settings: "C2834x_RAM"]
+ExcludeFromBuild=true
+
+["F2806_FLASH_FlashingLeds.CMD" Settings: "F2802x_FLASH"]
+ExcludeFromBuild=true
+
+["F2806_FLASH_FlashingLeds.CMD" Settings: "F2802x_RAM"]
+ExcludeFromBuild=true
+
+["F2806_FLASH_FlashingLeds.CMD" Settings: "F2803x_FLASH"]
+ExcludeFromBuild=true
+
+["F2806_FLASH_FlashingLeds.CMD" Settings: "F2803x_RAM"]
+ExcludeFromBuild=true
+
+["F2806_FLASH_FlashingLeds.CMD" Settings: "F28044_RAM"]
+ExcludeFromBuild=true
+
+["F2806_FLASH_FlashingLeds.CMD" Settings: "F280x_RAM"]
+ExcludeFromBuild=true
+
+["F2806_FLASH_FlashingLeds.CMD" Settings: "F2833x_FLASH"]
+ExcludeFromBuild=true
+
+["F2806_FLASH_FlashingLeds.CMD" Settings: "F2833x_RAM"]
+ExcludeFromBuild=true
+
+["F2806_RAM_FlashingLeds.CMD" Settings: "C2834x_RAM"]
+ExcludeFromBuild=true
+
+["F2806_RAM_FlashingLeds.CMD" Settings: "F2802x_FLASH"]
+ExcludeFromBuild=true
+
+["F2806_RAM_FlashingLeds.CMD" Settings: "F2802x_RAM"]
+ExcludeFromBuild=true
+
+["F2806_RAM_FlashingLeds.CMD" Settings: "F2803x_FLASH"]
+ExcludeFromBuild=true
+
+["F2806_RAM_FlashingLeds.CMD" Settings: "F2803x_RAM"]
+ExcludeFromBuild=true
+
+["F2806_RAM_FlashingLeds.CMD" Settings: "F28044_FLASH"]
+ExcludeFromBuild=true
+
+["F2806_RAM_FlashingLeds.CMD" Settings: "F280x_FLASH"]
+ExcludeFromBuild=true
+
+["F2806_RAM_FlashingLeds.CMD" Settings: "F2833x_FLASH"]
+ExcludeFromBuild=true
+
+["F2806_RAM_FlashingLeds.CMD" Settings: "F2833x_RAM"]
+ExcludeFromBuild=true
+
+["F28335_FLASH_FlashingLeds.CMD" Settings: "C2834x_RAM"]
+ExcludeFromBuild=true
+
+["F28335_FLASH_FlashingLeds.CMD" Settings: "F2802x_FLASH"]
+ExcludeFromBuild=true
+
+["F28335_FLASH_FlashingLeds.CMD" Settings: "F2802x_RAM"]
+ExcludeFromBuild=true
+
+["F28335_FLASH_FlashingLeds.CMD" Settings: "F2803x_FLASH"]
+ExcludeFromBuild=true
+
+["F28335_FLASH_FlashingLeds.CMD" Settings: "F2803x_RAM"]
+ExcludeFromBuild=true
+
+["F28335_FLASH_FlashingLeds.CMD" Settings: "F28044_FLASH"]
+ExcludeFromBuild=true
+
+["F28335_FLASH_FlashingLeds.CMD" Settings: "F28044_RAM"]
+ExcludeFromBuild=true
+
+["F28335_FLASH_FlashingLeds.CMD" Settings: "F280x_FLASH"]
+ExcludeFromBuild=true
+
+["F28335_FLASH_FlashingLeds.CMD" Settings: "F280x_RAM"]
+ExcludeFromBuild=true
+
+["F28335_FLASH_FlashingLeds.CMD" Settings: "F2833x_RAM"]
+ExcludeFromBuild=true
+
+["F28335_RAM_FlashingLeds.CMD" Settings: "C2834x_RAM"]
+ExcludeFromBuild=true
+
+["F28335_RAM_FlashingLeds.CMD" Settings: "F2802x_FLASH"]
+ExcludeFromBuild=true
+
+["F28335_RAM_FlashingLeds.CMD" Settings: "F2802x_RAM"]
+ExcludeFromBuild=true
+
+["F28335_RAM_FlashingLeds.CMD" Settings: "F2803x_FLASH"]
+ExcludeFromBuild=true
+
+["F28335_RAM_FlashingLeds.CMD" Settings: "F2803x_RAM"]
+ExcludeFromBuild=true
+
+["F28335_RAM_FlashingLeds.CMD" Settings: "F28044_FLASH"]
+ExcludeFromBuild=true
+
+["F28335_RAM_FlashingLeds.CMD" Settings: "F28044_RAM"]
+ExcludeFromBuild=true
+
+["F28335_RAM_FlashingLeds.CMD" Settings: "F280x_FLASH"]
+ExcludeFromBuild=true
+
+["F28335_RAM_FlashingLeds.CMD" Settings: "F280x_RAM"]
+ExcludeFromBuild=true
+
+["F28335_RAM_FlashingLeds.CMD" Settings: "F2833x_FLASH"]
+ExcludeFromBuild=true
+
