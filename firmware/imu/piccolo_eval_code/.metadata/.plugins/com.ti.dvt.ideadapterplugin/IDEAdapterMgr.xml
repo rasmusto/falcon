@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.5.0_14" class="java.beans.XMLDecoder"> 
+ <object class="com.ti.dvt.ideadapter.IDEAdapterPlugin$PersistState"> 
+  <void property="IDESelection"> 
+   <int>0</int> 
+  </void> 
+ </object> 
+</java> 
