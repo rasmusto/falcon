@@ -1,4 +1,5 @@
 #include "uart.h"
+#include "usart_driver.h"
 
 void init_xbee_uart (int8_t bScale, uint16_t bSel) 
 {

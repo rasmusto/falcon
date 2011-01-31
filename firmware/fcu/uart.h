@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <avr/io.h>
-#include "usart_driver.h"
 
 void init_xbee_uart (int8_t bScale, uint16_t bSel);
 void init_usb_uart (int8_t bScale, uint16_t bSel);

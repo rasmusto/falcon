@@ -13,6 +13,7 @@
 #include "uart.h"
 #include "clk.h"
 #include "crc.h"
+#include "adc.h"
 
 //#include "/usr/lib/avr/include/avr/iox128a3.h"
 
@@ -34,7 +35,7 @@
 #define LED_4_GREEN_ON()    PORTF.OUTSET=PIN7_bm;
 #define LED_4_GREEN_OFF()   PORTF.OUTCLR=PIN7_bm;
 
-#define MOT_START 0x22
+#define MOT_START 0x00
 
 /* Global Variables */
 
@@ -81,8 +82,9 @@ struct imu_rx_pkt_t
 };
 
 /* Function Prototypes */
-void mot_tx_pkt_init(volatile struct mot_tx_pkt_t * mot_tx);
+void init_mot_tx_pkt(volatile struct mot_tx_pkt_t * mot_tx);
+void print_mot_tx_pkt(volatile struct mot_tx_pkt_t * mot_tx);
 void mot_tx_rx(volatile struct mot_tx_pkt_t * mot_tx, volatile struct mot_rx_pkt_t * mot_rx);
 
-void imu_tx_pkt_init(volatile struct imu_tx_pkt_t * imu_tx);
+void init_imu_tx_pkt(volatile struct imu_tx_pkt_t * imu_tx);
 void imu_tx_rx(volatile struct imu_tx_pkt_t * imu_tx, volatile struct imu_rx_pkt_t * imu_rx);
