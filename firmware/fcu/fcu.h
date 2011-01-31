@@ -88,3 +88,5 @@ void mot_tx_rx(volatile struct mot_tx_pkt_t * mot_tx, volatile struct mot_rx_pkt
 
 void init_imu_tx_pkt(volatile struct imu_tx_pkt_t * imu_tx);
 void imu_tx_rx(volatile struct imu_tx_pkt_t * imu_tx, volatile struct imu_rx_pkt_t * imu_rx);
+
+void process_rx_buf(volatile char * rx_buf);

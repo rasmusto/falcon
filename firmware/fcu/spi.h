@@ -12,6 +12,7 @@
 
 void init_spi(void);
 void spi_write(char data, uint8_t pin);
+void spi_write_multi(char * packet, uint8_t length, uint8_t pin);
 char spi_read(uint8_t pin);
 char spi_write_read(char data, uint8_t pin);
 

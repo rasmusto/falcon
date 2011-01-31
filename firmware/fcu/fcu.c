@@ -1,5 +1,7 @@
 #include "fcu.h"
 
+#define NUM_CMDS 4
+
 volatile char usb_rx_buf[128];
 volatile uint8_t usb_rx_count = 0;
 
@@ -31,7 +33,7 @@ void print_mot_tx_pkt(volatile struct mot_tx_pkt_t * mot_tx)
     printf("%d\n\r", mot_tx->tgt_2);
     printf("%d\n\r", mot_tx->tgt_3);
     printf("%d\n\r", mot_tx->tgt_4);
-    printf("%d\n\r", mot_tx->crc);
+    printf("%d", mot_tx->crc);
 }
     
 
@@ -47,15 +49,54 @@ void imu_tx_rx(volatile struct imu_tx_pkt_t * imu_tx, volatile struct imu_rx_pkt
     spi_write_multi(imu_tx, sizeof(imu_tx), SS1);
 }
 
+void process_rx_buf(volatile char * rx_buf)
+{
+    char cmd[64];
+    char cmds[NUM_CMDS][64] = {"reboot", "print_mot", "help"};
+    cmds[NUM_CMDS-1][0] = '\0';
+    cmd[0] = '\0';
+    int16_t val = 0;
+    sscanf(rx_buf, "%s%d", cmd, &val);
+    //printf("\n\rcommand: %s\n\rvalue: %d\n\r", command, value);
+    int cmd_num = NUM_CMDS;
+    int i;
+    if(cmd[0] != '\0')
+    {
+        for(i = 0; i < NUM_CMDS; i++)
+        {
+            if(strcmp(cmd, cmds[i]) == 0)
+                cmd_num = i;
+        }
+    }
+    switch(cmd_num)
+    {
+        case 0:
+            printf("\n\rrebooting...");
+            CCPWrite(&RST_CTRL, RST_SWRST_bm);
+            break;
+        case 1:
+            print_mot_tx_pkt(&mot_tx);
+            break;
+        case 2:
+            printf("\n\rreboot\n\rprint\n\rhelp");
+            break;
+        case 3:
+            break;
+        case NUM_CMDS:
+            printf("\n\rcommand not found: %s", cmd);
+            break;
+    }
+    printf("\n\rfcu: ");
+}
+
+/********* INTERRUPTS **********/
+
+/***** spi *****/
 ISR(SPIC_INT_vect)
 {
     LED_3_RED_ON();
 	SPI_MasterInterruptHandler(&spiMasterE);
 }
-
-/**********************************************/
-
-/********* INTERRUPTS **********/
 
 /***** xbee *****/
 ISR(USARTF0_TXC_vect)
@@ -69,7 +110,14 @@ ISR(USARTF0_RXC_vect)
     printf("%c", c);
     if(c == '\r')
     {
+        xbee_rx_buf[xbee_rx_count] = '\0';
         process_rx_buf(xbee_rx_buf);
+        xbee_rx_count = 0;
+    }
+    else
+    {
+        xbee_rx_buf[xbee_rx_count] = c; 
+        xbee_rx_count++;
     }
     /*
     if(c == '\r')
@@ -118,6 +166,19 @@ ISR(USARTC1_RXC_vect)
     if(c == '\r')
     {
         usb_rx_buf[usb_rx_count] = '\0';
+        process_rx_buf(usb_rx_buf);
+        usb_rx_count = 0;
+    }
+    else
+    {
+        usb_rx_buf[usb_rx_count] = c; 
+        usb_rx_count++;
+    }
+
+    /*
+    if(c == '\r')
+    {
+        usb_rx_buf[usb_rx_count] = '\0';
         if (strcmp(usb_rx_buf, "reboot") == 0)
         {
             printf("\n\rdown :(   \n\r");
@@ -145,6 +206,7 @@ ISR(USARTC1_RXC_vect)
         usb_rx_buf[usb_rx_count] = c; 
         usb_rx_count++;
     }
+    */
 }
 
 /***** rs232 *****/
