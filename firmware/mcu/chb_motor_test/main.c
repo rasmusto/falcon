@@ -14,6 +14,7 @@
 #include "awex_driver.h"
 #include "adc_driver.h"
 #include "usart_driver.h"
+#include "spi_driver.h"
 
 #define STARTUP_LOCK_TIME 1000
 #define TRANSITION_VOLTAGE
@@ -122,6 +123,8 @@ void configDelayTimer (volatile TC0_t * tc); // configure timer used to generate
 void configHalfPWMTimer (volatile TC0_t * tc, HIRES_t * hires, uint16_t period);
 void initAdc (ADC_t * adc); // use to initialize adcs
 
+void processSpiRxBuff (void);
+
 void setMotor1State (uint8_t state); // motors to their a commutation state based on an integ 
 void setMotor2State (uint8_t state); // -- used instead of macros to allow numerical indexing of states
 void setMotor3State (uint8_t state);
@@ -151,6 +154,11 @@ volatile uint8_t motor4Thresh = 0;
 
 volatile uint8_t autoCommutationFlag = 0;
 //~ #define autoCommutationFlag GPIOC
+
+SPI_Slave_t spiSlaveC = {NULL, NULL};
+
+uint8_t spiRxBuff[20];
+uint8_t spiRxBuffHead = 0;
 
 // these variables keep track of which pins should be driven during the high and low parts of the pwm cycle
 
@@ -248,13 +256,25 @@ int main (void) {
 	//~ initUarts ();
 	//~ stdout = &debug;
 	
-	PORTC.DIR = 0b01000001;
+	PORTC.DIR = 0b00000001;
 	
-	PORTE.DIR = 0b11000000;
-	PORTF.DIR = 0b00001111;
+	//~ PORTE.DIR = 0b11000000;
+	//~ PORTF.DIR = 0b00001111;
 	
-	initUart();
+	//~ initUart();
 	stdout = &debug;
+	
+	/* Initialize SPI slave on port D. */
+	SPI_SlaveInit(&spiSlaveC,
+	              &SPIC,
+	              &PORTC,
+	              false,
+	              SPI_MODE_0_gc,
+	              SPI_INTLVL_HI_gc);
+
+	PMIC.CTRL |= PMIC_HILVLEN_bm;
+	
+	
 	
 	TCF0.CCABUF = STARTUP_PWM;
 	TCF0.CCBBUF = STARTUP_PWM;
@@ -277,27 +297,13 @@ int main (void) {
 	initAdc (&ADCA);
 	initAdc (&ADCB);
 	
-	sei();
+	//~ sei();
 	
+	while (1) {
+		SPI_SlaveWriteByte(&spiSlaveC, 1);	
+	}
 	startup();
-	//~ autoCommutationFlag = 1;
-	// float everything
-	
-	SET_phaseOutputsEHigh(0);
-	SET_phaseOutputsEHigh(0);
-															
-	SET_phaseOutputsELow(0);
-	SET_phaseOutputsELow(0);
 
-	SET_phaseOutputsFHigh(0);
-	SET_phaseOutputsFHigh(0);
-															
-	SET_phaseOutputsFLow(0);
-	SET_phaseOutputsFLow(0);
-	
-	PORTE.OUT = 0;
-	PORTF.OUT = 0;
-	
 	while (1) {}
 	
 }
@@ -484,7 +490,7 @@ ISR (TCD1_OVF_vect) {
 	passedCenterFlag = 0;	
 	setMotor2State(motor2State);
 	
-	PORTC.OUTSET = 1;
+	//~ PORTC.OUTSET = 1;
 	TC1_SetOverflowIntLevel (&TCD1, TC_OVFINTLVL_OFF_gc);
 }
 
@@ -541,7 +547,7 @@ ISR (ADCA_CH1_vect) {
 		if (stateSlope[motor2State]) { // rising
 			if (result > motor2Thresh  && result < 205) {
 				if (!passedCenterFlag) {
-					PORTC.OUTCLR = 1;
+					//~ PORTC.OUTCLR = 1;
 					TCD1.PER = TCD1.CNT*2;
 					TC1_SetOverflowIntLevel (&TCD1, TC_OVFINTLVL_HI_gc);
 					PMIC.CTRL |= PMIC_HILVLEN_bm;
@@ -551,7 +557,7 @@ ISR (ADCA_CH1_vect) {
 		} else { // falling
 			if (result < motor2Thresh && result > 50) {
 				if (!passedCenterFlag) {
-					PORTC.OUTCLR = 1;
+					//~ PORTC.OUTCLR = 1;
 					TCD1.PER = TCD1.CNT*2;
 					TC1_SetOverflowIntLevel (&TCD1, TC_OVFINTLVL_HI_gc);
 					PMIC.CTRL |= PMIC_HILVLEN_bm;
@@ -607,7 +613,7 @@ void startup(void) {
 	TC_SetPeriod( &TCD1, 6500 );
 	TC1_ConfigClockSource( &TCD1, TC_CLKSEL_DIV64_gc );
 	
-	PORTC.OUTSET = 1;
+	//~ PORTC.OUTSET = 1;
 	
 	SET_PHASE_STATE_5_MOT2();
 	motor2State = 5;
@@ -617,6 +623,20 @@ void startup(void) {
 	flag = 1;
 	
 	while (TCC0.CNT < startupDelays[5]) {}
+	_delay_ms (1000);
+	TCF0.CCBBUF = 1500;
+	_delay_ms (1000);
+	TCF0.CCBBUF = 2000;
+	_delay_ms (1000);
+	TCF0.CCBBUF = 2500;
+	_delay_ms (1000);
+	TCF0.CCBBUF = 3000;
+	_delay_ms (1000);
+	TCF0.CCBBUF = 3500;
+	_delay_ms (1000);
+	TCF0.CCBBUF = 4000;
+	_delay_ms (1000);
+	TCF0.CCBBUF = 4500;
 	while (1);
 }
 
@@ -677,4 +697,26 @@ static void initUart (void) {
 
     // Enable transmitter only
     USARTC1.CTRLB = USART_TXEN_bm;
+}
+
+ISR(SPIC_INT_vect)
+{
+	spiRxBuff[spiRxBuffHead] = SPI_SlaveReadByte(&spiSlaveC);
+	//~ if (spiRxBuff[spiRxBuffHead]) {
+		//~ spiRxBuffHead = 0;
+	//~ } else {
+		//~ spiRxBuffHead++;
+	//~ }
+	//~ if (spiRxBuffHead == 9)
+		//~ processSpiRxBuff ();
+}
+
+void processSpiRxBuff (void) {
+	int i;
+	for (i=0;i<spiRxBuff[1];i++) {
+		PORTC.OUTSET = 1;
+		_delay_ms (200);
+		PORTC.OUTSET = 0;
+		_delay_ms (400);
+	}
 }

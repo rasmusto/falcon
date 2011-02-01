@@ -84,7 +84,7 @@ PROJECTNAME=chb_motor_test
 # (list all files to compile, e.g. 'a.c b.cpp as.S'):
 # Use .cc, .cpp or .C suffix for C++ files, use .S 
 # (NOT .s !!!) for assembly source code files.
-PRJSRC=main.c clksys_driver.c TC_driver.c awex_driver.c adc_driver.c hires_driver.c
+PRJSRC=main.c clksys_driver.c TC_driver.c awex_driver.c adc_driver.c hires_driver.c spi_driver.c
 
 # additional includes (e.g. -I/path/to/mydir)
 INC=
