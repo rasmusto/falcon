@@ -12,6 +12,8 @@ volatile struct mot_rx_pkt_t mot_rx;
 volatile struct imu_tx_pkt_t imu_tx;
 volatile struct imu_rx_pkt_t imu_rx;
 
+volatile struct pid_info pid;
+
 volatile uint8_t bat_voltage_raw;
 volatile float bat_voltage_human;
 
@@ -97,6 +99,12 @@ void process_rx_buf(volatile char * rx_buf)
     else if(strcmp(cmd, "bat") == 0) { printf("\n\rbat_voltage_raw: %d", bat_voltage_raw); printf("\n\rbat_voltage_human: %0.4f", (double)bat_voltage_human); }
     else if(strcmp(cmd, "help") == 0) { printf("\n\r\n\rAvailable commands:\n\r\treboot - reboot the mcu\n\r\tprint - print all packet information\n\r\tprint_mot - print motor packet\n\r\tmot[1-4] val - set motor target value (0-65536)\n\r\tled[1-4][r, g]_[on, off] - turn led on or off\n\r\tbat - print battery voltage\n\r\thelp - print this message\n\r"); }
     else if(strcmp(cmd, "clear") == 0) { printf("%c", 12); }
+    else if(strcmp(cmd, "kp") == 0) { pid_set_kp(&pid, val); }
+    else if(strcmp(cmd, "ki") == 0) { pid_set_ki(&pid, val); }
+    else if(strcmp(cmd, "kd") == 0) { pid_set_kd(&pid, val); }
+    else if(strcmp(cmd, "target") == 0) { pid_set_target(&pid, val); }
+    else if(strcmp(cmd, "print_pid") == 0) { print_pid_info(&pid); }
+    else if(strcmp(cmd, "reset_i") == 0) { pid_reset_i(&pid); }
     else { printf("\n\rcommand not found: %s", cmd); }
     printf("\n\rfcu: ");
 }

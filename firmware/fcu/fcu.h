@@ -15,6 +15,7 @@
 #include "crc.h"
 #include "adc.h"
 #include "adc_driver.h"
+#include "pid.h"
 
 //#include "/usr/lib/avr/include/avr/iox128a3.h"
 
