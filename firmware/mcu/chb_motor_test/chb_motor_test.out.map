@@ -1,0 +1,626 @@
+Archive member included because of file (symbol)
+
+/usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_exit.o)
+                              /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/crtx128a3.o (exit)
+/usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_clear_bss.o)
+                              main.o (__do_clear_bss)
+/usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/libc.a(iob.o)
+                              main.o (__iob)
+
+Allocating common symbols
+Common symbol       size              file
+
+__iob               0x6               /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/libc.a(iob.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+text             0x00000000         0x00100000         xr
+data             0x00802000         0x0000ffa0         rw !x
+eeprom           0x00810000         0x00010000         rw !x
+fuse             0x00820000         0x00000400         rw !x
+lock             0x00830000         0x00000400         rw !x
+signature        0x00840000         0x00000400         rw !x
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/crtx128a3.o
+LOAD /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/libm.a
+LOAD main.o
+LOAD clksys_driver.o
+LOAD TC_driver.o
+LOAD awex_driver.o
+LOAD adc_driver.o
+LOAD hires_driver.o
+LOAD /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a
+LOAD /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/libc.a
+LOAD /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a
+
+.hash
+ *(.hash)
+
+.dynsym
+ *(.dynsym)
+
+.dynstr
+ *(.dynstr)
+
+.gnu.version
+ *(.gnu.version)
+
+.gnu.version_d
+ *(.gnu.version_d)
+
+.gnu.version_r
+ *(.gnu.version_r)
+
+.rel.init
+ *(.rel.init)
+
+.rela.init
+ *(.rela.init)
+
+.rel.text
+ *(.rel.text)
+ *(.rel.text.*)
+ *(.rel.gnu.linkonce.t*)
+
+.rela.text
+ *(.rela.text)
+ *(.rela.text.*)
+ *(.rela.gnu.linkonce.t*)
+
+.rel.fini
+ *(.rel.fini)
+
+.rela.fini
+ *(.rela.fini)
+
+.rel.rodata
+ *(.rel.rodata)
+ *(.rel.rodata.*)
+ *(.rel.gnu.linkonce.r*)
+
+.rela.rodata
+ *(.rela.rodata)
+ *(.rela.rodata.*)
+ *(.rela.gnu.linkonce.r*)
+
+.rel.data
+ *(.rel.data)
+ *(.rel.data.*)
+ *(.rel.gnu.linkonce.d*)
+
+.rela.data
+ *(.rela.data)
+ *(.rela.data.*)
+ *(.rela.gnu.linkonce.d*)
+
+.rel.ctors
+ *(.rel.ctors)
+
+.rela.ctors
+ *(.rela.ctors)
+
+.rel.dtors
+ *(.rel.dtors)
+
+.rela.dtors
+ *(.rela.dtors)
+
+.rel.got
+ *(.rel.got)
+
+.rela.got
+ *(.rela.got)
+
+.rel.bss
+ *(.rel.bss)
+
+.rela.bss
+ *(.rela.bss)
+
+.rel.plt
+ *(.rel.plt)
+
+.rela.plt
+ *(.rela.plt)
+
+.text           0x00000000     0x110c
+ *(.vectors)
+ .vectors       0x00000000      0x1e8 /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/crtx128a3.o
+                0x00000000                __vectors
+                0x00000000                __vector_default
+ *(.vectors)
+ *(.progmem.gcc*)
+ *(.progmem*)
+                0x000001e8                . = ALIGN (0x2)
+                0x000001e8                __trampolines_start = .
+ *(.trampolines)
+ .trampolines   0x000001e8        0x0 linker stubs
+ *(.trampolines*)
+                0x000001e8                __trampolines_end = .
+ *(.jumptables)
+ *(.jumptables*)
+ *(.lowtext)
+ *(.lowtext*)
+                0x000001e8                __ctors_start = .
+ *(.ctors)
+                0x000001e8                __ctors_end = .
+                0x000001e8                __dtors_start = .
+ *(.dtors)
+                0x000001e8                __dtors_end = .
+ SORT(*)(.ctors)
+ SORT(*)(.dtors)
+ *(.init0)
+ .init0         0x000001e8        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/crtx128a3.o
+                0x000001e8                __init
+ *(.init0)
+ *(.init1)
+ *(.init1)
+ *(.init2)
+ .init2         0x000001e8       0x10 /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/crtx128a3.o
+ *(.init2)
+ *(.init3)
+ *(.init3)
+ *(.init4)
+ .init4         0x000001f8       0x1a /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/crtx128a3.o
+                0x000001f8                __do_copy_data
+ .init4         0x00000212       0x10 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_clear_bss.o)
+                0x00000212                __do_clear_bss
+ *(.init4)
+ *(.init5)
+ *(.init5)
+ *(.init6)
+ *(.init6)
+ *(.init7)
+ *(.init7)
+ *(.init8)
+ *(.init8)
+ *(.init9)
+ .init9         0x00000222        0x8 /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/crtx128a3.o
+ *(.init9)
+ *(.text)
+ .text          0x0000022a        0x4 /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/crtx128a3.o
+                0x0000022a                __vector_38
+                0x0000022a                __vector_104
+                0x0000022a                __vector_63
+                0x0000022a                __vector_28
+                0x0000022a                __vector_67
+                0x0000022a                __vector_1
+                0x0000022a                __vector_119
+                0x0000022a                __vector_32
+                0x0000022a                __vector_75
+                0x0000022a                __vector_71
+                0x0000022a                __vector_91
+                0x0000022a                __vector_34
+                0x0000022a                __vector_62
+                0x0000022a                __vector_77
+                0x0000022a                __vector_102
+                0x0000022a                __vector_24
+                0x0000022a                __vector_12
+                0x0000022a                __vector_69
+                0x0000022a                __vector_81
+                0x0000022a                __vector_90
+                0x0000022a                __vector_46
+                0x0000022a                __bad_interrupt
+                0x0000022a                __vector_114
+                0x0000022a                __vector_6
+                0x0000022a                __vector_31
+                0x0000022a                __vector_92
+                0x0000022a                __vector_35
+                0x0000022a                __vector_78
+                0x0000022a                __vector_74
+                0x0000022a                __vector_117
+                0x0000022a                __vector_39
+                0x0000022a                __vector_107
+                0x0000022a                __vector_3
+                0x0000022a                __vector_105
+                0x0000022a                __vector_98
+                0x0000022a                __vector_23
+                0x0000022a                __vector_68
+                0x0000022a                __vector_30
+                0x0000022a                __vector_73
+                0x0000022a                __vector_45
+                0x0000022a                __vector_25
+                0x0000022a                __vector_93
+                0x0000022a                __vector_61
+                0x0000022a                __vector_11
+                0x0000022a                __vector_54
+                0x0000022a                __vector_99
+                0x0000022a                __vector_13
+                0x0000022a                __vector_17
+                0x0000022a                __vector_19
+                0x0000022a                __vector_56
+                0x0000022a                __vector_7
+                0x0000022a                __vector_41
+                0x0000022a                __vector_86
+                0x0000022a                __vector_100
+                0x0000022a                __vector_101
+                0x0000022a                __vector_64
+                0x0000022a                __vector_88
+                0x0000022a                __vector_109
+                0x0000022a                __vector_43
+                0x0000022a                __vector_27
+                0x0000022a                __vector_5
+                0x0000022a                __vector_33
+                0x0000022a                __vector_76
+                0x0000022a                __vector_115
+                0x0000022a                __vector_37
+                0x0000022a                __vector_95
+                0x0000022a                __vector_103
+                0x0000022a                __vector_96
+                0x0000022a                __vector_89
+                0x0000022a                __vector_4
+                0x0000022a                __vector_44
+                0x0000022a                __vector_82
+                0x0000022a                __vector_106
+                0x0000022a                __vector_118
+                0x0000022a                __vector_9
+                0x0000022a                __vector_2
+                0x0000022a                __vector_21
+                0x0000022a                __vector_15
+                0x0000022a                __vector_66
+                0x0000022a                __vector_36
+                0x0000022a                __vector_58
+                0x0000022a                __vector_70
+                0x0000022a                __vector_83
+                0x0000022a                __vector_29
+                0x0000022a                __vector_60
+                0x0000022a                __vector_121
+                0x0000022a                __vector_40
+                0x0000022a                __vector_94
+                0x0000022a                __vector_8
+                0x0000022a                __vector_26
+                0x0000022a                __vector_48
+                0x0000022a                __vector_116
+                0x0000022a                __vector_80
+                0x0000022a                __vector_14
+                0x0000022a                __vector_84
+                0x0000022a                __vector_57
+                0x0000022a                __vector_53
+                0x0000022a                __vector_10
+                0x0000022a                __vector_16
+                0x0000022a                __vector_59
+                0x0000022a                __vector_18
+                0x0000022a                __vector_97
+                0x0000022a                __vector_20
+                0x0000022a                __vector_42
+                0x0000022a                __vector_87
+                0x0000022a                __vector_65
+                0x0000022a                __vector_120
+ .text          0x0000022e      0xa80 main.o
+                0x0000022e                __vector_110
+                0x00000266                __vector_111
+                0x000002ae                __vector_112
+                0x000002f6                __vector_113
+                0x0000032e                __vector_108
+                0x0000037a                __vector_49
+                0x0000038e                __vector_50
+                0x000003de                __vector_51
+                0x000003f2                __vector_52
+                0x00000406                __vector_47
+                0x0000041a                configMotTimer0
+                0x0000041c                configMotTimer1
+                0x0000041e                __vector_22
+                0x00000432                __vector_55
+                0x00000446                __vector_79
+                0x0000045a                setMotor1State
+                0x0000045c                setMotor2State
+                0x000005c8                setMotor3State
+                0x000005ca                setMotor4State
+                0x000005f0                startup
+                0x000008ce                configDelayTimer
+                0x000008f4                __vector_72
+                0x000009be                initAdc
+                0x00000a3e                __vector_85
+                0x00000aa6                configHalfPWMTimer
+                0x00000b12                configPWM
+                0x00000b7e                configClock
+                0x00000bbe                main
+ .text          0x00000cae      0x184 clksys_driver.o
+                0x00000cae                CCPWrite
+                0x00000cd8                CLKSYS_XOSC_Config
+                0x00000cf8                CLKSYS_PLL_Config
+                0x00000d04                CLKSYS_Disable
+                0x00000d18                CLKSYS_Prescalers_Config
+                0x00000d48                CLKSYS_Main_ClockSource_Select
+                0x00000d82                CLKSYS_RTC_ClockSource_Enable
+                0x00000d92                CLKSYS_AutoCalibration_Enable
+                0x00000dd2                CLKSYS_XOSC_FailureDetection_Enable
+                0x00000e02                CLKSYS_Configuration_Lock
+ .text          0x00000e32      0x114 TC_driver.o
+                0x00000e32                TC0_ConfigClockSource
+                0x00000e3e                TC1_ConfigClockSource
+                0x00000e4a                TC0_ConfigWGM
+                0x00000e56                TC1_ConfigWGM
+                0x00000e62                TC0_ConfigInputCapture
+                0x00000e70                TC1_ConfigInputCapture
+                0x00000e7e                TC0_EnableCCChannels
+                0x00000e8a                TC1_EnableCCChannels
+                0x00000e96                TC0_DisableCCChannels
+                0x00000ea4                TC1_DisableCCChannels
+                0x00000eb2                TC0_SetOverflowIntLevel
+                0x00000ebe                TC1_SetOverflowIntLevel
+                0x00000eca                TC0_SetErrorIntLevel
+                0x00000ed6                TC1_SetErrorIntLevel
+                0x00000ee2                TC0_SetCCAIntLevel
+                0x00000eee                TC1_SetCCAIntLevel
+                0x00000efa                TC0_SetCCBIntLevel
+                0x00000f06                TC1_SetCCBIntLevel
+                0x00000f12                TC0_SetCCCIntLevel
+                0x00000f1e                TC0_SetCCDIntLevel
+                0x00000f2a                TC0_Reset
+                0x00000f38                TC1_Reset
+ .text          0x00000f46       0x28 awex_driver.o
+                0x00000f46                AWEX_EnableDeadTimeInsertion
+                0x00000f52                AWEX_DisableDeadTimeInsertion
+                0x00000f60                AWEX_ConfigureFaultDetection
+ .text          0x00000f6e      0x194 adc_driver.o
+                0x00000f6e                ADC_CalibrationValues_Load
+                0x00000fcc                ADC_ResultCh_GetWord_Unsigned
+                0x00000fde                ADC_ResultCh_GetWord_Signed
+                0x00000ff6                ADC_ResultCh_GetWord
+                0x00001004                ADC_ResultCh_GetLowByte
+                0x0000100e                ADC_ResultCh_GetHighByte
+                0x00001018                ADC_Wait_8MHz
+                0x00001028                ADC_Wait_32MHz
+                0x0000103a                ADC_Offset_Get_Unsigned
+                0x0000108c                ADC_Offset_Get_Signed
+                0x000010ee                SP_ReadCalibrationByte
+ .text          0x00001102        0x6 hires_driver.o
+                0x00001102                HIRES_Enable
+ .text          0x00001108        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_exit.o)
+ .text          0x00001108        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_clear_bss.o)
+ .text          0x00001108        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/libc.a(iob.o)
+                0x00001108                . = ALIGN (0x2)
+ *(.text.*)
+ .text.libgcc   0x00001108        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_exit.o)
+ .text.libgcc   0x00001108        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_clear_bss.o)
+                0x00001108                . = ALIGN (0x2)
+ *(.fini9)
+ .fini9         0x00001108        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_exit.o)
+                0x00001108                exit
+                0x00001108                _exit
+ *(.fini9)
+ *(.fini8)
+ *(.fini8)
+ *(.fini7)
+ *(.fini7)
+ *(.fini6)
+ *(.fini6)
+ *(.fini5)
+ *(.fini5)
+ *(.fini4)
+ *(.fini4)
+ *(.fini3)
+ *(.fini3)
+ *(.fini2)
+ *(.fini2)
+ *(.fini1)
+ *(.fini1)
+ *(.fini0)
+ .fini0         0x00001108        0x4 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_exit.o)
+ *(.fini0)
+                0x0000110c                _etext = .
+
+.data           0x00802000       0x2e load address 0x0000110c
+                0x00802000                PROVIDE (__data_start, .)
+ *(.data)
+ .data          0x00802000        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/crtx128a3.o
+ .data          0x00802000       0x2d main.o
+                0x00802000                stateSlope
+                0x00802006                motor2StateSenseIndex
+                0x0080200c                motor2Thresh
+                0x0080200d                startupPwms
+                0x00802019                startupDelays
+ .data          0x0080202d        0x0 clksys_driver.o
+ .data          0x0080202d        0x0 TC_driver.o
+ .data          0x0080202d        0x0 awex_driver.o
+ .data          0x0080202d        0x0 adc_driver.o
+ .data          0x0080202d        0x0 hires_driver.o
+ .data          0x0080202d        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_exit.o)
+ .data          0x0080202d        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_clear_bss.o)
+ .data          0x0080202d        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/libc.a(iob.o)
+ *(.data*)
+ *(.rodata)
+ *(.rodata*)
+ *(.gnu.linkonce.d*)
+                0x0080202e                . = ALIGN (0x2)
+ *fill*         0x0080202d        0x1 00
+                0x0080202e                _edata = .
+                0x0080202e                PROVIDE (__data_end, .)
+
+.bss            0x0080202e        0xe
+                0x0080202e                PROVIDE (__bss_start, .)
+ *(.bss)
+ .bss           0x0080202e        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/crtx128a3.o
+ .bss           0x0080202e        0x8 main.o
+                0x0080202e                motor1State
+                0x0080202f                motor2State
+                0x00802030                motor3State
+                0x00802031                motor4State
+                0x00802032                motor1Thresh
+                0x00802033                motor3Thresh
+                0x00802034                motor4Thresh
+                0x00802035                autoCommutationFlag
+ .bss           0x00802036        0x0 clksys_driver.o
+ .bss           0x00802036        0x0 TC_driver.o
+ .bss           0x00802036        0x0 awex_driver.o
+ .bss           0x00802036        0x0 adc_driver.o
+ .bss           0x00802036        0x0 hires_driver.o
+ .bss           0x00802036        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_exit.o)
+ .bss           0x00802036        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_clear_bss.o)
+ .bss           0x00802036        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/libc.a(iob.o)
+ *(.bss*)
+ *(COMMON)
+ COMMON         0x00802036        0x6 /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/libc.a(iob.o)
+                0x00802036                __iob
+                0x0080203c                PROVIDE (__bss_end, .)
+                0x0000110c                __data_load_start = LOADADDR (.data)
+                0x0000113a                __data_load_end = (__data_load_start + SIZEOF (.data))
+
+.noinit         0x0080203c        0x0
+                0x0080203c                PROVIDE (__noinit_start, .)
+ *(.noinit*)
+                0x0080203c                PROVIDE (__noinit_end, .)
+                0x0080203c                _end = .
+                0x0080203c                PROVIDE (__heap_start, .)
+
+.eeprom         0x00810000        0x0
+ *(.eeprom*)
+                0x00810000                __eeprom_end = .
+
+.fuse
+ *(.fuse)
+ *(.lfuse)
+ *(.hfuse)
+ *(.efuse)
+
+.lock
+ *(.lock*)
+
+.signature
+ *(.signature*)
+
+.stab           0x00000000      0x768
+ *(.stab)
+ .stab          0x00000000      0x768 /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/crtx128a3.o
+
+.stabstr        0x00000000       0x70
+ *(.stabstr)
+ .stabstr       0x00000000       0x70 /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/crtx128a3.o
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment
+ *(.comment)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges  0x00000000       0xc0
+ *(.debug_aranges)
+ .debug_aranges
+                0x00000000       0x20 main.o
+ .debug_aranges
+                0x00000020       0x20 clksys_driver.o
+ .debug_aranges
+                0x00000040       0x20 TC_driver.o
+ .debug_aranges
+                0x00000060       0x20 awex_driver.o
+ .debug_aranges
+                0x00000080       0x20 adc_driver.o
+ .debug_aranges
+                0x000000a0       0x20 hires_driver.o
+
+.debug_pubnames
+                0x00000000      0x7fc
+ *(.debug_pubnames)
+ .debug_pubnames
+                0x00000000      0x2cd main.o
+ .debug_pubnames
+                0x000002cd      0x129 clksys_driver.o
+ .debug_pubnames
+                0x000003f6      0x216 TC_driver.o
+ .debug_pubnames
+                0x0000060c       0x76 awex_driver.o
+ .debug_pubnames
+                0x00000682      0x13b adc_driver.o
+ .debug_pubnames
+                0x000007bd       0x23 hires_driver.o
+ .debug_pubnames
+                0x000007e0       0x1c /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/libc.a(iob.o)
+
+.debug_info     0x00000000     0x43d0
+ *(.debug_info)
+ .debug_info    0x00000000     0x1b13 main.o
+ .debug_info    0x00001b13      0x64a clksys_driver.o
+ .debug_info    0x0000215d     0x1248 TC_driver.o
+ .debug_info    0x000033a5      0x22b awex_driver.o
+ .debug_info    0x000035d0      0xba8 adc_driver.o
+ .debug_info    0x00004178      0x102 hires_driver.o
+ .debug_info    0x0000427a      0x156 /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/libc.a(iob.o)
+ *(.gnu.linkonce.wi.*)
+
+.debug_abbrev   0x00000000      0xab0
+ *(.debug_abbrev)
+ .debug_abbrev  0x00000000      0x239 main.o
+ .debug_abbrev  0x00000239      0x1e4 clksys_driver.o
+ .debug_abbrev  0x0000041d      0x165 TC_driver.o
+ .debug_abbrev  0x00000582       0xdd awex_driver.o
+ .debug_abbrev  0x0000065f      0x2d5 adc_driver.o
+ .debug_abbrev  0x00000934       0xac hires_driver.o
+ .debug_abbrev  0x000009e0       0xd0 /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/libc.a(iob.o)
+
+.debug_line     0x00000000     0x14d5
+ *(.debug_line)
+ .debug_line    0x00000000      0x862 main.o
+ .debug_line    0x00000862      0x2a1 clksys_driver.o
+ .debug_line    0x00000b03      0x301 TC_driver.o
+ .debug_line    0x00000e04      0x133 awex_driver.o
+ .debug_line    0x00000f37      0x430 adc_driver.o
+ .debug_line    0x00001367       0xb3 hires_driver.o
+ .debug_line    0x0000141a       0xbb /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/libc.a(iob.o)
+
+.debug_frame    0x00000000      0x520
+ *(.debug_frame)
+ .debug_frame   0x00000000      0x1e0 main.o
+ .debug_frame   0x000001e0       0xb0 clksys_driver.o
+ .debug_frame   0x00000290      0x170 TC_driver.o
+ .debug_frame   0x00000400       0x40 awex_driver.o
+ .debug_frame   0x00000440       0xc0 adc_driver.o
+ .debug_frame   0x00000500       0x20 hires_driver.o
+
+.debug_str      0x00000000     0x1ff7
+ *(.debug_str)
+ .debug_str     0x00000000     0x1054 main.o
+                               0x10a8 (size before relaxing)
+ .debug_str     0x00001054      0x44e clksys_driver.o
+                                0x6bd (size before relaxing)
+ .debug_str     0x000014a2      0x502 TC_driver.o
+                                0xb94 (size before relaxing)
+ .debug_str     0x000019a4      0x134 awex_driver.o
+                                0x22d (size before relaxing)
+ .debug_str     0x00001ad8      0x485 adc_driver.o
+                                0x7ed (size before relaxing)
+ .debug_str     0x00001f5d       0x2e hires_driver.o
+                                0x15a (size before relaxing)
+ .debug_str     0x00001f8b       0x6c /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/libc.a(iob.o)
+                                0x110 (size before relaxing)
+
+.debug_loc      0x00000000      0x990
+ *(.debug_loc)
+ .debug_loc     0x00000000      0x1f8 main.o
+ .debug_loc     0x000001f8       0x85 clksys_driver.o
+ .debug_loc     0x0000027d      0x370 TC_driver.o
+ .debug_loc     0x000005ed       0x78 awex_driver.o
+ .debug_loc     0x00000665      0x32b adc_driver.o
+
+.debug_macinfo
+ *(.debug_macinfo)
+OUTPUT(chb_motor_test.out elf32-avr)
+LOAD linker stubs
+
+.debug_ranges   0x00000000       0x78
+ .debug_ranges  0x00000000       0x78 adc_driver.o

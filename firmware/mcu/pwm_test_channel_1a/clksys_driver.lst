@@ -1,0 +1,356 @@
+GAS LISTING /tmp/cc7ARQLY.s 			page 1
+
+
+   1               		.file	"clksys_driver.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.text
+   9               	.global	CCPWrite
+  10               		.type	CCPWrite, @function
+  11               	CCPWrite:
+  12 0000 0F93      		push r16
+  13 0002 DF93      		push r29
+  14 0004 CF93      		push r28
+  15 0006 0F92      		push __tmp_reg__
+  16 0008 CDB7      		in r28,__SP_L__
+  17 000a DEB7      		in r29,__SP_H__
+  18               	/* prologue: function */
+  19               	/* frame size = 1 */
+  20 000c 2FB7      		in r18,__SREG__
+  21 000e 2983      		std Y+1,r18
+  22               	/* #APP */
+  23               	 ;  108 "clksys_driver.c" 1
+  24 0010 F894      		cli
+  25               	 ;  0 "" 2
+  26               	/* #NOAPP */
+  27 0012 1BBE      		out 59-0,__zero_reg__
+  28               	/* #APP */
+  29               	 ;  113 "clksys_driver.c" 1
+  30 0014 FC01      		movw r30,  r24
+  31 0016 08ED      		ldi  r16,  216
+  32 0018 04BF      		out   52, r16
+  33 001a 6083      		st     Z,  r22
+  34               		
+  35               	 ;  0 "" 2
+  36               	/* #NOAPP */
+  37 001c 8981      		ldd r24,Y+1
+  38 001e 8FBF      		out __SREG__,r24
+  39               	/* epilogue start */
+  40 0020 0F90      		pop __tmp_reg__
+  41 0022 CF91      		pop r28
+  42 0024 DF91      		pop r29
+  43 0026 0F91      		pop r16
+  44 0028 0895      		ret
+  45               		.size	CCPWrite, .-CCPWrite
+  46               	.global	CLKSYS_XOSC_Config
+  47               		.type	CLKSYS_XOSC_Config, @function
+  48               	CLKSYS_XOSC_Config:
+  49               	/* prologue: function */
+  50               	/* frame size = 0 */
+  51 002a 6623      		tst r22
+  52 002c 01F4      		brne .L4
+  53 002e 90E0      		ldi r25,lo8(0)
+  54 0030 482B      		or r20,r24
+  55 0032 942B      		or r25,r20
+  56 0034 E0E5      		ldi r30,lo8(80)
+  57 0036 F0E0      		ldi r31,hi8(80)
+GAS LISTING /tmp/cc7ARQLY.s 			page 2
+
+
+  58 0038 9283      		std Z+2,r25
+  59               	/* epilogue start */
+  60 003a 0895      		ret
+  61               	.L4:
+  62 003c 90E2      		ldi r25,lo8(32)
+  63 003e 482B      		or r20,r24
+  64 0040 942B      		or r25,r20
+  65 0042 E0E5      		ldi r30,lo8(80)
+  66 0044 F0E0      		ldi r31,hi8(80)
+  67 0046 9283      		std Z+2,r25
+  68 0048 0895      		ret
+  69               		.size	CLKSYS_XOSC_Config, .-CLKSYS_XOSC_Config
+  70               	.global	CLKSYS_PLL_Config
+  71               		.type	CLKSYS_PLL_Config, @function
+  72               	CLKSYS_PLL_Config:
+  73               	/* prologue: function */
+  74               	/* frame size = 0 */
+  75 004a 6F71      		andi r22,lo8(31)
+  76 004c 682B      		or r22,r24
+  77 004e E0E5      		ldi r30,lo8(80)
+  78 0050 F0E0      		ldi r31,hi8(80)
+  79 0052 6583      		std Z+5,r22
+  80               	/* epilogue start */
+  81 0054 0895      		ret
+  82               		.size	CLKSYS_PLL_Config, .-CLKSYS_PLL_Config
+  83               	.global	CLKSYS_Disable
+  84               		.type	CLKSYS_Disable, @function
+  85               	CLKSYS_Disable:
+  86               	/* prologue: function */
+  87               	/* frame size = 0 */
+  88 0056 E0E5      		ldi r30,lo8(80)
+  89 0058 F0E0      		ldi r31,hi8(80)
+  90 005a 2081      		ld r18,Z
+  91 005c 982F      		mov r25,r24
+  92 005e 9095      		com r25
+  93 0060 9223      		and r25,r18
+  94 0062 9083      		st Z,r25
+  95 0064 9081      		ld r25,Z
+  96 0066 8923      		and r24,r25
+  97               	/* epilogue start */
+  98 0068 0895      		ret
+  99               		.size	CLKSYS_Disable, .-CLKSYS_Disable
+ 100               	.global	CLKSYS_Prescalers_Config
+ 101               		.type	CLKSYS_Prescalers_Config, @function
+ 102               	CLKSYS_Prescalers_Config:
+ 103 006a 0F93      		push r16
+ 104 006c DF93      		push r29
+ 105 006e CF93      		push r28
+ 106 0070 0F92      		push __tmp_reg__
+ 107 0072 CDB7      		in r28,__SP_L__
+ 108 0074 DEB7      		in r29,__SP_H__
+ 109               	/* prologue: function */
+ 110               	/* frame size = 1 */
+ 111 0076 9FB7      		in r25,__SREG__
+ 112 0078 9983      		std Y+1,r25
+ 113               	/* #APP */
+ 114               	 ;  108 "clksys_driver.c" 1
+GAS LISTING /tmp/cc7ARQLY.s 			page 3
+
+
+ 115 007a F894      		cli
+ 116               	 ;  0 "" 2
+ 117               	/* #NOAPP */
+ 118 007c 1BBE      		out 59-0,__zero_reg__
+ 119 007e 682B      		or r22,r24
+ 120 0080 81E4      		ldi r24,lo8(65)
+ 121 0082 90E0      		ldi r25,hi8(65)
+ 122               	/* #APP */
+ 123               	 ;  113 "clksys_driver.c" 1
+ 124 0084 FC01      		movw r30,  r24
+ 125 0086 08ED      		ldi  r16,  216
+ 126 0088 04BF      		out   52, r16
+ 127 008a 6083      		st     Z,  r22
+ 128               		
+ 129               	 ;  0 "" 2
+ 130               	/* #NOAPP */
+ 131 008c 8981      		ldd r24,Y+1
+ 132 008e 8FBF      		out __SREG__,r24
+ 133               	/* epilogue start */
+ 134 0090 0F90      		pop __tmp_reg__
+ 135 0092 CF91      		pop r28
+ 136 0094 DF91      		pop r29
+ 137 0096 0F91      		pop r16
+ 138 0098 0895      		ret
+ 139               		.size	CLKSYS_Prescalers_Config, .-CLKSYS_Prescalers_Config
+ 140               	.global	CLKSYS_Main_ClockSource_Select
+ 141               		.type	CLKSYS_Main_ClockSource_Select, @function
+ 142               	CLKSYS_Main_ClockSource_Select:
+ 143 009a 0F93      		push r16
+ 144 009c DF93      		push r29
+ 145 009e CF93      		push r28
+ 146 00a0 0F92      		push __tmp_reg__
+ 147 00a2 CDB7      		in r28,__SP_L__
+ 148 00a4 DEB7      		in r29,__SP_H__
+ 149               	/* prologue: function */
+ 150               	/* frame size = 1 */
+ 151 00a6 2091 4000 		lds r18,64
+ 152 00aa 9FB7      		in r25,__SREG__
+ 153 00ac 9983      		std Y+1,r25
+ 154               	/* #APP */
+ 155               	 ;  108 "clksys_driver.c" 1
+ 156 00ae F894      		cli
+ 157               	 ;  0 "" 2
+ 158               	/* #NOAPP */
+ 159 00b0 1BBE      		out 59-0,__zero_reg__
+ 160 00b2 A0E4      		ldi r26,lo8(64)
+ 161 00b4 B0E0      		ldi r27,hi8(64)
+ 162 00b6 287F      		andi r18,lo8(-8)
+ 163 00b8 282B      		or r18,r24
+ 164               	/* #APP */
+ 165               	 ;  113 "clksys_driver.c" 1
+ 166 00ba FD01      		movw r30,  r26
+ 167 00bc 08ED      		ldi  r16,  216
+ 168 00be 04BF      		out   52, r16
+ 169 00c0 2083      		st     Z,  r18
+ 170               		
+ 171               	 ;  0 "" 2
+GAS LISTING /tmp/cc7ARQLY.s 			page 4
+
+
+ 172               	/* #NOAPP */
+ 173 00c2 9981      		ldd r25,Y+1
+ 174 00c4 9FBF      		out __SREG__,r25
+ 175 00c6 9C91      		ld r25,X
+ 176 00c8 8923      		and r24,r25
+ 177               	/* epilogue start */
+ 178 00ca 0F90      		pop __tmp_reg__
+ 179 00cc CF91      		pop r28
+ 180 00ce DF91      		pop r29
+ 181 00d0 0F91      		pop r16
+ 182 00d2 0895      		ret
+ 183               		.size	CLKSYS_Main_ClockSource_Select, .-CLKSYS_Main_ClockSource_Select
+ 184               	.global	CLKSYS_RTC_ClockSource_Enable
+ 185               		.type	CLKSYS_RTC_ClockSource_Enable, @function
+ 186               	CLKSYS_RTC_ClockSource_Enable:
+ 187               	/* prologue: function */
+ 188               	/* frame size = 0 */
+ 189 00d4 E0E4      		ldi r30,lo8(64)
+ 190 00d6 F0E0      		ldi r31,hi8(64)
+ 191 00d8 9381      		ldd r25,Z+3
+ 192 00da 917F      		andi r25,lo8(-15)
+ 193 00dc 9160      		ori r25,lo8(1)
+ 194 00de 982B      		or r25,r24
+ 195 00e0 9383      		std Z+3,r25
+ 196               	/* epilogue start */
+ 197 00e2 0895      		ret
+ 198               		.size	CLKSYS_RTC_ClockSource_Enable, .-CLKSYS_RTC_ClockSource_Enable
+ 199               	.global	CLKSYS_AutoCalibration_Enable
+ 200               		.type	CLKSYS_AutoCalibration_Enable, @function
+ 201               	CLKSYS_AutoCalibration_Enable:
+ 202               	/* prologue: function */
+ 203               	/* frame size = 0 */
+ 204 00e4 282F      		mov r18,r24
+ 205 00e6 3091 5600 		lds r19,86
+ 206 00ea 6623      		tst r22
+ 207 00ec 01F0      		breq .L19
+ 208 00ee 982F      		mov r25,r24
+ 209               	.L20:
+ 210 00f0 822F      		mov r24,r18
+ 211 00f2 8095      		com r24
+ 212 00f4 8323      		and r24,r19
+ 213 00f6 982B      		or r25,r24
+ 214 00f8 E0E5      		ldi r30,lo8(80)
+ 215 00fa F0E0      		ldi r31,hi8(80)
+ 216 00fc 9683      		std Z+6,r25
+ 217 00fe 2130      		cpi r18,lo8(1)
+ 218 0100 01F0      		breq .L24
+ 219 0102 2230      		cpi r18,lo8(2)
+ 220 0104 01F0      		breq .L25
+ 221 0106 0895      		ret
+ 222               	.L19:
+ 223 0108 90E0      		ldi r25,lo8(0)
+ 224 010a 00C0      		rjmp .L20
+ 225               	.L25:
+ 226 010c 8091 6000 		lds r24,96
+ 227 0110 8160      		ori r24,lo8(1)
+ 228 0112 8093 6000 		sts 96,r24
+GAS LISTING /tmp/cc7ARQLY.s 			page 5
+
+
+ 229 0116 0895      		ret
+ 230               	.L24:
+ 231 0118 8091 6800 		lds r24,104
+ 232 011c 8160      		ori r24,lo8(1)
+ 233 011e 8093 6800 		sts 104,r24
+ 234 0122 0895      		ret
+ 235               		.size	CLKSYS_AutoCalibration_Enable, .-CLKSYS_AutoCalibration_Enable
+ 236               	.global	CLKSYS_XOSC_FailureDetection_Enable
+ 237               		.type	CLKSYS_XOSC_FailureDetection_Enable, @function
+ 238               	CLKSYS_XOSC_FailureDetection_Enable:
+ 239 0124 0F93      		push r16
+ 240 0126 DF93      		push r29
+ 241 0128 CF93      		push r28
+ 242 012a 0F92      		push __tmp_reg__
+ 243 012c CDB7      		in r28,__SP_L__
+ 244 012e DEB7      		in r29,__SP_H__
+ 245               	/* prologue: function */
+ 246               	/* frame size = 1 */
+ 247 0130 8FB7      		in r24,__SREG__
+ 248 0132 8983      		std Y+1,r24
+ 249               	/* #APP */
+ 250               	 ;  108 "clksys_driver.c" 1
+ 251 0134 F894      		cli
+ 252               	 ;  0 "" 2
+ 253               	/* #NOAPP */
+ 254 0136 1BBE      		out 59-0,__zero_reg__
+ 255 0138 23E0      		ldi r18,lo8(3)
+ 256 013a 83E5      		ldi r24,lo8(83)
+ 257 013c 90E0      		ldi r25,hi8(83)
+ 258               	/* #APP */
+ 259               	 ;  113 "clksys_driver.c" 1
+ 260 013e FC01      		movw r30,  r24
+ 261 0140 08ED      		ldi  r16,  216
+ 262 0142 04BF      		out   52, r16
+ 263 0144 2083      		st     Z,  r18
+ 264               		
+ 265               	 ;  0 "" 2
+ 266               	/* #NOAPP */
+ 267 0146 8981      		ldd r24,Y+1
+ 268 0148 8FBF      		out __SREG__,r24
+ 269               	/* epilogue start */
+ 270 014a 0F90      		pop __tmp_reg__
+ 271 014c CF91      		pop r28
+ 272 014e DF91      		pop r29
+ 273 0150 0F91      		pop r16
+ 274 0152 0895      		ret
+ 275               		.size	CLKSYS_XOSC_FailureDetection_Enable, .-CLKSYS_XOSC_FailureDetection_Enable
+ 276               	.global	CLKSYS_Configuration_Lock
+ 277               		.type	CLKSYS_Configuration_Lock, @function
+ 278               	CLKSYS_Configuration_Lock:
+ 279 0154 0F93      		push r16
+ 280 0156 DF93      		push r29
+ 281 0158 CF93      		push r28
+ 282 015a 0F92      		push __tmp_reg__
+ 283 015c CDB7      		in r28,__SP_L__
+ 284 015e DEB7      		in r29,__SP_H__
+ 285               	/* prologue: function */
+GAS LISTING /tmp/cc7ARQLY.s 			page 6
+
+
+ 286               	/* frame size = 1 */
+ 287 0160 8FB7      		in r24,__SREG__
+ 288 0162 8983      		std Y+1,r24
+ 289               	/* #APP */
+ 290               	 ;  108 "clksys_driver.c" 1
+ 291 0164 F894      		cli
+ 292               	 ;  0 "" 2
+ 293               	/* #NOAPP */
+ 294 0166 1BBE      		out 59-0,__zero_reg__
+ 295 0168 21E0      		ldi r18,lo8(1)
+ 296 016a 82E4      		ldi r24,lo8(66)
+ 297 016c 90E0      		ldi r25,hi8(66)
+ 298               	/* #APP */
+ 299               	 ;  113 "clksys_driver.c" 1
+ 300 016e FC01      		movw r30,  r24
+ 301 0170 08ED      		ldi  r16,  216
+ 302 0172 04BF      		out   52, r16
+ 303 0174 2083      		st     Z,  r18
+ 304               		
+ 305               	 ;  0 "" 2
+ 306               	/* #NOAPP */
+ 307 0176 8981      		ldd r24,Y+1
+ 308 0178 8FBF      		out __SREG__,r24
+ 309               	/* epilogue start */
+ 310 017a 0F90      		pop __tmp_reg__
+ 311 017c CF91      		pop r28
+ 312 017e DF91      		pop r29
+ 313 0180 0F91      		pop r16
+ 314 0182 0895      		ret
+ 315               		.size	CLKSYS_Configuration_Lock, .-CLKSYS_Configuration_Lock
+GAS LISTING /tmp/cc7ARQLY.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 clksys_driver.c
+     /tmp/cc7ARQLY.s:2      *ABS*:0000003f __SREG__
+     /tmp/cc7ARQLY.s:3      *ABS*:0000003e __SP_H__
+     /tmp/cc7ARQLY.s:4      *ABS*:0000003d __SP_L__
+     /tmp/cc7ARQLY.s:5      *ABS*:00000034 __CCP__
+     /tmp/cc7ARQLY.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/cc7ARQLY.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/cc7ARQLY.s:11     .text:00000000 CCPWrite
+     /tmp/cc7ARQLY.s:48     .text:0000002a CLKSYS_XOSC_Config
+     /tmp/cc7ARQLY.s:72     .text:0000004a CLKSYS_PLL_Config
+     /tmp/cc7ARQLY.s:85     .text:00000056 CLKSYS_Disable
+     /tmp/cc7ARQLY.s:102    .text:0000006a CLKSYS_Prescalers_Config
+     /tmp/cc7ARQLY.s:142    .text:0000009a CLKSYS_Main_ClockSource_Select
+     /tmp/cc7ARQLY.s:186    .text:000000d4 CLKSYS_RTC_ClockSource_Enable
+     /tmp/cc7ARQLY.s:201    .text:000000e4 CLKSYS_AutoCalibration_Enable
+     /tmp/cc7ARQLY.s:238    .text:00000124 CLKSYS_XOSC_FailureDetection_Enable
+     /tmp/cc7ARQLY.s:278    .text:00000154 CLKSYS_Configuration_Lock
+
+NO UNDEFINED SYMBOLS

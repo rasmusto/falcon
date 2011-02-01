@@ -1,0 +1,147 @@
+GAS LISTING /tmp/ccllO8mU.s 			page 1
+
+
+   1               		.file	"main.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.text
+   9               	.global	configClock
+  10               		.type	configClock, @function
+  11               	configClock:
+  12               	/* prologue: function */
+  13               	/* frame size = 0 */
+  14 0000 8091 5000 		lds r24,80
+  15 0004 8260      		ori r24,lo8(2)
+  16 0006 8093 5000 		sts 80,r24
+  17               	.L2:
+  18 000a 8091 5100 		lds r24,81
+  19 000e 81FF      		sbrs r24,1
+  20 0010 00C0      		rjmp .L2
+  21 0012 80E8      		ldi r24,lo8(-128)
+  22 0014 60E1      		ldi r22,lo8(16)
+  23 0016 0E94 0000 		call CLKSYS_PLL_Config
+  24 001a 8091 5000 		lds r24,80
+  25 001e 8061      		ori r24,lo8(16)
+  26 0020 8093 5000 		sts 80,r24
+  27               	.L3:
+  28 0024 8091 5100 		lds r24,81
+  29 0028 84FF      		sbrs r24,4
+  30 002a 00C0      		rjmp .L3
+  31 002c 88ED      		ldi r24,lo8(-40)
+  32 002e 84BF      		out 52-0,r24
+  33 0030 83E0      		ldi r24,lo8(3)
+  34 0032 E0E4      		ldi r30,lo8(64)
+  35 0034 F0E0      		ldi r31,hi8(64)
+  36 0036 8183      		std Z+1,r24
+  37 0038 84E0      		ldi r24,lo8(4)
+  38 003a 0E94 0000 		call CLKSYS_Main_ClockSource_Select
+  39               	/* epilogue start */
+  40 003e 0895      		ret
+  41               		.size	configClock, .-configClock
+  42               	.global	main
+  43               		.type	main, @function
+  44               	main:
+  45               	/* prologue: function */
+  46               	/* frame size = 0 */
+  47 0040 0E94 0000 		call configClock
+  48 0044 80EC      		ldi r24,lo8(-64)
+  49 0046 8093 8006 		sts 1664,r24
+  50 004a 8FE0      		ldi r24,lo8(15)
+  51 004c 8093 A006 		sts 1696,r24
+  52 0050 A0E8      		ldi r26,lo8(1664)
+  53 0052 B6E0      		ldi r27,hi8(1664)
+  54 0054 E0EA      		ldi r30,lo8(1696)
+  55 0056 F6E0      		ldi r31,hi8(1696)
+  56 0058 50E4      		ldi r21,lo8(64)
+  57 005a 45E0      		ldi r20,lo8(5)
+GAS LISTING /tmp/ccllO8mU.s 			page 2
+
+
+  58 005c 95ED      		ldi r25,lo8(-43)
+  59 005e 30E8      		ldi r19,lo8(-128)
+  60 0060 2AE0      		ldi r18,lo8(10)
+  61               	.L9:
+  62 0062 1496      		adiw r26,4
+  63 0064 1C92      		st X,__zero_reg__
+  64 0066 1497      		sbiw r26,4
+  65 0068 1482      		std Z+4,__zero_reg__
+  66               	/* #APP */
+  67               	 ;  25 "main.c" 1
+  68 006a 0000      		nop
+  69               	 ;  0 "" 2
+  70               	 ;  26 "main.c" 1
+  71 006c 0000      		nop
+  72               	 ;  0 "" 2
+  73               	 ;  27 "main.c" 1
+  74 006e 0000      		nop
+  75               	 ;  0 "" 2
+  76               	 ;  28 "main.c" 1
+  77 0070 0000      		nop
+  78               	 ;  0 "" 2
+  79               	/* #NOAPP */
+  80 0072 1496      		adiw r26,4
+  81 0074 5C93      		st X,r21
+  82 0076 1497      		sbiw r26,4
+  83 0078 4483      		std Z+4,r20
+  84 007a 892F      		mov r24,r25
+  85               	/* #APP */
+  86               	 ;  83 "/usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/include/util/delay_basic.h" 1
+  87 007c 8A95      		1: dec r24
+  88 007e 01F4      		brne 1b
+  89               	 ;  0 "" 2
+  90               	/* #NOAPP */
+  91 0080 1496      		adiw r26,4
+  92 0082 1C92      		st X,__zero_reg__
+  93 0084 1497      		sbiw r26,4
+  94 0086 1482      		std Z+4,__zero_reg__
+  95               	/* #APP */
+  96               	 ;  35 "main.c" 1
+  97 0088 0000      		nop
+  98               	 ;  0 "" 2
+  99               	 ;  36 "main.c" 1
+ 100 008a 0000      		nop
+ 101               	 ;  0 "" 2
+ 102               	 ;  37 "main.c" 1
+ 103 008c 0000      		nop
+ 104               	 ;  0 "" 2
+ 105               	 ;  38 "main.c" 1
+ 106 008e 0000      		nop
+ 107               	 ;  0 "" 2
+ 108               	/* #NOAPP */
+ 109 0090 1496      		adiw r26,4
+ 110 0092 3C93      		st X,r19
+ 111 0094 1497      		sbiw r26,4
+ 112 0096 2483      		std Z+4,r18
+ 113 0098 892F      		mov r24,r25
+ 114               	/* #APP */
+GAS LISTING /tmp/ccllO8mU.s 			page 3
+
+
+ 115               	 ;  83 "/usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/include/util/delay_basic.h" 1
+ 116 009a 8A95      		1: dec r24
+ 117 009c 01F4      		brne 1b
+ 118               	 ;  0 "" 2
+ 119               	/* #NOAPP */
+ 120 009e 00C0      		rjmp .L9
+ 121               		.size	main, .-main
+GAS LISTING /tmp/ccllO8mU.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+     /tmp/ccllO8mU.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccllO8mU.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccllO8mU.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccllO8mU.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccllO8mU.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccllO8mU.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccllO8mU.s:11     .text:00000000 configClock
+     /tmp/ccllO8mU.s:44     .text:00000040 main
+
+UNDEFINED SYMBOLS
+CLKSYS_PLL_Config
+CLKSYS_Main_ClockSource_Select
