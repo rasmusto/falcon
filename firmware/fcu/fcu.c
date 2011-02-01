@@ -12,7 +12,8 @@ volatile struct mot_rx_pkt_t mot_rx;
 volatile struct imu_tx_pkt_t imu_tx;
 volatile struct imu_rx_pkt_t imu_rx;
 
-volatile uint8_t bat_voltage;
+volatile uint8_t bat_voltage_raw;
+volatile float bat_voltage_human;
 
 void init_mot_tx_pkt(volatile struct mot_tx_pkt_t * pkt)
 {
@@ -40,11 +41,11 @@ void print_mot_tx_pkt(volatile struct mot_tx_pkt_t * pkt)
     printf("\n\r");
     printf("mot_tx_pkt:\n\r");
     printf("\tstart:   %#02x\n\r", pkt->start);
-    printf("\ttgt_1:  %5d\n\r", pkt->tgt_1);
-    printf("\ttgt_2:  %5d\n\r", pkt->tgt_2);
-    printf("\ttgt_3:  %5d\n\r", pkt->tgt_3);
-    printf("\ttgt_4:  %5d\n\r", pkt->tgt_4);
-    printf("\tcrc:    %5d", pkt->crc);
+    printf("\ttgt_1:  %6d\n\r", pkt->tgt_1);
+    printf("\ttgt_2:  %6d\n\r", pkt->tgt_2);
+    printf("\ttgt_3:  %6d\n\r", pkt->tgt_3);
+    printf("\ttgt_4:  %6d\n\r", pkt->tgt_4);
+    printf("\tcrc:    %6d", pkt->crc);
 }
 
 void print_mot_rx_pkt(volatile struct mot_rx_pkt_t * pkt)
@@ -53,11 +54,11 @@ void print_mot_rx_pkt(volatile struct mot_rx_pkt_t * pkt)
     printf("\n\r");
     printf("mot_rx_pkt:\n\r");
     printf("\tstart:   %#02x\n\r", pkt->start);
-    printf("\tspd_1:  %5d\n\r", pkt->spd_1);
-    printf("\tspd_2:  %5d\n\r", pkt->spd_2);
-    printf("\tspd_3:  %5d\n\r", pkt->spd_3);
-    printf("\tspd_4:  %5d\n\r", pkt->spd_4);
-    printf("\tcrc:    %5d", pkt->crc);
+    printf("\tspd_1:  %6d\n\r", pkt->spd_1);
+    printf("\tspd_2:  %6d\n\r", pkt->spd_2);
+    printf("\tspd_3:  %6d\n\r", pkt->spd_3);
+    printf("\tspd_4:  %6d\n\r", pkt->spd_4);
+    printf("\tcrc:    %6d", pkt->crc);
 }
 
 void process_rx_buf(volatile char * rx_buf)
@@ -93,7 +94,8 @@ void process_rx_buf(volatile char * rx_buf)
     else if(strcmp(cmd, "led2r_off") == 0) { LED_2_RED_OFF(); }
     else if(strcmp(cmd, "led3r_off") == 0) { LED_3_RED_OFF(); }
     else if(strcmp(cmd, "led4r_off") == 0) { LED_4_RED_OFF(); }
-    else if(strcmp(cmd, "help") == 0) { printf("\n\r\n\rAvailable commands:\n\r\treboot\n\r\tprint\n\r\tprint_mot\n\r\tmot_[1-4] val\n\r\tled[1-4][r, g]_[on, off]\n\r\thelp\n\r"); }
+    else if(strcmp(cmd, "bat") == 0) { printf("\n\rbat_voltage_raw: %d", bat_voltage_raw); printf("\n\rbat_voltage_human: %0.4f", (double)bat_voltage_human); }
+    else if(strcmp(cmd, "help") == 0) { printf("\n\r\n\rAvailable commands:\n\r\treboot - reboot the mcu\n\r\tprint - print all packet information\n\r\tprint_mot - print motor packet\n\r\tmot[1-4] val - set motor target value (0-65536)\n\r\tled[1-4][r, g]_[on, off] - turn led on or off\n\r\tbat - print battery voltage\n\r\thelp - print this message\n\r"); }
     else if(strcmp(cmd, "clear") == 0) { printf("%c", 12); }
     else { printf("\n\rcommand not found: %s", cmd); }
     printf("\n\rfcu: ");
@@ -187,12 +189,11 @@ ISR(USARTE0_RXC_vect)
 
 /***** adc *****/
 // interrupt should be called after each ADC conversion is complete
-/*
 ISR(ADCA_CH0_vect)
 {
-    bat_voltage = (ADCA.CH0RES - adc_offset);
+    bat_voltage_raw = ADCA.CH0.RES;
+    bat_voltage_human = (float)bat_voltage_raw / 16;
 }
-*/
 
 int main (void) 
 {
@@ -203,6 +204,7 @@ int main (void)
 
     init_clk();
     init_spi();
+    init_adc(&ADCA);
 
     //set led pins as outputs
     PORTA.DIRSET=0b11110000;

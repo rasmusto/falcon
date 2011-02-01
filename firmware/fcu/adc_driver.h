@@ -60,7 +60,7 @@
 #ifndef ADC_DRIVER_H
 #define ADC_DRIVER_H
 
-#include <avr_compiler.h>
+#include "avr_compiler.h"
 
 
 #define COMMON_MODE_CYCLES 16
@@ -365,7 +365,7 @@ void ADC_Wait_32MHz(ADC_t * adc);
 //@}
 
 
-/*! Offset addresses for production signature row on which is not in current GCC
+/*! Offset addresses for production signature row on which is not in current GCC  
  *  header files
  * \name GCC compatibility macros
  */

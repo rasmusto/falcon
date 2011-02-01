@@ -120,7 +120,7 @@ uint16_t ADC_ResultCh_GetWord_Unsigned(ADC_CH_t * adc_ch, uint8_t offset)
  *  \param  signedOffset  Offset value to subtract.
  *  \return  The signed Conversion result with the offset substracted.
  */
-int16_t ADC_ResultCh_GetWord_Signed(ADC_CH_t * adc_ch, int8_t offset)
+int16_t ADC_ResultCh_GetWord_Signed(ADC_CH_t * adc_ch, int8_t signedOffset)
 {
   	int16_t answer;
 
@@ -128,7 +128,7 @@ int16_t ADC_ResultCh_GetWord_Signed(ADC_CH_t * adc_ch, int8_t offset)
 	adc_ch->INTFLAGS = ADC_CH_CHIF_bm;
 
 	/* Return result register contents*/
-	answer = adc_ch->RES - offset;
+	answer = adc_ch->RES - signedOffset;
 
 	return answer;
 }
@@ -255,7 +255,7 @@ void ADC_Wait_32MHz(ADC_t * adc)
 /*! \brief This function gets the offset of the ADC when it is configured in unsigned mode
  *
  *   This function does one or several measurements to determine the offset of
- *   the ADC.
+ *   the ADC. 
  *
  *  \note The ADC must be configured and enabled before this function is run.
  *
@@ -270,15 +270,15 @@ void ADC_Wait_32MHz(ADC_t * adc)
  */
 uint8_t ADC_Offset_Get_Unsigned(ADC_t * adc, ADC_CH_t *ch, bool oversampling)
 {
-    uint8_t i;
     if (oversampling)
     {
       uint16_t offset=0;
+      int i;
       for (i=0; i<4; i++)
       {
         /* Do one conversion to find offset. */
         ADC_Ch_Conversion_Start(ch);
-
+    
         do{
         }while(!ADC_Ch_Conversion_Complete(ch));
         offset += ADC_ResultCh_GetWord_Unsigned(ch, 0x00);
@@ -286,16 +286,16 @@ uint8_t ADC_Offset_Get_Unsigned(ADC_t * adc, ADC_CH_t *ch, bool oversampling)
       return ((uint8_t)(offset>>2));
     }
     else
-    {
+    {        
       uint8_t offset=0;
-
+      
       /* Do one conversion to find offset. */
       ADC_Ch_Conversion_Start(ch);
-
+  
       do{
       }while(!ADC_Ch_Conversion_Complete(ch));
       offset = (uint8_t)ADC_ResultCh_GetWord(ch);
-
+      
       return offset;
     }
 }
@@ -303,7 +303,7 @@ uint8_t ADC_Offset_Get_Unsigned(ADC_t * adc, ADC_CH_t *ch, bool oversampling)
 /*! \brief This function gets the offset of the ADC when it is configured in signed mode
  *
  *   This function does one or several measurements to determine the offset of
- *   the ADC.
+ *   the ADC. 
  *
  *  \note The ADC must be configured and enabled before this function is run.
  *
@@ -320,13 +320,13 @@ int8_t ADC_Offset_Get_Signed(ADC_t * adc, ADC_CH_t *ch, bool oversampling)
 {
     if (oversampling)
     {
-      uint8_t i;
       int16_t offset=0;
+      int i;
       for (i=0; i<4; i++)
       {
         /* Do one conversion to find offset. */
         ADC_Ch_Conversion_Start(ch);
-
+    
         do{
         }while(!ADC_Ch_Conversion_Complete(ch));
         offset += ADC_ResultCh_GetWord_Signed(ch, 0x00);
@@ -334,51 +334,43 @@ int8_t ADC_Offset_Get_Signed(ADC_t * adc, ADC_CH_t *ch, bool oversampling)
       return ((int8_t)(offset/4));
     }
     else
-    {
+    {        
       int8_t offset=0;
-
+      
       /* Do one conversion to find offset. */
       ADC_Ch_Conversion_Start(ch);
-
+  
       do{
       }while(!ADC_Ch_Conversion_Complete(ch));
       offset = (uint8_t)ADC_ResultCh_GetWord_Signed(ch, 0x00);
-
+      
       return offset;
     }
 }
 
+               
+#ifdef __GNUC__
 
-#ifdef __CODEVISIONAVR__
-
-#pragma warn-
-uint8_t nvm_cmd_read( uint8_t *nvm_cmd_addr, uint8_t index )
-{
-#asm
-        LDD  R30,Y+0    ; Z = index
-        LDI  R31,0
-        LDD  R26,Y+1    ; X = &NVM.CMD
-        LDD  R27,Y+2
-        LDI  R25,2      ; NVM.CMD = NVM_CMD_READ_CALIB_ROW_gc
-        ST   X,R25
-        LPM             ; read the data in R0
-        ; Clean up NVM Command register.
-        LDI  R25,0      ; NVM.CMD = NVM_CMD_NO_OPERATION_gc
-        ST   X,R25
-        MOV  R30,R0     ; return result
-#endasm
-}
-#pragma warn+
-
-/*! \brief Function for CodeVisionAVR to read out calibration byte.
+/*! \brief Function for GCC to read out calibration byte.
+ *
+ *  \note For IAR support, include the adc_driver_asm.S90 file in your project.
  *
  *  \param index The index to the calibration byte.
  *
  *  \return Calibration byte.
  */
-
 uint8_t SP_ReadCalibrationByte( uint8_t index )
 {
-	return nvm_cmd_read(&NVM.CMD,index);
+	uint8_t result;
+
+	/* Load the NVM Command register to read the calibration row. */
+	NVM_CMD = NVM_CMD_READ_CALIB_ROW_gc;
+ 	result = pgm_read_byte(index);
+
+	/* Clean up NVM Command register. */
+ 	NVM_CMD = NVM_CMD_NO_OPERATION_gc;
+
+	return result;
 }
+
 #endif
