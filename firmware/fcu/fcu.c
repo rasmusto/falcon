@@ -48,11 +48,12 @@ void print_mot_tx_pkt(volatile struct mot_tx_pkt_t * pkt)
     printf("\ttgt_3:  %lu\n\r", (uint32_t)pkt->tgt_3);
     printf("\ttgt_4:  %lu\n\r", (uint32_t)pkt->tgt_4);
     printf("\tcrc:    %6d", pkt->crc);
+
 }
 
 void print_mot_rx_pkt(volatile struct mot_rx_pkt_t * pkt)
 {
-    pkt->crc = crc((char *)pkt, 9, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
+    //pkt->crc = crc((char *)pkt, 9, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
     printf("\n\r");
     printf("mot_rx_pkt:\n\r");
     printf("\tstart:   %#02x\n\r", pkt->start);
@@ -60,7 +61,10 @@ void print_mot_rx_pkt(volatile struct mot_rx_pkt_t * pkt)
     printf("\tspd_2:  %lu\n\r", (uint32_t)pkt->spd_2);
     printf("\tspd_3:  %lu\n\r", (uint32_t)pkt->spd_3);
     printf("\tspd_4:  %lu\n\r", (uint32_t)pkt->spd_4);
-    printf("\tcrc:   %6d", pkt->crc);
+    printf("\tcrc:   %6d\n\r", pkt->crc);
+
+    char temp_crc = crc((char *)pkt, 9, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
+    printf("\tactual crc: %d\n\r", temp_crc);
 }
 
 void process_rx_buf(volatile char * rx_buf)
@@ -112,11 +116,13 @@ void process_rx_buf(volatile char * rx_buf)
 /********* INTERRUPTS **********/
 
 /***** spi *****/
+/*
 ISR(SPIC_INT_vect)
 {
     LED_3_RED_ON();
 	SPI_MasterInterruptHandler(&spiMasterE);
 }
+*/
 
 /***** xbee *****/
 ISR(USARTF0_TXC_vect)
@@ -248,7 +254,6 @@ int main (void)
     /************** Main Loop ***************/
     while(1)
     {
-        //mot_tx_rx(&mot_tx, &mot_rx);
         cli();
         stdout = &rs232_out;
         printf("rs232\n\r");

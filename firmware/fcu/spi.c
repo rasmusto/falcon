@@ -13,8 +13,8 @@ void init_spi(void)
     PORTE.DIR = (1<<7) | (1<<5) | (1<<4);   // configure MOSI, MOT_EN, CLK as outputs on PORTE
     PORTB.DIR = 0xFF;                       // set SS pins as outputs
     PORTB.OUT = 0xFF;                       // set SS pins high
-    // enable SPI master mode, CLK/16 (@32MHz=>2MHz)
-    SPIE.CTRL = SPI_ENABLE_bm | SPI_MASTER_bm | SPI_MODE_0_gc | SPI_PRESCALER_DIV16_gc;
+    // enable SPI master mode, CLK/128 (@32MHz=>250kHz)
+    SPIE.CTRL = SPI_ENABLE_bm | SPI_MASTER_bm | SPI_MODE_0_gc | SPI_PRESCALER_DIV128_gc;
 };
 
 void spi_write(char data, uint8_t pin)
