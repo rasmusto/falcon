@@ -127,7 +127,7 @@ LOAD /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0x1148
+.text           0x00000000     0x1136
  *(.vectors)
  .vectors       0x00000000      0x1e8 /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/crtx128a3.o
                 0x00000000                __vectors
@@ -290,7 +290,7 @@ LOAD /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a
                 0x0000022a                __vector_87
                 0x0000022a                __vector_65
                 0x0000022a                __vector_120
- .text          0x0000022e      0xabc main.o
+ .text          0x0000022e      0xaaa main.o
                 0x0000022e                __vector_110
                 0x00000266                __vector_111
                 0x000002ae                __vector_112
@@ -313,76 +313,76 @@ LOAD /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a
                 0x000005f0                startup
                 0x000008cc                configDelayTimer
                 0x000008f2                __vector_72
-                0x000009cc                __vector_83
-                0x00000a5e                initAdc
-                0x00000ade                configHalfPWMTimer
-                0x00000b4a                configPWM
-                0x00000bb6                configClock
-                0x00000bf6                main
- .text          0x00000cea      0x184 clksys_driver.o
-                0x00000cea                CCPWrite
-                0x00000d14                CLKSYS_XOSC_Config
-                0x00000d34                CLKSYS_PLL_Config
-                0x00000d40                CLKSYS_Disable
-                0x00000d54                CLKSYS_Prescalers_Config
-                0x00000d84                CLKSYS_Main_ClockSource_Select
-                0x00000dbe                CLKSYS_RTC_ClockSource_Enable
-                0x00000dce                CLKSYS_AutoCalibration_Enable
-                0x00000e0e                CLKSYS_XOSC_FailureDetection_Enable
-                0x00000e3e                CLKSYS_Configuration_Lock
- .text          0x00000e6e      0x114 TC_driver.o
-                0x00000e6e                TC0_ConfigClockSource
-                0x00000e7a                TC1_ConfigClockSource
-                0x00000e86                TC0_ConfigWGM
-                0x00000e92                TC1_ConfigWGM
-                0x00000e9e                TC0_ConfigInputCapture
-                0x00000eac                TC1_ConfigInputCapture
-                0x00000eba                TC0_EnableCCChannels
-                0x00000ec6                TC1_EnableCCChannels
-                0x00000ed2                TC0_DisableCCChannels
-                0x00000ee0                TC1_DisableCCChannels
-                0x00000eee                TC0_SetOverflowIntLevel
-                0x00000efa                TC1_SetOverflowIntLevel
-                0x00000f06                TC0_SetErrorIntLevel
-                0x00000f12                TC1_SetErrorIntLevel
-                0x00000f1e                TC0_SetCCAIntLevel
-                0x00000f2a                TC1_SetCCAIntLevel
-                0x00000f36                TC0_SetCCBIntLevel
-                0x00000f42                TC1_SetCCBIntLevel
-                0x00000f4e                TC0_SetCCCIntLevel
-                0x00000f5a                TC0_SetCCDIntLevel
-                0x00000f66                TC0_Reset
-                0x00000f74                TC1_Reset
- .text          0x00000f82       0x28 awex_driver.o
-                0x00000f82                AWEX_EnableDeadTimeInsertion
-                0x00000f8e                AWEX_DisableDeadTimeInsertion
-                0x00000f9c                AWEX_ConfigureFaultDetection
- .text          0x00000faa      0x194 adc_driver.o
-                0x00000faa                ADC_CalibrationValues_Load
-                0x00001008                ADC_ResultCh_GetWord_Unsigned
-                0x0000101a                ADC_ResultCh_GetWord_Signed
-                0x00001032                ADC_ResultCh_GetWord
-                0x00001040                ADC_ResultCh_GetLowByte
-                0x0000104a                ADC_ResultCh_GetHighByte
-                0x00001054                ADC_Wait_8MHz
-                0x00001064                ADC_Wait_32MHz
-                0x00001076                ADC_Offset_Get_Unsigned
-                0x000010c8                ADC_Offset_Get_Signed
-                0x0000112a                SP_ReadCalibrationByte
- .text          0x0000113e        0x6 hires_driver.o
-                0x0000113e                HIRES_Enable
- .text          0x00001144        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_exit.o)
- .text          0x00001144        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_clear_bss.o)
- .text          0x00001144        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/libc.a(iob.o)
-                0x00001144                . = ALIGN (0x2)
+                0x000009bc                __vector_83
+                0x00000a4e                initAdc
+                0x00000ace                configHalfPWMTimer
+                0x00000b3a                configPWM
+                0x00000ba6                configClock
+                0x00000be6                main
+ .text          0x00000cd8      0x184 clksys_driver.o
+                0x00000cd8                CCPWrite
+                0x00000d02                CLKSYS_XOSC_Config
+                0x00000d22                CLKSYS_PLL_Config
+                0x00000d2e                CLKSYS_Disable
+                0x00000d42                CLKSYS_Prescalers_Config
+                0x00000d72                CLKSYS_Main_ClockSource_Select
+                0x00000dac                CLKSYS_RTC_ClockSource_Enable
+                0x00000dbc                CLKSYS_AutoCalibration_Enable
+                0x00000dfc                CLKSYS_XOSC_FailureDetection_Enable
+                0x00000e2c                CLKSYS_Configuration_Lock
+ .text          0x00000e5c      0x114 TC_driver.o
+                0x00000e5c                TC0_ConfigClockSource
+                0x00000e68                TC1_ConfigClockSource
+                0x00000e74                TC0_ConfigWGM
+                0x00000e80                TC1_ConfigWGM
+                0x00000e8c                TC0_ConfigInputCapture
+                0x00000e9a                TC1_ConfigInputCapture
+                0x00000ea8                TC0_EnableCCChannels
+                0x00000eb4                TC1_EnableCCChannels
+                0x00000ec0                TC0_DisableCCChannels
+                0x00000ece                TC1_DisableCCChannels
+                0x00000edc                TC0_SetOverflowIntLevel
+                0x00000ee8                TC1_SetOverflowIntLevel
+                0x00000ef4                TC0_SetErrorIntLevel
+                0x00000f00                TC1_SetErrorIntLevel
+                0x00000f0c                TC0_SetCCAIntLevel
+                0x00000f18                TC1_SetCCAIntLevel
+                0x00000f24                TC0_SetCCBIntLevel
+                0x00000f30                TC1_SetCCBIntLevel
+                0x00000f3c                TC0_SetCCCIntLevel
+                0x00000f48                TC0_SetCCDIntLevel
+                0x00000f54                TC0_Reset
+                0x00000f62                TC1_Reset
+ .text          0x00000f70       0x28 awex_driver.o
+                0x00000f70                AWEX_EnableDeadTimeInsertion
+                0x00000f7c                AWEX_DisableDeadTimeInsertion
+                0x00000f8a                AWEX_ConfigureFaultDetection
+ .text          0x00000f98      0x194 adc_driver.o
+                0x00000f98                ADC_CalibrationValues_Load
+                0x00000ff6                ADC_ResultCh_GetWord_Unsigned
+                0x00001008                ADC_ResultCh_GetWord_Signed
+                0x00001020                ADC_ResultCh_GetWord
+                0x0000102e                ADC_ResultCh_GetLowByte
+                0x00001038                ADC_ResultCh_GetHighByte
+                0x00001042                ADC_Wait_8MHz
+                0x00001052                ADC_Wait_32MHz
+                0x00001064                ADC_Offset_Get_Unsigned
+                0x000010b6                ADC_Offset_Get_Signed
+                0x00001118                SP_ReadCalibrationByte
+ .text          0x0000112c        0x6 hires_driver.o
+                0x0000112c                HIRES_Enable
+ .text          0x00001132        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_exit.o)
+ .text          0x00001132        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_clear_bss.o)
+ .text          0x00001132        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/libc.a(iob.o)
+                0x00001132                . = ALIGN (0x2)
  *(.text.*)
- .text.libgcc   0x00001144        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_exit.o)
- .text.libgcc   0x00001144        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_clear_bss.o)
-                0x00001144                . = ALIGN (0x2)
+ .text.libgcc   0x00001132        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_exit.o)
+ .text.libgcc   0x00001132        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_clear_bss.o)
+                0x00001132                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00001144        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_exit.o)
-                0x00001144                exit
-                0x00001144                _exit
+ .fini9         0x00001132        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_exit.o)
+                0x00001132                exit
+                0x00001132                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -401,11 +401,11 @@ LOAD /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00001144        0x4 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_exit.o)
+ .fini0         0x00001132        0x4 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_exit.o)
  *(.fini0)
-                0x00001148                _etext = .
+                0x00001136                _etext = .
 
-.data           0x00802000       0x2e load address 0x00001148
+.data           0x00802000       0x2e load address 0x00001136
                 0x00802000                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00802000        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/crtx128a3.o
@@ -458,8 +458,8 @@ LOAD /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a
  COMMON         0x00802036        0x6 /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/libc.a(iob.o)
                 0x00802036                __iob
                 0x0080203c                PROVIDE (__bss_end, .)
-                0x00001148                __data_load_start = LOADADDR (.data)
-                0x00001176                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00001136                __data_load_start = LOADADDR (.data)
+                0x00001164                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x0080203c        0x0
                 0x0080203c                PROVIDE (__noinit_start, .)
@@ -552,36 +552,36 @@ LOAD /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a
  .debug_pubnames
                 0x000007e0       0x1c /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/libc.a(iob.o)
 
-.debug_info     0x00000000     0x43ab
+.debug_info     0x00000000     0x43c0
  *(.debug_info)
- .debug_info    0x00000000     0x1aee main.o
- .debug_info    0x00001aee      0x64a clksys_driver.o
- .debug_info    0x00002138     0x1248 TC_driver.o
- .debug_info    0x00003380      0x22b awex_driver.o
- .debug_info    0x000035ab      0xba8 adc_driver.o
- .debug_info    0x00004153      0x102 hires_driver.o
- .debug_info    0x00004255      0x156 /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/libc.a(iob.o)
+ .debug_info    0x00000000     0x1b03 main.o
+ .debug_info    0x00001b03      0x64a clksys_driver.o
+ .debug_info    0x0000214d     0x1248 TC_driver.o
+ .debug_info    0x00003395      0x22b awex_driver.o
+ .debug_info    0x000035c0      0xba8 adc_driver.o
+ .debug_info    0x00004168      0x102 hires_driver.o
+ .debug_info    0x0000426a      0x156 /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/libc.a(iob.o)
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev   0x00000000      0xab0
+.debug_abbrev   0x00000000      0xabf
  *(.debug_abbrev)
- .debug_abbrev  0x00000000      0x239 main.o
- .debug_abbrev  0x00000239      0x1e4 clksys_driver.o
- .debug_abbrev  0x0000041d      0x165 TC_driver.o
- .debug_abbrev  0x00000582       0xdd awex_driver.o
- .debug_abbrev  0x0000065f      0x2d5 adc_driver.o
- .debug_abbrev  0x00000934       0xac hires_driver.o
- .debug_abbrev  0x000009e0       0xd0 /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/libc.a(iob.o)
+ .debug_abbrev  0x00000000      0x248 main.o
+ .debug_abbrev  0x00000248      0x1e4 clksys_driver.o
+ .debug_abbrev  0x0000042c      0x165 TC_driver.o
+ .debug_abbrev  0x00000591       0xdd awex_driver.o
+ .debug_abbrev  0x0000066e      0x2d5 adc_driver.o
+ .debug_abbrev  0x00000943       0xac hires_driver.o
+ .debug_abbrev  0x000009ef       0xd0 /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/libc.a(iob.o)
 
-.debug_line     0x00000000     0x150e
+.debug_line     0x00000000     0x14d2
  *(.debug_line)
- .debug_line    0x00000000      0x89b main.o
- .debug_line    0x0000089b      0x2a1 clksys_driver.o
- .debug_line    0x00000b3c      0x301 TC_driver.o
- .debug_line    0x00000e3d      0x133 awex_driver.o
- .debug_line    0x00000f70      0x430 adc_driver.o
- .debug_line    0x000013a0       0xb3 hires_driver.o
- .debug_line    0x00001453       0xbb /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/libc.a(iob.o)
+ .debug_line    0x00000000      0x85f main.o
+ .debug_line    0x0000085f      0x2a1 clksys_driver.o
+ .debug_line    0x00000b00      0x301 TC_driver.o
+ .debug_line    0x00000e01      0x133 awex_driver.o
+ .debug_line    0x00000f34      0x430 adc_driver.o
+ .debug_line    0x00001364       0xb3 hires_driver.o
+ .debug_line    0x00001417       0xbb /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/libc.a(iob.o)
 
 .debug_frame    0x00000000      0x520
  *(.debug_frame)
@@ -595,7 +595,7 @@ LOAD /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a
 .debug_str      0x00000000     0x1ff7
  *(.debug_str)
  .debug_str     0x00000000      0xff4 main.o
-                               0x1048 (size before relaxing)
+                               0x104f (size before relaxing)
  .debug_str     0x00000ff4      0x44e clksys_driver.o
                                 0x6bd (size before relaxing)
  .debug_str     0x00001442      0x562 TC_driver.o
@@ -609,13 +609,13 @@ LOAD /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a
  .debug_str     0x00001f8b       0x6c /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/libc.a(iob.o)
                                 0x110 (size before relaxing)
 
-.debug_loc      0x00000000      0x990
+.debug_loc      0x00000000      0x96c
  *(.debug_loc)
- .debug_loc     0x00000000      0x1f8 main.o
- .debug_loc     0x000001f8       0x85 clksys_driver.o
- .debug_loc     0x0000027d      0x370 TC_driver.o
- .debug_loc     0x000005ed       0x78 awex_driver.o
- .debug_loc     0x00000665      0x32b adc_driver.o
+ .debug_loc     0x00000000      0x1d4 main.o
+ .debug_loc     0x000001d4       0x85 clksys_driver.o
+ .debug_loc     0x00000259      0x370 TC_driver.o
+ .debug_loc     0x000005c9       0x78 awex_driver.o
+ .debug_loc     0x00000641      0x32b adc_driver.o
 
 .debug_macinfo
  *(.debug_macinfo)

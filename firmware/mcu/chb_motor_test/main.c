@@ -536,9 +536,10 @@ ISR (ADCA_CH1_vect) {
 	ADCA.CH1.INTFLAGS = ADC_CH_CHIF_bm; // clear interrupt flag
 	
 	// replace firstSampleFlag with value limit
-	if (!firstSampleFlag) {
+	//~ if (!firstSampleFlag) {
+		uint8_t result = ADCA.CH1.RES;
 		if (stateSlope[motor2State]) { // rising
-			if (ADCA.CH1.RES > motor2Thresh) {
+			if (result > motor2Thresh  && result < 205) {
 				if (!passedCenterFlag) {
 					PORTC.OUTCLR = 1;
 					TCD1.PER = TCD1.CNT*2;
@@ -548,7 +549,7 @@ ISR (ADCA_CH1_vect) {
 				}
 			}
 		} else { // falling
-			if (ADCA.CH1.RES < motor2Thresh) {
+			if (result < motor2Thresh && result > 50) {
 				if (!passedCenterFlag) {
 					PORTC.OUTCLR = 1;
 					TCD1.PER = TCD1.CNT*2;
@@ -558,9 +559,9 @@ ISR (ADCA_CH1_vect) {
 				}
 			}
 		}
-	} else {
-		firstSampleFlag = 0;
-	}
+	//~ } else {
+		//~ firstSampleFlag = 0;
+	//~ }
 }
 
 void configDelayTimer (volatile TC0_t * tc) {
@@ -637,7 +638,6 @@ void setMotor2State (uint8_t state) {
 	} else if (state == 5) {
 		SET_PHASE_STATE_5_MOT2();
 	}
-	motor2State = state;
 }
 
 void setMotor3State (uint8_t state) {
