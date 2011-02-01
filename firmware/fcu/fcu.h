@@ -37,8 +37,8 @@
 #define LED_4_GREEN_ON()    PORTF.OUTSET=PIN7_bm;
 #define LED_4_GREEN_OFF()   PORTF.OUTCLR=PIN7_bm;
 
-#define MOT_TX_START 0xFF
-#define MOT_RX_START 0xCC
+#define MOT_TX_START 0b01011111
+#define MOT_RX_START 0b11110101
 
 /* Global Variables */
 
@@ -73,6 +73,7 @@ struct imu_tx_pkt_t
     volatile uint8_t start;
     volatile uint8_t request;
     volatile uint8_t crc;
+    char garbage[11];
 };
 
 struct imu_rx_pkt_t

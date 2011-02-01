@@ -1,26 +1,26 @@
 #include "pid.h"
 
-void pidSetKp (struct pid_info* pid, volatile float kp) {
+void pid_set_kp (struct pid_info* pid, volatile float kp) {
 	pid->kp = kp;
 }
 
-void pidSetKi (struct pid_info* pid, volatile float ki) {
+void pid_set_ki (struct pid_info* pid, volatile float ki) {
 	pid->ki = ki;
 }
 
-void pidSetKd (struct pid_info* pid, volatile float kd) {
+void pid_set_kd (struct pid_info* pid, volatile float kd) {
 	pid->kd = kd;
 }
 
-void pidSetTarget (struct pid_info* pid, volatile float target) {
+void pid_set_target (struct pid_info* pid, volatile float target) {
 	pid->target = target;
 }
 
-void resetI (struct pid_info* pid) {
+void pid_reset_i (struct pid_info* pid) {
 	pid->i = 0;
 }
 
-float pidIteration (struct pid_info* pid, volatile float value, uint32_t time_stamp) {
+float pid_iteration (struct pid_info* pid, volatile float value, uint32_t time_stamp) {
 	float error = value - pid->target;
 	pid->i += error/*(float)(time_stamp - pid->prev_time)*/;
 	float deltaError = (error - pid->prev_error)/*/(float)(time_stamp - pid->prev_time)*/;
@@ -33,13 +33,15 @@ float pidIteration (struct pid_info* pid, volatile float value, uint32_t time_st
 	return output;
 }
 
-void printpid_info(struct pid_info * pid)
+void print_pid_info(struct pid_info * pid)
 {
-	printf("kp = *%f\n", (double)pid->kp);
-	printf("ki = *%f\n", (double)pid->ki);
-	printf("kd = *%f\n", (double)pid->kd);
-	printf("i = *%f\n", (double)pid->i);
-	printf("prev_error = *%f\n", (double)pid->prev_error);
-	printf("prev_time = *%ld\n", pid->prev_time);
-	printf("target = *%f\n", (double)pid->target);
+    printf("\n\r");
+    printf("pid_info:\n\r");
+	printf("\tkp = *%f\n\r", (double)pid->kp);
+	printf("\tki = *%f\n\r", (double)pid->ki);
+	printf("\tkd = *%f\n\r", (double)pid->kd);
+	printf("\ti  = *%f\n\r", (double)pid->i);
+	printf("\tprev_error = *%f\n\r", (double)pid->prev_error);
+	printf("\tprev_time  = *%ld\n\r", pid->prev_time);
+	printf("\ttarget     = *%f\n\r", (double)pid->target);
 }

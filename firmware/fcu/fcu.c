@@ -43,10 +43,10 @@ void print_mot_tx_pkt(volatile struct mot_tx_pkt_t * pkt)
     printf("\n\r");
     printf("mot_tx_pkt:\n\r");
     printf("\tstart:   %#02x\n\r", pkt->start);
-    printf("\ttgt_1:  %6d\n\r", pkt->tgt_1);
-    printf("\ttgt_2:  %6d\n\r", pkt->tgt_2);
-    printf("\ttgt_3:  %6d\n\r", pkt->tgt_3);
-    printf("\ttgt_4:  %6d\n\r", pkt->tgt_4);
+    printf("\ttgt_1:  %lu\n\r", (uint32_t)pkt->tgt_1);
+    printf("\ttgt_2:  %lu\n\r", (uint32_t)pkt->tgt_2);
+    printf("\ttgt_3:  %lu\n\r", (uint32_t)pkt->tgt_3);
+    printf("\ttgt_4:  %lu\n\r", (uint32_t)pkt->tgt_4);
     printf("\tcrc:    %6d", pkt->crc);
 }
 
@@ -56,11 +56,11 @@ void print_mot_rx_pkt(volatile struct mot_rx_pkt_t * pkt)
     printf("\n\r");
     printf("mot_rx_pkt:\n\r");
     printf("\tstart:   %#02x\n\r", pkt->start);
-    printf("\tspd_1:  %6d\n\r", pkt->spd_1);
-    printf("\tspd_2:  %6d\n\r", pkt->spd_2);
-    printf("\tspd_3:  %6d\n\r", pkt->spd_3);
-    printf("\tspd_4:  %6d\n\r", pkt->spd_4);
-    printf("\tcrc:    %6d", pkt->crc);
+    printf("\tspd_1:  %lu\n\r", (uint32_t)pkt->spd_1);
+    printf("\tspd_2:  %lu\n\r", (uint32_t)pkt->spd_2);
+    printf("\tspd_3:  %lu\n\r", (uint32_t)pkt->spd_3);
+    printf("\tspd_4:  %lu\n\r", (uint32_t)pkt->spd_4);
+    printf("\tcrc:   %6d", pkt->crc);
 }
 
 void process_rx_buf(volatile char * rx_buf)
@@ -72,13 +72,13 @@ void process_rx_buf(volatile char * rx_buf)
     //printf("\n\rcommand: %s\n\rvalue: %d", cmd, val);
     if(cmd[0] == '\0') { } //do nothing
     else if(strcmp(cmd, "reboot") == 0) { printf("\n\rrebooting..."); CCPWrite(&RST_CTRL, RST_SWRST_bm); }
-    else if(strcmp(cmd, "print") == 0) { print_mot_tx_pkt(&mot_tx); print_mot_rx_pkt(&mot_rx); }
+    else if(strcmp(cmd, "print") == 0) { print_mot_tx_pkt(&mot_tx); print_mot_rx_pkt(&mot_rx); print_pid_info(&pid); }
     else if(strcmp(cmd, "print_mot_tx") == 0) { print_mot_tx_pkt(&mot_tx); }
     else if(strcmp(cmd, "print_mot_rx") == 0) { print_mot_rx_pkt(&mot_rx); }
-    else if(strcmp(cmd, "mot1") == 0) { mot_tx.tgt_1 = (uint8_t)val; }
-    else if(strcmp(cmd, "mot2") == 0) { mot_tx.tgt_2 = (uint8_t)val; }
-    else if(strcmp(cmd, "mot3") == 0) { mot_tx.tgt_3 = (uint8_t)val; }
-    else if(strcmp(cmd, "mot4") == 0) { mot_tx.tgt_4 = (uint8_t)val; }
+    else if(strcmp(cmd, "mot1") == 0) { mot_tx.tgt_1 = (uint16_t)val; }
+    else if(strcmp(cmd, "mot2") == 0) { mot_tx.tgt_2 = (uint16_t)val; }
+    else if(strcmp(cmd, "mot3") == 0) { mot_tx.tgt_3 = (uint16_t)val; }
+    else if(strcmp(cmd, "mot4") == 0) { mot_tx.tgt_4 = (uint16_t)val; }
     else if(strcmp(cmd, "motcrc") == 0) { mot_tx.crc = 47; }
     else if(strcmp(cmd, "led1g_on") == 0) { LED_1_GREEN_ON(); }
     else if(strcmp(cmd, "led2g_on") == 0) { LED_2_GREEN_ON(); }
@@ -134,6 +134,12 @@ ISR(USARTF0_RXC_vect)
         process_rx_buf(xbee_rx_buf);
         xbee_rx_count = 0;
     }
+    else if(c == '\b')
+    {
+        printf(" \b");
+        xbee_rx_count--;
+        xbee_rx_buf[xbee_rx_count] = '\0';
+    }
     else
     {
         xbee_rx_buf[xbee_rx_count] = c; 
@@ -159,7 +165,6 @@ ISR(USARTC1_RXC_vect)
     }
     else if(c == '\b')
     {
-        //printf("got a backspace!\n\r");
         printf(" \b");
         usb_rx_count--;
         usb_rx_buf[usb_rx_count] = '\0';
@@ -250,10 +255,9 @@ int main (void)
         sei();
         ADC_Ch_Conversion_Start (&ADCA.CH0);
 
+        spi_write_read_multi((char *)&mot_tx, (char *)&mot_rx, 10, SS0);
         //mot_tx.crc = crc((char *)&mot_tx, 9, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
-        //spi_write_multi(tx, sizeof(tx), SS0);
         //imu_tx.crc = crc((char *)&imu_tx, 9, 7); //calculate the crc on the first 9 bytes of imu packet with divisor 7
-        //spi_write_multi(imu_tx, sizeof(imu_tx), SS1);
     }
     return 0;
 }
