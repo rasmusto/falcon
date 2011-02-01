@@ -1,7 +1,5 @@
 #include "fcu.h"
 
-#define NUM_CMDS 4
-
 volatile char usb_rx_buf[128];
 volatile uint8_t usb_rx_count = 0;
 
@@ -16,76 +14,88 @@ volatile struct imu_rx_pkt_t imu_rx;
 
 volatile uint8_t bat_voltage;
 
-void init_mot_tx_pkt(volatile struct mot_tx_pkt_t * mot_tx)
+void init_mot_tx_pkt(volatile struct mot_tx_pkt_t * pkt)
 {
-    mot_tx->start = MOT_START;
-    mot_tx->tgt_1 = 0;
-    mot_tx->tgt_2 = 0;
-    mot_tx->tgt_3 = 0;
-    mot_tx->tgt_4 = 0;
-    mot_tx->crc = crc((char *)&mot_tx, 9, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
+    pkt->start = MOT_TX_START;
+    pkt->tgt_1 = 0;
+    pkt->tgt_2 = 0;
+    pkt->tgt_3 = 0;
+    pkt->tgt_4 = 0;
+    pkt->crc = crc((char *)pkt, 9, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
 }
 
-void print_mot_tx_pkt(volatile struct mot_tx_pkt_t * mot_tx)
+void init_mot_rx_pkt(volatile struct mot_rx_pkt_t * pkt)
 {
-    printf("%c\n\r", mot_tx->start);
-    printf("%d\n\r", mot_tx->tgt_1);
-    printf("%d\n\r", mot_tx->tgt_2);
-    printf("%d\n\r", mot_tx->tgt_3);
-    printf("%d\n\r", mot_tx->tgt_4);
-    printf("%d", mot_tx->crc);
-}
-    
-
-void mot_tx_rx(volatile struct mot_tx_pkt_t * mot_tx, volatile struct mot_rx_pkt_t * mot_rx)
-{
-    mot_tx->crc = crc((char *)&mot_tx, 9, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
-    spi_write_multi(mot_tx, sizeof(mot_tx), SS0);
+    pkt->start = MOT_RX_START;
+    pkt->spd_1 = 0;
+    pkt->spd_2 = 0;
+    pkt->spd_3 = 0;
+    pkt->spd_4 = 0;
+    pkt->crc = crc((char *)pkt, 9, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
 }
 
-void imu_tx_rx(volatile struct imu_tx_pkt_t * imu_tx, volatile struct imu_rx_pkt_t * imu_rx)
+void print_mot_tx_pkt(volatile struct mot_tx_pkt_t * pkt)
 {
-    imu_tx->crc = crc((char *)&imu_tx, 9, 7); //calculate the crc on the first 9 bytes of imu packet with divisor 7
-    spi_write_multi(imu_tx, sizeof(imu_tx), SS1);
+    pkt->crc = crc((char *)pkt, 9, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
+    printf("\n\r");
+    printf("mot_tx_pkt:\n\r");
+    printf("\tstart:   %#02x\n\r", pkt->start);
+    printf("\ttgt_1:  %5d\n\r", pkt->tgt_1);
+    printf("\ttgt_2:  %5d\n\r", pkt->tgt_2);
+    printf("\ttgt_3:  %5d\n\r", pkt->tgt_3);
+    printf("\ttgt_4:  %5d\n\r", pkt->tgt_4);
+    printf("\tcrc:    %5d", pkt->crc);
+}
+
+void print_mot_rx_pkt(volatile struct mot_rx_pkt_t * pkt)
+{
+    pkt->crc = crc((char *)pkt, 9, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
+    printf("\n\r");
+    printf("mot_rx_pkt:\n\r");
+    printf("\tstart:   %#02x\n\r", pkt->start);
+    printf("\tspd_1:  %5d\n\r", pkt->spd_1);
+    printf("\tspd_2:  %5d\n\r", pkt->spd_2);
+    printf("\tspd_3:  %5d\n\r", pkt->spd_3);
+    printf("\tspd_4:  %5d\n\r", pkt->spd_4);
+    printf("\tcrc:    %5d", pkt->crc);
 }
 
 void process_rx_buf(volatile char * rx_buf)
 {
     char cmd[64];
-    char cmds[NUM_CMDS][64] = {"reboot", "print_mot", "help"};
-    cmds[NUM_CMDS-1][0] = '\0';
-    cmd[0] = '\0';
     int16_t val = 0;
+    cmd[0] = '\0';
     sscanf(rx_buf, "%s%d", cmd, &val);
-    //printf("\n\rcommand: %s\n\rvalue: %d\n\r", command, value);
-    int cmd_num = NUM_CMDS;
-    int i;
-    if(cmd[0] != '\0')
-    {
-        for(i = 0; i < NUM_CMDS; i++)
-        {
-            if(strcmp(cmd, cmds[i]) == 0)
-                cmd_num = i;
-        }
-    }
-    switch(cmd_num)
-    {
-        case 0:
-            printf("\n\rrebooting...");
-            CCPWrite(&RST_CTRL, RST_SWRST_bm);
-            break;
-        case 1:
-            print_mot_tx_pkt(&mot_tx);
-            break;
-        case 2:
-            printf("\n\rreboot\n\rprint\n\rhelp");
-            break;
-        case 3:
-            break;
-        case NUM_CMDS:
-            printf("\n\rcommand not found: %s", cmd);
-            break;
-    }
+    //printf("\n\rcommand: %s\n\rvalue: %d", cmd, val);
+    if(cmd[0] == '\0') { } //do nothing
+    else if(strcmp(cmd, "reboot") == 0) { printf("\n\rrebooting..."); CCPWrite(&RST_CTRL, RST_SWRST_bm); }
+    else if(strcmp(cmd, "print") == 0) { print_mot_tx_pkt(&mot_tx); print_mot_rx_pkt(&mot_rx); }
+    else if(strcmp(cmd, "print_mot_tx") == 0) { print_mot_tx_pkt(&mot_tx); }
+    else if(strcmp(cmd, "print_mot_rx") == 0) { print_mot_rx_pkt(&mot_rx); }
+    else if(strcmp(cmd, "mot1") == 0) { mot_tx.tgt_1 = (uint8_t)val; }
+    else if(strcmp(cmd, "mot2") == 0) { mot_tx.tgt_2 = (uint8_t)val; }
+    else if(strcmp(cmd, "mot3") == 0) { mot_tx.tgt_3 = (uint8_t)val; }
+    else if(strcmp(cmd, "mot4") == 0) { mot_tx.tgt_4 = (uint8_t)val; }
+    else if(strcmp(cmd, "motcrc") == 0) { mot_tx.crc = 47; }
+    else if(strcmp(cmd, "led1g_on") == 0) { LED_1_GREEN_ON(); }
+    else if(strcmp(cmd, "led2g_on") == 0) { LED_2_GREEN_ON(); }
+    else if(strcmp(cmd, "led3g_on") == 0) { LED_3_GREEN_ON(); }
+    else if(strcmp(cmd, "led4g_on") == 0) { LED_4_GREEN_ON(); }
+    else if(strcmp(cmd, "led1r_on") == 0) { LED_1_RED_ON(); }
+    else if(strcmp(cmd, "led2r_on") == 0) { LED_2_RED_ON(); }
+    else if(strcmp(cmd, "led3r_on") == 0) { LED_3_RED_ON(); }
+    else if(strcmp(cmd, "led4r_on") == 0) { LED_4_RED_ON(); }
+    else if(strcmp(cmd, "led1g_off") == 0) { LED_1_GREEN_OFF(); }
+    else if(strcmp(cmd, "led2g_off") == 0) { LED_2_GREEN_OFF(); }
+    else if(strcmp(cmd, "led3g_off") == 0) { LED_3_GREEN_OFF(); }
+    else if(strcmp(cmd, "led4g_off") == 0) { LED_4_GREEN_OFF(); }
+    else if(strcmp(cmd, "led1r_off") == 0) { LED_1_RED_OFF(); }
+    else if(strcmp(cmd, "led2r_off") == 0) { LED_2_RED_OFF(); }
+    else if(strcmp(cmd, "led3r_off") == 0) { LED_3_RED_OFF(); }
+    else if(strcmp(cmd, "led4r_off") == 0) { LED_4_RED_OFF(); }
+    else if(strcmp(cmd, "help") == 0) { printf("\n\r\n\rAvailable commands:\n\r\treboot\n\r\tprint\n\r\tprint_mot\n\r\tmot_[1-4] val\n\r\tled[1-4][r, g]_[on, off]\n\r\thelp\n\r"); }
+    else if(strcmp(cmd, "clear") == 0) { printf("%c", 12); }
+    else { printf("\n\rcommand not found: %s", cmd); }
     printf("\n\rfcu: ");
 }
 
@@ -119,38 +129,6 @@ ISR(USARTF0_RXC_vect)
         xbee_rx_buf[xbee_rx_count] = c; 
         xbee_rx_count++;
     }
-    /*
-    if(c == '\r')
-    {
-        xbee_rx_buf[xbee_rx_count] = '\0';
-        if (strcmp(xbee_rx_buf, "reboot") == 0)
-        {
-            printf("\n\rdown :(   \n\r");
-            CCPWrite(&RST_CTRL, RST_SWRST_bm);
-        }
-        else if(strcmp(xbee_rx_buf, "clear") == 0)
-        {
-            printf("%c", 12);
-        }
-        else if(strcmp(xbee_rx_buf, "help") == 0)
-        {
-            printf("\n\rCommands:\n\rreboot\n\rclear\n\rprint_mot\n\rhelp");
-        }
-        else if(strcmp(xbee_rx_buf, "print_mot") == 0)
-        {
-            print_mot_tx_pkt(&mot_tx);
-        }
-        else if(strlen(xbee_rx_buf) > 0)
-            printf("\n\rcommand not found: %s", xbee_rx_buf);
-        printf("\n\rroot@fcu: ");
-        xbee_rx_count = 0;
-    }
-    else 
-    { 
-        xbee_rx_buf[xbee_rx_count] = c; 
-        xbee_rx_count++;
-    }
-    */
 }
 
 /***** usb *****/
@@ -169,44 +147,18 @@ ISR(USARTC1_RXC_vect)
         process_rx_buf(usb_rx_buf);
         usb_rx_count = 0;
     }
+    else if(c == '\b')
+    {
+        //printf("got a backspace!\n\r");
+        printf(" \b");
+        usb_rx_count--;
+        usb_rx_buf[usb_rx_count] = '\0';
+    }
     else
     {
         usb_rx_buf[usb_rx_count] = c; 
         usb_rx_count++;
     }
-
-    /*
-    if(c == '\r')
-    {
-        usb_rx_buf[usb_rx_count] = '\0';
-        if (strcmp(usb_rx_buf, "reboot") == 0)
-        {
-            printf("\n\rdown :(   \n\r");
-            CCPWrite(&RST_CTRL, RST_SWRST_bm);
-        }
-        else if(strcmp(usb_rx_buf, "clear") == 0)
-        {
-            printf("%c", 12);
-        }
-        else if(strcmp(usb_rx_buf, "help") == 0)
-        {
-            printf("\n\rCommands:\n\rreboot\n\rclear\n\rprint_mot\n\rhelp");
-        }
-        else if(strcmp(usb_rx_buf, "print_mot") == 0)
-        {
-            print_mot_tx_pkt(&mot_tx);
-        }
-        else if(strlen(usb_rx_buf) > 0)
-            printf("\n\rcommand not found: %s", usb_rx_buf);
-        printf("\n\rroot@fcu: ");
-        usb_rx_count = 0;
-    }
-    else 
-    { 
-        usb_rx_buf[usb_rx_count] = c; 
-        usb_rx_count++;
-    }
-    */
 }
 
 /***** rs232 *****/
@@ -268,10 +220,10 @@ int main (void)
     LED_4_RED_OFF();
 
     init_mot_tx_pkt(&mot_tx);
+    init_mot_rx_pkt(&mot_rx);
 
     stdout = &usb_out;
     printf("%c", 12);
-    printf("up :)\n\r");
     stdout = &rs232_out;
     stdout = &xbee_out;
     stdout = &sonar_out;
@@ -281,9 +233,17 @@ int main (void)
     /************** Main Loop ***************/
     while(1)
     {
-        mot_tx_rx(&mot_tx, &mot_rx);
+        //mot_tx_rx(&mot_tx, &mot_rx);
+        cli();
         stdout = &rs232_out;
         printf("rs232\n\r");
+        sei();
+        ADC_Ch_Conversion_Start (&ADCA.CH0);
+
+        //mot_tx.crc = crc((char *)&mot_tx, 9, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
+        //spi_write_multi(tx, sizeof(tx), SS0);
+        //imu_tx.crc = crc((char *)&imu_tx, 9, 7); //calculate the crc on the first 9 bytes of imu packet with divisor 7
+        //spi_write_multi(imu_tx, sizeof(imu_tx), SS1);
     }
     return 0;
 }

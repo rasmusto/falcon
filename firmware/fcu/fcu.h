@@ -14,6 +14,7 @@
 #include "clk.h"
 #include "crc.h"
 #include "adc.h"
+#include "adc_driver.h"
 
 //#include "/usr/lib/avr/include/avr/iox128a3.h"
 
@@ -35,7 +36,8 @@
 #define LED_4_GREEN_ON()    PORTF.OUTSET=PIN7_bm;
 #define LED_4_GREEN_OFF()   PORTF.OUTCLR=PIN7_bm;
 
-#define MOT_START 0x00
+#define MOT_TX_START 0xFF
+#define MOT_RX_START 0xCC
 
 /* Global Variables */
 
@@ -47,46 +49,50 @@ static FILE sonar_out   = FDEV_SETUP_STREAM (putchar_sonar, NULL, _FDEV_SETUP_WR
 /* Data Structures */
 struct mot_tx_pkt_t
 {
-    uint8_t start;
-    uint8_t tgt_1;
-    uint8_t tgt_2;
-    uint8_t tgt_3;
-    uint8_t tgt_4;
-    uint8_t crc;
+    volatile uint8_t start;
+    volatile uint16_t tgt_1;
+    volatile uint16_t tgt_2;
+    volatile uint16_t tgt_3;
+    volatile uint16_t tgt_4;
+    volatile uint8_t crc;
 };
 
 struct mot_rx_pkt_t
 {
-    uint8_t start;
-    uint8_t spd_1;
-    uint8_t spd_2;
-    uint8_t spd_3;
-    uint8_t spd_4;
-    uint8_t crc;
+    volatile uint8_t start;
+    volatile uint16_t spd_1;
+    volatile uint16_t spd_2;
+    volatile uint16_t spd_3;
+    volatile uint16_t spd_4;
+    volatile uint8_t crc;
 };
 
 struct imu_tx_pkt_t
 {
-    uint8_t start;
-    uint8_t request;
-    uint8_t crc;
+    volatile uint8_t start;
+    volatile uint8_t request;
+    volatile uint8_t crc;
 };
 
 struct imu_rx_pkt_t
 {
-    uint8_t start;
-    uint8_t pitch;
-    uint8_t roll;
-    uint8_t yaw;
-    uint8_t crc;
+    volatile uint8_t start;
+    volatile int16_t pitch;
+    volatile int16_t roll;
+    volatile int16_t yaw;
+    volatile int16_t x_accel;
+    volatile int16_t y_accel;
+    volatile int16_t z_accel;
+    volatile uint8_t crc;
 };
 
 /* Function Prototypes */
-void init_mot_tx_pkt(volatile struct mot_tx_pkt_t * mot_tx);
-void print_mot_tx_pkt(volatile struct mot_tx_pkt_t * mot_tx);
-void mot_tx_rx(volatile struct mot_tx_pkt_t * mot_tx, volatile struct mot_rx_pkt_t * mot_rx);
+void init_mot_tx_pkt(volatile struct mot_tx_pkt_t * pkt);
+void init_imu_tx_pkt(volatile struct imu_tx_pkt_t * pkt);
 
-void init_imu_tx_pkt(volatile struct imu_tx_pkt_t * imu_tx);
-void imu_tx_rx(volatile struct imu_tx_pkt_t * imu_tx, volatile struct imu_rx_pkt_t * imu_rx);
+void print_mot_tx_pkt(volatile struct mot_tx_pkt_t * pkt);
+void print_mot_rx_pkt(volatile struct mot_rx_pkt_t * pkt);
+void print_imu_tx_pkt(volatile struct imu_tx_pkt_t * pkt);
+void print_imu_rx_pkt(volatile struct imu_rx_pkt_t * pkt);
 
 void process_rx_buf(volatile char * rx_buf);
