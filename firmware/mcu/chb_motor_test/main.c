@@ -145,7 +145,7 @@ volatile uint8_t motor2StateSenseIndex[6] = {5,4,3,5,4,3};
 
 // middle thresholds for back emf "zero" crossing for each motor.  I'm not sure if this needs to vary with pwm or not...
 volatile uint8_t motor1Thresh = 0;
-volatile uint8_t motor2Thresh = 93;
+volatile uint8_t motor2Thresh = 88;
 volatile uint8_t motor3Thresh = 0;
 volatile uint8_t motor4Thresh = 0;
 
@@ -163,8 +163,8 @@ volatile uint8_t autoCommutationFlag = 0;
 	#define phaseOutputsDLow GPIO5 // keep track of which pins should be driven high during low part of pwm
 
 #define flag GPIO6
-
 #define firstSampleFlag GPIO7
+#define passedCenterFlag GPIO8
 
 // here is the pinout of the motor phases and sense lines for reference
 
@@ -241,6 +241,8 @@ uint8_t startupDelays[6] = {250, 150, 105, 80, 75, 65}; // 630
 //~ uint8_t startupDelays[6] = {200, 150, 115, 100, 92, 90};
 	
 int main (void) {
+	
+	passedCenterFlag = 0;
 	
 	configClock ();
 	//~ initUarts ();
@@ -470,19 +472,20 @@ ISR (TCC1_CCA_vect) {
 // time to change motor1 state
 }
 
-ISR (TCD1_CCA_vect) {
+ISR (TCD1_OVF_vect) {
+	TCD1.PER = 65000;
 	// time to change motor2 state
-	//~ if (motor2State < 5)
-		//~ motor2State++;
-	//~ else
-		//~ motor2State=0;
-		//~ 
-	//~ setMotor2State(motor2State);
+	if (motor2State < 5)
+		motor2State++;
+	else
+		motor2State=0;
+
+	firstSampleFlag = 1;
+	passedCenterFlag = 0;	
+	setMotor2State(motor2State);
 	
 	PORTC.OUTSET = 1;
-	TC1_DisableCCChannels( &TCD1, TC1_CCAEN_bm );
-	TC1_SetCCAIntLevel( &TCD1, TC_CCAINTLVL_OFF_gc );
-
+	TC1_SetOverflowIntLevel (&TCD1, TC_OVFINTLVL_OFF_gc);
 }
 
 ISR (TCE1_CCA_vect) {
@@ -532,18 +535,27 @@ void initAdc (ADC_t * adc) {
 ISR (ADCA_CH1_vect) {
 	ADCA.CH1.INTFLAGS = ADC_CH_CHIF_bm; // clear interrupt flag
 	
+	// replace firstSampleFlag with value limit
 	if (!firstSampleFlag) {
 		if (stateSlope[motor2State]) { // rising
 			if (ADCA.CH1.RES > motor2Thresh) {
-				PORTC.OUTCLR = 1;
-				TCD1.CCABUF = 2*TCD1.CNT;
-				TC1_EnableCCChannels( &TCD1, TC0_CCAEN_bm );
-				TC1_SetCCAIntLevel( &TCD1, TC_CCAINTLVL_HI_gc );
-				PMIC.CTRL |= PMIC_HILVLEN_bm;
+				if (!passedCenterFlag) {
+					PORTC.OUTCLR = 1;
+					TCD1.PER = TCD1.CNT*2;
+					TC1_SetOverflowIntLevel (&TCD1, TC_OVFINTLVL_HI_gc);
+					PMIC.CTRL |= PMIC_HILVLEN_bm;
+					passedCenterFlag = 1;
+				}
 			}
 		} else { // falling
 			if (ADCA.CH1.RES < motor2Thresh) {
-				// start timer to go to next state
+				if (!passedCenterFlag) {
+					PORTC.OUTCLR = 1;
+					TCD1.PER = TCD1.CNT*2;
+					TC1_SetOverflowIntLevel (&TCD1, TC_OVFINTLVL_HI_gc);
+					PMIC.CTRL |= PMIC_HILVLEN_bm;
+					passedCenterFlag = 1;
+				}
 			}
 		}
 	} else {
@@ -588,23 +600,23 @@ void startup(void) {
 	TCC0.CNT = 0;
 	while (TCC0.CNT < startupDelays[4]) {}
 
+	TCF0.CCBBUF = startupPwms[5];
+	TCE0.CCBBUF = startupPwms[5]/2;
+	
+	TC_SetPeriod( &TCD1, 6500 );
+	TC1_ConfigClockSource( &TCD1, TC_CLKSEL_DIV64_gc );
+	
 	PORTC.OUTSET = 1;
-		
-	flag = 1;
-	firstSampleFlag = 1;
 	
 	SET_PHASE_STATE_5_MOT2();
 	motor2State = 5;
-
-	TCF0.CCBBUF = startupPwms[5];
-	TCE0.CCBBUF = startupPwms[5]/2;
 	TCC0.CNT = 0;
 	
-	TC_SetPeriod( &TCD1, 65000 );
-	TC1_ConfigClockSource( &TCD1, TC_CLKSEL_DIV4_gc );
+	firstSampleFlag = 1;
+	flag = 1;
 	
 	while (TCC0.CNT < startupDelays[5]) {}
-	flag = 0;
+	while (1);
 }
 
 void setMotor1State (uint8_t state) {
