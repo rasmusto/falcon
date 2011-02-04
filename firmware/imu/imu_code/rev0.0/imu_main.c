@@ -1,11 +1,6 @@
 
 #include "imu_main.h"
 
-interrupt void spia_rx_isr(void);
-interrupt void spia_tx_isr(void);
-interrupt void spib_rx_isr(void);
-interrupt void spib_tx_isr(void);
-
 void main(void)
 {
 	InitSysCtrl();	//calibrate ADC, enable peripheral clocks, etc.
@@ -32,14 +27,6 @@ void main(void)
 	InitGpio(); //set to know state, all gpio inputs pullups enabled.	
 	InitSpi();  //sets gpio and all registers for spiA and spiB
 	
-	//Point to spi interrupt vectors from PIE table.
-	EALLOW;  // This is needed to write to EALLOW protected registers
-	PieVectTable.SPIRXINTA = &spia_rx_isr;
-	PieVectTable.SPITXINTA = &spia_tx_isr;
-	PieVectTable.SPIRXINTB = &spib_rx_isr;
-	PieVectTable.SPITXINTB = &spib_tx_isr;
-   	EDIS;    // This is needed to disable write to EALLOW protected registers   EALLOW;  // This is needed to write to EALLOW protected registers
-
 	IER |= M_INT6; //turn on group 6 interrupts
 	PieCtrlRegs.PIEIER6.all = 0x0F; // turn on all spi interrupts
 	EINT;   // Enable Global interrupt INTM

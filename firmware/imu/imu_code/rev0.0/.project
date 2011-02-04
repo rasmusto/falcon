@@ -34,11 +34,6 @@
 			<location>C:/Users/Scott/senior_design/firmware/imu/DSP2803x_common/source/DSP2803x_CpuTimers.c</location>
 		</link>
 		<link>
-			<name>DSP2803x_DefaultIsr.c</name>
-			<type>1</type>
-			<location>C:/Users/Scott/senior_design/firmware/imu/DSP2803x_common/source/DSP2803x_DefaultIsr.c</location>
-		</link>
-		<link>
 			<name>DSP2803x_Gpio.c</name>
 			<type>1</type>
 			<location>C:/Users/Scott/senior_design/firmware/imu/DSP2803x_common/source/DSP2803x_Gpio.c</location>
@@ -72,6 +67,11 @@
 			<name>F28035.cmd</name>
 			<type>1</type>
 			<location>C:/Users/Scott/senior_design/firmware/imu/F28035.cmd</location>
+		</link>
+		<link>
+			<name>DSP2803x_CodeStartBranch.asm</name>
+			<type>1</type>
+			<location>C:/Users/Scott/senior_design/firmware/imu/DSP2803x_common/source/DSP2803x_CodeStartBranch.asm</location>
 		</link>
 	</linkedResources>
 </projectDescription>
