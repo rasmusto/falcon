@@ -54,29 +54,24 @@
 			<location>C:/Users/Scott/senior_design/firmware/imu/DSP2803x_common/source/DSP2803x_PieVect.c</location>
 		</link>
 		<link>
-			<name>DSP2803x_Spi.c</name>
-			<type>1</type>
-			<location>C:/Users/Scott/senior_design/firmware/imu/DSP2803x_common/source/DSP2803x_Spi.c</location>
-		</link>
-		<link>
-			<name>DSP2803x_SysCtrl.c</name>
-			<type>1</type>
-			<location>C:/Users/Scott/senior_design/firmware/imu/DSP2803x_common/source/DSP2803x_SysCtrl.c</location>
-		</link>
-		<link>
 			<name>DSP2803x_Headers_nonBIOS.cmd</name>
 			<type>1</type>
 			<location>C:/Users/Scott/senior_design/firmware/imu/DSP2803x_Headers_nonBIOS.cmd</location>
 		</link>
 		<link>
-			<name>F28035.cmd</name>
-			<type>1</type>
-			<location>C:/Users/Scott/senior_design/firmware/imu/F28035.cmd</location>
-		</link>
-		<link>
 			<name>DSP2803x_usDelay.asm</name>
 			<type>1</type>
 			<location>C:/Users/Scott/senior_design/firmware/imu/DSP2803x_common/source/DSP2803x_usDelay.asm</location>
+		</link>
+		<link>
+			<name>28035_RAM_lnk.cmd</name>
+			<type>1</type>
+			<location>C:/Users/Scott/senior_design/firmware/imu/28035_RAM_lnk.cmd</location>
+		</link>
+		<link>
+			<name>F28035.cmd</name>
+			<type>1</type>
+			<location>C:/Users/Scott/senior_design/firmware/imu/F28035.cmd</location>
 		</link>
 	</linkedResources>
 </projectDescription>
