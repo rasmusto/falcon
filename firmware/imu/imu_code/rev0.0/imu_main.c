@@ -3,6 +3,10 @@
 
 void main(void)
 {
+	//copy InitFlash() to ram
+	MemCopy(&RamfuncsLoadStart, &RamfuncsLoadEnd, &RamfuncsRunStart);
+	InitFlash();
+	
 	InitSysCtrl();	//calibrate ADC, enable peripheral clocks, etc.
 	// Disable CPU interrupts
 	DINT;
@@ -20,11 +24,11 @@ void main(void)
 	// Initialize the PIE vector table with pointers to the shell Interrupt
 	// Service Routines (ISR).
 	// This will populate the entire table.
-	// The shell ISR routines are found in DSP2803x_DefaultIsr.c.
+	// The shell ISR routines are found in ISR.c.
 	// This function is found in DSP2803x_PieVect.c.
 	InitPieVectTable();
 	
-	InitGpio(); //set to know state, all gpio inputs pullups enabled.	
+	InitGpio(); //set gpio for general i/o pins, not peripheral pins.	
 	InitSpi();  //sets gpio and all registers for spiA and spiB
 	
 	IER |= M_INT6; //turn on group 6 interrupts
@@ -32,26 +36,9 @@ void main(void)
 	EINT;   // Enable Global interrupt INTM
 //	ERTM;   // Enable Global realtime interrupt DBGM //not sure what this is for
 	
+	IMU_PWR_ON();
+	
 	//write to spia
 	SpiaRegs.SPIDAT = 0x22AA;
 	for(;;){} //loop forever
-}
-
-interrupt void spia_rx_isr(void)
-{
-	SpiaRegs.SPIRXBUF; //read buffer to clear interrupt flag.
-	SpiaRegs.SPIDAT = 0x0000; //write to spi line every time its done.
-	PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;		
-}
-interrupt void spia_tx_isr(void)
-{
-	PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;	
-}
-interrupt void spib_rx_isr(void)
-{
-	PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;		
-}
-interrupt void spib_tx_isr(void)
-{
-	PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;	
 }

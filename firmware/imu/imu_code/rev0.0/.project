@@ -34,11 +34,6 @@
 			<location>C:/Users/Scott/senior_design/firmware/imu/DSP2803x_common/source/DSP2803x_CpuTimers.c</location>
 		</link>
 		<link>
-			<name>DSP2803x_Gpio.c</name>
-			<type>1</type>
-			<location>C:/Users/Scott/senior_design/firmware/imu/DSP2803x_common/source/DSP2803x_Gpio.c</location>
-		</link>
-		<link>
 			<name>DSP2803x_PieCtrl.c</name>
 			<type>1</type>
 			<location>C:/Users/Scott/senior_design/firmware/imu/DSP2803x_common/source/DSP2803x_PieCtrl.c</location>
@@ -72,6 +67,31 @@
 			<name>DSP2803x_CodeStartBranch.asm</name>
 			<type>1</type>
 			<location>C:/Users/Scott/senior_design/firmware/imu/DSP2803x_common/source/DSP2803x_CodeStartBranch.asm</location>
+		</link>
+		<link>
+			<name>DSP2803x_CSMPasswords.asm</name>
+			<type>1</type>
+			<location>C:/Users/Scott/senior_design/firmware/imu/DSP2803x_common/source/DSP2803x_CSMPasswords.asm</location>
+		</link>
+		<link>
+			<name>2803x_FlashAPI_BootROMSymbols.lib</name>
+			<type>1</type>
+			<location>C:/Users/Scott/senior_design/firmware/imu/2803x_FlashAPI_BootROMSymbols.lib</location>
+		</link>
+		<link>
+			<name>Flash2803x_API_Config.h</name>
+			<type>1</type>
+			<location>C:/Users/Scott/senior_design/firmware/imu/Flash2803x_API_Config.h</location>
+		</link>
+		<link>
+			<name>Flash2803x_API_Library.h</name>
+			<type>1</type>
+			<location>C:/Users/Scott/senior_design/firmware/imu/Flash2803x_API_Library.h</location>
+		</link>
+		<link>
+			<name>DSP2803x_MemCopy.c</name>
+			<type>1</type>
+			<location>C:/Users/Scott/senior_design/firmware/imu/DSP2803x_common/source/DSP2803x_MemCopy.c</location>
 		</link>
 	</linkedResources>
 </projectDescription>
