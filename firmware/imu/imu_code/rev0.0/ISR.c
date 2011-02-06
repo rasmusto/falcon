@@ -14,6 +14,7 @@
 
 #include "DSP2803x_Device.h"     // DSP2803x Headerfile Include File
 #include "DSP2803x_Examples.h"   // DSP2803x Examples Include File
+#include "imu_main.h"
 
 // Connected to INT13 of CPU (use MINT13 mask):
 // ISR can be used by the user.
@@ -588,8 +589,31 @@ interrupt void EQEP1_INT_ISR(void)    // EQEP-1
 // INT6.1
 interrupt void SPIRXINTA_ISR(void)    // SPI-A
 {
-	SpiaRegs.SPIRXBUF; //read buffer to clear interrupt flag.
-	SpiaRegs.SPIDAT = 0x0000; //write to spi line every time its done.
+	//received 4 words already
+	if(flags.bit.rx_half_adc_words){
+		flags.bit.rx_half_adc_words = 0;
+		
+		//read the 4 words (channels 5-8 from adc)
+		sensors.value.z_accel = SpiaRegs.SPIRXBUF;
+		sensors.value.y_accel = SpiaRegs.SPIRXBUF;
+		sensors.value.x_accel = SpiaRegs.SPIRXBUF;
+		sensors.value.roll = SpiaRegs.SPIRXBUF;
+		
+	}else{ //first 4 words are here.
+		//write 4 words to tx buffer, so I get 4 more words from adc.
+		SpiaRegs.SPITXBUF = 0x0000;
+		SpiaRegs.SPITXBUF = 0x0000;
+		SpiaRegs.SPITXBUF = 0x0000;
+		SpiaRegs.SPITXBUF = 0x0000;
+		
+		//read the 4 words (channels 1-4 from adc)
+		sensors.value.pitch_temp = SpiaRegs.SPIRXBUF;
+		sensors.value.pitch = SpiaRegs.SPIRXBUF;
+		sensors.value.yaw = SpiaRegs.SPIRXBUF;
+		sensors.value.yaw_temp = SpiaRegs.SPIRXBUF;
+		
+		flags.bit.rx_half_adc_words = 1; //half way there
+	}
 	PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;	
 }
 

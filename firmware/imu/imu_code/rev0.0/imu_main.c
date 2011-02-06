@@ -1,11 +1,21 @@
 
 #include "imu_main.h"
 
+volatile union SENSOR_DATA sensors;
+volatile union IMU_FLAGS flags;
+
 void main(void)
 {
+	int i = 0;
 	//copy InitFlash() to ram
 	MemCopy(&RamfuncsLoadStart, &RamfuncsLoadEnd, &RamfuncsRunStart);
 	InitFlash();
+
+	for(i=0;i<8;i++){
+		sensors.sensor[i] = 0;
+	}
+	flags.all = 0x0001; //set 'want_new_adc_data' flag, clear the rest
+	
 	
 	InitSysCtrl();	//calibrate ADC, enable peripheral clocks, etc.
 	// Disable CPU interrupts
@@ -37,8 +47,14 @@ void main(void)
 //	ERTM;   // Enable Global realtime interrupt DBGM //not sure what this is for
 	
 	IMU_PWR_ON();
-	
-	//write to spia
-	SpiaRegs.SPIDAT = 0x22AA;
-	for(;;){} //loop forever
+	//loop forever
+	for(;;){
+		if(flags.bit.want_new_adc_data == 1){// && ADC_DRDY()){
+			//load SPI TX FIFO to get ADC data.
+			SpiaRegs.SPITXBUF = 0x0000;	
+			SpiaRegs.SPITXBUF = 0x0000;	
+			SpiaRegs.SPITXBUF = 0x0000;	
+			SpiaRegs.SPITXBUF = 0x0000;	
+		}
+	}
 }

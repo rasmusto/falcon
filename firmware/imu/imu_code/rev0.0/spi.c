@@ -15,7 +15,8 @@
 #include "DSP2803x_Examples.h"   // DSP2803x Examples Include File
 #include "imu_main.h"
 
-void init_spi_regs(void);
+void InitSpiARegs(void);
+void InitSpiBRegs(void);
 
 //---------------------------------------------------------------------------
 // InitSPI:
@@ -25,10 +26,11 @@ void init_spi_regs(void);
 void InitSpi(void)
 {
 	InitSpiGpio(); //set gpio for spia and spib
-	init_spi_regs();
+	InitSpiARegs();
+	InitSpiBRegs();
 }
 
-void init_spi_regs(void)
+void InitSpiARegs(void)
 {
 	
 	//setup SPI_A  (IMU_SENSE SPI, master)
@@ -45,6 +47,14 @@ void init_spi_regs(void)
 	SpibRegs.SPIPRI.bit.SOFT = 1;
 	SpibRegs.SPIPRI.bit.FREE = 0;
 	
+	SpiaRegs.SPIFFTX.bit.SPIFFENA = 1; //use FIFO on TX buffer
+	SpiaRegs.SPIFFRX.all = 0x0024; //enable RX FIFO interrupt when 4 words are in FIFO.
+	
+	//reset spi 
+	SpiaRegs.SPICCR.bit.SPISWRESET = 1; //everything is configured, begin
+}
+void InitSpiBRegs(void)
+{
 	//setup SPI_B  (FCU SPI, slave)
 	SpibRegs.SPICCR.bit.SPISWRESET = 0;//changing configuration...
 	SpibRegs.SPICCR.bit.CLKPOLARITY = 0; //sclk low when idle.
@@ -61,7 +71,6 @@ void init_spi_regs(void)
 	SpibRegs.SPIPRI.bit.FREE = 0;
 	
 	//reset spi 
-	SpiaRegs.SPICCR.bit.SPISWRESET = 1; //everything is configured, begin
 	SpibRegs.SPICCR.bit.SPISWRESET = 1; //everything is configured, begin
 }
 //---------------------------------------------------------------------------
