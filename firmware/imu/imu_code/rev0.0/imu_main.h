@@ -11,8 +11,8 @@
 #define ADC_DRDY() !GpioDataRegs.GPADAT.bit.GPIO20
 
 //spi defines
-#define SPIA_CHAR_LNGTH_MSK 0x04
-#define SPIB_CHAR_LNGTH_MSK 0x04
+#define SPIA_CHAR_LNGTH_MSK 0x0F
+#define SPIB_CHAR_LNGTH_MSK 0x0F
 
 struct SENSOR_VALUES {
 	int	pitch_temp;

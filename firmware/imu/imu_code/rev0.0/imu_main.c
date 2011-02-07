@@ -44,12 +44,15 @@ void main(void)
 	IER |= M_INT6; //turn on group 6 interrupts
 	PieCtrlRegs.PIEIER6.all = 0x0F; // turn on all spi interrupts
 	EINT;   // Enable Global interrupt INTM
-//	ERTM;   // Enable Global realtime interrupt DBGM //not sure what this is for
+	ERTM;   // Enable Global realtime interrupt DBGM //not sure what this is for
 	
 	IMU_PWR_ON();
+	//wait for IMU_SENSE to power up
+	while(ADC_DRDY())
+		;
 	//loop forever
 	for(;;){
-		if(flags.bit.want_new_adc_data == 1){// && ADC_DRDY()){
+		if(flags.bit.want_new_adc_data && ADC_DRDY()){
 			//load SPI TX FIFO to get ADC data.
 			SpiaRegs.SPITXBUF = 0x0000;	
 			SpiaRegs.SPITXBUF = 0x0000;	

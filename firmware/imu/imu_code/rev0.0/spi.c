@@ -44,11 +44,14 @@ void InitSpiARegs(void)
 	
 	SpiaRegs.SPIBRR = 0x10; //BRR of 16 is ~1.765MHz.
 	
-	SpibRegs.SPIPRI.bit.SOFT = 1;
-	SpibRegs.SPIPRI.bit.FREE = 0;
+	SpiaRegs.SPIPRI.bit.SOFT = 1;
+	SpiaRegs.SPIPRI.bit.FREE = 0;
 	
-	SpiaRegs.SPIFFTX.bit.SPIFFENA = 1; //use FIFO on TX buffer
-	SpiaRegs.SPIFFRX.all = 0x0024; //enable RX FIFO interrupt when 4 words are in FIFO.
+	
+	SpiaRegs.SPIFFTX.bit.SPIFFENA = 1; //use FIFO for this spi
+	SpiaRegs.SPIFFRX.all = 0x2024; //enable RX FIFO interrupt when 4 words are in FIFO.
+	SpiaRegs.SPIFFTX.bit.SPIRST = 0; //reset FIFO RX and TX
+	SpiaRegs.SPIFFTX.bit.SPIRST = 1;
 	
 	//reset spi 
 	SpiaRegs.SPICCR.bit.SPISWRESET = 1; //everything is configured, begin

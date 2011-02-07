@@ -598,7 +598,6 @@ interrupt void SPIRXINTA_ISR(void)    // SPI-A
 		sensors.value.y_accel = SpiaRegs.SPIRXBUF;
 		sensors.value.x_accel = SpiaRegs.SPIRXBUF;
 		sensors.value.roll = SpiaRegs.SPIRXBUF;
-		
 	}else{ //first 4 words are here.
 		//write 4 words to tx buffer, so I get 4 more words from adc.
 		SpiaRegs.SPITXBUF = 0x0000;
@@ -614,24 +613,31 @@ interrupt void SPIRXINTA_ISR(void)    // SPI-A
 		
 		flags.bit.rx_half_adc_words = 1; //half way there
 	}
+	SpiaRegs.SPIFFRX.bit.RXFFINTCLR = 1; //clear the interrupt so it can be called again.
 	PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;	
 }
 
 // INT6.2
 interrupt void SPITXINTA_ISR(void)     // SPI-A
 {
+	asm ("      ESTOP0");
+  	for(;;);
   	PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;
 }
 
 // INT6.3
 interrupt void SPIRXINTB_ISR(void)    // SPI-B
 {
+	asm ("      ESTOP0");
+  	for(;;);
    	PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;
 }
 
 // INT6.4
 interrupt void SPITXINTB_ISR(void)     // SPI-B
 {
+	asm ("      ESTOP0");
+  	for(;;);
 	PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;
 }
 
