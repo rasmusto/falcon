@@ -620,24 +620,38 @@ interrupt void SPIRXINTA_ISR(void)    // SPI-A
 // INT6.2
 interrupt void SPITXINTA_ISR(void)     // SPI-A
 {
+	//PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;
 	asm ("      ESTOP0");
   	for(;;);
-  	PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;
 }
 
 // INT6.3
 interrupt void SPIRXINTB_ISR(void)    // SPI-B
 {
+	//PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;
 	asm ("      ESTOP0");
   	for(;;);
-   	PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;
 }
 
 // INT6.4
 interrupt void SPITXINTB_ISR(void)     // SPI-B
 {
-	asm ("      ESTOP0");
-  	for(;;);
+	if(flags.bit.tx_half_adc_words){
+		SpibRegs.SPITXBUF = sensors.sensor[4];
+		SpibRegs.SPITXBUF = sensors.sensor[5];
+		SpibRegs.SPITXBUF = sensors.sensor[6];
+		SpibRegs.SPITXBUF = sensors.sensor[7];
+		
+		flags.bit.tx_half_adc_words = 0;
+	}else{
+		SpibRegs.SPITXBUF = sensors.sensor[0];
+		SpibRegs.SPITXBUF = sensors.sensor[1];
+		SpibRegs.SPITXBUF = sensors.sensor[2];
+		SpibRegs.SPITXBUF = sensors.sensor[3];
+		
+		flags.bit.tx_half_adc_words = 1;
+	}
+	SpibRegs.SPIFFTX.bit.TXFFINTCLR = 1; //clear interrupt bit// need this?
 	PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;
 }
 

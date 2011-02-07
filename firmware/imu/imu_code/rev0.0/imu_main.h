@@ -32,7 +32,9 @@ union SENSOR_DATA {
 struct MY_FLAGS {
 	Uint16 want_new_adc_data:1;
 	Uint16 rx_half_adc_words:1;
-	Uint16 other_stuff:14;
+	Uint16 tx_half_adc_words:1;
+	Uint16 sensor_data_legit:1;
+	Uint16 other_stuff:12;
 };
 union IMU_FLAGS{
 	Uint16 all;

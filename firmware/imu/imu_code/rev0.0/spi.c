@@ -51,7 +51,7 @@ void InitSpiARegs(void)
 	SpiaRegs.SPIFFTX.bit.SPIFFENA = 1; //use FIFO for this spi
 	SpiaRegs.SPIFFRX.all = 0x2024; //enable RX FIFO interrupt when 4 words are in FIFO.
 	SpiaRegs.SPIFFTX.bit.SPIRST = 0; //reset FIFO RX and TX
-	SpiaRegs.SPIFFTX.bit.SPIRST = 1;
+	SpiaRegs.SPIFFTX.bit.SPIRST = 1; //need this reset?
 	
 	//reset spi 
 	SpiaRegs.SPICCR.bit.SPISWRESET = 1; //everything is configured, begin
@@ -73,6 +73,9 @@ void InitSpiBRegs(void)
 	SpibRegs.SPIPRI.bit.SOFT = 1;
 	SpibRegs.SPIPRI.bit.FREE = 0;
 	
+	SpibRegs.SPIFFTX.all = 0xE020; //enable FIFO, FIFO TX interrupt at empty FIFO
+	SpibRegs.SPIFFTX.bit.SPIRST = 0; //reset FIFO RX and TX
+	SpibRegs.SPIFFTX.bit.SPIRST = 1; // need this reset?
 	//reset spi 
 	SpibRegs.SPICCR.bit.SPISWRESET = 1; //everything is configured, begin
 }
