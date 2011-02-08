@@ -32,9 +32,9 @@ extern "C" {
 
 #define FLASH_F2803x   1
 
-#define FLASH_F28035   0
+#define FLASH_F28035   1
 #define FLASH_F28034   0
-#define FLASH_F28033   1
+#define FLASH_F28033   0
 #define FLASH_F28032   0
  
 /*-----------------------------------------------------------------------------
