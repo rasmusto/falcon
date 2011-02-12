@@ -2,9 +2,11 @@
 
 volatile char usb_rx_buf[128];
 volatile uint8_t usb_rx_count = 0;
+volatile uint8_t usb_rx_buf_rdy = 0;
 
 volatile char xbee_rx_buf[128];
 volatile uint8_t xbee_rx_count = 0;
+volatile uint8_t xbee_rx_buf_rdy = 0;
 
 volatile struct mot_tx_pkt_t mot_tx;
 volatile struct mot_rx_pkt_t mot_rx;
@@ -19,7 +21,7 @@ volatile float bat_voltage_human;
 
 void init_mot_tx_pkt(volatile struct mot_tx_pkt_t * pkt)
 {
-    pkt->start = MOT_TX_START;
+    pkt->start = MOT_START;
     pkt->tgt_1 = 0;
     pkt->tgt_2 = 0;
     pkt->tgt_3 = 0;
@@ -29,12 +31,35 @@ void init_mot_tx_pkt(volatile struct mot_tx_pkt_t * pkt)
 
 void init_mot_rx_pkt(volatile struct mot_rx_pkt_t * pkt)
 {
-    pkt->start = MOT_RX_START;
+    pkt->start = 0;
     pkt->spd_1 = 0;
     pkt->spd_2 = 0;
     pkt->spd_3 = 0;
     pkt->spd_4 = 0;
-    pkt->crc = crc((char *)pkt, 9, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
+    pkt->crc = 0;
+}
+
+void init_imu_tx_pkt(volatile struct imu_tx_pkt_t * pkt)
+{
+    int i;
+    pkt->start = IMU_START;
+    for(i = 0; i < 16; i++)
+        pkt->garbage[i] = i;
+    pkt->crc = crc((char *)pkt, 17, 7);
+}
+
+void init_imu_rx_pkt(volatile struct imu_rx_pkt_t * pkt)
+{
+    pkt->start = 0;
+    pkt->x_accel = 0;
+    pkt->y_accel = 0;
+    pkt->z_accel = 0;
+    pkt->roll = 0;
+    pkt->pitch = 0;
+    pkt->yaw = 0;
+    pkt->temp1 = 0;
+    pkt->temp2 = 0;
+    pkt->crc = 0;
 }
 
 void print_mot_tx_pkt(volatile struct mot_tx_pkt_t * pkt)
@@ -53,7 +78,6 @@ void print_mot_tx_pkt(volatile struct mot_tx_pkt_t * pkt)
 
 void print_mot_rx_pkt(volatile struct mot_rx_pkt_t * pkt)
 {
-    //pkt->crc = crc((char *)pkt, 9, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
     printf("\n\r");
     printf("mot_rx_pkt:\n\r");
     printf("\tstart:    %#02x\n\r", pkt->start);
@@ -63,25 +87,62 @@ void print_mot_rx_pkt(volatile struct mot_rx_pkt_t * pkt)
     printf("\tspd_4:  %6lu\n\r", (uint32_t)pkt->spd_4);
     printf("\tcrc:    %6d\n\r", pkt->crc);
 
+    if(pkt->crc != crc((char *)pkt, 9, 7))
+        printf("warning: crc mismatch\n\r");
+
     char temp_crc = crc((char *)pkt, 9, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
     printf("\tcrc =   %6d", temp_crc);
+}
+
+void print_imu_tx_pkt(volatile struct imu_tx_pkt_t * pkt)
+{
+    printf("\n\r");
+    printf("imu_tx_pkt:\n\r");
+    printf("\tstart:      %#02x\n\r", pkt->start);
+    printf("\tx_accel:  %6d\n\r", (int16_t)pkt->garbage[0]);
+    printf("\ty_accel:  %6d\n\r", (int16_t)pkt->garbage[2]);
+    printf("\tz_accel:  %6d\n\r", (int16_t)pkt->garbage[4]);
+    printf("\troll:     %6d\n\r", (int16_t)pkt->garbage[6]);
+    printf("\tpitch:    %6d\n\r", (int16_t)pkt->garbage[8]);
+    printf("\tyaw:      %6d\n\r", (int16_t)pkt->garbage[10]);
+    printf("\ttemp1:    %6d\n\r", (int16_t)pkt->garbage[12]);
+    printf("\ttemp2:    %6d\n\r", (int16_t)pkt->garbage[14]);
+    printf("\tcrc:      %6d\n\r", pkt->crc);
+}
+
+void print_imu_rx_pkt(volatile struct imu_rx_pkt_t * pkt)
+{
+    printf("\n\r");
+    printf("imu_rx_pkt:\n\r");
+    printf("\tstart:      %#02x\n\r", pkt->start);
+    printf("\tx_accel:  %6d\n\r", pkt->x_accel);
+    printf("\ty_accel:  %6d\n\r", pkt->y_accel);
+    printf("\tz_accel:  %6d\n\r", pkt->z_accel);
+    printf("\troll:     %6d\n\r", pkt->roll);
+    printf("\tpitch:    %6d\n\r", pkt->pitch);
+    printf("\tyaw:      %6d\n\r", pkt->yaw);
+    printf("\ttemp1:    %6d\n\r", pkt->temp1);
+    printf("\ttemp2:    %6d\n\r", pkt->temp2);
+    printf("\tcrc:      %6d\n\r", pkt->crc);
 }
 
 void process_rx_buf(volatile char * rx_buf)
 {
     char cmd[64];
-    int16_t val = 0;
+    float val = 0;
     cmd[0] = '\0';
-    sscanf(rx_buf, "%s%d", cmd, &val);
+    sscanf(rx_buf, "%s%f", cmd, &val);
     //printf("\n\rcommand: %s\n\rvalue: %d", cmd, val);
     char * help;
     help = "\n\r\n\rAvailable commands:\n\r\
             \r\treboot - reboot the mcu\n\r\
-            \r\tprint - print all packet information\n\r\
-            \r\tprint_mot - print motor packet\n\r\
+            \r\tprint - display the print commands\n\r\
+            \r\tprintpid - print pid structs\n\r\
+            \r\tprintmot - print motor packets\n\r\
+            \r\tprintimu - print imu packets\n\r\
+            \r\tprintbat - print battery voltage\n\r\
             \r\tmot[1-4] <uint16_t> - set motor target value (0-65536)\n\r\
             \r\tled[1-4][r, g]_[on, off] - turn led on or off\n\r\
-            \r\tbat - print battery voltage\n\r\
             \r\tclear - clear the screen\n\r\
             \r\tkp <float> - set kp\n\r\
             \r\tki <float> - set ki\n\r\
@@ -89,9 +150,11 @@ void process_rx_buf(volatile char * rx_buf)
             \r\thelp - print this message\n\r";
     if(cmd[0] == '\0') { } //do nothing
     else if(strcmp(cmd, "reboot") == 0) { printf("\n\rrebooting..."); CCPWrite(&RST_CTRL, RST_SWRST_bm); }
-    else if(strcmp(cmd, "print") == 0) { print_mot_tx_pkt(&mot_tx); print_mot_rx_pkt(&mot_rx); print_pid_info(&pid); }
-    else if(strcmp(cmd, "print_mot_tx") == 0) { print_mot_tx_pkt(&mot_tx); }
-    else if(strcmp(cmd, "print_mot_rx") == 0) { print_mot_rx_pkt(&mot_rx); }
+    else if(strcmp(cmd, "print") == 0) { printf("\n\r\n\rAvailable print commands:\n\r\tprintpid\n\r\tprintmot\n\r\tprintimu\n\r\tprintbat\n\r"); }
+    else if(strcmp(cmd, "printpid") == 0) { print_pid_info(&pid); }
+    else if(strcmp(cmd, "printmot") == 0) { print_mot_tx_pkt(&mot_tx); print_mot_rx_pkt(&mot_rx); }
+    else if(strcmp(cmd, "printimu") == 0) { print_imu_tx_pkt(&imu_tx); print_imu_rx_pkt(&imu_rx); }
+    else if(strcmp(cmd, "printbat") == 0) { printf("\n\rbat_voltage_raw: %d", bat_voltage_raw); printf("\n\rbat_voltage_human: %0.4f", (double)bat_voltage_human); }
     else if(strcmp(cmd, "start") == 0) { mot_tx.start = (uint8_t)val; }
     else if(strcmp(cmd, "mot1") == 0) { mot_tx.tgt_1 = (uint16_t)val; }
     else if(strcmp(cmd, "mot2") == 0) { mot_tx.tgt_2 = (uint16_t)val; }
@@ -114,19 +177,7 @@ void process_rx_buf(volatile char * rx_buf)
     else if(strcmp(cmd, "led2r_off") == 0) { LED_2_RED_OFF(); }
     else if(strcmp(cmd, "led3r_off") == 0) { LED_3_RED_OFF(); }
     else if(strcmp(cmd, "led4r_off") == 0) { LED_4_RED_OFF(); }
-    else if(strcmp(cmd, "bat") == 0) { printf("\n\rbat_voltage_raw: %d", bat_voltage_raw); printf("\n\rbat_voltage_human: %0.4f", (double)bat_voltage_human); }
-    else if(strcmp(cmd, "help") == 0) { printf("\n\r\n\r    Available commands:\n\r\
-                                                            \treboot - reboot the mcu\n\r\
-                                                            \tprint - print all packet information\n\r\
-                                                            \tprint_mot - print motor packet\n\r\
-                                                            \tmot[1-4] <uint16_t> - set motor target value (0-65536)\n\r\
-                                                            \tled[1-4][r, g]_[on, off] - turn led on or off\n\r\
-                                                            \tbat - print battery voltage\n\r\
-                                                            \tclear - clear the screen\n\r\
-                                                            \tkp <float> - set kp\n\r\
-                                                            \tki <float> - set ki\n\r\
-                                                            \tkd <float> - set kd\n\r\
-                                                            \thelp - print this message\n\r"); }
+    else if(strcmp(cmd, "help") == 0) { printf(help); }
     else if(strcmp(cmd, "clear") == 0) { printf("%c", 12); }
     else if(strcmp(cmd, "kp") == 0) { pid_set_kp(&pid, val); }
     else if(strcmp(cmd, "ki") == 0) { pid_set_ki(&pid, val); }
@@ -162,7 +213,7 @@ ISR(USARTF0_RXC_vect)
     if(c == '\r')
     {
         xbee_rx_buf[xbee_rx_count] = '\0';
-        process_rx_buf(xbee_rx_buf);
+        xbee_rx_buf_rdy = 1;
         xbee_rx_count = 0;
     }
     else if(c == '\b')
@@ -191,7 +242,8 @@ ISR(USARTC1_RXC_vect)
     if(c == '\r')
     {
         usb_rx_buf[usb_rx_count] = '\0';
-        process_rx_buf(usb_rx_buf);
+        //process_rx_buf(usb_rx_buf);
+        usb_rx_buf_rdy = 1;
         usb_rx_count = 0;
     }
     else if(c == '\b')
@@ -268,6 +320,9 @@ int main (void)
     init_mot_tx_pkt(&mot_tx);
     init_mot_rx_pkt(&mot_rx);
 
+    init_imu_tx_pkt(&imu_tx);
+    init_imu_rx_pkt(&imu_rx);
+
     stdout = &usb_out;
     printf("%c", 12);
     stdout = &rs232_out;
@@ -279,15 +334,21 @@ int main (void)
     /************** Main Loop ***************/
     while(1)
     {
-        cli();
-        stdout = &rs232_out;
-        printf("rs232\n\r");
-        sei();
         ADC_Ch_Conversion_Start (&ADCA.CH0);
-
         spi_write_read_multi((char *)&mot_tx, (char *)&mot_rx, 10, SS0);
-        //mot_tx.crc = crc((char *)&mot_tx, 9, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
-        //imu_tx.crc = crc((char *)&imu_tx, 9, 7); //calculate the crc on the first 9 bytes of imu packet with divisor 7
+        spi_write_read_multi((char *)&imu_tx, (char *)&imu_rx, 10, SS1);
+        if(usb_rx_buf_rdy)
+        {
+            stdout = &usb_out;
+            process_rx_buf(usb_rx_buf);
+            usb_rx_buf_rdy = 0;
+        }
+        if(xbee_rx_buf_rdy)
+        {
+            stdout = &xbee_out;
+            process_rx_buf(xbee_rx_buf);
+            xbee_rx_buf_rdy = 0;
+        }
     }
     return 0;
 }

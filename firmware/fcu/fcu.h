@@ -37,8 +37,9 @@
 #define LED_4_GREEN_ON()    PORTF.OUTSET=PIN7_bm;
 #define LED_4_GREEN_OFF()   PORTF.OUTCLR=PIN7_bm;
 
-#define MOT_TX_START 0b01011111
-#define MOT_RX_START 0b11110101
+#define MOT_START 0b01011111
+
+#define IMU_START 0b01001010
 
 /* Global Variables */
 
@@ -71,26 +72,30 @@ struct mot_rx_pkt_t
 struct imu_tx_pkt_t
 {
     volatile uint8_t start;
-    volatile uint8_t request;
+    char garbage[16];
     volatile uint8_t crc;
-    char garbage[11];
 };
 
 struct imu_rx_pkt_t
 {
     volatile uint8_t start;
-    volatile int16_t pitch;
-    volatile int16_t roll;
-    volatile int16_t yaw;
     volatile int16_t x_accel;
     volatile int16_t y_accel;
     volatile int16_t z_accel;
+    volatile int16_t roll;
+    volatile int16_t pitch;
+    volatile int16_t yaw;
+    volatile int16_t temp1;
+    volatile int16_t temp2;
     volatile uint8_t crc;
 };
 
 /* Function Prototypes */
 void init_mot_tx_pkt(volatile struct mot_tx_pkt_t * pkt);
+void init_mot_rx_pkt(volatile struct mot_rx_pkt_t * pkt);
+
 void init_imu_tx_pkt(volatile struct imu_tx_pkt_t * pkt);
+void init_imu_rx_pkt(volatile struct imu_rx_pkt_t * pkt);
 
 void print_mot_tx_pkt(volatile struct mot_tx_pkt_t * pkt);
 void print_mot_rx_pkt(volatile struct mot_rx_pkt_t * pkt);
