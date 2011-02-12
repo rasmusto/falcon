@@ -62,37 +62,6 @@ void init_imu_rx_pkt(volatile struct imu_rx_pkt_t * pkt)
     pkt->crc = 0;
 }
 
-void print_mot_tx_pkt(volatile struct mot_tx_pkt_t * pkt)
-{
-    pkt->crc = crc((char *)pkt, 9, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
-    printf("\n\r");
-    printf("mot_tx_pkt:\n\r");
-    printf("\tstart:    %#02x\n\r", pkt->start);
-    printf("\ttgt_1:  %6lu\n\r", (uint32_t)pkt->tgt_1);
-    printf("\ttgt_2:  %6lu\n\r", (uint32_t)pkt->tgt_2);
-    printf("\ttgt_3:  %6lu\n\r", (uint32_t)pkt->tgt_3);
-    printf("\ttgt_4:  %6lu\n\r", (uint32_t)pkt->tgt_4);
-    printf("\tcrc:    %6d", pkt->crc);
-}
-
-void print_mot_rx_pkt(volatile struct mot_rx_pkt_t * pkt)
-{
-    printf("\n\r");
-    printf("mot_rx_pkt:\n\r");
-    printf("\tstart:    %#02x\n\r", pkt->start);
-    printf("\tspd_1:  %6lu\n\r", (uint32_t)pkt->spd_1);
-    printf("\tspd_2:  %6lu\n\r", (uint32_t)pkt->spd_2);
-    printf("\tspd_3:  %6lu\n\r", (uint32_t)pkt->spd_3);
-    printf("\tspd_4:  %6lu\n\r", (uint32_t)pkt->spd_4);
-    printf("\tcrc:    %6d\n\r", pkt->crc);
-
-    if(pkt->crc != crc((char *)pkt, 9, 7))
-        printf("warning: crc mismatch\n\r");
-
-    char temp_crc = crc((char *)pkt, 9, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
-    printf("\tcrc =   %6d", temp_crc);
-}
-
 void print_mot_pkts(volatile struct mot_tx_pkt_t * tx_pkt, volatile struct mot_rx_pkt_t * rx_pkt)
 {   
     printf("\n\r");
@@ -100,60 +69,27 @@ void print_mot_pkts(volatile struct mot_tx_pkt_t * tx_pkt, volatile struct mot_r
     printf("\n\r");
     printf("mot_tx_pkt:\t\tmot_rx_pkt\n\r");
     printf("\tstart:   %#02x\t\tstart:   %#02x\n\r", tx_pkt->start, rx_pkt->start);
-    printf("\ttgt_1: %6lu\t\tspd_1: %6lu\n\r",(uint32_t)tx_pkt->tgt_1, (uint32_t)rx_pkt->spd_1);
-    printf("\ttgt_1: %6lu\t\tspd_2: %6lu\n\r",(uint32_t)tx_pkt->tgt_2, (uint32_t)rx_pkt->spd_2);
-    printf("\ttgt_1: %6lu\t\tspd_3: %6lu\n\r",(uint32_t)tx_pkt->tgt_3, (uint32_t)rx_pkt->spd_3);
-    printf("\ttgt_1: %6lu\t\tspd_4: %6lu\n\r",(uint32_t)tx_pkt->tgt_4, (uint32_t)rx_pkt->spd_4);
+    printf("\ttgt_1: %6lu\t\tspd_1: %6lu\n\r", (uint32_t)tx_pkt->tgt_1, (uint32_t)rx_pkt->spd_1);
+    printf("\ttgt_1: %6lu\t\tspd_2: %6lu\n\r", (uint32_t)tx_pkt->tgt_2, (uint32_t)rx_pkt->spd_2);
+    printf("\ttgt_1: %6lu\t\tspd_3: %6lu\n\r", (uint32_t)tx_pkt->tgt_3, (uint32_t)rx_pkt->spd_3);
+    printf("\ttgt_1: %6lu\t\tspd_4: %6lu\n\r", (uint32_t)tx_pkt->tgt_4, (uint32_t)rx_pkt->spd_4);
     printf("\tcrc:   %6d\t\tcrc:   %6d\n\r", tx_pkt->crc, rx_pkt->crc);
-}
-
-void print_imu_tx_pkt(volatile struct imu_tx_pkt_t * pkt)
-{
-    printf("\n\r");
-    printf("imu_tx_pkt:\n\r");
-    printf("\tstart:        %#02x\n\r", pkt->start);
-    printf("\tgarbage[0]: %6d\n\r", (int16_t)pkt->garbage[0]);
-    printf("\tgarbage[2]: %6d\n\r", (int16_t)pkt->garbage[2]);
-    printf("\tgarbage[4]: %6d\n\r", (int16_t)pkt->garbage[4]);
-    printf("\tgarbage[6]: %6d\n\r", (int16_t)pkt->garbage[6]);
-    printf("\tgarbage[8]: %6d\n\r", (int16_t)pkt->garbage[8]);
-    printf("\tgarbage[10]:%6d\n\r", (int16_t)pkt->garbage[10]);
-    printf("\tgarbage[12]:%6d\n\r", (int16_t)pkt->garbage[12]);
-    printf("\tgarbage[14]:%6d\n\r", (int16_t)pkt->garbage[14]);
-    printf("\tcrc:        %6d\n\r", pkt->crc);
-}
-
-void print_imu_rx_pkt(volatile struct imu_rx_pkt_t * pkt)
-{
-    printf("\n\r");
-    printf("imu_rx_pkt:\n\r");
-    printf("\tstart:      %#02x\n\r", pkt->start);
-    printf("\tpitch_tmp:%6d\n\r", pkt->pitch_tmp);
-    printf("\tpitch:    %6d\n\r", pkt->pitch);
-    printf("\tyaw:      %6d\n\r", pkt->yaw);
-    printf("\tyaw_tmp:  %6d\n\r", pkt->yaw_tmp);
-    printf("\tz_accel:  %6d\n\r", pkt->z_accel);
-    printf("\ty_accel:  %6d\n\r", pkt->y_accel);
-    printf("\tx_accel:  %6d\n\r", pkt->x_accel);
-    printf("\troll:     %6d\n\r", pkt->roll);
-    printf("\tcrc:      %6d\n\r", pkt->crc);
 }
 
 void print_imu_pkts(volatile struct imu_tx_pkt_t * tx_pkt, volatile struct imu_rx_pkt_t * rx_pkt)
 {
     printf("\n\r\n\r");
-    printf("imu_tx_pkt:");
-    printf("\t\t\timu_rx_pkt:\n\r");
-    printf("\tstart:         %#02x\t\tstart:    %#02x\n\r", tx_pkt->start, rx_pkt->start);
-    printf("\tgarbage[0]:  %6d\t\tpitch_tmp:  %6d\n\r", (int16_t)tx_pkt->garbage[0], rx_pkt->pitch_tmp);
-    printf("\tgarbage[2]:  %6d\t\tpitch:      %6d\n\r", (int16_t)tx_pkt->garbage[2], rx_pkt->pitch);
-    printf("\tgarbage[4]:  %6d\t\tyaw:        %6d\n\r", (int16_t)tx_pkt->garbage[4], rx_pkt->yaw);
-    printf("\tgarbage[6]:  %6d\t\tyaw_tmp:    %6d\n\r", (int16_t)tx_pkt->garbage[6], rx_pkt->yaw_tmp);
-    printf("\tgarbage[8]:  %6d\t\tz_accel:    %6d\n\r", (int16_t)tx_pkt->garbage[8], rx_pkt->z_accel);
-    printf("\tgarbage[10]: %6d\t\ty_accel:    %6d\n\r", (int16_t)tx_pkt->garbage[10],rx_pkt->y_accel);
-    printf("\tgarbage[12]: %6d\t\tx_accel:    %6d\n\r", (int16_t)tx_pkt->garbage[12],rx_pkt->x_accel);
-    printf("\tgarbage[14]: %6d\t\troll:       %6d\n\r", (int16_t)tx_pkt->garbage[14],rx_pkt->roll);
-    printf("\tcrc:         %6d\t\tcrc:        %6d\n\r", tx_pkt->crc, rx_pkt->crc);
+    printf("imu_tx_pkt:\t\t\timu_rx_pkt:\n\r");
+    printf("\tstart:         %#02x\t\tstart:   %#02x\n\r", tx_pkt->start,                 rx_pkt->start);
+    printf("\tgarbage[0]:  %6d\t\tpitch_tmp: %6d\n\r",     (int16_t)tx_pkt->garbage[0],   rx_pkt->pitch_tmp);
+    printf("\tgarbage[2]:  %6d\t\tpitch:     %6d\n\r",     (int16_t)tx_pkt->garbage[2],   rx_pkt->pitch);
+    printf("\tgarbage[4]:  %6d\t\tyaw:       %6d\n\r",     (int16_t)tx_pkt->garbage[4],   rx_pkt->yaw);
+    printf("\tgarbage[6]:  %6d\t\tyaw_tmp:   %6d\n\r",     (int16_t)tx_pkt->garbage[6],   rx_pkt->yaw_tmp);
+    printf("\tgarbage[8]:  %6d\t\tz_accel:   %6d\n\r",     (int16_t)tx_pkt->garbage[8],   rx_pkt->z_accel);
+    printf("\tgarbage[10]: %6d\t\ty_accel:   %6d\n\r",     (int16_t)tx_pkt->garbage[10],  rx_pkt->y_accel);
+    printf("\tgarbage[12]: %6d\t\tx_accel:   %6d\n\r",     (int16_t)tx_pkt->garbage[12],  rx_pkt->x_accel);
+    printf("\tgarbage[14]: %6d\t\troll:      %6d\n\r",     (int16_t)tx_pkt->garbage[14],  rx_pkt->roll);
+    printf("\tcrc:         %6d\t\tcrc:       %6d\n\r",     tx_pkt->crc,                   rx_pkt->crc);
 }
 
 void process_rx_buf(volatile char * rx_buf)
@@ -182,9 +118,7 @@ void process_rx_buf(volatile char * rx_buf)
     else if(strcmp(cmd, "reboot") == 0) { printf("\n\rrebooting..."); CCPWrite(&RST_CTRL, RST_SWRST_bm); }
     else if(strcmp(cmd, "print") == 0) { printf("\n\r\n\rAvailable print commands:\n\r\tprintpid\n\r\tprintmot\n\r\tprintimu\n\r\tprintbat\n\r"); }
     else if(strcmp(cmd, "printpid") == 0) { print_pid_info(&pid); }
-    //else if(strcmp(cmd, "printmot") == 0) { print_mot_tx_pkt(&mot_tx); print_mot_rx_pkt(&mot_rx); }
     else if(strcmp(cmd, "printmot") == 0) { print_mot_pkts(&mot_tx, &mot_rx); }
-    //else if(strcmp(cmd, "printimu") == 0) { print_imu_tx_pkt(&imu_tx); print_imu_rx_pkt(&imu_rx); }
     else if(strcmp(cmd, "printimu") == 0) { print_imu_pkts(&imu_tx, &imu_rx); }
     else if(strcmp(cmd, "printbat") == 0) { printf("\n\rbat_voltage_raw: %d", bat_voltage_raw); printf("\n\rbat_voltage_human: %0.4f", (double)bat_voltage_human); }
     else if(strcmp(cmd, "start") == 0) { mot_tx.start = (uint8_t)val; }
