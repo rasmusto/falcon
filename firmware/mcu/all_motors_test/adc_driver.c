@@ -273,7 +273,8 @@ uint8_t ADC_Offset_Get_Unsigned(ADC_t * adc, ADC_CH_t *ch, bool oversampling)
     if (oversampling)
     {
       uint16_t offset=0;
-      for (int i=0; i<4; i++)
+      int i;
+      for (i=0; i<4; i++)
       {
         /* Do one conversion to find offset. */
         ADC_Ch_Conversion_Start(ch);
@@ -320,7 +321,8 @@ int8_t ADC_Offset_Get_Signed(ADC_t * adc, ADC_CH_t *ch, bool oversampling)
     if (oversampling)
     {
       int16_t offset=0;
-      for (int i=0; i<4; i++)
+      int i;
+      for (i=0; i<4; i++)
       {
         /* Do one conversion to find offset. */
         ADC_Ch_Conversion_Start(ch);
