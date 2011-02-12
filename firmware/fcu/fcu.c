@@ -98,20 +98,13 @@ void print_mot_pkts(volatile struct mot_tx_pkt_t * tx_pkt, volatile struct mot_r
     printf("\n\r");
     tx_pkt->crc = crc((char *)tx_pkt, 9, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
     printf("\n\r");
-    printf("mot_tx_pkt:");
-    printf("\t\tmot_rx_pkt:\n\r");
-    printf("\tstart:     %#02x",        tx_pkt->start);
-    printf("\t\tstart:   %#02x\n\r",  rx_pkt->start);
-    printf("\ttgt_1:   %6lu",         (uint32_t)tx_pkt->tgt_1);
-    printf("\t\tspd_1: %6lu\n\r",     (uint32_t)rx_pkt->spd_1);
-    printf("\ttgt_2:   %6lu",           (uint32_t)tx_pkt->tgt_2);
-    printf("\t\tspd_2: %6lu\n\r",     (uint32_t)rx_pkt->spd_2);
-    printf("\ttgt_3:   %6lu",           (uint32_t)tx_pkt->tgt_3);
-    printf("\t\tspd_3: %6lu\n\r",     (uint32_t)rx_pkt->spd_3);
-    printf("\ttgt_4:   %6lu",           (uint32_t)tx_pkt->tgt_4);
-    printf("\t\tspd_4: %6lu\n\r",     (uint32_t)rx_pkt->spd_4);
-    printf("\tcrc:     %6d",            tx_pkt->crc);
-    printf("\t\tcrc:   %6d\n\r",      rx_pkt->crc);
+    printf("mot_tx_pkt:\t\tmot_rx_pkt\n\r");
+    printf("\tstart:   %#02x\t\tstart:   %#02x\n\r", tx_pkt->start, rx_pkt->start);
+    printf("\ttgt_1: %6lu\t\tspd_1: %6lu\n\r",(uint32_t)tx_pkt->tgt_1, (uint32_t)rx_pkt->spd_1);
+    printf("\ttgt_1: %6lu\t\tspd_2: %6lu\n\r",(uint32_t)tx_pkt->tgt_2, (uint32_t)rx_pkt->spd_2);
+    printf("\ttgt_1: %6lu\t\tspd_3: %6lu\n\r",(uint32_t)tx_pkt->tgt_3, (uint32_t)rx_pkt->spd_3);
+    printf("\ttgt_1: %6lu\t\tspd_4: %6lu\n\r",(uint32_t)tx_pkt->tgt_4, (uint32_t)rx_pkt->spd_4);
+    printf("\tcrc:   %6d\t\tcrc:   %6d\n\r", tx_pkt->crc, rx_pkt->crc);
 }
 
 void print_imu_tx_pkt(volatile struct imu_tx_pkt_t * pkt)
@@ -151,26 +144,16 @@ void print_imu_pkts(volatile struct imu_tx_pkt_t * tx_pkt, volatile struct imu_r
     printf("\n\r\n\r");
     printf("imu_tx_pkt:");
     printf("\t\t\timu_rx_pkt:\n\r");
-    printf("\tstart:        %#02x", tx_pkt->start);
-    printf("\t\tstart:      %#02x\n\r", rx_pkt->start);
-    printf("\tgarbage[0]: %6d", (int16_t)tx_pkt->garbage[0]);
-    printf("\t\tpitch_tmp:%6d\n\r", rx_pkt->pitch_tmp);
-    printf("\tgarbage[2]: %6d", (int16_t)tx_pkt->garbage[2]);
-    printf("\t\tpitch:    %6d\n\r", rx_pkt->pitch);
-    printf("\tgarbage[4]: %6d", (int16_t)tx_pkt->garbage[4]);
-    printf("\t\tyaw:      %6d\n\r", rx_pkt->yaw);
-    printf("\tgarbage[6]: %6d", (int16_t)tx_pkt->garbage[6]);
-    printf("\t\tyaw_tmp:  %6d\n\r", rx_pkt->yaw_tmp);
-    printf("\tgarbage[8]: %6d", (int16_t)tx_pkt->garbage[8]);
-    printf("\t\tz_accel:  %6d\n\r", rx_pkt->z_accel);
-    printf("\tgarbage[10]:%6d", (int16_t)tx_pkt->garbage[10]);
-    printf("\t\ty_accel:  %6d\n\r", rx_pkt->y_accel);
-    printf("\tgarbage[12]:%6d", (int16_t)tx_pkt->garbage[12]);
-    printf("\t\tx_accel:  %6d\n\r", rx_pkt->x_accel);
-    printf("\tgarbage[14]:%6d", (int16_t)tx_pkt->garbage[14]);
-    printf("\t\troll:     %6d\n\r", rx_pkt->roll);
-    printf("\tcrc:        %6d", tx_pkt->crc);
-    printf("\t\tcrc:      %6d\n\r", rx_pkt->crc);
+    printf("\tstart:         %#02x\t\tstart:    %#02x\n\r", tx_pkt->start, rx_pkt->start);
+    printf("\tgarbage[0]:  %6d\t\tpitch_tmp:  %6d\n\r", (int16_t)tx_pkt->garbage[0], rx_pkt->pitch_tmp);
+    printf("\tgarbage[2]:  %6d\t\tpitch:      %6d\n\r", (int16_t)tx_pkt->garbage[2], rx_pkt->pitch);
+    printf("\tgarbage[4]:  %6d\t\tyaw:        %6d\n\r", (int16_t)tx_pkt->garbage[4], rx_pkt->yaw);
+    printf("\tgarbage[6]:  %6d\t\tyaw_tmp:    %6d\n\r", (int16_t)tx_pkt->garbage[6], rx_pkt->yaw_tmp);
+    printf("\tgarbage[8]:  %6d\t\tz_accel:    %6d\n\r", (int16_t)tx_pkt->garbage[8], rx_pkt->z_accel);
+    printf("\tgarbage[10]: %6d\t\ty_accel:    %6d\n\r", (int16_t)tx_pkt->garbage[10],rx_pkt->y_accel);
+    printf("\tgarbage[12]: %6d\t\tx_accel:    %6d\n\r", (int16_t)tx_pkt->garbage[12],rx_pkt->x_accel);
+    printf("\tgarbage[14]: %6d\t\troll:       %6d\n\r", (int16_t)tx_pkt->garbage[14],rx_pkt->roll);
+    printf("\tcrc:         %6d\t\tcrc:        %6d\n\r", tx_pkt->crc, rx_pkt->crc);
 }
 
 void process_rx_buf(volatile char * rx_buf)
