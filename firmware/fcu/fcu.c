@@ -92,6 +92,20 @@ void print_imu_pkts(volatile struct imu_tx_pkt_t * tx_pkt, volatile struct imu_r
     printf("\tcrc:         %6d\t\tcrc:       %6d\n\r",     tx_pkt->crc,                   rx_pkt->crc);
 }
 
+void print_bat(void)
+{
+    printf("\n\rbattery: %0.4fV\n\r", (double)bat_voltage_human);
+}
+
+void print_status(void)
+{
+    printf("%c", 12);
+    print_pid_info(&pid);
+    print_mot_pkts(&mot_tx, &mot_rx);
+    print_imu_pkts(&imu_tx, &imu_rx);
+    print_bat();
+}
+ 
 void process_rx_buf(volatile char * rx_buf)
 {
     char cmd[64];
@@ -152,7 +166,8 @@ void process_rx_buf(volatile char * rx_buf)
     else if(strcmp(cmd, "print_pid") == 0) { print_pid_info(&pid); }
     else if(strcmp(cmd, "reset_i") == 0) { pid_reset_i(&pid); }
     else { printf("\n\rcommand not found: %s", cmd); }
-    printf("\n\rfcu: ");
+    //printf("\n\rfcu: ");
+    print_status();
 }
 
 /********* INTERRUPTS **********/
@@ -175,16 +190,13 @@ ISR(USARTF0_RXC_vect)
 {
     unsigned char c = USARTF0.DATA;
     stdout = &xbee_out;
-    printf("%c", c);
     if(c == '\r')
     {
         xbee_rx_buf[xbee_rx_count] = '\0';
         xbee_rx_buf_rdy = 1;
-        xbee_rx_count = 0;
     }
     else if(c == '\b')
     {
-        printf(" \b");
         xbee_rx_count--;
         xbee_rx_buf[xbee_rx_count] = '\0';
     }
@@ -204,17 +216,13 @@ ISR(USARTC1_RXC_vect)
 {
     unsigned char c = USARTC1.DATA;
     stdout = &usb_out;
-    printf("%c", c);
     if(c == '\r')
     {
         usb_rx_buf[usb_rx_count] = '\0';
-        //process_rx_buf(usb_rx_buf);
         usb_rx_buf_rdy = 1;
-        usb_rx_count = 0;
     }
     else if(c == '\b')
     {
-        printf(" \b");
         usb_rx_count--;
         usb_rx_buf[usb_rx_count] = '\0';
     }
@@ -295,6 +303,8 @@ int main (void)
     stdout = &xbee_out;
     stdout = &sonar_out;
 
+    uint8_t loop_count = 0;
+
     sei();
 
     /************** Main Loop ***************/
@@ -307,14 +317,36 @@ int main (void)
         {
             stdout = &usb_out;
             process_rx_buf(usb_rx_buf);
+            usb_rx_buf[0] = '\0';
+            while(usb_rx_count > 0)
+            {
+                usb_rx_buf[usb_rx_count] = '\0';
+                usb_rx_count--;
+            }
             usb_rx_buf_rdy = 0;
         }
         if(xbee_rx_buf_rdy)
         {
             stdout = &xbee_out;
             process_rx_buf(xbee_rx_buf);
+            xbee_rx_buf[0] = '\0';
+            while(xbee_rx_count > 0)
+            {
+                xbee_rx_buf[xbee_rx_count] = '\0';
+                xbee_rx_count--;
+            }
             xbee_rx_buf_rdy = 0;
         }
+        stdout = &usb_out;
+        if(loop_count == 25)
+        {
+            print_status();
+            loop_count = 0;
+        }
+        printf("\r");
+        printf("fcu: %s", usb_rx_buf);
+        _delay_ms(50);
+        loop_count++;
     }
     return 0;
 }
