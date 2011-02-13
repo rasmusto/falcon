@@ -3,6 +3,11 @@
 
 #include "DSP28x_Project.h"
 
+#define CRC_DIVISOR	7
+#define START_BYTE
+
+#define uint8_t unsigned char
+
 //function prototypes
 //void ImuPwrOn(void);
 //void ImuPwrOff(void);
@@ -11,8 +16,8 @@
 #define ADC_DRDY() !GpioDataRegs.GPADAT.bit.GPIO20
 
 //spi defines
-#define SPIA_CHAR_LNGTH_MSK 0x0F
-#define SPIB_CHAR_LNGTH_MSK 0x0F
+#define SPIA_CHAR_LNGTH_MSK 0x0F //16-bit
+#define SPIB_CHAR_LNGTH_MSK 0x07 //8-bit
 
 struct SENSOR_VALUES {
 	int	pitch_temp;
@@ -27,6 +32,12 @@ struct SENSOR_VALUES {
 union SENSOR_DATA {
 	int	sensor[8];
 	struct SENSOR_VALUES value;
+};
+
+struct FCU_PACKET {
+	uint8_t start;
+	union SENSOR_DATA data;
+	uint8_t crc;
 };
 
 struct MY_FLAGS {

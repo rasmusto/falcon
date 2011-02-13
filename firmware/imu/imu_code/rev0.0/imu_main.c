@@ -3,6 +3,7 @@
 
 volatile union SENSOR_DATA sensors;
 volatile union IMU_FLAGS flags;
+volatile struct FCU_PACKET fcu_tx_packet;
 
 void main(void)
 {

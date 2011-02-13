@@ -1,11 +1,10 @@
 #include "crc.h"
 
 uint8_t crc (char * packet, uint8_t length, char divisor) {
-	uint8_t * temp = (uint8_t*) malloc (length+1);
-	int i;
-	int j;
-	char carryFlag = 0;
-	char nextCarryFlag = 0;
+	
+	int i, j, result;
+	char carryFlag = 0, nextCarryFlag = 0;
+	uint8_t * temp = (uint8_t *) malloc (length+1);
 	
 	for (i=0;i<length;i++) // copy packet to temp
 		temp[i] = packet[i];
@@ -24,35 +23,7 @@ uint8_t crc (char * packet, uint8_t length, char divisor) {
 			temp[0] ^= divisor; // xor
 	}
 
-	int result = (uint8_t) temp[0];
-	free (temp);
+	result = (uint8_t) temp[0];
+	free(temp);
 	return result;
-}
-	
-void printBinaryArray (char* array, int length) {
-	int i;
-	char* buf = (char*) malloc (length+1);
-	
-	for (i=0;i<length;i++)
-		buf[i] = array[i];
-		
-	for (i=0;i<length;i++) {
-		printf ("%c", (buf[i]/128)?'1':'0');
-		buf[i] %= 128;
-		printf ("%c", (buf[i]/64)?'1':'0');
-		buf[i] %= 64;
-		printf ("%c", (buf[i]/32)?'1':'0');
-		buf[i] %= 32;
-		printf ("%c", (buf[i]/16)?'1':'0');
-		buf[i] %= 16;
-		printf ("%c", (buf[i]/8)?'1':'0');
-		buf[i] %= 8;
-		printf ("%c", (buf[i]/4)?'1':'0');
-		buf[i] %= 4;
-		printf ("%c", (buf[i]/2)?'1':'0');
-		buf[i] %= 2;
-		printf ("%c", (buf[i])?'1':'0');
-		printf (" ");
-	}
-	free (buf);
 }
