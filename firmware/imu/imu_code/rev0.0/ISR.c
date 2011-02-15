@@ -592,6 +592,7 @@ interrupt void SPIRXINTA_ISR(void)    // SPI-A
 	//received 4 words already
 	if(flags.bit.rx_half_adc_words){
 		flags.bit.rx_half_adc_words = 0;
+		flags.bit.make_new_fcu_packet = 1;
 		
 		//read the 4 words (channels 5-8 from adc)
 		sensors.value.z_accel = SpiaRegs.SPIRXBUF;
@@ -636,20 +637,22 @@ interrupt void SPIRXINTB_ISR(void)    // SPI-B
 // INT6.4
 interrupt void SPITXINTB_ISR(void)     // SPI-B
 {
-	if(flags.bit.tx_half_adc_words){
-		SpibRegs.SPITXBUF = sensors.sensor[4];
-		SpibRegs.SPITXBUF = sensors.sensor[5];
-		SpibRegs.SPITXBUF = sensors.sensor[6];
-		SpibRegs.SPITXBUF = sensors.sensor[7];
-		
-		flags.bit.tx_half_adc_words = 0;
-	}else{
-		SpibRegs.SPITXBUF = sensors.sensor[0];
-		SpibRegs.SPITXBUF = sensors.sensor[1];
-		SpibRegs.SPITXBUF = sensors.sensor[2];
-		SpibRegs.SPITXBUF = sensors.sensor[3];
-		
-		flags.bit.tx_half_adc_words = 1;
+	static Uint16 index = 0;
+	Uint16 target, starting_index = index;
+	
+	if(fcu_tx_packet.length){
+		if(fcu_tx_packet.length - index <= 4)
+			target = fcu_tx_packet.length;
+		else	
+			target = index + 4;
+		for( ; index < target; index++)
+			SpibRegs.SPITXBUF = (fcu_tx_packet.data[index]<<8); //data must be left adjusted in 16 bit spi tx reg.
+		if(index - starting_index < 4){
+			SpibRegs.SPITXBUF = (fcu_tx_packet.crc << 8);
+			index = 0;
+			fcu_tx_packet.length = 0; //signifies packet is old.
+			//turn off fifo?? wait for command from FCU?? i dont know...
+		}
 	}
 	SpibRegs.SPIFFTX.bit.TXFFINTCLR = 1; //clear interrupt bit// need this?
 	PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;

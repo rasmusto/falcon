@@ -18,6 +18,52 @@
 void InitSpiARegs(void);
 void InitSpiBRegs(void);
 
+//creates a packet for sending to the fcu
+void make_fcu_packet(struct FCU_PACKET * fcu_pkt, enum PACKET_TYPE type)
+{	
+	int i = 0;
+	//free memory from old packet type/allocate memory for new packet type
+	if((type != fcu_pkt->type) || (fcu_pkt->data == NULL)){
+		if(fcu_pkt->data)
+			free(fcu_pkt->data);
+		switch(type){
+			case RAW_SENSOR_DATA:{
+				fcu_pkt->length = sizeof(union SENSOR_DATA) + 1; //add 1 for the start byte.
+				fcu_pkt->data = (char *)malloc(fcu_pkt->length); 
+				fcu_pkt->data[0] = (char)fcu_pkt->type; //start byte
+			}
+			case EULER_ANGLES:{
+				
+			}	
+			case STATUS:{
+				
+			}
+			default:{}	
+		}
+		fcu_pkt->type = type;	
+	}
+	//once packet has allocated memory, fill the fcu_pkt->data array.
+	switch(type){
+		case RAW_SENSOR_DATA:{
+			for(i=0;i<16;i++){
+				fcu_pkt->data[i+1] = ((char *)sensors.sensor)[i];	
+			}
+		}
+		case EULER_ANGLES:{
+			
+		}	
+		case STATUS:{
+			
+		}
+		default:{}	
+	}
+}
+
+
+
+
+
+
 //---------------------------------------------------------------------------
 // InitSPI:
 //---------------------------------------------------------------------------
@@ -160,6 +206,8 @@ void InitSpibGpio()
     
     EDIS;
 }
+
+
 
 //===========================================================================
 // End of file.

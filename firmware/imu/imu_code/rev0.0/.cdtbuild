@@ -90,6 +90,7 @@
 <option id="com.ti.ccstudio.buildDefinitions.C2000_5.2.linkerID.generatedLinkerCommandFiles.1667326406" superClass="com.ti.ccstudio.buildDefinitions.C2000_5.2.linkerID.generatedLinkerCommandFiles" valueType="libs">
 <listOptionValue builtIn="false" value="&quot;$(GEN_CMDS_QUOTED)&quot;"/>
 </option>
+<option id="com.ti.ccstudio.buildDefinitions.C2000_5.2.linkerID.HEAP_SIZE.686109636" superClass="com.ti.ccstudio.buildDefinitions.C2000_5.2.linkerID.HEAP_SIZE" value="0x400" valueType="string"/>
 </tool>
 <macros expandEnvironmentMacros="true"/>
 </toolChain>
@@ -97,5 +98,6 @@
 <tool id="com.ti.ccstudio.buildDefinitions.C2000_5.2.exe.linkerRelease.1568416098./rev0.0/28035_RAM_lnk.cmd" name="C2000 Linker" superClass="com.ti.ccstudio.buildDefinitions.C2000_5.2.exe.linkerRelease.1568416098"/>
 </resourceConfiguration>
 </configuration>
+<macros/>
 </project>
 </ManagedProjectBuildInfo>
