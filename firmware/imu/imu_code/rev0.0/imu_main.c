@@ -3,7 +3,8 @@
 
 volatile union SENSOR_DATA sensors;
 volatile union IMU_FLAGS flags;
-volatile struct FCU_PACKET fcu_tx_packet;
+volatile struct FCU_PACKET * fcu_tx_packet;
+volatile struct FCU_PACKET sensor_tx_packet;
 
 void main(void)
 {
@@ -15,8 +16,8 @@ void main(void)
 		sensors.sensor[i] = 0;
 	}
 	flags.all = 0x0001; //set 'want_new_adc_data' flag, clear the rest
-	fcu_tx_packet.length = 0;
-	fcu_tx_packet.data = NULL;
+	init_fcu_packet(&sensor_tx_packet, RAW_SENSOR_DATA);
+	fcu_tx_packet = &sensor_tx_packet;
 
 	InitGpio(); //set gpio for general i/o pins, not peripheral pins.	
 	InitSpi();  //sets gpio and all registers for spiA and spiB
@@ -30,6 +31,7 @@ void main(void)
 	//wait for IMU_SENSE to power up
 	while(ADC_DRDY())
 		;
+
 	//loop forever
 	for(;;){
 		if(flags.bit.want_new_adc_data && ADC_DRDY()){
@@ -39,9 +41,11 @@ void main(void)
 			SpiaRegs.SPITXBUF = 0x0000;	
 			SpiaRegs.SPITXBUF = 0x0000;	
 		}
-		if(flags.bit.make_new_fcu_packet){
+		//only modify packet when we want to make a new packet and the SPI FIFO is 
+		//disabled(means we are not in the middle of a transmission)
+		if(flags.bit.make_new_fcu_packet && !SpibRegs.SPIFFTX.bit.SPIFFENA){
 			flags.bit.make_new_fcu_packet = 0;	
-			make_fcu_packet(&fcu_tx_packet, RAW_SENSOR_DATA);
+			make_fcu_packet(&sensor_tx_packet);
 		}
 	}
 }

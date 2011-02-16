@@ -19,48 +19,46 @@ void InitSpiARegs(void);
 void InitSpiBRegs(void);
 
 //creates a packet for sending to the fcu
-void make_fcu_packet(struct FCU_PACKET * fcu_pkt, enum PACKET_TYPE type)
-{	
+void make_fcu_packet(volatile struct FCU_PACKET * fcu_pkt)
+{
 	int i = 0;
-	//free memory from old packet type/allocate memory for new packet type
-	if((type != fcu_pkt->type) || (fcu_pkt->data == NULL)){
-		if(fcu_pkt->data)
-			free(fcu_pkt->data);
-		switch(type){
-			case RAW_SENSOR_DATA:{
-				fcu_pkt->length = sizeof(union SENSOR_DATA) + 1; //add 1 for the start byte.
-				fcu_pkt->data = (char *)malloc(fcu_pkt->length); 
-				fcu_pkt->data[0] = (char)fcu_pkt->type; //start byte
-			}
-			case EULER_ANGLES:{
-				
-			}	
-			case STATUS:{
-				
-			}
-			default:{}	
-		}
-		fcu_pkt->type = type;	
+	//fill the fcu_pkt->data array.
+	switch(fcu_pkt->type){
+		case RAW_SENSOR_DATA:
+			for(i=0;i<8;i++)
+				fcu_pkt->data[i+1] = sensors.sensor[i];	
+			break;
+		case EULER_ANGLES:
+			break;
+		case STATUS:
+			break;
+		default:
+			break;	
 	}
-	//once packet has allocated memory, fill the fcu_pkt->data array.
-	switch(type){
-		case RAW_SENSOR_DATA:{
-			for(i=0;i<16;i++){
-				fcu_pkt->data[i+1] = ((char *)sensors.sensor)[i];	
-			}
-		}
-		case EULER_ANGLES:{
-			
-		}	
-		case STATUS:{
-			
-		}
-		default:{}	
-	}
+	//calculate crc and store it in lower 8-bits of data[0]
+	fcu_pkt->data[0] |= (crc(fcu_pkt->data, fcu_pkt->length, CRC_DIVISOR) & 0x00FF);
 }
 
-
-
+void init_fcu_packet(volatile struct FCU_PACKET * fcu_pkt, enum PACKET_TYPE type)
+{
+	//allocate memory for new packet type
+	switch(type){
+		case RAW_SENSOR_DATA:
+			fcu_pkt->length = sizeof(union SENSOR_DATA) + 1; //add 1 for the start byte.
+			fcu_pkt->data = (Uint16 *)malloc(fcu_pkt->length); 
+			fcu_pkt->data[0] = fcu_pkt->type << 8; //start byte is upper 8bits crc is lower 8
+			break;
+		case EULER_ANGLES:
+			break;	
+		case STATUS:
+			break;
+		default:
+			break;	
+	}
+	fcu_pkt->type = type;	
+	make_fcu_packet(fcu_pkt);
+	fcu_pkt->data[0] ^= 0x000F; //mess up crc, so fcu knows data isn't valid yet.
+}
 
 
 
@@ -119,9 +117,8 @@ void InitSpiBRegs(void)
 	SpibRegs.SPIPRI.bit.SOFT = 1;
 	SpibRegs.SPIPRI.bit.FREE = 0;
 	
-	SpibRegs.SPIFFTX.all = 0xE020; //enable FIFO, FIFO TX interrupt at empty FIFO
-	SpibRegs.SPIFFTX.bit.SPIRST = 0; //reset FIFO RX and TX
-	SpibRegs.SPIFFTX.bit.SPIRST = 1; // need this reset?
+	//TX FIFO disabled to start. enabled in SPIBRXINT ISR
+	SpibRegs.SPIFFTX.bit.TXFFIENA = 1;
 	//reset spi 
 	SpibRegs.SPICCR.bit.SPISWRESET = 1; //everything is configured, begin
 }

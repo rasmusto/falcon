@@ -2,17 +2,12 @@
 #define IMU_MAIN_H_
 
 #include "DSP28x_Project.h"
+#include "crc.h"
 #include <stdlib.h>
 
-#define CRC_DIVISOR	7
-#define START_BYTE
+#define CRC_DIVISOR	0x0007
 
-#define uint8_t unsigned char
-
-//function prototypes
-void InitMicrocontroller(void);
-void make_fcu_packet(struct FCU_PACKET * fcu_pkt, enum PACKET_TYPE type);
-
+enum PACKET_TYPE{ RAW_SENSOR_DATA, EULER_ANGLES, STATUS};
 
 #define IMU_PWR_ON() GpioDataRegs.GPBSET.bit.GPIO34 = 1; GpioDataRegs.GPASET.bit.GPIO21 = 1
 #define IMU_PWR_OFF() GpioDataRegs.GPBCLEAR.bit.GPIO34 = 1; GpioDataRegs.GPACLEAR.bit.GPIO21 = 1
@@ -21,10 +16,6 @@ void make_fcu_packet(struct FCU_PACKET * fcu_pkt, enum PACKET_TYPE type);
 //spi defines
 #define SPIA_CHAR_LNGTH_MSK 0x0F //16-bit
 #define SPIB_CHAR_LNGTH_MSK 0x07 //8-bit
-
-enum PACKET_TYPE{ RAW_SENSOR_DATA, EULER_ANGLES, STATUS};
-
-
 
 struct SENSOR_VALUES {
 	int	pitch_temp;
@@ -42,10 +33,10 @@ union SENSOR_DATA {
 };
 
 struct FCU_PACKET {
-	char * data;
-	uint8_t crc;
+	Uint16 * data;
+	Uint16 crc;
 	enum PACKET_TYPE type;
-	uint8_t length; //length of data in bytes, not including crc
+	Uint16 length; //length of data in bytes, not including crc
 };
 
 struct MY_FLAGS {
@@ -62,6 +53,12 @@ union IMU_FLAGS{
 	
 extern volatile union SENSOR_DATA sensors;
 extern volatile union IMU_FLAGS flags;
-extern volatile struct FCU_PACKET fcu_tx_packet;
+extern volatile struct FCU_PACKET * fcu_tx_packet;
+extern volatile struct FCU_PACKET sensor_tx_packet;
+
+//function prototypes
+void InitMicrocontroller(void);
+void make_fcu_packet(volatile struct FCU_PACKET * fcu_pkt);
+void init_fcu_packet(volatile struct FCU_PACKET * fcu_pkt, enum PACKET_TYPE type);
 
 #endif /*IMU_MAIN_H_*/
