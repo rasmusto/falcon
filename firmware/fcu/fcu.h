@@ -72,8 +72,6 @@ struct mot_rx_pkt_t
 struct imu_tx_pkt_t
 {
     volatile uint8_t start;
-    char garbage[16];
-    volatile uint8_t crc;
 };
 
 struct imu_rx_pkt_t
