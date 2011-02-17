@@ -43,7 +43,7 @@ void spi_write_read_multi(char * tx_pkt, char * rx_pkt, uint8_t len, uint8_t pin
 char spi_read(uint8_t pin)
 {
     // write 0x00 and read back results clocked into data buffer
-    spi_write(0, pin);
+    spi_write(0x00, pin);
     return SPIE.DATA;
 };
 

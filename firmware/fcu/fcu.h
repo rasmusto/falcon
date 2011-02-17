@@ -77,6 +77,7 @@ struct imu_tx_pkt_t
 struct imu_rx_pkt_t
 {
     volatile uint8_t start;
+    volatile uint8_t chksum;
     volatile int16_t pitch_tmp;
     volatile int16_t pitch;
     volatile int16_t yaw;
@@ -85,7 +86,6 @@ struct imu_rx_pkt_t
     volatile int16_t y_accel;
     volatile int16_t x_accel;
     volatile int16_t roll;
-    volatile uint8_t crc;
 };
 
 /* Function Prototypes */
@@ -95,6 +95,7 @@ void print_mot_pkts(volatile struct mot_tx_pkt_t * tx_pkt, volatile struct mot_r
 
 void init_imu_tx_pkt(volatile struct imu_tx_pkt_t * pkt);
 void init_imu_rx_pkt(volatile struct imu_rx_pkt_t * pkt);
+void request_imu_pkt();
 void print_imu_pkts(volatile struct imu_tx_pkt_t * tx_pkt, volatile struct imu_rx_pkt_t * rx_pkt);
 
 void process_rx_buf(volatile char * rx_buf);

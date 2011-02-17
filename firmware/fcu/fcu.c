@@ -16,6 +16,8 @@ volatile struct imu_rx_pkt_t imu_rx;
 
 volatile struct pid_info pid;
 
+volatile uint8_t print_status_flag = 0;
+
 volatile uint8_t bat_voltage_raw;
 volatile float bat_voltage_human;
 
@@ -47,6 +49,7 @@ void init_imu_tx_pkt(volatile struct imu_tx_pkt_t * pkt)
 void init_imu_rx_pkt(volatile struct imu_rx_pkt_t * pkt)
 {
     pkt->start = 2;
+    pkt->chksum = 2;
     pkt->pitch_tmp = 2;
     pkt->pitch = 2;
     pkt->yaw = 2;
@@ -55,8 +58,22 @@ void init_imu_rx_pkt(volatile struct imu_rx_pkt_t * pkt)
     pkt->y_accel = 2;
     pkt->x_accel = 2;
     pkt->roll = 2;
-    pkt->crc = 2;
 }
+
+void request_imu_pkt()
+{ 
+    int i;
+    spi_write(IMU_START, SS1); 
+    _delay_us(100);
+    cli();
+    char * ptr = (char *)&imu_rx;
+    for(i = 0; i < sizeof(struct imu_rx_pkt_t); i++)
+    {
+        ptr[i] = spi_read(SS1);
+    }
+    sei();
+}
+
 
 void print_mot_pkts(volatile struct mot_tx_pkt_t * tx_pkt, volatile struct mot_rx_pkt_t * rx_pkt)
 {   
@@ -77,6 +94,7 @@ void print_imu_pkts(volatile struct imu_tx_pkt_t * tx_pkt, volatile struct imu_r
     printf("\n\r\n\r");
     printf("imu_tx_pkt:\t\t\timu_rx_pkt:\n\r");
     printf("\tstart:   %#02x\t        start:       %#02x\n\r",     tx_pkt->start,      rx_pkt->start);
+    printf("\t                        chksum:    %6d\n\r",     rx_pkt->chksum);
     printf("\t                        pitch_tmp: %6d\n\r",     rx_pkt->pitch_tmp);
     printf("\t                        pitch:     %6d\n\r",     rx_pkt->pitch);
     printf("\t                        yaw:       %6d\n\r",     rx_pkt->yaw);
@@ -85,19 +103,10 @@ void print_imu_pkts(volatile struct imu_tx_pkt_t * tx_pkt, volatile struct imu_r
     printf("\t                        y_accel:   %6d\n\r",     rx_pkt->y_accel);
     printf("\t                        x_accel:   %6d\n\r",     rx_pkt->x_accel);
     printf("\t                        roll:      %6d\n\r",     rx_pkt->roll);
-    printf("\t                        crc:       %6d\n\r",     rx_pkt->crc);
 
-    printf("%d", rx_pkt->start);
-    printf("%d", rx_pkt->pitch_tmp);
-    printf("%d", rx_pkt->pitch);
-    printf("%d", rx_pkt->yaw);
-    printf("%d", rx_pkt->yaw_tmp);
-    printf("%d", rx_pkt->z_accel);
-    printf("%d", rx_pkt->y_accel);
-    printf("%d", rx_pkt->x_accel);
-    printf("%d", rx_pkt->roll);
-    printf("%d", rx_pkt->crc);
+    printf("\n\r%02X %02X %04X %04X %04X %04X %04X %04X %04X %04X\n\r", rx_pkt->start, rx_pkt->chksum, rx_pkt->pitch_tmp, rx_pkt->pitch, rx_pkt->yaw, rx_pkt->yaw_tmp, rx_pkt->z_accel, rx_pkt->y_accel, rx_pkt->x_accel, rx_pkt->roll);
 }
+
 
 void print_bat(void)
 {
@@ -142,6 +151,7 @@ void process_rx_buf(volatile char * rx_buf)
     else if(strcmp(cmd, "printmot") == 0) { print_mot_pkts(&mot_tx, &mot_rx); }
     else if(strcmp(cmd, "printimu") == 0) { print_imu_pkts(&imu_tx, &imu_rx); }
     else if(strcmp(cmd, "printbat") == 0) { printf("\n\rbat_voltage_raw: %d", bat_voltage_raw); printf("\n\rbat_voltage_human: %0.4f", (double)bat_voltage_human); }
+    else if(strcmp(cmd, "print_status") == 0) { if(print_status_flag == 0)print_status_flag = 1; else print_status_flag = 0; }
     else if(strcmp(cmd, "start") == 0) { mot_tx.start = (uint8_t)val; }
     else if(strcmp(cmd, "mot1") == 0) { mot_tx.tgt_1 = (uint16_t)val; }
     else if(strcmp(cmd, "mot2") == 0) { mot_tx.tgt_2 = (uint16_t)val; }
@@ -172,21 +182,10 @@ void process_rx_buf(volatile char * rx_buf)
     else if(strcmp(cmd, "target") == 0) { pid_set_target(&pid, val); }
     else if(strcmp(cmd, "print_pid") == 0) { print_pid_info(&pid); }
     else if(strcmp(cmd, "reset_i") == 0) { pid_reset_i(&pid); }
-    else if(strcmp(cmd, "request_imu") == 0) 
-    { 
-        int i;
-        spi_write(IMU_START, SS1); 
-        _delay_us(2);
-        for(i = 0; i < sizeof(struct imu_rx_pkt_t); i++)
-        {
-            char * ptr = (char *)&imu_rx;
-            ptr[i] = spi_read(SS1);
-        }
-    }
+    else if(strcmp(cmd, "request_imu") == 0) { request_imu_pkt(); }
     else if(strcmp(cmd, "init_imu_rx") == 0) { init_imu_rx_pkt(&imu_rx); }
+    else if(strcmp(cmd, "write") == 0) { printf("\n\r\n\r%d\n\r", spi_write_read((uint8_t)val, SS1)); }
     else { printf("\n\rcommand not found: %s", cmd); }
-    //printf("\n\rfcu: ");
-    print_status();
 }
 
 /********* INTERRUPTS **********/
@@ -310,6 +309,8 @@ int main (void)
     LED_4_GREEN_ON();
     LED_4_RED_OFF();
 
+    stdout = &usb_out;
+
     init_mot_tx_pkt(&mot_tx);
     init_mot_rx_pkt(&mot_rx);
 
@@ -342,6 +343,7 @@ int main (void)
                 usb_rx_buf[usb_rx_count] = '\0';
                 usb_rx_count--;
             }
+            printf("\n\r");
             usb_rx_buf_rdy = 0;
         }
         if(xbee_rx_buf_rdy)
@@ -359,12 +361,17 @@ int main (void)
         stdout = &usb_out;
         if(loop_count == 25)
         {
-            print_status();
+            if(print_status_flag)
+            {
+                request_imu_pkt();
+                print_status();
+            }
             loop_count = 0;
         }
         printf("\r");
         printf("fcu: %s", usb_rx_buf);
-        _delay_ms(5);
+
+        _delay_ms(50);
         loop_count++;
     }
     return 0;
