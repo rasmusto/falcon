@@ -629,20 +629,17 @@ interrupt void SPITXINTA_ISR(void)     // SPI-A
 // INT6.3
 interrupt void SPIRXINTB_ISR(void)    // SPI-B
 {
-	SpibRegs.SPIFFTX.bit.SPIFFENA = 1; //turn on fifo for upcoming transmit.
-	SpibRegs.SPIFFTX.bit.SPIRST = 0; //reset FIFO RX and TX
-	SpibRegs.SPIFFTX.bit.SPIRST = 1; //need this reset?
-	
 	//set fcu_tx_packet pointer to whichever packet is desired.
-	switch((enum PACKET_TYPE)(SpibRegs.SPIRXBUF & 0x00FF)){
-		case RAW_SENSOR_DATA:
+	switch(SpibRegs.SPIRXBUF){
+		case 0xFACE:
 			fcu_tx_packet = &sensor_tx_packet;
+			SpibRegs.SPIFFTX.bit.SPIFFENA = 1; //turn on fifo for upcoming transmit.
 			break;
-		case EULER_ANGLES:
-			break;
-		case STATUS:
+		default:
 			break;
 	}
+	SpibRegs.SPIFFTX.bit.SPIRST = 0; //reset FIFO RX and TX
+	SpibRegs.SPIFFTX.bit.SPIRST = 1; //need this reset?
 	PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;
 }
 
@@ -653,19 +650,17 @@ interrupt void SPITXINTB_ISR(void)     // SPI-B
 	Uint16 target;//, starting_index = index;
 	
 	//fill fifo with data to be sent.
-	if(fcu_tx_packet->length - index <= 2)
+	if(fcu_tx_packet->length - index <= 4)
 		target = fcu_tx_packet->length;
 	else	
-		target = index + 2;
+		target = index + 4;
 	for( ; index < target; index++){
-		SpibRegs.SPITXBUF = fcu_tx_packet->data[index]; //will send top 8-bits
-		SpibRegs.SPITXBUF = (fcu_tx_packet->data[index]<<8); //send bottom 8-bits
+		SpibRegs.SPITXBUF = fcu_tx_packet->data[index];
+		printf("Index: %d. Adding 0x%04X to SPIB TXBUF.\n",index, fcu_tx_packet->data[index]);
 	}
 	//finished?
-	if(target == fcu_tx_packet->length){//index - starting_index < 2){
-		//SpibRegs.SPITXBUF = (fcu_tx_packet->crc << 8);
+	if(target == fcu_tx_packet->length){
 		index = 0;
-		//fcu_tx_packet->length = 0; //signifies packet is used.
 		SpibRegs.SPIFFTX.bit.SPIFFENA = 0; //turn off fifo
 	}
 	SpibRegs.SPIFFTX.bit.TXFFINTCLR = 1; //clear interrupt bit// need this?

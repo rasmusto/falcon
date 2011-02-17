@@ -4,6 +4,7 @@
 #include "DSP28x_Project.h"
 #include "crc.h"
 #include <stdlib.h>
+#include <stdio.h> //remove for final product
 
 #define CRC_DIVISOR	0x0007
 
@@ -15,7 +16,7 @@ enum PACKET_TYPE{ RAW_SENSOR_DATA, EULER_ANGLES, STATUS};
 
 //spi defines
 #define SPIA_CHAR_LNGTH_MSK 0x0F //16-bit
-#define SPIB_CHAR_LNGTH_MSK 0x07 //8-bit
+#define SPIB_CHAR_LNGTH_MSK 0x0F //16-bit
 
 struct SENSOR_VALUES {
 	int	pitch_temp;

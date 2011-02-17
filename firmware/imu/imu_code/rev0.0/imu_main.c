@@ -46,6 +46,7 @@ void main(void)
 		if(flags.bit.make_new_fcu_packet && !SpibRegs.SPIFFTX.bit.SPIFFENA){
 			flags.bit.make_new_fcu_packet = 0;	
 			make_fcu_packet(&sensor_tx_packet);
+			printf("Made new sensor_tx_packet.\n");
 		}
 	}
 }

@@ -22,11 +22,14 @@ void InitSpiBRegs(void);
 void make_fcu_packet(volatile struct FCU_PACKET * fcu_pkt)
 {
 	int i = 0;
+	printf("Making new fcu_packet of type %x:\n", fcu_pkt->type);
 	//fill the fcu_pkt->data array.
 	switch(fcu_pkt->type){
 		case RAW_SENSOR_DATA:
-			for(i=0;i<8;i++)
+			for(i=0;i<8;i++){
 				fcu_pkt->data[i+1] = sensors.sensor[i];	
+				printf("data[%d+1] = %04x\n",i,sensors.sensor[i]);
+			}
 			break;
 		case EULER_ANGLES:
 			break;
@@ -36,7 +39,8 @@ void make_fcu_packet(volatile struct FCU_PACKET * fcu_pkt)
 			break;	
 	}
 	//calculate crc and store it in lower 8-bits of data[0]
-	fcu_pkt->data[0] |= (crc(fcu_pkt->data, fcu_pkt->length, CRC_DIVISOR) & 0x00FF);
+	fcu_pkt->data[0] |= 0xFF;//(crc(fcu_pkt->data, fcu_pkt->length, CRC_DIVISOR) & 0x00FF);
+	printf("data[0] = %04x\n", fcu_pkt->data[0]);
 }
 
 void init_fcu_packet(volatile struct FCU_PACKET * fcu_pkt, enum PACKET_TYPE type)
@@ -110,15 +114,13 @@ void InitSpiBRegs(void)
 	SpibRegs.SPICTL.bit.MASTER_SLAVE = 0; //slave
 	SpibRegs.SPICTL.bit.TALK = 1; //enable transmit to FCU
 	SpibRegs.SPICTL.bit.SPIINTENA = 1; //enable interrupts
-
-	SpibRegs.SPIBRR = 0x0E;	//BRR of 14 is 2MHz.
 	
 	//allow some control when running with emulator, will stop transmissions when halted
 	SpibRegs.SPIPRI.bit.SOFT = 1;
 	SpibRegs.SPIPRI.bit.FREE = 0;
 	
 	//TX FIFO disabled to start. enabled in SPIBRXINT ISR
-	SpibRegs.SPIFFTX.bit.TXFFIENA = 1;
+	SpibRegs.SPIFFTX.bit.TXFFIENA = 1; //enable FIFO interrupts, but this only effects when fifo is on.
 	//reset spi 
 	SpibRegs.SPICCR.bit.SPISWRESET = 1; //everything is configured, begin
 }
