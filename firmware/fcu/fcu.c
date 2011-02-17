@@ -16,7 +16,7 @@ volatile struct imu_rx_pkt_t imu_rx;
 
 volatile struct pid_info pid;
 
-volatile uint8_t print_status_flag = 0;
+volatile uint8_t print_status_flag = 1;
 
 volatile uint8_t bat_voltage_raw;
 volatile float bat_voltage_human;
@@ -63,8 +63,9 @@ void init_imu_rx_pkt(volatile struct imu_rx_pkt_t * pkt)
 void request_imu_pkt()
 { 
     int i;
-    spi_write(IMU_START, SS1); 
-    _delay_us(100);
+    spi_write((char)IMU_START>>8, SS1); 
+    spi_write((char)IMU_START>>0, SS1); 
+    _delay_us(10);
     cli();
     char * ptr = (char *)&imu_rx;
     for(i = 0; i < sizeof(struct imu_rx_pkt_t); i++)
@@ -92,7 +93,7 @@ void print_mot_pkts(volatile struct mot_tx_pkt_t * tx_pkt, volatile struct mot_r
 void print_imu_pkts(volatile struct imu_tx_pkt_t * tx_pkt, volatile struct imu_rx_pkt_t * rx_pkt)
 {
     printf("\n\r\n\r");
-    printf("imu_tx_pkt:\t\t\timu_rx_pkt:\n\r");
+    printf("imu_tx_pkt:\t\timu_rx_pkt:\n\r");
     printf("\tstart:   %#02x\t        start:       %#02x\n\r",     tx_pkt->start,      rx_pkt->start);
     printf("\t                        chksum:    %6d\n\r",     rx_pkt->chksum);
     printf("\t                        pitch_tmp: %6d\n\r",     rx_pkt->pitch_tmp);

@@ -39,7 +39,7 @@
 
 #define MOT_START 0b01011111
 
-#define IMU_START 0b01001010
+#define IMU_START 0xFACE
 
 /* Global Variables */
 
@@ -71,7 +71,7 @@ struct mot_rx_pkt_t
 
 struct imu_tx_pkt_t
 {
-    volatile uint8_t start;
+    volatile uint16_t start;
 };
 
 struct imu_rx_pkt_t
