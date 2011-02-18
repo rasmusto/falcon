@@ -67,8 +67,11 @@ void request_imu_pkt()
     spi_write((char)IMU_START>>0, SS1); 
     _delay_us(10);
     cli();
+    while(spi_read(SS1) != IMU_START)
+    {
+    }
     char * ptr = (char *)&imu_rx;
-    for(i = 0; i < sizeof(struct imu_rx_pkt_t); i++)
+    for(i = 1; i < sizeof(struct imu_rx_pkt_t); i++)
     {
         ptr[i] = spi_read(SS1);
     }
