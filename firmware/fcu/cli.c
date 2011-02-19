@@ -1,37 +1,22 @@
 #include <avr/io.h>
-#include <inttypes.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <util/delay.h>
 
 #include "cli.h"
-#include "crc.h"
 #include "pid.h"
-#include "spi.h"
+#include "clksys_driver.h"
+#include "shared.h"
 
-void print_status(void)
+void run_cmd(float val, char * (* function_ptr)(float))
 {
-    printf("%c", 12);
-    print_pid_info(&pid);
-    print_mot_pkts(&mot_tx, &mot_rx);
-    print_imu_pkts(&imu_tx, &imu_rx);
-    print_bat();
-}
- 
-void print_bat(void)
-{
-    printf("\n\rbattery: %0.4fV\n\r", (double)bat_voltage_human);
+    char * status = function_ptr(val);
+    printf("%s\n\r", status);
 }
 
-void process_rx_buf(volatile char * rx_buf)
+char * help(float val)
 {
-    char cmd[64];
-    float val = 0;
-    cmd[0] = '\0';
-    sscanf(rx_buf, "%s%f", cmd, &val);
-    //printf("\n\rcommand: %s\n\rvalue: %d", cmd, val);
-    char * help;
-    help = "\n\r\n\rAvailable commands:\n\r\
+    return "\n\r\n\rAvailable commands:\n\r\
             \r\treboot - reboot the mcu\n\r\
             \r\tprint - display the print commands\n\r\
             \r\tprintpid - print pid structs\n\r\
@@ -45,10 +30,75 @@ void process_rx_buf(volatile char * rx_buf)
             \r\tki <float> - set ki\n\r\
             \r\tkd <float> - set kd\n\r\
             \r\thelp - print this message\n\r";
-    if(cmd[0] == '\0') { } //do nothing
-    else if(strcmp(cmd, "reboot") == 0) { printf("\n\rrebooting..."); CCPWrite(&RST_CTRL, RST_SWRST_bm); }
-    else if(strcmp(cmd, "print") == 0) { printf("\n\r\n\rAvailable print commands:\n\r\tprintpid\n\r\tprintmot\n\r\tprintimu\n\r\tprintbat\n\r"); }
-    else if(strcmp(cmd, "printpid") == 0) { print_pid_info(&pid); }
+}
+
+char * do_nothing(float val)
+{
+    return NULL;
+}
+
+char * reboot(float val)
+{
+    printf("rebooting in %f\n\r", val);
+    _delay_s((int)val);
+    CCPWrite(&RST_CTRL, RST_SWRST_bm);
+    return;
+}
+
+char * green_led_on(float val)
+{
+    switch ((int)val)
+    {
+        case 1:
+            LED_1_GREEN_ON();
+            return "LED 1 GREEN ON";
+        case 2:
+            LED_2_GREEN_ON();
+            return "LED 2 GREEN ON";
+        case 3:
+            LED_3_GREEN_ON();
+            return "LED 3 GREEN ON";
+        case 4:
+            LED_4_GREEN_ON();
+            return "LED 4 GREEN ON";
+        default:
+            return "Invalid LED";
+    }
+}
+
+char * print_pid(struct pid_info * pid)
+{
+}
+
+char * print(float val)
+{
+    return "\n\r\n\rAvailable print commands:\n\r\tprintpid\n\r\tprintmot\n\r\tprintimu\n\r\tprintbat\n\r";
+}
+
+//char * printmotpkts(volatile struct mot_tx_pkt_t * tx_pkt, volatile struct mot_rx_pkt_t * rx_pkt)
+char * printmot(void)
+{   
+    char * status;
+    sprintf(status, "\n\r");
+    mot_tx->crc = crc((char *)mot_tx, 9, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
+    printf(status, "\n\r");
+    printf(status, "mot_tx:\t\tmot_rx:\n\r");
+    printf(status, "\tstart:   %#02x\t\tstart:   %#02x\n\r", mot_tx->start, mot_rx->start);
+    printf(status, "\ttgt_1: %6lu\t\tspd_1: %6lu\n\r", (uint32_t)mot_tx->tgt_1, (uint32_t)mot_rx->spd_1);
+    printf(status, "\ttgt_1: %6lu\t\tspd_2: %6lu\n\r", (uint32_t)mot_tx->tgt_2, (uint32_t)mot_rx->spd_2);
+    printf(status, "\ttgt_1: %6lu\t\tspd_3: %6lu\n\r", (uint32_t)mot_tx->tgt_3, (uint32_t)mot_rx->spd_3);
+    printf(status, "\ttgt_1: %6lu\t\tspd_4: %6lu\n\r", (uint32_t)mot_tx->tgt_4, (uint32_t)mot_rx->spd_4);
+    printf(status, "\tcrc:   %6d\t\tcrc:   %6d\n\r", mot_tx->crc, mot_rx->crc);
+    return status;
+}
+
+void process_rx_buf(volatile char * rx_buf)
+{
+    char cmd[64];
+    float val = 0;
+    cmd[0] = '\0';
+    sscanf(rx_buf, "%s%f", cmd, &val);
+    //printf("\n\rcommand: %s\n\rvalue: %d", cmd, val);
     else if(strcmp(cmd, "printmot") == 0) { print_mot_pkts(&mot_tx, &mot_rx); }
     else if(strcmp(cmd, "printimu") == 0) { print_imu_pkts(&imu_tx, &imu_rx); }
     else if(strcmp(cmd, "printbat") == 0) { printf("\n\rbat_voltage_raw: %d", bat_voltage_raw); printf("\n\rbat_voltage_human: %0.4f", (double)bat_voltage_human); }
@@ -89,40 +139,41 @@ void process_rx_buf(volatile char * rx_buf)
     else { printf("\n\rcommand not found: %s", cmd); }
 }
 
-void print_imu_pkts(volatile struct imu_tx_pkt_t * tx_pkt, volatile struct imu_rx_pkt_t * rx_pkt)
-{
-    printf("\n\r\n\r");
-    printf("imu_tx_pkt:\t\timu_rx_pkt:\n\r");
-    printf("\tstart:   %#02x\t        start:       %#02x\n\r",     tx_pkt->start,      rx_pkt->start);
-    printf("\t                        chksum:    %6d\n\r",     rx_pkt->chksum);
-    printf("\t                        pitch_tmp: %6d\n\r",     rx_pkt->pitch_tmp);
-    printf("\t                        pitch:     %6d\n\r",     rx_pkt->pitch);
-    printf("\t                        yaw:       %6d\n\r",     rx_pkt->yaw);
-    printf("\t                        yaw_tmp:   %6d\n\r",     rx_pkt->yaw_tmp);
-    printf("\t                        z_accel:   %6d\n\r",     rx_pkt->z_accel);
-    printf("\t                        y_accel:   %6d\n\r",     rx_pkt->y_accel);
-    printf("\t                        x_accel:   %6d\n\r",     rx_pkt->x_accel);
-    printf("\t                        roll:      %6d\n\r",     rx_pkt->roll);
 
-    printf("\n\r%02X %02X %04X %04X %04X %04X %04X %04X %04X %04X\n\r", rx_pkt->start, rx_pkt->chksum, rx_pkt->pitch_tmp, rx_pkt->pitch, rx_pkt->yaw, rx_pkt->yaw_tmp, rx_pkt->z_accel, rx_pkt->y_accel, rx_pkt->x_accel, rx_pkt->roll);
+
+//void print_imu_pkts(volatile struct imu_tx_pkt_t * tx_pkt, volatile struct imu_rx_pkt_t * rx_pkt)
+void printimu(void)
+{
+    char * status;
+    sprintf(status, "%s\n\r\n\r");
+    sprintf(status, "%simu_tx_pkt:\t\timu_rx_pkt:\n\r");
+    sprintf(status, "%s\tstart:   %#02x\t        start:       %#02x\n\r",     status, tx_pkt->start,      rx_pkt->start);
+    sprintf(status, "%s\t                        chksum:    %6d\n\r",     status, rx_pkt->chksum);
+    sprintf(status, "%s\t                        pitch_tmp: %6d\n\r",     status, rx_pkt->pitch_tmp);
+    sprintf(status, "%s\t                        pitch:     %6d\n\r",     status, rx_pkt->pitch);
+    sprintf(status, "%s\t                        yaw:       %6d\n\r",     status, rx_pkt->yaw);
+    sprintf(status, "%s\t                        yaw_tmp:   %6d\n\r",     status, rx_pkt->yaw_tmp);
+    sprintf(status, "%s\t                        z_accel:   %6d\n\r",     status, rx_pkt->z_accel);
+    sprintf(status, "%s\t                        y_accel:   %6d\n\r",     status, rx_pkt->y_accel);
+    sprintf(status, "%s\t                        x_accel:   %6d\n\r",     status, rx_pkt->x_accel);
+    sprintf(status, "%s\t                        roll:      %6d\n\r",     status, rx_pkt->roll);
+
+    sprintf(status, "%s\n\r%02X %02X %04X %04X %04X %04X %04X %04X %04X %04X\n\r", status, rx_pkt->start, rx_pkt->chksum, rx_pkt->pitch_tmp, rx_pkt->pitch, rx_pkt->yaw, rx_pkt->yaw_tmp, rx_pkt->z_accel, rx_pkt->y_accel, rx_pkt->x_accel, rx_pkt->roll);
+    return status;
 }
 
-void print_mot_pkts(volatile struct mot_tx_pkt_t * tx_pkt, volatile struct mot_rx_pkt_t * rx_pkt)
-{   
-    printf("\n\r");
-    tx_pkt->crc = crc((char *)tx_pkt, 9, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
-    printf("\n\r");
-    printf("mot_tx_pkt:\t\tmot_rx_pkt:\n\r");
-    printf("\tstart:   %#02x\t\tstart:   %#02x\n\r", tx_pkt->start, rx_pkt->start);
-    printf("\ttgt_1: %6lu\t\tspd_1: %6lu\n\r", (uint32_t)tx_pkt->tgt_1, (uint32_t)rx_pkt->spd_1);
-    printf("\ttgt_1: %6lu\t\tspd_2: %6lu\n\r", (uint32_t)tx_pkt->tgt_2, (uint32_t)rx_pkt->spd_2);
-    printf("\ttgt_1: %6lu\t\tspd_3: %6lu\n\r", (uint32_t)tx_pkt->tgt_3, (uint32_t)rx_pkt->spd_3);
-    printf("\ttgt_1: %6lu\t\tspd_4: %6lu\n\r", (uint32_t)tx_pkt->tgt_4, (uint32_t)rx_pkt->spd_4);
-    printf("\tcrc:   %6d\t\tcrc:   %6d\n\r", tx_pkt->crc, rx_pkt->crc);
+void printbat(void)
+{
+    char * status;
+    sprintf(status, "\n\rbattery: %0.4fV\n\r", (double)bat_voltage_human);
+    return status;
 }
 
-void run_cmd(float val, char * (*function_ptr)(float))
+void printstatus(void)
 {
-    char * result = function_ptr(val);
-    printf("%s\n\r", result);
+    printf("%c", 12);
+    print_pid_info(&pid);
+    print_mot_pkts(&mot_tx, &mot_rx);
+    print_imu_pkts(&imu_tx, &imu_rx);
+    print_bat();
 }
