@@ -11,4 +11,3 @@ void putchar_xbee (char c);
 void putchar_usb (char c);
 void putchar_rs232 (char c);
 void putchar_sonar (char c);
-

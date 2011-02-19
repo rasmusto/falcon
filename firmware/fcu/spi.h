@@ -1,15 +1,5 @@
 #include "spi_driver.h"
 
-/* Signal select defines */
-#define SS0     PIN0_bp
-#define SS1     PIN1_bp
-#define SS2     PIN2_bp
-#define SS3     PIN3_bp
-#define SS4     PIN4_bp
-#define SS5     PIN5_bp
-#define SS6     PIN6_bp
-#define SS7     PIN7_bp
-
 void init_spi(void);
 void spi_write(char data, uint8_t pin);
 void spi_write_read_multi(char * tx_pkt, char * rx_pkt, uint8_t len, uint8_t pin);
