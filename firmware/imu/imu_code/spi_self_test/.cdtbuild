@@ -75,7 +75,7 @@
 <listOptionValue builtIn="false" value="&quot;C:\Users\Scott\senior_design\firmware\imu\DSP2803x_common\include&quot;"/>
 <listOptionValue builtIn="false" value="&quot;C:\Users\Scott\senior_design\firmware\imu\DSP2803x_headers\include&quot;"/>
 </option>
-<option id="com.ti.ccstudio.buildDefinitions.C2000_5.2.compilerID.OPT_LEVEL.release.1265615414" superClass="com.ti.ccstudio.buildDefinitions.C2000_5.2.compilerID.OPT_LEVEL.release" value="com.ti.ccstudio.buildDefinitions.C2000_5.2.compilerID.OPT_LEVEL.2" valueType="enumerated"/>
+<option id="com.ti.ccstudio.buildDefinitions.C2000_5.2.compilerID.OPT_LEVEL.release.1265615414" superClass="com.ti.ccstudio.buildDefinitions.C2000_5.2.compilerID.OPT_LEVEL.release" value="com.ti.ccstudio.buildDefinitions.C2000_5.2.compilerID.OPT_LEVEL._none" valueType="enumerated"/>
 </tool>
 <tool id="com.ti.ccstudio.buildDefinitions.C2000_5.2.exe.linkerRelease.1568416098" name="C2000 Linker" superClass="com.ti.ccstudio.buildDefinitions.C2000_5.2.exe.linkerRelease">
 <option id="com.ti.ccstudio.buildDefinitions.C2000_5.2.linkerID.STACK_SIZE.471573942" superClass="com.ti.ccstudio.buildDefinitions.C2000_5.2.linkerID.STACK_SIZE" value="0x300" valueType="string"/>

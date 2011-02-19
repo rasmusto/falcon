@@ -64,5 +64,6 @@ extern volatile Uint16 rx_packet[9];
 void InitMicrocontroller(void);
 void make_fcu_packet(volatile struct FCU_PACKET * fcu_pkt);
 void init_fcu_packet(volatile struct FCU_PACKET * fcu_pkt, enum PACKET_TYPE type);
+Uint16 parity_byte(Uint16 * data, Uint16 length);
 
 #endif /*IMU_MAIN_H_*/

@@ -6,7 +6,6 @@ volatile union IMU_FLAGS flags;
 volatile struct FCU_PACKET * fcu_tx_packet;
 volatile struct FCU_PACKET sensor_tx_packet;
 volatile Uint16 rx_packet[9];
-volatile Uint16 tx_counter = 0;
 
 void main(void)
 {
@@ -51,11 +50,10 @@ void main(void)
 			SpiaRegs.SPICTL.bit.SPIINTENA = 1; //enable interrupts, the rest is interrupt driven.
 			SpiaRegs.SPITXBUF = 0x0000; //start next transmission, will cause interrupt at finish.
 			flags.bit.start_new_transmit = 0;
-			tx_counter++;
 		}
 		//only modify packet when we want to make a new packet and the SPI FIFO is 
 		//disabled(means we are not in the middle of a transmission)
-//		if(flags.bit.make_new_fcu_packet && !SpibRegs.SPIFFTX.bit.SPIFFENA){
+//		if(flags.bit.make_new_fcu_packet && flags.bit.wait_for_master){
 //			flags.bit.make_new_fcu_packet = 0;	
 //			make_fcu_packet(&sensor_tx_packet);
 //		}

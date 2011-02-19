@@ -35,7 +35,7 @@ void make_fcu_packet(volatile struct FCU_PACKET * fcu_pkt)
 		default:
 			break;	
 	}
-	fcu_pkt->data[0] |= 0x00FF;//|= (crc(fcu_pkt->data, fcu_pkt->length, CRC_DIVISOR) & 0x00FF);
+	fcu_pkt->data[0] |= parity_byte(fcu_pkt->data + 1, fcu_pkt->length - 1); //dont calculate on fcu_pkt->data[0].
 }
 
 void init_fcu_packet(volatile struct FCU_PACKET * fcu_pkt, enum PACKET_TYPE type)
@@ -45,7 +45,7 @@ void init_fcu_packet(volatile struct FCU_PACKET * fcu_pkt, enum PACKET_TYPE type
 		case RAW_SENSOR_DATA:
 			fcu_pkt->length = sizeof(union SENSOR_DATA) + 1; //add 1 for the start byte.
 			fcu_pkt->data = (Uint16 *)malloc(fcu_pkt->length); 
-			fcu_pkt->data[0] = fcu_pkt->type << 8; //start byte is upper 8bits crc is lower 8
+			fcu_pkt->data[0] = type << 8; //start byte is upper 8bits crc is lower 8
 			break;
 		case EULER_ANGLES:
 			break;	
@@ -118,6 +118,8 @@ void InitSpiBRegs(void)
 	
 	SpibRegs.SPIFFTX.bit.SPIFFENA = 1;
 	SpibRegs.SPIFFTX.bit.TXFFIENA = 1;
+	SpibRegs.SPIFFTX.bit.SPIRST = 0;
+	SpibRegs.SPIFFTX.bit.SPIRST = 1;
 	//reset spi 
 	SpibRegs.SPICCR.bit.SPISWRESET = 1; //everything is configured, begin
 }

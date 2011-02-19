@@ -600,8 +600,9 @@ interrupt void SPIRXINTA_ISR(void)    // SPI-A
 		flags.bit.start_new_transmit = 1;
 		counter = 0;	
 	}
-	else
+	else{
 		SpiaRegs.SPITXBUF = 0x0000; //start next transmission
+	}
 	PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;	
 }
 
@@ -638,7 +639,7 @@ interrupt void SPIRXINTB_ISR(void)    // SPI-B
 interrupt void SPITXINTB_ISR(void)     // SPI-B
 {
 	static Uint16 index = 0;
-	Uint16 target;//, starting_index = index;
+	Uint16 target;
 	if(flags.bit.wait_for_master){
 		//may need to reset rx buffer before reading? cuz the rx buffer will be full, right?
 		if(flags.bit.just_for_now){
@@ -672,7 +673,7 @@ interrupt void SPITXINTB_ISR(void)     // SPI-B
 			//reset rx_fifo? //TODO reset rx fifo
 		}
 	}
-		SpibRegs.SPIFFTX.bit.TXFFINTCLR = 1; //clear interrupt bit// need this?
+		SpibRegs.SPIFFTX.bit.TXFFINTCLR = 1; //clear interrupt bit (necessary)
 		PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;
 }
 
