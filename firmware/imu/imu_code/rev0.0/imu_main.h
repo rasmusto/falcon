@@ -2,7 +2,6 @@
 #define IMU_MAIN_H_
 
 #include "DSP28x_Project.h"
-#include "crc.h"
 #include <stdlib.h>
 
 enum PACKET_TYPE{ RAW_SENSOR_DATA, EULER_ANGLES, STATUS};

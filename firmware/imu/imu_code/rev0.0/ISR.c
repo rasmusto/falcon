@@ -629,55 +629,25 @@ interrupt void SPITXINTA_ISR(void)     // SPI-A
 // INT6.3
 interrupt void SPIRXINTB_ISR(void)    // SPI-B
 {
-//	//set fcu_tx_packet pointer to whichever packet is desired.
-//	switch(SpibRegs.SPIRXBUF){
-//		case 0xFACE:
-//			fcu_tx_packet = &sensor_tx_packet;
-//			SpibRegs.SPIFFTX.bit.SPIFFENA = 1; //turn on fifo for upcoming transmit.
-//			break;
-//		default:
-//			break;
-//	}
-//	SpibRegs.SPIFFTX.bit.SPIRST = 0; //reset FIFO RX and TX
-//	SpibRegs.SPIFFTX.bit.SPIRST = 1; //need this reset?
-	PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;
+	//PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;
+	asm ("      ESTOP0");
+  	for(;;);
 }
 
 // INT6.4
 interrupt void SPITXINTB_ISR(void)     // SPI-B
 {
 	static Uint16 index = 0;
-	Uint16 target;
-	if(flags.bit.wait_for_master){
-		//may need to reset rx buffer before reading? cuz the rx buffer will be full or something, right?
-		switch(SpibRegs.SPIRXBUF){
-			case FCU_START:
-				fcu_tx_packet = &sensor_tx_packet;
-				flags.bit.wait_for_master = 0;
-				break;
-			default:
-				SpibRegs.SPITXBUF = 0x0000; //put something in tx buf so interrupt wont fire until next byte is received.
-				SpibRegs.SPIFFRX.bit.RXFIFORESET = 0;
-				SpibRegs.SPIFFRX.bit.RXFIFORESET = 1; //reset RXFIFO, get rid of crap in RX BUF so we can see next start byte.
-				break;
-		}
+
+	if(SpibRegs.SPIRXBUF == FCU_START){
+		flags.bit.wait_for_master = 0;
+		index = 0;	
 	}
-	if(!flags.bit.wait_for_master){ //didn't use 'else' because previous statement can change wait_for_master flag.
-		//fill fifo with data to be sent.
-		if(fcu_tx_packet->length - index <= 4)
-			target = fcu_tx_packet->length;
-		else	
-			target = index + 4;
-		for( ; index < target; index++){
-			SpibRegs.SPITXBUF = fcu_tx_packet->data[index];
-		}
-		//finished?
-		if(target == fcu_tx_packet->length){
-			index = 0;
+	if(!flags.bit.wait_for_master){
+		SpibRegs.SPITXBUF = fcu_tx_packet->data[index++];	
+		if(index >= fcu_tx_packet->length)
 			flags.bit.wait_for_master = 1;
-		}
 	}
-	SpibRegs.SPIFFTX.bit.TXFFINTCLR = 1; //clear interrupt bit (necessary)
 	PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;
 }
 

@@ -118,11 +118,6 @@ void InitSpiBRegs(void)
 	SpibRegs.SPIPRI.bit.SOFT = 1;
 	SpibRegs.SPIPRI.bit.FREE = 0;
 	
-	//use fifo and interrupts
-	SpibRegs.SPIFFTX.bit.SPIFFENA = 1;
-	SpibRegs.SPIFFTX.bit.TXFFIENA = 1;
-	SpibRegs.SPIFFTX.bit.SPIRST = 0;
-	SpibRegs.SPIFFTX.bit.SPIRST = 1;
 	//reset spi 
 	SpibRegs.SPICCR.bit.SPISWRESET = 1; //everything is configured, begin
 }
