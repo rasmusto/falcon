@@ -4,3 +4,14 @@ request packet
     2 interrupts - no start byte read
 read packet
     sizeof(struct) bytes read
+
+
+NEW PLAN (INTERRUPTS)
+
+to request and read in a packet:
+
+set request_packet flag
+slave is set to IMU_SPI
+start byte is written in main and SS1 is enabled
+packet is read in ISR
+SS1 is disabled

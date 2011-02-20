@@ -14,7 +14,7 @@ void init_spi(void)
     PORTB.DIR = 0xFF;                       // set SS pins as outputs
     PORTB.OUT = 0xFF;                       // set SS pins high
     // enable SPI master mode, CLK/128 (@32MHz=>250kHz)
-    SPIE.CTRL = SPI_ENABLE_bm | SPI_MASTER_bm | SPI_MODE_0_gc | SPI_PRESCALER_DIV128_gc;
+    SPIE.CTRL = SPI_ENABLE_bm | SPI_MASTER_bm | SPI_MODE_2_gc | SPI_PRESCALER_DIV128_gc;
     SPIE.INTCTRL = SPI_INTLVL_LO_gc;
 };
 

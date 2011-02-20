@@ -21,7 +21,11 @@ volatile uint8_t print_status_flag = 1;
 volatile uint8_t bat_voltage_raw;
 volatile float bat_voltage_human;
 
-volatile int spi_index = 0;
+volatile int imu_rx_index = 0;
+
+volatile uint8_t slave;
+volatile uint8_t request_imu_pkt_flag = 0;
+volatile uint8_t receive_imu_pkt_flag = 0;
 
 void init_mot_tx_pkt(volatile struct mot_tx_pkt_t * pkt)
 {
@@ -64,17 +68,35 @@ void init_imu_rx_pkt(volatile struct imu_rx_pkt_t * pkt)
 
 void request_imu_pkt()
 { 
+    receive_imu_pkt_flag = 1;
+    slave = IMU_SPI;
+
+    cli();
+    SPIE.INTCTRL = SPI_INTLVL_OFF_gc;
+    PORTB.OUTCLR = 1<<SS1;
+
+    //write first byte of request
+    SPIE.DATA = IMU_TX_START_H;
+    while(!(SPIE.STATUS & (1<<7)));
+
+    //write second byte of request
+    SPIE.DATA = IMU_TX_START_L;
+    while(!(SPIE.STATUS & (1<<7)));
+    SPIE.INTCTRL = SPI_INTLVL_LO_gc;
+    _delay_us(100);
+    sei();
+
+    SPIE.DATA = 0;
     //int i;
     //spi_write((char)IMU_TX_START>>8, SS1); 
     //spi_write((char)IMU_TX_START>>0, SS1); 
+    /*
     cli();
     spi_write(IMU_TX_START_H, SS1);
     spi_write(IMU_TX_START_L, SS1);
+    slave = IMU_SPI;
     sei();
-    spi_write(0, SS1);
-    spi_write(0, SS1);
-    spi_write(0, SS1);
-    spi_write(0, SS1);
+    */
     //_delay_us(10);
     //cli();
     /*
@@ -132,7 +154,7 @@ void print_status(void)
     print_mot_pkts(&mot_tx, &mot_rx);
     print_imu_pkts(&imu_tx, &imu_rx);
     print_bat();
-    printf("spi_index = %d\n\r", spi_index);
+    printf("imu_rx_index = %d\n\r", imu_rx_index);
 }
  
 void process_rx_buf(volatile char * rx_buf)
@@ -206,29 +228,31 @@ void process_rx_buf(volatile char * rx_buf)
 /***** spi *****/
 ISR(SPIE_INT_vect)
 {
-    char data = SPIE.DATA;
-    LED_3_RED_ON();
     stdout = &usb_out;
-    
-    if(spi_index == 0)
+
+    /*** Handle IMU Transfer ***/
+    if(slave == IMU_SPI)
     {
-        if(data == IMU_RX_START)
+        if(receive_imu_pkt_flag == 1)
         {
-            imu_rx.start = IMU_RX_START;
-            spi_index++;
+            char * ptr = (char *)&imu_rx;
+            ptr[imu_rx_index] = SPIE.DATA;
+            imu_rx_index++;
+            if(imu_rx_index == sizeof(struct imu_rx_pkt_t))
+            {
+                imu_rx_index = 0;
+                receive_imu_pkt_flag = 0;
+                PORTB.OUTSET = 1<<IMU_SPI;
+            }
+            else
+                SPIE.DATA = 0;
         }
     }
-    if(spi_index >= 1)
+
+    /*** Handle MCU Transfer ***/
+    if(slave == MCU_SPI)
     {
-        char * ptr = (char *)&imu_rx;
-        ptr[spi_index] = data;
-        spi_index++;
-        if(spi_index > sizeof(struct imu_rx_pkt_t))
-        {
-            spi_index = 0;
-        }
-        else
-            spi_write(0, SS1);
+        PORTB.OUT |= (1<<MCU_SPI);
     }
 }
 
@@ -396,11 +420,11 @@ int main (void)
         {
             if(print_status_flag)
             {
-                request_imu_pkt();
                 print_status();
             }
             loop_count = 0;
         }
+        request_imu_pkt();
         printf("\r");
         printf("fcu: %s", usb_rx_buf);
 
