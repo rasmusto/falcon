@@ -27,6 +27,8 @@ volatile uint8_t slave;
 volatile uint8_t request_imu_pkt_flag = 0;
 volatile uint8_t receive_imu_pkt_flag = 0;
 
+volatile uint8_t first_spi_interrupt_flag = 0;
+
 void init_mot_tx_pkt(volatile struct mot_tx_pkt_t * pkt)
 {
     pkt->start = MOT_START;
@@ -82,8 +84,18 @@ void request_imu_pkt()
     //write second byte of request
     SPIE.DATA = IMU_TX_START_L;
     while(!(SPIE.STATUS & (1<<7)));
+
+    //write first byte of request
+    SPIE.DATA = IMU_TX_START_H;
+    while(!(SPIE.STATUS & (1<<7)));
+
+    //write second byte of request
+    SPIE.DATA = IMU_TX_START_L;
+    while(!(SPIE.STATUS & (1<<7)));
+
     SPIE.INTCTRL = SPI_INTLVL_LO_gc;
-    _delay_us(100);
+    first_spi_interrupt_flag = 1;
+    imu_rx_index = 0;
     sei();
 
     SPIE.DATA = 0;
@@ -230,6 +242,11 @@ ISR(SPIE_INT_vect)
 {
     stdout = &usb_out;
 
+    if(first_spi_interrupt_flag)
+    {
+        first_spi_interrupt_flag = 0;
+        return;
+    }
     /*** Handle IMU Transfer ***/
     if(slave == IMU_SPI)
     {
@@ -238,11 +255,20 @@ ISR(SPIE_INT_vect)
             char * ptr = (char *)&imu_rx;
             ptr[imu_rx_index] = SPIE.DATA;
             imu_rx_index++;
-            if(imu_rx_index == sizeof(struct imu_rx_pkt_t))
+            if(imu_rx_index > sizeof(struct imu_rx_pkt_t))
             {
-                imu_rx_index = 0;
                 receive_imu_pkt_flag = 0;
                 PORTB.OUTSET = 1<<IMU_SPI;
+                
+                //reverse order of bytes
+                int i;
+                char tmp;
+                for(i = 0; i < sizeof(struct imu_rx_pkt_t); i+=2)
+                {
+                    tmp = ptr[i];
+                    ptr[i] = ptr[i+1];
+                    ptr[i+1] = tmp;
+                }
             }
             else
                 SPIE.DATA = 0;
