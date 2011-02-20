@@ -22,13 +22,11 @@ void InitSpiBRegs(void);
 void make_fcu_packet(volatile struct FCU_PACKET * fcu_pkt)
 {
 	int i = 0;
-	printf("Making new fcu_packet of type %x:\n", fcu_pkt->type);
 	//fill the fcu_pkt->data array.
 	switch(fcu_pkt->type){
 		case RAW_SENSOR_DATA:
 			for(i=0;i<8;i++){
 				fcu_pkt->data[i+1] = sensors.sensor[i];	
-				printf("data[%d+1] = %04x\n",i,sensors.sensor[i]);
 			}
 			break;
 		case EULER_ANGLES:
@@ -38,9 +36,7 @@ void make_fcu_packet(volatile struct FCU_PACKET * fcu_pkt)
 		default:
 			break;	
 	}
-	//calculate crc and store it in lower 8-bits of data[0]
-	fcu_pkt->data[0] |= 0xFF;//(crc(fcu_pkt->data, fcu_pkt->length, CRC_DIVISOR) & 0x00FF);
-	printf("data[0] = %04x\n", fcu_pkt->data[0]);
+	fcu_pkt->data[0] |= parity_byte(fcu_pkt->data + 1, fcu_pkt->length - 1); //dont calculate on fcu_pkt->data[0].
 }
 
 void init_fcu_packet(volatile struct FCU_PACKET * fcu_pkt, enum PACKET_TYPE type)
@@ -50,7 +46,7 @@ void init_fcu_packet(volatile struct FCU_PACKET * fcu_pkt, enum PACKET_TYPE type
 		case RAW_SENSOR_DATA:
 			fcu_pkt->length = sizeof(union SENSOR_DATA) + 1; //add 1 for the start byte.
 			fcu_pkt->data = (Uint16 *)malloc(fcu_pkt->length); 
-			fcu_pkt->data[0] = fcu_pkt->type << 8; //start byte is upper 8bits crc is lower 8
+			fcu_pkt->data[0] = type << 8; //start byte is upper 8bits crc is lower 8
 			break;
 		case EULER_ANGLES:
 			break;	
@@ -61,7 +57,7 @@ void init_fcu_packet(volatile struct FCU_PACKET * fcu_pkt, enum PACKET_TYPE type
 	}
 	fcu_pkt->type = type;	
 	make_fcu_packet(fcu_pkt);
-	fcu_pkt->data[0] ^= 0x000F; //mess up crc, so fcu knows data isn't valid yet.
+	fcu_pkt->data[0] ^= 0x000F; //mess up parity_byte, so fcu knows data isn't valid yet.
 }
 
 
@@ -97,9 +93,12 @@ void InitSpiARegs(void)
 	
 	
 	SpiaRegs.SPIFFTX.bit.SPIFFENA = 1; //use FIFO for this spi
-	SpiaRegs.SPIFFRX.all = 0x2024; //enable RX FIFO interrupt when 4 words are in FIFO.
+	//enable RX FIFO interrupt when 4 words are in FIFO.
+	SpiaRegs.SPIFFRX.bit.RXFFIENA = 1;
+	SpiaRegs.SPIFFRX.bit.RXFFIL = 4;
+	
 	SpiaRegs.SPIFFTX.bit.SPIRST = 0; //reset FIFO RX and TX
-	SpiaRegs.SPIFFTX.bit.SPIRST = 1; //need this reset?
+	SpiaRegs.SPIFFTX.bit.SPIRST = 1;
 	
 	//reset spi 
 	SpiaRegs.SPICCR.bit.SPISWRESET = 1; //everything is configured, begin
@@ -119,8 +118,11 @@ void InitSpiBRegs(void)
 	SpibRegs.SPIPRI.bit.SOFT = 1;
 	SpibRegs.SPIPRI.bit.FREE = 0;
 	
-	//TX FIFO disabled to start. enabled in SPIBRXINT ISR
-	SpibRegs.SPIFFTX.bit.TXFFIENA = 1; //enable FIFO interrupts, but this only effects when fifo is on.
+	//use fifo and interrupts
+	SpibRegs.SPIFFTX.bit.SPIFFENA = 1;
+	SpibRegs.SPIFFTX.bit.TXFFIENA = 1;
+	SpibRegs.SPIFFTX.bit.SPIRST = 0;
+	SpibRegs.SPIFFTX.bit.SPIRST = 1;
 	//reset spi 
 	SpibRegs.SPICCR.bit.SPISWRESET = 1; //everything is configured, begin
 }

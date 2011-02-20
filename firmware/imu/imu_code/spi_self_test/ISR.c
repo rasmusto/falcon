@@ -673,8 +673,8 @@ interrupt void SPITXINTB_ISR(void)     // SPI-B
 			//reset rx_fifo? //TODO reset rx fifo
 		}
 	}
-		SpibRegs.SPIFFTX.bit.TXFFINTCLR = 1; //clear interrupt bit (necessary)
-		PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;
+	SpibRegs.SPIFFTX.bit.TXFFINTCLR = 1; //clear interrupt bit (necessary)
+	PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;
 }
 
 // INT6.5 - Reserved

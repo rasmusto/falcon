@@ -34,7 +34,6 @@ union SENSOR_DATA {
 
 struct FCU_PACKET {
 	Uint16 * data;
-	Uint16 crc;
 	enum PACKET_TYPE type;
 	Uint16 length; //length of data in bytes, not including crc
 };

@@ -595,10 +595,10 @@ interrupt void SPIRXINTA_ISR(void)    // SPI-A
 		flags.bit.make_new_fcu_packet = 1;
 		
 		//read the 4 words (channels 5-8 from adc)
-		sensors.value.z_accel = SpiaRegs.SPIRXBUF;
-		sensors.value.y_accel = SpiaRegs.SPIRXBUF;
-		sensors.value.x_accel = SpiaRegs.SPIRXBUF;
-		sensors.value.roll = SpiaRegs.SPIRXBUF;
+		sensors.sensor[4] = SpiaRegs.SPIRXBUF;
+		sensors.sensor[5] = SpiaRegs.SPIRXBUF;
+		sensors.sensor[6] = SpiaRegs.SPIRXBUF;
+		sensors.sensor[7] = SpiaRegs.SPIRXBUF;
 	}else{ //first 4 words are here.
 		//write 4 words to tx buffer, so I get 4 more words from adc.
 		SpiaRegs.SPITXBUF = 0x0000;
@@ -607,10 +607,10 @@ interrupt void SPIRXINTA_ISR(void)    // SPI-A
 		SpiaRegs.SPITXBUF = 0x0000;
 		
 		//read the 4 words (channels 1-4 from adc)
-		sensors.value.pitch_temp = SpiaRegs.SPIRXBUF;
-		sensors.value.pitch = SpiaRegs.SPIRXBUF;
-		sensors.value.yaw = SpiaRegs.SPIRXBUF;
-		sensors.value.yaw_temp = SpiaRegs.SPIRXBUF;
+		sensors.sensor[0] = SpiaRegs.SPIRXBUF;
+		sensors.sensor[1] = SpiaRegs.SPIRXBUF;
+		sensors.sensor[2] = SpiaRegs.SPIRXBUF;
+		sensors.sensor[3] = SpiaRegs.SPIRXBUF;
 		
 		flags.bit.rx_half_adc_words = 1; //half way there
 	}
@@ -629,17 +629,17 @@ interrupt void SPITXINTA_ISR(void)     // SPI-A
 // INT6.3
 interrupt void SPIRXINTB_ISR(void)    // SPI-B
 {
-	//set fcu_tx_packet pointer to whichever packet is desired.
-	switch(SpibRegs.SPIRXBUF){
-		case 0xFACE:
-			fcu_tx_packet = &sensor_tx_packet;
-			SpibRegs.SPIFFTX.bit.SPIFFENA = 1; //turn on fifo for upcoming transmit.
-			break;
-		default:
-			break;
-	}
-	SpibRegs.SPIFFTX.bit.SPIRST = 0; //reset FIFO RX and TX
-	SpibRegs.SPIFFTX.bit.SPIRST = 1; //need this reset?
+//	//set fcu_tx_packet pointer to whichever packet is desired.
+//	switch(SpibRegs.SPIRXBUF){
+//		case 0xFACE:
+//			fcu_tx_packet = &sensor_tx_packet;
+//			SpibRegs.SPIFFTX.bit.SPIFFENA = 1; //turn on fifo for upcoming transmit.
+//			break;
+//		default:
+//			break;
+//	}
+//	SpibRegs.SPIFFTX.bit.SPIRST = 0; //reset FIFO RX and TX
+//	SpibRegs.SPIFFTX.bit.SPIRST = 1; //need this reset?
 	PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;
 }
 
@@ -647,23 +647,37 @@ interrupt void SPIRXINTB_ISR(void)    // SPI-B
 interrupt void SPITXINTB_ISR(void)     // SPI-B
 {
 	static Uint16 index = 0;
-	Uint16 target;//, starting_index = index;
-	
-	//fill fifo with data to be sent.
-	if(fcu_tx_packet->length - index <= 4)
-		target = fcu_tx_packet->length;
-	else	
-		target = index + 4;
-	for( ; index < target; index++){
-		SpibRegs.SPITXBUF = fcu_tx_packet->data[index];
-		printf("Index: %d. Adding 0x%04X to SPIB TXBUF.\n",index, fcu_tx_packet->data[index]);
+	Uint16 target;
+	if(flags.bit.wait_for_master){
+		//may need to reset rx buffer before reading? cuz the rx buffer will be full or something, right?
+		switch(SpibRegs.SPIRXBUF){
+			case FCU_START:
+				fcu_tx_packet = &sensor_tx_packet;
+				flags.bit.wait_for_master = 0;
+				break;
+			default:
+				SpibRegs.SPITXBUF = 0x0000; //put something in tx buf so interrupt wont fire until next byte is received.
+				SpibRegs.SPIFFRX.bit.RXFIFORESET = 0;
+				SpibRegs.SPIFFRX.bit.RXFIFORESET = 1; //reset RXFIFO, get rid of crap in RX BUF so we can see next start byte.
+				break;
+		}
 	}
-	//finished?
-	if(target == fcu_tx_packet->length){
-		index = 0;
-		SpibRegs.SPIFFTX.bit.SPIFFENA = 0; //turn off fifo
+	if(!flags.bit.wait_for_master){ //didn't use 'else' because previous statement can change wait_for_master flag.
+		//fill fifo with data to be sent.
+		if(fcu_tx_packet->length - index <= 4)
+			target = fcu_tx_packet->length;
+		else	
+			target = index + 4;
+		for( ; index < target; index++){
+			SpibRegs.SPITXBUF = fcu_tx_packet->data[index];
+		}
+		//finished?
+		if(target == fcu_tx_packet->length){
+			index = 0;
+			flags.bit.wait_for_master = 1;
+		}
 	}
-	SpibRegs.SPIFFTX.bit.TXFFINTCLR = 1; //clear interrupt bit// need this?
+	SpibRegs.SPIFFTX.bit.TXFFINTCLR = 1; //clear interrupt bit (necessary)
 	PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;
 }
 

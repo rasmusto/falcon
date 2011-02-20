@@ -15,7 +15,10 @@ void main(void)
 	for(i=0;i<8;i++){
 		sensors.sensor[i] = 0;
 	}
-	flags.all = 0x0001; //set 'want_new_adc_data' flag, clear the rest
+	flags.all = 0x0000; //clear flags
+	flags.bit.want_new_adc_data = 1;
+	flags.bit.wait_for_master = 1;
+	
 	init_fcu_packet(&sensor_tx_packet, RAW_SENSOR_DATA);
 	fcu_tx_packet = &sensor_tx_packet;
 
@@ -41,12 +44,10 @@ void main(void)
 			SpiaRegs.SPITXBUF = 0x0000;	
 			SpiaRegs.SPITXBUF = 0x0000;	
 		}
-		//only modify packet when we want to make a new packet and the SPI FIFO is 
-		//disabled(means we are not in the middle of a transmission)
-		if(flags.bit.make_new_fcu_packet && !SpibRegs.SPIFFTX.bit.SPIFFENA){
+		//only modify packet when we want to make a new packet and we are not tx with master
+		if(flags.bit.make_new_fcu_packet && flags.bit.wait_for_master){
 			flags.bit.make_new_fcu_packet = 0;	
 			make_fcu_packet(&sensor_tx_packet);
-			printf("Made new sensor_tx_packet.\n");
 		}
 	}
 }

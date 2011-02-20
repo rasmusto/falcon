@@ -4,9 +4,6 @@
 #include "DSP28x_Project.h"
 #include "crc.h"
 #include <stdlib.h>
-#include <stdio.h> //remove for final product
-
-#define CRC_DIVISOR	0x0007
 
 enum PACKET_TYPE{ RAW_SENSOR_DATA, EULER_ANGLES, STATUS};
 
@@ -17,6 +14,7 @@ enum PACKET_TYPE{ RAW_SENSOR_DATA, EULER_ANGLES, STATUS};
 //spi defines
 #define SPIA_CHAR_LNGTH_MSK 0x0F //16-bit
 #define SPIB_CHAR_LNGTH_MSK 0x0F //16-bit
+#define FCU_START 0xFACE
 
 struct SENSOR_VALUES {
 	int	pitch_temp;
@@ -35,7 +33,6 @@ union SENSOR_DATA {
 
 struct FCU_PACKET {
 	Uint16 * data;
-	Uint16 crc;
 	enum PACKET_TYPE type;
 	Uint16 length; //length of data in bytes, not including crc
 };
@@ -44,8 +41,9 @@ struct MY_FLAGS {
 	Uint16 want_new_adc_data:1;
 	Uint16 rx_half_adc_words:1;
 	Uint16 tx_half_adc_words:1;
+	Uint16 wait_for_master:1;
 	Uint16 make_new_fcu_packet:1;
-	Uint16 other_stuff:12;
+	Uint16 other_stuff:11;
 };
 union IMU_FLAGS{
 	Uint16 all;
@@ -61,5 +59,6 @@ extern volatile struct FCU_PACKET sensor_tx_packet;
 void InitMicrocontroller(void);
 void make_fcu_packet(volatile struct FCU_PACKET * fcu_pkt);
 void init_fcu_packet(volatile struct FCU_PACKET * fcu_pkt, enum PACKET_TYPE type);
+Uint16 parity_byte(Uint16 * data, Uint16 length);
 
 #endif /*IMU_MAIN_H_*/
