@@ -263,7 +263,7 @@ ISR(SPIE_INT_vect)
                 //reverse order of bytes
                 int i;
                 char tmp;
-                for(i = 0; i < sizeof(struct imu_rx_pkt_t); i+=2)
+                for(i = 2; i < sizeof(struct imu_rx_pkt_t); i+=2)
                 {
                     tmp = ptr[i];
                     ptr[i] = ptr[i+1];
@@ -442,7 +442,8 @@ int main (void)
             xbee_rx_buf_rdy = 0;
         }
         stdout = &usb_out;
-        if(loop_count == 25)
+        //if(loop_count == 25*50)
+        if(loop_count == 100)
         {
             if(print_status_flag)
             {
@@ -454,7 +455,7 @@ int main (void)
         printf("\r");
         printf("fcu: %s", usb_rx_buf);
 
-        _delay_ms(50);
+        _delay_ms(1);
         loop_count++;
     }
     return 0;
