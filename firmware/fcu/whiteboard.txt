@@ -1,0 +1,6 @@
+request packet
+    2 bytes written
+    0 read
+    2 interrupts - no start byte read
+read packet
+    sizeof(struct) bytes read

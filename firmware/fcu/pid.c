@@ -1,5 +1,4 @@
 #include "pid.h"
-#include "shared.h"
 
 void pid_set_kp (volatile struct pid_info* pid, volatile float kp) {
 	pid->kp = kp;

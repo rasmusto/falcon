@@ -50,8 +50,8 @@ void init_imu_tx_pkt(volatile struct imu_tx_pkt_t * pkt)
 
 void init_imu_rx_pkt(volatile struct imu_rx_pkt_t * pkt)
 {
-    pkt->start = 0xBAD;
-    pkt->chksum = 0xAD;
+    pkt->start = 0xAD;
+    pkt->parity = 0xAD;
     pkt->pitch_tmp = 0xBAD;
     pkt->pitch = 0xBAD;
     pkt->yaw = 0xBAD;
@@ -64,25 +64,28 @@ void init_imu_rx_pkt(volatile struct imu_rx_pkt_t * pkt)
 
 void request_imu_pkt()
 { 
-    int i;
-    spi_write((char)IMU_TX_START>>8, SS1); 
-    spi_write((char)IMU_TX_START>>0, SS1); 
-    _delay_us(10);
-    /*
-    while(spi_read(SS1) != 0xFF)
-    {
-        printf("didn't get 0xFF\n");
-    }
-    */
+    //int i;
+    //spi_write((char)IMU_TX_START>>8, SS1); 
+    //spi_write((char)IMU_TX_START>>0, SS1); 
     cli();
+    spi_write(IMU_TX_START_H, SS1);
+    spi_write(IMU_TX_START_L, SS1);
+    sei();
+    spi_write(0, SS1);
+    spi_write(0, SS1);
+    spi_write(0, SS1);
+    spi_write(0, SS1);
+    //_delay_us(10);
+    //cli();
+    /*
     char * ptr = (char *)&imu_rx;
     for(i = 2; i < sizeof(struct imu_rx_pkt_t); i++)
     {
         ptr[i] = spi_read(SS1);
     }
-    sei();
+    */
+    //sei();
 }
-
 
 void print_mot_pkts(volatile struct mot_tx_pkt_t * tx_pkt, volatile struct mot_rx_pkt_t * rx_pkt)
 {   
@@ -102,8 +105,8 @@ void print_imu_pkts(volatile struct imu_tx_pkt_t * tx_pkt, volatile struct imu_r
 {
     printf("\n\r\n\r");
     printf("imu_tx_pkt:\t\timu_rx_pkt:\n\r");
-    printf("\tstart:   %#02x\t        start:     %#04x\n\r",     tx_pkt->start,      rx_pkt->start);
-    printf("\t                        chksum:    %6d\n\r",     rx_pkt->chksum);
+    printf("\tstart:   %#02x\t        start:     %#02x\n\r",     tx_pkt->start,      rx_pkt->start);
+    printf("\t                        parity:    %6d\n\r",     rx_pkt->parity);
     printf("\t                        pitch_tmp: %6d\n\r",     rx_pkt->pitch_tmp);
     printf("\t                        pitch:     %6d\n\r",     rx_pkt->pitch);
     printf("\t                        yaw:       %6d\n\r",     rx_pkt->yaw);
@@ -113,7 +116,7 @@ void print_imu_pkts(volatile struct imu_tx_pkt_t * tx_pkt, volatile struct imu_r
     printf("\t                        x_accel:   %6d\n\r",     rx_pkt->x_accel);
     printf("\t                        roll:      %6d\n\r",     rx_pkt->roll);
 
-    printf("\n\r%04X %02X %04X %04X %04X %04X %04X %04X %04X %04X\n\r", rx_pkt->start, rx_pkt->chksum, rx_pkt->pitch_tmp, rx_pkt->pitch, rx_pkt->yaw, rx_pkt->yaw_tmp, rx_pkt->z_accel, rx_pkt->y_accel, rx_pkt->x_accel, rx_pkt->roll);
+    printf("\n\r%02X %02X %04X %04X %04X %04X %04X %04X %04X %04X\n\r", rx_pkt->start, rx_pkt->parity, rx_pkt->pitch_tmp, rx_pkt->pitch, rx_pkt->yaw, rx_pkt->yaw_tmp, rx_pkt->z_accel, rx_pkt->y_accel, rx_pkt->x_accel, rx_pkt->roll);
 }
 
 
@@ -129,6 +132,7 @@ void print_status(void)
     print_mot_pkts(&mot_tx, &mot_rx);
     print_imu_pkts(&imu_tx, &imu_rx);
     print_bat();
+    printf("spi_index = %d\n\r", spi_index);
 }
  
 void process_rx_buf(volatile char * rx_buf)
@@ -202,42 +206,30 @@ void process_rx_buf(volatile char * rx_buf)
 /***** spi *****/
 ISR(SPIE_INT_vect)
 {
+    char data = SPIE.DATA;
     LED_3_RED_ON();
-	//SPI_MasterInterruptHandler(&spiMasterE);
     stdout = &usb_out;
-    printf("got spie interrupt\n\r");
+    
     if(spi_index == 0)
     {
-        if(spi_read(SS1) == (char)IMU_RX_START>>8)
+        if(data == IMU_RX_START)
         {
-            imu_rx.start = IMU_RX_START & 0xFF00;
+            imu_rx.start = IMU_RX_START;
             spi_index++;
         }
     }
-    if(spi_index == 1)
-    {
-        if(spi_read(SS1) == (char)IMU_RX_START)
-        {
-            imu_rx.start |= IMU_RX_START & 0x00FF;
-            spi_index++;
-        }
-    }
-    if(spi_index >= 2)
+    if(spi_index >= 1)
     {
         char * ptr = (char *)&imu_rx;
-        ptr[spi_index] = spi_read(SS1);
+        ptr[spi_index] = data;
         spi_index++;
         if(spi_index > sizeof(struct imu_rx_pkt_t))
         {
             spi_index = 0;
         }
+        else
+            spi_write(0, SS1);
     }
-    /*
-    for(index = 2; index < sizeof(struct imu_rx_pkt_t); index++)
-    {
-        printf("%x\n\r", ptr[index] = spi_read(SS1));
-    }
-    */
 }
 
 /***** xbee *****/

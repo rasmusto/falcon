@@ -40,8 +40,11 @@
 #define MOT_START 0b01011111
 
 #define IMU_TX_START 0xFACE
+#define IMU_TX_START_H 0xFA
+#define IMU_TX_START_L 0xCE
 
-#define IMU_RX_START 0x00FF
+#define IMU_RX_START 0b10101010
+//AA
 
 /* Global Variables */
 
@@ -78,8 +81,8 @@ struct imu_tx_pkt_t
 
 struct imu_rx_pkt_t
 {
-    volatile uint16_t start;
-    volatile uint8_t chksum;
+    volatile uint8_t start;
+    volatile uint8_t parity;
     volatile int16_t pitch_tmp;
     volatile int16_t pitch;
     volatile int16_t yaw;

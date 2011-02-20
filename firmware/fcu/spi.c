@@ -1,5 +1,4 @@
 #include "spi.h"
-#include "shared.h"
 #include <string.h>
 
 //#include "/usr/lib/avr/include/avr/iox128a3.h"
