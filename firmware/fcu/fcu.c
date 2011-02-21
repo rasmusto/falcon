@@ -28,6 +28,7 @@ volatile uint8_t request_imu_pkt_flag = 0;
 volatile uint8_t receive_imu_pkt_flag = 0;
 
 volatile uint8_t first_spi_interrupt_flag = 0;
+volatile uint8_t stream_data_flag = 0;
 
 void init_mot_tx_pkt(volatile struct mot_tx_pkt_t * pkt)
 {
@@ -85,6 +86,7 @@ void request_imu_pkt()
     SPIE.DATA = IMU_TX_START_L;
     while(!(SPIE.STATUS & (1<<7)));
 
+    /*
     //write first byte of request
     SPIE.DATA = IMU_TX_START_H;
     while(!(SPIE.STATUS & (1<<7)));
@@ -92,6 +94,7 @@ void request_imu_pkt()
     //write second byte of request
     SPIE.DATA = IMU_TX_START_L;
     while(!(SPIE.STATUS & (1<<7)));
+    */
 
     SPIE.INTCTRL = SPI_INTLVL_LO_gc;
     first_spi_interrupt_flag = 1;
@@ -141,14 +144,14 @@ void print_imu_pkts(volatile struct imu_tx_pkt_t * tx_pkt, volatile struct imu_r
     printf("imu_tx_pkt:\t\timu_rx_pkt:\n\r");
     printf("\tstart:   %#02x\t        start:     %#02x\n\r",     tx_pkt->start,      rx_pkt->start);
     printf("\t                        parity:    %6d\n\r",     rx_pkt->parity);
-    printf("\t                        pitch_tmp: %6d\n\r",     rx_pkt->pitch_tmp);
+    printf("\t                        roll:      %6d\n\r",     rx_pkt->roll);
     printf("\t                        pitch:     %6d\n\r",     rx_pkt->pitch);
     printf("\t                        yaw:       %6d\n\r",     rx_pkt->yaw);
-    printf("\t                        yaw_tmp:   %6d\n\r",     rx_pkt->yaw_tmp);
-    printf("\t                        z_accel:   %6d\n\r",     rx_pkt->z_accel);
-    printf("\t                        y_accel:   %6d\n\r",     rx_pkt->y_accel);
     printf("\t                        x_accel:   %6d\n\r",     rx_pkt->x_accel);
-    printf("\t                        roll:      %6d\n\r",     rx_pkt->roll);
+    printf("\t                        y_accel:   %6d\n\r",     rx_pkt->y_accel);
+    printf("\t                        z_accel:   %6d\n\r",     rx_pkt->z_accel);
+    printf("\t                        pitch_tmp: %6d\n\r",     rx_pkt->pitch_tmp);
+    printf("\t                        yaw_tmp:   %6d\n\r",     rx_pkt->yaw_tmp);
 
     printf("\n\r%02X %02X %04X %04X %04X %04X %04X %04X %04X %04X\n\r", rx_pkt->start, rx_pkt->parity, rx_pkt->pitch_tmp, rx_pkt->pitch, rx_pkt->yaw, rx_pkt->yaw_tmp, rx_pkt->z_accel, rx_pkt->y_accel, rx_pkt->x_accel, rx_pkt->roll);
 }
@@ -161,12 +164,17 @@ void print_bat(void)
 
 void print_status(void)
 {
-    printf("%c", 12);
-    print_pid_info(&pid);
-    print_mot_pkts(&mot_tx, &mot_rx);
-    print_imu_pkts(&imu_tx, &imu_rx);
-    print_bat();
-    printf("imu_rx_index = %d\n\r", imu_rx_index);
+    if(stream_data_flag == 0)
+    {
+        FILE * tmp = stdout;
+        stdout = &usb_out;
+        printf("%c", 12);
+        print_pid_info(&pid);
+        print_mot_pkts(&mot_tx, &mot_rx);
+        print_imu_pkts(&imu_tx, &imu_rx);
+        print_bat();
+        stdout = tmp;
+    }
 }
  
 void process_rx_buf(volatile char * rx_buf)
@@ -232,6 +240,7 @@ void process_rx_buf(volatile char * rx_buf)
     else if(strcmp(cmd, "request_imu") == 0) { request_imu_pkt(); }
     else if(strcmp(cmd, "init_imu_rx") == 0) { init_imu_rx_pkt(&imu_rx); }
     else if(strcmp(cmd, "write") == 0) { printf("\n\r\n\r%d\n\r", spi_write_read((uint8_t)val, SS1)); }
+    else if(strcmp(cmd, "stream") == 0) { stream_data_flag = 1; }
     else { printf("\n\rcommand not found: %s", cmd); }
 }
 
@@ -240,7 +249,7 @@ void process_rx_buf(volatile char * rx_buf)
 /***** spi *****/
 ISR(SPIE_INT_vect)
 {
-    stdout = &usb_out;
+    //stdout = &usb_out;
 
     if(first_spi_interrupt_flag)
     {
@@ -259,7 +268,7 @@ ISR(SPIE_INT_vect)
             {
                 receive_imu_pkt_flag = 0;
                 PORTB.OUTSET = 1<<IMU_SPI;
-                
+
                 //reverse order of bytes
                 int i;
                 char tmp;
@@ -268,6 +277,18 @@ ISR(SPIE_INT_vect)
                     tmp = ptr[i];
                     ptr[i] = ptr[i+1];
                     ptr[i+1] = tmp;
+                }
+
+                if(stream_data_flag)
+                {
+                    FILE * tmp_ptr = stdout;
+                    stdout = &usb_out;
+                    int j;
+                    for(j = 0; j < sizeof(struct imu_rx_pkt_t); j++)
+                    {
+                        printf("%c\n\r", ptr[j]);
+                    }
+                    stdout = tmp_ptr;
                 }
             }
             else
@@ -290,7 +311,7 @@ ISR(USARTF0_TXC_vect)
 ISR(USARTF0_RXC_vect) 
 {
     unsigned char c = USARTF0.DATA;
-    stdout = &xbee_out;
+    //stdout = &xbee_out;
     if(c == '\r')
     {
         xbee_rx_buf[xbee_rx_count] = '\0';
@@ -316,7 +337,7 @@ ISR(USARTC1_TXC_vect)
 ISR(USARTC1_RXC_vect) 
 {
     unsigned char c = USARTC1.DATA;
-    stdout = &usb_out;
+    //stdout = &usb_out;
     if(c == '\r')
     {
         usb_rx_buf[usb_rx_count] = '\0';
@@ -342,7 +363,7 @@ ISR(USARTD1_TXC_vect)
 ISR(USARTD1_RXC_vect) 
 {
     unsigned char c = USARTD1.DATA;
-    stdout = &usb_out;
+    //stdout = &usb_out;
     printf("Received: %c via rs232.\n\r", c);
 }
 
@@ -354,7 +375,7 @@ ISR(USARTE0_TXC_vect)
 ISR(USARTE0_RXC_vect)
 {
     unsigned char c = USARTE0.DATA;
-    stdout = &usb_out;
+    //stdout = &usb_out;
     printf("Received: %c via sonar.\n\r", c);
 }
 
@@ -392,7 +413,7 @@ int main (void)
     LED_4_GREEN_ON();
     LED_4_RED_OFF();
 
-    stdout = &usb_out;
+    //stdout = &usb_out;
 
     init_mot_tx_pkt(&mot_tx);
     init_mot_rx_pkt(&mot_rx);
@@ -400,11 +421,11 @@ int main (void)
     init_imu_tx_pkt(&imu_tx);
     init_imu_rx_pkt(&imu_rx);
 
-    stdout = &usb_out;
+    //stdout = &usb_out;
     printf("%c", 12);
-    stdout = &rs232_out;
-    stdout = &xbee_out;
-    stdout = &sonar_out;
+    //stdout = &rs232_out;
+    //stdout = &xbee_out;
+    //stdout = &sonar_out;
 
     uint8_t loop_count = 0;
 
@@ -418,7 +439,7 @@ int main (void)
         //spi_write_read_multi((char *)&imu_tx, (char *)&imu_rx, 10, SS1);
         if(usb_rx_buf_rdy)
         {
-            stdout = &usb_out;
+            //stdout = &usb_out;
             process_rx_buf(usb_rx_buf);
             usb_rx_buf[0] = '\0';
             while(usb_rx_count > 0)
@@ -431,7 +452,7 @@ int main (void)
         }
         if(xbee_rx_buf_rdy)
         {
-            stdout = &xbee_out;
+            //stdout = &xbee_out;
             process_rx_buf(xbee_rx_buf);
             xbee_rx_buf[0] = '\0';
             while(xbee_rx_count > 0)
@@ -441,7 +462,7 @@ int main (void)
             }
             xbee_rx_buf_rdy = 0;
         }
-        stdout = &usb_out;
+        //stdout = &usb_out;
         //if(loop_count == 25*50)
         if(loop_count == 100)
         {

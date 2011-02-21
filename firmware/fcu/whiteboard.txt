@@ -15,3 +15,17 @@ slave is set to IMU_SPI
 start byte is written in main and SS1 is enabled
 packet is read in ISR
 SS1 is disabled
+
+
+start
+party
+roll
+temperature
+pitch
+yaw
+temperature
+z
+x
+y
+
+
