@@ -27,7 +27,8 @@ initV = 10*eye(ss);
 
 T = 40;
 [x,y] = sample_lds(F, H, Q, R, initx, T);
-
+x
+y
 
 
 
