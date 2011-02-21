@@ -1,0 +1,94 @@
+<HTML>
+<HEAD>
+<TITLE>RTW Report - kalman01_api.c </TITLE>
+</HEAD>
+<BODY BGCOLOR="#eeeeee" TEXT="#1122aa" ONLOAD="if (top) { if (top.rtwFileOnLoad) top.rtwFileOnLoad(window);}">
+<P>
+<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="6" WIDTH="100%" HEIGHT="100%"><TR><TD WIDTH="100%" VALIGN="top" BGCOLOR="#ffffff">
+<H4>File: <A HREF="file:///Users/cooleys/Desktop/work/emcprj/mexfcn/kalman01/kalman01_api.c" TARGET="rtwreport_document_frame">/Users/cooleys/Desktop/work/emcprj/mexfcn/kalman01/kalman01_api.c</A></H4>
+<PRE id="RTWcode">
+<FONT COLOR="#888888"><I>    1   </I></FONT><FONT COLOR="#117755"><I>/*</I></FONT>
+<FONT COLOR="#888888"><I>    2   </I></FONT><FONT COLOR="#117755"><I> * kalman01_api.c</I></FONT>
+<FONT COLOR="#888888"><I>    3   </I></FONT><FONT COLOR="#117755"><I> *</I></FONT>
+<FONT COLOR="#888888"><I>    4   </I></FONT><FONT COLOR="#117755"><I> * Embedded MATLAB Coder code generation for function 'kalman01_api'</I></FONT>
+<FONT COLOR="#888888"><I>    5   </I></FONT><FONT COLOR="#117755"><I> *</I></FONT>
+<FONT COLOR="#888888"><I>    6   </I></FONT><FONT COLOR="#117755"><I> * C source code generated on: Sun Feb 20 12:22:09 2011</I></FONT>
+<FONT COLOR="#888888"><I>    7   </I></FONT><FONT COLOR="#117755"><I> *</I></FONT>
+<FONT COLOR="#888888"><I>    8   </I></FONT><FONT COLOR="#117755"><I> */</I></FONT>
+<FONT COLOR="#888888"><I>    9   </I></FONT>
+<FONT COLOR="#888888"><I>   10   </I></FONT><FONT COLOR="#117755"><I>/* Include files */</I></FONT>
+<FONT COLOR="#888888"><I>   11   </I></FONT><FONT COLOR="#992211">#</FONT><FONT COLOR="#992211"><B>include</B></FONT> <FONT COLOR="#992211">&quot;rt_nonfinite.h&quot;</FONT>
+<FONT COLOR="#888888"><I>   12   </I></FONT><FONT COLOR="#992211">#</FONT><FONT COLOR="#992211"><B>include</B></FONT> <FONT COLOR="#992211">&quot;kalman01.h&quot;</FONT>
+<FONT COLOR="#888888"><I>   13   </I></FONT><FONT COLOR="#992211">#</FONT><FONT COLOR="#992211"><B>include</B></FONT> <FONT COLOR="#992211">&quot;kalman01_api.h&quot;</FONT>
+<FONT COLOR="#888888"><I>   14   </I></FONT>
+<FONT COLOR="#888888"><I>   15   </I></FONT><FONT COLOR="#117755"><I>/* Type Definitions */</I></FONT>
+<FONT COLOR="#888888"><I>   16   </I></FONT>
+<FONT COLOR="#888888"><I>   17   </I></FONT><FONT COLOR="#117755"><I>/* Named Constants */</I></FONT>
+<FONT COLOR="#888888"><I>   18   </I></FONT>
+<FONT COLOR="#888888"><I>   19   </I></FONT><FONT COLOR="#117755"><I>/* Variable Declarations */</I></FONT>
+<FONT COLOR="#888888"><I>   20   </I></FONT>
+<FONT COLOR="#888888"><I>   21   </I></FONT><FONT COLOR="#117755"><I>/* Variable Definitions */</I></FONT>
+<FONT COLOR="#888888"><I>   22   </I></FONT>
+<FONT COLOR="#888888"><I>   23   </I></FONT><FONT COLOR="#117755"><I>/* Function Declarations */</I></FONT>
+<FONT COLOR="#888888"><I>   24   </I></FONT><FONT COLOR="#112266"><B>static</B></FONT> <FONT COLOR="#112266"><B>void</B></FONT> <A HREF="kalman01_api_c.html#fcn_m_b_emlrt_marshallIn" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_m_b_emlrt_marshallIn');"  TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">m_b_emlrt_marshallIn</FONT></A>(<FONT COLOR="#112266"><B>const</B></FONT> mxArray *eml_src, <FONT COLOR="#112266"><B>const</B></FONT> char_T *eml_nam, real_T eml_ret[2]);
+<FONT COLOR="#888888"><I>   25   </I></FONT><FONT COLOR="#112266"><B>static</B></FONT> <FONT COLOR="#112266"><B>void</B></FONT> <A HREF="kalman01_api_c.html#fcn_m_emlrt_marshallIn" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_m_emlrt_marshallIn');"  TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">m_emlrt_marshallIn</FONT></A>(<FONT COLOR="#112266"><B>const</B></FONT> mxArray *eml_z, <FONT COLOR="#112266"><B>const</B></FONT> char_T *eml_name, real_T eml_y[2]);
+<FONT COLOR="#888888"><I>   26   </I></FONT><FONT COLOR="#112266"><B>static</B></FONT> <FONT COLOR="#112266"><B>const</B></FONT> mxArray *<A HREF="kalman01_api_c.html#fcn_m_emlrt_marshallOut" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_m_emlrt_marshallOut');"  TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">m_emlrt_marshallOut</FONT></A>(<FONT COLOR="#112266"><B>const</B></FONT> real_T eml_u[2]);
+<FONT COLOR="#888888"><I>   27   </I></FONT>
+<FONT COLOR="#888888"><I>   28   </I></FONT><FONT COLOR="#117755"><I>/* Function Definitions */</I></FONT>
+<FONT COLOR="#888888"><I>   29   </I></FONT>
+<FONT COLOR="#888888"><I>   30   </I></FONT><FONT COLOR="#112266"><B>static</B></FONT> <FONT COLOR="#112266"><B>void</B></FONT> <A NAME="fcn_m_b_emlrt_marshallIn">m_b_emlrt_marshallIn</A>(<FONT COLOR="#112266"><B>const</B></FONT> mxArray *eml_src, <FONT COLOR="#112266"><B>const</B></FONT> char_T *eml_nam, real_T eml_ret[2])
+<FONT COLOR="#888888"><I>   31   </I></FONT><B>{</B>
+<FONT COLOR="#888888"><I>   32   </I></FONT>    int32_T eml_iv7[1];
+<FONT COLOR="#888888"><I>   33   </I></FONT>    int32_T eml_i0;
+<FONT COLOR="#888888"><I>   34   </I></FONT>    eml_iv7[0] = 2;
+<FONT COLOR="#888888"><I>   35   </I></FONT>    emlrtCheckBuiltIn(eml_nam, eml_src, <FONT COLOR="#1122ff">&quot;double&quot;</FONT>, FALSE, 1U, eml_iv7);
+<FONT COLOR="#888888"><I>   36   </I></FONT>    <FONT COLOR="#112266"><B>for</B></FONT>(eml_i0 = 0; eml_i0 &lt; 2; eml_i0++) <B>{</B>
+<FONT COLOR="#888888"><I>   37   </I></FONT>        eml_ret[eml_i0] = (*((real_T (*)[2])mxGetData(eml_src)))[eml_i0];
+<FONT COLOR="#888888"><I>   38   </I></FONT>    <B>}</B>
+<FONT COLOR="#888888"><I>   39   </I></FONT>    emlrtDestroyArray(&amp;eml_src);
+<FONT COLOR="#888888"><I>   40   </I></FONT><B>}</B>
+<FONT COLOR="#888888"><I>   41   </I></FONT>
+<FONT COLOR="#888888"><I>   42   </I></FONT><FONT COLOR="#112266"><B>static</B></FONT> <FONT COLOR="#112266"><B>void</B></FONT> <A NAME="fcn_m_emlrt_marshallIn">m_emlrt_marshallIn</A>(<FONT COLOR="#112266"><B>const</B></FONT> mxArray *eml_z, <FONT COLOR="#112266"><B>const</B></FONT> char_T *eml_name, real_T eml_y[2])
+<FONT COLOR="#888888"><I>   43   </I></FONT><B>{</B>
+<FONT COLOR="#888888"><I>   44   </I></FONT>    <A HREF="kalman01_api_c.html#fcn_m_b_emlrt_marshallIn" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_m_b_emlrt_marshallIn');"  TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">m_b_emlrt_marshallIn</FONT></A>(emlrtAlias(eml_z), eml_name, eml_y);
+<FONT COLOR="#888888"><I>   45   </I></FONT>    emlrtDestroyArray(&amp;eml_z);
+<FONT COLOR="#888888"><I>   46   </I></FONT><B>}</B>
+<FONT COLOR="#888888"><I>   47   </I></FONT>
+<FONT COLOR="#888888"><I>   48   </I></FONT><FONT COLOR="#112266"><B>static</B></FONT> <FONT COLOR="#112266"><B>const</B></FONT> mxArray *<A NAME="fcn_m_emlrt_marshallOut">m_emlrt_marshallOut</A>(<FONT COLOR="#112266"><B>const</B></FONT> real_T eml_u[2])
+<FONT COLOR="#888888"><I>   49   </I></FONT><B>{</B>
+<FONT COLOR="#888888"><I>   50   </I></FONT>    <FONT COLOR="#112266"><B>const</B></FONT> mxArray *eml_y;
+<FONT COLOR="#888888"><I>   51   </I></FONT>    <FONT COLOR="#112266"><B>static</B></FONT> <FONT COLOR="#112266"><B>const</B></FONT> int32_T eml_iv6[1] = <B>{</B> 2 <B>}</B>;
+<FONT COLOR="#888888"><I>   52   </I></FONT>    <FONT COLOR="#112266"><B>const</B></FONT> mxArray *eml_m1;
+<FONT COLOR="#888888"><I>   53   </I></FONT>    real_T (*eml_pData)[];
+<FONT COLOR="#888888"><I>   54   </I></FONT>    int32_T eml_i;
+<FONT COLOR="#888888"><I>   55   </I></FONT>    eml_y = NULL;
+<FONT COLOR="#888888"><I>   56   </I></FONT>    eml_m1 = mxCreateNumericArray(1, (int32_T *)&amp;eml_iv6, mxDOUBLE_CLASS, mxREAL);
+<FONT COLOR="#888888"><I>   57   </I></FONT>    eml_pData = (real_T (*)[])mxGetPr(eml_m1);
+<FONT COLOR="#888888"><I>   58   </I></FONT>    <FONT COLOR="#112266"><B>for</B></FONT>(eml_i = 0; eml_i &lt; 2; eml_i++) <B>{</B>
+<FONT COLOR="#888888"><I>   59   </I></FONT>        (*eml_pData)[eml_i] = eml_u[eml_i];
+<FONT COLOR="#888888"><I>   60   </I></FONT>    <B>}</B>
+<FONT COLOR="#888888"><I>   61   </I></FONT>    emlrtAssign(&amp;eml_y, eml_m1);
+<FONT COLOR="#888888"><I>   62   </I></FONT>    <FONT COLOR="#112266"><B>return</B></FONT> eml_y;
+<FONT COLOR="#888888"><I>   63   </I></FONT><B>}</B>
+<FONT COLOR="#888888"><I>   64   </I></FONT>
+<FONT COLOR="#888888"><I>   65   </I></FONT><FONT COLOR="#112266"><B>void</B></FONT> <A NAME="fcn_kalman01_api">kalman01_api</A>(<A HREF="kalman01_types_h.html#type_kalman01StackData" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_kalman01StackData')" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">kalman01StackData</FONT></A> *eml_SD, <FONT COLOR="#112266"><B>const</B></FONT> mxArray *<FONT COLOR="#112266"><B>const</B></FONT> eml_prhs[1], <FONT COLOR="#112266"><B>const</B></FONT> mxArray *eml_plhs[1])
+<FONT COLOR="#888888"><I>   66   </I></FONT><B>{</B>
+<FONT COLOR="#888888"><I>   67   </I></FONT>    real_T eml_z[2];
+<FONT COLOR="#888888"><I>   68   </I></FONT>    int32_T eml_i;
+<FONT COLOR="#888888"><I>   69   </I></FONT>    real_T eml_b_z[2];
+<FONT COLOR="#888888"><I>   70   </I></FONT>    <FONT COLOR="#117755"><I>/* Marshall function inputs */</I></FONT>
+<FONT COLOR="#888888"><I>   71   </I></FONT>    <A HREF="kalman01_api_c.html#fcn_m_emlrt_marshallIn" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_m_emlrt_marshallIn');"  TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">m_emlrt_marshallIn</FONT></A>(emlrtAliasP(eml_prhs[0]), <FONT COLOR="#1122ff">&quot;z&quot;</FONT>, eml_z);
+<FONT COLOR="#888888"><I>   72   </I></FONT>    <FONT COLOR="#117755"><I>/* Invoke the target function */</I></FONT>
+<FONT COLOR="#888888"><I>   73   </I></FONT>    <FONT COLOR="#112266"><B>for</B></FONT>(eml_i = 0; eml_i &lt; 2; eml_i++) <B>{</B>
+<FONT COLOR="#888888"><I>   74   </I></FONT>        eml_b_z[eml_i] = eml_z[eml_i];
+<FONT COLOR="#888888"><I>   75   </I></FONT>    <B>}</B>
+<FONT COLOR="#888888"><I>   76   </I></FONT>    <A HREF="kalman01_c.html#fcn_kalman01" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_kalman01');"  TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">kalman01</FONT></A>(eml_SD, eml_b_z, eml_z);
+<FONT COLOR="#888888"><I>   77   </I></FONT>    <FONT COLOR="#117755"><I>/* Marshall function outputs */</I></FONT>
+<FONT COLOR="#888888"><I>   78   </I></FONT>    eml_plhs[0] = <A HREF="kalman01_api_c.html#fcn_m_emlrt_marshallOut" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_m_emlrt_marshallOut');"  TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">m_emlrt_marshallOut</FONT></A>(eml_z);
+<FONT COLOR="#888888"><I>   79   </I></FONT><B>}</B>
+<FONT COLOR="#888888"><I>   80   </I></FONT><FONT COLOR="#117755"><I>/* End of Embedded MATLAB Coder code generation (kalman01_api.c) */</I></FONT>
+<FONT COLOR="#888888"><I>   81   </I></FONT></PRE>
+</TD></TR></TABLE>
+</P>
+</BODY>
+</HTML>

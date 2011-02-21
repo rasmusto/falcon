@@ -1,0 +1,67 @@
+<HTML>
+<HEAD>
+<TITLE>RTW Report - rt_nonfinite.h </TITLE>
+</HEAD>
+<BODY BGCOLOR="#eeeeee" TEXT="#1122aa" ONLOAD="if (top) { if (top.rtwFileOnLoad) top.rtwFileOnLoad(window);}">
+<P>
+<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="6" WIDTH="100%" HEIGHT="100%"><TR><TD WIDTH="100%" VALIGN="top" BGCOLOR="#ffffff">
+<H4>File: <A HREF="file:///Users/cooleys/Desktop/work/build02/rt_nonfinite.h" TARGET="rtwreport_document_frame">/Users/cooleys/Desktop/work/build02/rt_nonfinite.h</A></H4>
+<PRE id="RTWcode">
+<FONT COLOR="#888888"><I>    1   </I></FONT><FONT COLOR="#117755"><I>/*</I></FONT>
+<FONT COLOR="#888888"><I>    2   </I></FONT><FONT COLOR="#117755"><I> * rt_nonfinite.h</I></FONT>
+<FONT COLOR="#888888"><I>    3   </I></FONT><FONT COLOR="#117755"><I> *</I></FONT>
+<FONT COLOR="#888888"><I>    4   </I></FONT><FONT COLOR="#117755"><I> * Embedded MATLAB Coder code generation for function 'kalman01'</I></FONT>
+<FONT COLOR="#888888"><I>    5   </I></FONT><FONT COLOR="#117755"><I> *</I></FONT>
+<FONT COLOR="#888888"><I>    6   </I></FONT><FONT COLOR="#117755"><I> * C source code generated on: Mon Feb 21 11:45:35 2011</I></FONT>
+<FONT COLOR="#888888"><I>    7   </I></FONT><FONT COLOR="#117755"><I> *</I></FONT>
+<FONT COLOR="#888888"><I>    8   </I></FONT><FONT COLOR="#117755"><I> */</I></FONT>
+<FONT COLOR="#888888"><I>    9   </I></FONT>
+<FONT COLOR="#888888"><I>   10   </I></FONT><FONT COLOR="#992211">#</FONT><FONT COLOR="#992211"><B>ifndef</B></FONT> __RT_NONFINITE_H__
+<FONT COLOR="#888888"><I>   11   </I></FONT><FONT COLOR="#992211">#</FONT><FONT COLOR="#992211"><B>define</B></FONT> __RT_NONFINITE_H__
+<FONT COLOR="#888888"><I>   12   </I></FONT>
+<FONT COLOR="#888888"><I>   13   </I></FONT><FONT COLOR="#992211">#</FONT><FONT COLOR="#992211"><B>if</B></FONT> <FONT COLOR="#992211"><B>defined</B></FONT>(_MSC_VER) &amp;&amp; (_MSC_VER &lt;= 1200)
+<FONT COLOR="#888888"><I>   14   </I></FONT><FONT COLOR="#992211">#</FONT><FONT COLOR="#992211"><B>include</B></FONT> <FONT COLOR="#992211">&lt;float.h&gt;</FONT>
+<FONT COLOR="#888888"><I>   15   </I></FONT><FONT COLOR="#992211">#</FONT><FONT COLOR="#992211"><B>endif</B></FONT>
+<FONT COLOR="#888888"><I>   16   </I></FONT><FONT COLOR="#992211">#</FONT><FONT COLOR="#992211"><B>include</B></FONT> <FONT COLOR="#992211">&lt;stddef.h&gt;</FONT>
+<FONT COLOR="#888888"><I>   17   </I></FONT><FONT COLOR="#992211">#</FONT><FONT COLOR="#992211"><B>include</B></FONT> <FONT COLOR="#992211">&quot;rtwtypes.h&quot;</FONT>
+<FONT COLOR="#888888"><I>   18   </I></FONT>
+<FONT COLOR="#888888"><I>   19   </I></FONT><FONT COLOR="#112266"><B>extern</B></FONT> <A HREF="rtwtypes_h.html#type_real_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_real_T')" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real_T</FONT></A> <A HREF="rt_nonfinite_c.html#var_rtInf" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_rtInf');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">rtInf</FONT></A>;
+<FONT COLOR="#888888"><I>   20   </I></FONT><FONT COLOR="#112266"><B>extern</B></FONT> <A HREF="rtwtypes_h.html#type_real_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_real_T')" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real_T</FONT></A> <A HREF="rt_nonfinite_c.html#var_rtMinusInf" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_rtMinusInf');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">rtMinusInf</FONT></A>;
+<FONT COLOR="#888888"><I>   21   </I></FONT><FONT COLOR="#112266"><B>extern</B></FONT> <A HREF="rtwtypes_h.html#type_real_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_real_T')" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real_T</FONT></A> <A HREF="rt_nonfinite_c.html#var_rtNaN" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_rtNaN');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">rtNaN</FONT></A>;
+<FONT COLOR="#888888"><I>   22   </I></FONT><FONT COLOR="#112266"><B>extern</B></FONT> <A HREF="rtwtypes_h.html#type_real32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_real32_T')" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real32_T</FONT></A> <A HREF="rt_nonfinite_c.html#var_rtInfF" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_rtInfF');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">rtInfF</FONT></A>;
+<FONT COLOR="#888888"><I>   23   </I></FONT><FONT COLOR="#112266"><B>extern</B></FONT> <A HREF="rtwtypes_h.html#type_real32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_real32_T')" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real32_T</FONT></A> <A HREF="rt_nonfinite_c.html#var_rtMinusInfF" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_rtMinusInfF');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">rtMinusInfF</FONT></A>;
+<FONT COLOR="#888888"><I>   24   </I></FONT><FONT COLOR="#112266"><B>extern</B></FONT> <A HREF="rtwtypes_h.html#type_real32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_real32_T')" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real32_T</FONT></A> <A HREF="rt_nonfinite_c.html#var_rtNaNF" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_rtNaNF');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">rtNaNF</FONT></A>;
+<FONT COLOR="#888888"><I>   25   </I></FONT><FONT COLOR="#112266"><B>extern</B></FONT> <FONT COLOR="#112266"><B>void</B></FONT> <A HREF="rt_nonfinite_c.html#fcn_rt_InitInfAndNaN" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rt_InitInfAndNaN');"  TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">rt_InitInfAndNaN</FONT></A>(size_t realSize);
+<FONT COLOR="#888888"><I>   26   </I></FONT><FONT COLOR="#112266"><B>extern</B></FONT> <A HREF="rtwtypes_h.html#type_boolean_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_boolean_T')" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">boolean_T</FONT></A> <A HREF="rt_nonfinite_c.html#fcn_rtIsInf" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtIsInf');"  TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">rtIsInf</FONT></A>(<A HREF="rtwtypes_h.html#type_real_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_real_T')" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real_T</FONT></A> value);
+<FONT COLOR="#888888"><I>   27   </I></FONT><FONT COLOR="#112266"><B>extern</B></FONT> <A HREF="rtwtypes_h.html#type_boolean_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_boolean_T')" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">boolean_T</FONT></A> <A HREF="rt_nonfinite_c.html#fcn_rtIsInfF" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtIsInfF');"  TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">rtIsInfF</FONT></A>(<A HREF="rtwtypes_h.html#type_real32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_real32_T')" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real32_T</FONT></A> value);
+<FONT COLOR="#888888"><I>   28   </I></FONT><FONT COLOR="#112266"><B>extern</B></FONT> <A HREF="rtwtypes_h.html#type_boolean_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_boolean_T')" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">boolean_T</FONT></A> <A HREF="rt_nonfinite_c.html#fcn_rtIsNaN" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtIsNaN');"  TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">rtIsNaN</FONT></A>(<A HREF="rtwtypes_h.html#type_real_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_real_T')" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real_T</FONT></A> value);
+<FONT COLOR="#888888"><I>   29   </I></FONT><FONT COLOR="#112266"><B>extern</B></FONT> <A HREF="rtwtypes_h.html#type_boolean_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_boolean_T')" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">boolean_T</FONT></A> <A HREF="rt_nonfinite_c.html#fcn_rtIsNaNF" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtIsNaNF');"  TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">rtIsNaNF</FONT></A>(<A HREF="rtwtypes_h.html#type_real32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_real32_T')" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real32_T</FONT></A> value);
+<FONT COLOR="#888888"><I>   30   </I></FONT>
+<FONT COLOR="#888888"><I>   31   </I></FONT><FONT COLOR="#112266"><B>typedef</B></FONT> <FONT COLOR="#112266"><B>struct</B></FONT> <B>{</B>
+<FONT COLOR="#888888"><I>   32   </I></FONT>  <FONT COLOR="#112266"><B>struct</B></FONT> <B>{</B>
+<FONT COLOR="#888888"><I>   33   </I></FONT>    <A HREF="rtwtypes_h.html#type_uint32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_uint32_T')" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_T</FONT></A> wordH;
+<FONT COLOR="#888888"><I>   34   </I></FONT>    <A HREF="rtwtypes_h.html#type_uint32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_uint32_T')" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_T</FONT></A> wordL;
+<FONT COLOR="#888888"><I>   35   </I></FONT>  <B>}</B> words;
+<FONT COLOR="#888888"><I>   36   </I></FONT><B>}</B> <A NAME="type_BigEndianIEEEDouble">BigEndianIEEEDouble</A>;
+<FONT COLOR="#888888"><I>   37   </I></FONT>
+<FONT COLOR="#888888"><I>   38   </I></FONT><FONT COLOR="#112266"><B>typedef</B></FONT> <FONT COLOR="#112266"><B>struct</B></FONT> <B>{</B>
+<FONT COLOR="#888888"><I>   39   </I></FONT>  <FONT COLOR="#112266"><B>struct</B></FONT> <B>{</B>
+<FONT COLOR="#888888"><I>   40   </I></FONT>    <A HREF="rtwtypes_h.html#type_uint32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_uint32_T')" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_T</FONT></A> wordL;
+<FONT COLOR="#888888"><I>   41   </I></FONT>    <A HREF="rtwtypes_h.html#type_uint32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_uint32_T')" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_T</FONT></A> wordH;
+<FONT COLOR="#888888"><I>   42   </I></FONT>  <B>}</B> words;
+<FONT COLOR="#888888"><I>   43   </I></FONT><B>}</B> <A NAME="type_LittleEndianIEEEDouble">LittleEndianIEEEDouble</A>;
+<FONT COLOR="#888888"><I>   44   </I></FONT>
+<FONT COLOR="#888888"><I>   45   </I></FONT><FONT COLOR="#112266"><B>typedef</B></FONT> <FONT COLOR="#112266"><B>struct</B></FONT> <B>{</B>
+<FONT COLOR="#888888"><I>   46   </I></FONT>  <FONT COLOR="#112266"><B>union</B></FONT> <B>{</B>
+<FONT COLOR="#888888"><I>   47   </I></FONT>    <A HREF="rtwtypes_h.html#type_real32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_real32_T')" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real32_T</FONT></A> wordLreal;
+<FONT COLOR="#888888"><I>   48   </I></FONT>    <A HREF="rtwtypes_h.html#type_uint32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_uint32_T')" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">uint32_T</FONT></A> wordLuint;
+<FONT COLOR="#888888"><I>   49   </I></FONT>  <B>}</B> wordL;
+<FONT COLOR="#888888"><I>   50   </I></FONT><B>}</B> <A NAME="type_IEEESingle">IEEESingle</A>;
+<FONT COLOR="#888888"><I>   51   </I></FONT>
+<FONT COLOR="#888888"><I>   52   </I></FONT><FONT COLOR="#992211">#</FONT><FONT COLOR="#992211"><B>endif</B></FONT>
+<FONT COLOR="#888888"><I>   53   </I></FONT><FONT COLOR="#117755"><I>/* End of Embedded MATLAB Coder code generation (rt_nonfinite.h) */</I></FONT>
+<FONT COLOR="#888888"><I>   54   </I></FONT></PRE>
+</TD></TR></TABLE>
+</P>
+</BODY>
+</HTML>
