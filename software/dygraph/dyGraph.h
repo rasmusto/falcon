@@ -31,13 +31,6 @@ struct dyGraph {
 	GtkWidget * table;
 	GtkGraph* graph;
 	GtkWidget* enableBox;
-	GtkAdjustment* vZoomAdjust;
-	GtkWidget* vZoomAlign;
-	GtkAdjustment* hZoomAdjust;
-	GtkWidget* hZoomAlign;
-	GtkAdjustment* hScrollAdjust;
-	GtkWidget* hScrollBar;
-	GtkWidget* vScrollBar;
 	
 	GtkWidget* vZoomScale;
 	GtkWidget* hZoomScale;
@@ -53,24 +46,19 @@ struct dyGraph {
 	uint8_t globalEnable; // boolean - enable for all traces
 
 	uint8_t autoScaleX;
+	uint8_t autoPanX;
 	uint8_t autoScaleY;
-
-	// Current window limits
-	float xMin;
-	float xMax;
-	float yMin;
-	float yMax;
-	
-	float hZoom;
-	float vZoom;
-	float hScroll;
-	float vScroll;
 	
 	float xZoomFactor;
 	float yZoomFactor;
 	
 	int translateOriginX;
 	int translateOriginY;
+	
+	float translateOrigionalMinX;
+	float translateOrigionalMaxX;
+	float translateOrigionalMinY;
+	float translateOrigionalMaxY;
 };
 
 struct handlerData {

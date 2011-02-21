@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <gtk/gtk.h>
+#include <math.h>
 
 #include "gtkgraph.h"
 #include "gtkgraph_internal.h"
@@ -64,7 +65,7 @@ static void gtk_graph_plot_axes_titles (GtkGraph *graph);
 static void gtk_graph_plot_title (GtkGraph *graph);
 static void gtk_graph_plot_legend(GtkGraph *graph);
 static void gtk_graph_plot_traces (GtkGraph *graph);
-static int rint(float f);
+//~ static int rint(float f);
 
 /**
  * gtk_graph_get_type:
@@ -343,7 +344,7 @@ void gtk_graph_redraw_traces(GtkWidget *widget) {
 }
 
 void gtk_graph_redraw_all(GtkWidget *widget) {
-	gtk_graph_create_pixmap(widget);
+	gtk_graph_create_pixmap((GtkGraph *)widget);
 	gtk_graph_draw(widget);
 }
 
@@ -993,7 +994,7 @@ for (i = 0 ; i < graph->num_traces ; i++)
 	if (tmp->format->legend_text == NULL)
 		text_buffer = g_strdup_printf("Trace %d", i);
 	else
-		text_buffer = g_strdup_printf(tmp->format->legend_text);
+		text_buffer = g_strdup_printf("%s", tmp->format->legend_text);
 
 	pango_layout_set_text(layout, text_buffer, -1);
 	pango_layout_get_pixel_size(layout, &len, &text_height);
@@ -1024,16 +1025,16 @@ graph->legend_position = position;
 }
 
 /* libm.a version of rint() doesn't seem to link with dev-cpp so here's my own */
-static int rint(float f)
-{
-int temp_i;
-float temp_f;
+//~ static int rint(float f)
+//~ {
+//~ int temp_i;
+//~ float temp_f;
 
-temp_i = (int) f;
-temp_f = f - (float) temp_i;
+//~ temp_i = (int) f;
+//~ temp_f = f - (float) temp_i;
 
-if (temp_f >= 0.5)
-    return temp_i + 1;
-else
-    return temp_i;
-}
+//~ if (temp_f >= 0.5)
+    //~ return temp_i + 1;
+//~ else
+    //~ return temp_i;
+//~ }

@@ -23,12 +23,6 @@
 #define MAX_TRACE_DATA_LENGTH 10000000
 #define MAX_TRACE_GRAPH_LENGTH 1000
 
-static void hZoomAdjustCB (GtkAdjustment* adjust, struct dyGraph* graphInfo);
-static void vZoomAdjustCB (GtkAdjustment* adjust, struct dyGraph* graphInfo);
-static void hScrollAdjustCB (GtkAdjustment* adjust, struct dyGraph* graphInfo);
-static void vScrollAdjustCB (GtkAdjustment* adjust, struct dyGraph* graphInfo);
-static void hMaxCheckCB (GtkToggleButton* checkBox, struct dyGraph* graphInfo);
-static void vMaxCheckCB (GtkToggleButton* checkBox, struct dyGraph* graphInfo);
 static void traceEnableToggleCB (GtkToggleButton* checkBox, struct handlerData* data);
 static void globalEnableToggleCB (GtkToggleButton* checkBox, struct dyGraph* graphInfo);
 static gint scrollWheelCB (GtkWidget *widget, GdkEventScroll *event, struct dyGraph* graphInfo);
@@ -36,6 +30,9 @@ void findZoomedLimits (float axisMin, float axisMax, int value, int minPix, int 
 static gint buttonPressCB (GtkWidget *widget, GdkEventButton *event, struct dyGraph* graphInfo);
 static gint buttonReleaseCB (GtkWidget *widget, GdkEventButton *event, struct dyGraph* graphInfo);
 static gint pointerMotionCB (GtkWidget *widget, GdkEventMotion *event, struct dyGraph* graphInfo);
+static void scaleXToggleCB (GtkToggleButton* toggleButton, struct dyGraph* graphInfo);
+static void scaleYToggleCB (GtkToggleButton* toggleButton, struct dyGraph* graphInfo);
+static void panXToggleCB (GtkToggleButton* toggleButton, struct dyGraph* graphInfo);
 
 void dyGraphRedrawAll (struct dyGraph * graphInfo);
 void dyGraphRedrawTrace (struct dyGraph* graphInfo, struct dyTrace* trace);
@@ -44,62 +41,9 @@ struct dyGraph * dyGraphInit (char* title, char* subTitle, char* xLabel, char* y
 	
 	struct dyGraph * graphInfo = malloc(sizeof(struct dyGraph));
 	
-	graphInfo->xZoomFactor = 1.5;
-	graphInfo->yZoomFactor = 1.5;
+	graphInfo->xZoomFactor = 1.2;
+	graphInfo->yZoomFactor = 1.2;
 	
-	//******************* Zoom Scales **********************
-	
-	float initialZoomMax = (abs(yMin)+abs(yMax))*300;
-	GtkAdjustment* vZoomAdjust = (GtkAdjustment*)gtk_adjustment_new (initialZoomMax/3, 1., initialZoomMax, initialZoomMax/30, initialZoomMax/3, initialZoomMax/3);
-	graphInfo->vZoom = abs(yMin)+abs(yMax);
-	
-	GtkWidget* vZoomScale = gtk_vscale_new(vZoomAdjust);
-	// align container for vZoomScale
-	GtkWidget* vZoomAlign = gtk_alignment_new (1,0,0,1); // align right, top   x - dont fill, y - fill full
-	gtk_container_add(GTK_CONTAINER(vZoomAlign), vZoomScale); // add vZoomScale to the align container
-	g_signal_connect (vZoomAdjust, "value-changed", G_CALLBACK (vZoomAdjustCB), graphInfo);
-	
-	float initialHZoomMax = abs(xMax)*300;
-	GtkAdjustment* hZoomAdjust = (GtkAdjustment*)gtk_adjustment_new (initialHZoomMax/3, 0, initialHZoomMax, initialHZoomMax/30, initialHZoomMax/3, initialHZoomMax/3);
-	graphInfo->hZoom = abs(xMax);
-	
-	GtkWidget* hZoomScale = gtk_hscale_new(hZoomAdjust);
-	// align container for hZoomScale
-	GtkWidget* hZoomAlign = gtk_alignment_new (0,1,1,0); // align left, bottom   y - dont fill, x - fill full
-	gtk_container_add(GTK_CONTAINER(hZoomAlign), hZoomScale); // add hZoomScale to the align container
-	g_signal_connect (hZoomAdjust, "value-changed", G_CALLBACK (hZoomAdjustCB), graphInfo);
-	
-	
-	//******************* Max Check Boxes **********************
-	
-	GtkWidget* vMaxCheck = gtk_check_button_new ();
-	GtkWidget* vMaxCheckAlign = gtk_alignment_new (1,0,0,0); // align right, top   y - dont fill, x - dont fill
-	gtk_container_add(GTK_CONTAINER(vMaxCheckAlign), vMaxCheck); // add hZoomScale to the align container
-	g_signal_connect (vMaxCheck, "toggled", G_CALLBACK (vMaxCheckCB), graphInfo);
-	
-	GtkWidget* hMaxCheck = gtk_check_button_new ();
-	GtkWidget* hMaxCheckAlign = gtk_alignment_new (1,1,0,0); // align right, bottom   y - dont fill, x - dont fill
-	gtk_container_add(GTK_CONTAINER(hMaxCheckAlign), hMaxCheck); // add hZoomScale to the align container
-	g_signal_connect (hMaxCheck, "toggled", G_CALLBACK (hMaxCheckCB), graphInfo);
-	
-	//******************* Horizontal Scroll Bar **********************
-
-	GtkAdjustment* hScrollAdjust = (GtkAdjustment*)gtk_adjustment_new (xMax/2, 0, xMax, xMax/10, xMax, xMax);
-	GtkWidget* hScrollBar = gtk_hscale_new(hScrollAdjust);
-	gtk_widget_set_sensitive (hScrollBar, FALSE);
-	// align container for hScrollBar
-	GtkWidget* hScrollAlign = gtk_alignment_new (0,1,1,0); // align left, bottom   y - dont fill, x - fill full
-	gtk_container_add(GTK_CONTAINER(hScrollAlign), hScrollBar); // add hScrollBar to the align container
-	g_signal_connect (hScrollAdjust, "value-changed", G_CALLBACK (hScrollAdjustCB), graphInfo);
-	
-	//******************* Vertical Scroll Bar **********************
-
-	GtkAdjustment* vScrollAdjust = (GtkAdjustment*)gtk_adjustment_new (0, 0, 0, 1, 1, 1);
-	GtkWidget* vScrollBar = gtk_vscale_new(vScrollAdjust);
-	// align container for hScrollBar
-	GtkWidget* vScrollAlign = gtk_alignment_new (1,0,0,1); // align right, top   x - dont fill, y - fill full
-	gtk_container_add(GTK_CONTAINER(vScrollAlign), vScrollBar); // add hScrollBar to the align container
-	g_signal_connect (vScrollAdjust, "value-changed", G_CALLBACK (vScrollAdjustCB), graphInfo);
 
 	//******************* Enable Trace Checkboxes **********************
 	
@@ -110,19 +54,57 @@ struct dyGraph * dyGraphInit (char* title, char* subTitle, char* xLabel, char* y
 	// add enable toggle
 	
 	GtkWidget* globalEnableToggle = gtk_toggle_button_new_with_label ("Global Enable");
-	gtk_toggle_button_set_active (globalEnableToggle, TRUE);
-	GtkWidget* globalEnableToggleAlign = gtk_alignment_new (0,1,0,0); // align left, bottom   y - dont fill, x - dont fill
+	gtk_toggle_button_set_active ((GtkToggleButton*)globalEnableToggle, TRUE);
+	GtkWidget* globalEnableToggleAlign = gtk_alignment_new (0,1,1,0); // align left, bottom   y - dont fill, x - dont fill
 	gtk_container_add(GTK_CONTAINER(globalEnableToggleAlign), globalEnableToggle); // add checkbox to the align container
 	g_signal_connect (globalEnableToggle, "toggled", G_CALLBACK (globalEnableToggleCB), graphInfo);
-	
 	
 	gtk_box_pack_start ((GtkBox*)enableBox, globalEnableToggleAlign, FALSE, FALSE, 0);
 	
 	gtk_widget_show_all (globalEnableToggleAlign);
 	
+	// add autoScale Y toggle
+	
+	GtkWidget* scaleYToggle = gtk_toggle_button_new_with_label ("Auto Scale Y");
+	gtk_toggle_button_set_active ((GtkToggleButton*)scaleYToggle, TRUE);
+	GtkWidget* scaleYToggleAlign = gtk_alignment_new (0,1,1,0); // align left, bottom   y - dont fill, x - dont fill
+	//~ gtk_alignment_set_padding ((GtkAlignment*)scaleYToggleAlign, 0, 10, 0, 0);
+	gtk_container_add(GTK_CONTAINER(scaleYToggleAlign), scaleYToggle); // add checkbox to the align container
+	g_signal_connect (scaleYToggle, "toggled", G_CALLBACK (scaleYToggleCB), graphInfo);
+	
+	gtk_box_pack_start ((GtkBox*)enableBox, scaleYToggleAlign, FALSE, FALSE, 0);
+	
+	gtk_widget_show_all (scaleYToggleAlign);	
+	
+	// add autoScale X toggle
+	
+	GtkWidget* scaleXToggle = gtk_toggle_button_new_with_label ("Auto Scale X");
+	gtk_toggle_button_set_active ((GtkToggleButton*)scaleXToggle, TRUE);
+	GtkWidget* scaleXToggleAlign = gtk_alignment_new (0,1,1,0); // align left, bottom   y - dont fill, x - dont fill
+	gtk_container_add(GTK_CONTAINER(scaleXToggleAlign), scaleXToggle); // add checkbox to the align container
+	g_signal_connect (scaleXToggle, "toggled", G_CALLBACK (scaleXToggleCB), graphInfo);
+	
+	gtk_box_pack_start ((GtkBox*)enableBox, scaleXToggleAlign, FALSE, FALSE, 0);
+	
+	gtk_widget_show_all (scaleXToggleAlign);
+	
+	// add autoPan X toggle
+	
+	GtkWidget* panXToggle = gtk_toggle_button_new_with_label ("Auto Pan X");
+	gtk_toggle_button_set_active ((GtkToggleButton*)panXToggle, TRUE);
+	GtkWidget* panXToggleAlign = gtk_alignment_new (0,1,1,0); // align left, bottom   y - dont fill, x - dont fill
+	gtk_alignment_set_padding ((GtkAlignment*)panXToggleAlign, 0, 10, 0, 0);
+	gtk_container_add(GTK_CONTAINER(panXToggleAlign), panXToggle); // add checkbox to the align container
+	g_signal_connect (panXToggle, "toggled", G_CALLBACK (panXToggleCB), graphInfo);
+	
+	gtk_box_pack_start ((GtkBox*)enableBox, panXToggleAlign, FALSE, FALSE, 0);
+	
+	gtk_widget_show_all (panXToggleAlign);
+	
 	//******************* The Graph *********************
 	
 	GtkGraph* graph = (GtkGraph*)gtk_graph_new (XY);
+	graph->legend_visible = FALSE;
 	gtk_signal_connect (GTK_OBJECT (&graph->drawing_area), "motion_notify_event", (GtkSignalFunc) pointerMotionCB, graphInfo);
 	gtk_signal_connect (GTK_OBJECT (&graph->drawing_area), "button_press_event", (GtkSignalFunc) buttonPressCB, graphInfo);
 	gtk_signal_connect (GTK_OBJECT (&graph->drawing_area), "button_release_event", (GtkSignalFunc) buttonReleaseCB, graphInfo);
@@ -134,7 +116,9 @@ struct dyGraph * dyGraphInit (char* title, char* subTitle, char* xLabel, char* y
 	strcpy(graphSubTitle, subTitle);
 	gtk_graph_set_title (graph, graphTitle, graphSubTitle);	
 	
-	
+	GtkWidget* graphAlign = gtk_alignment_new (1,1,1,1); // fill everything
+	gtk_container_add(GTK_CONTAINER(graphAlign), (GtkWidget*)graph); // add graph to the align container
+	gtk_alignment_set_padding ((GtkAlignment*)graphAlign, 1, 0, 0, 0);	
 	//******************* Axis *********************
 	
 	gtk_graph_axis_format(graph, GTK_GRAPH_AXIS_DEPENDANT, FLOATING_POINT, 2, yLabel);
@@ -152,76 +136,118 @@ struct dyGraph * dyGraphInit (char* title, char* subTitle, char* xLabel, char* y
 	
 	//******************* Table that holds everything **********************
 	
-	GtkWidget* graphTable = gtk_table_new(4, 3, FALSE);
+	GtkWidget* graphTable = gtk_table_new(1, 2, FALSE);
 	
-	// add all of the widgets to the table
-	gtk_table_attach((GtkTable*)graphTable, vScrollAlign, 2, 3, 0, 1, GTK_SHRINK | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0); 
-	gtk_table_attach((GtkTable*)graphTable, vZoomAlign, 3, 4, 0, 1, GTK_SHRINK | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0); 
-	gtk_table_attach((GtkTable*)graphTable, hScrollAlign, 1, 2, 1, 2, GTK_EXPAND | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0); 
-	gtk_table_attach((GtkTable*)graphTable, hZoomAlign, 1, 2, 2, 3, GTK_EXPAND | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0); 
-	gtk_table_attach((GtkTable*)graphTable, (GtkWidget*)enableBox, 0, 1, 0, 3, GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 5, 0);
-	gtk_table_attach((GtkTable*)graphTable, (GtkWidget*)graph, 1, 2, 0, 1, GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 5, 0);
-	gtk_table_attach((GtkTable*)graphTable, (GtkWidget*)vMaxCheckAlign, 3, 4, 1, 2, GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 5, 0);
-	gtk_table_attach((GtkTable*)graphTable, (GtkWidget*)hMaxCheckAlign, 2, 3, 2, 3, GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 5, 0);
+	// add all of the widgets to the table 
+	gtk_table_attach((GtkTable*)graphTable, (GtkWidget*)enableBox, 0, 1, 0, 1, GTK_SHRINK, GTK_FILL, 5, 5);
+	gtk_table_attach((GtkTable*)graphTable, (GtkWidget*)graphAlign, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 5, 5);
 	
 	gtk_widget_show_all (graphTable); // show everything in table
 	
 	graphInfo->table = graphTable;
 	graphInfo->graph = graph;
 	graphInfo->enableBox = enableBox;
-	graphInfo->vZoomAdjust = vZoomAdjust;
-	graphInfo->vZoomAlign = vZoomAlign;
-	graphInfo->hZoomAdjust = hZoomAdjust;
-	graphInfo->hZoomAlign = hZoomAlign;
-	graphInfo->hScrollAdjust = hScrollAdjust;
-	graphInfo->hScrollBar = hScrollBar;
-	graphInfo->vScrollBar = hScrollBar;
-	graphInfo->vZoomScale = vZoomScale;
-	graphInfo->hZoomScale = hZoomScale;
 	
 	graphInfo->globalEnable = 1;
-	graphInfo->autoScaleX = 0;
-	graphInfo->autoScaleY = 0;
+	graphInfo->autoScaleX = 1;
+	graphInfo->autoScaleY = 1;
+	graphInfo->autoPanX = 1;
 	
-	graphInfo->vScroll = yMin;
+	graphInfo->xDataMax = 0;
+	graphInfo->xDataMin = 0;
+	graphInfo->yDataMax = 0;
+	graphInfo->yDataMin = 0;
 
 	graphInfo->traces = (struct dyTrace**)malloc(sizeof(struct dyTrace*)*256);
 	graphInfo->traceCount = 0;
 	
 	return graphInfo;
-	
 }
 
 struct dyTrace * dyGraphAddTrace (struct dyGraph * graphInfo, GtkGraphLineType type, gint width, GdkColor line_color, char * name) {
 
 //******************* Stuff to do after initialization **********************
 	
+	// add trace
+	
+	gint trace = gtk_graph_trace_new(graphInfo->graph);
+
+	gtk_graph_trace_format_line(graphInfo->graph, trace, type, width, &line_color, TRUE);
+	gtk_graph_trace_format_title(graphInfo->graph, trace, name);	
+	
 	// add enable checkbox
 	
-	GtkWidget* enableToggle = gtk_toggle_button_new_with_label (name);
-	gtk_toggle_button_set_active (enableToggle, TRUE);
+	int satVal = 20000;
+	
+	if (line_color.red < (65535-satVal))
+		line_color.red = line_color.red + satVal;
+	else
+		line_color.red = 65535;
+		
+	if (line_color.green < (65535-satVal))
+		line_color.green = line_color.green + satVal;
+	else
+		line_color.green = 65535;
+		
+	if (line_color.blue < (65535-satVal))
+		line_color.blue = line_color.blue + satVal;
+	else
+		line_color.blue = 65535;
 
-	gtk_widget_modify_bg(enableToggle, GTK_STATE_NORMAL, &line_color);
+	line_color.pixel = ((uint32_t)(line_color.red/256)<<16) + ((uint32_t)(line_color.green/256)<<8) + ((uint32_t)(line_color.blue/256));
+	
+	GdkColor line_color_inact;
+	
+	satVal = 30000;
+	
+	if (line_color.red < (65535-satVal))
+		line_color_inact.red = line_color.red + satVal;
+	else
+		line_color_inact.red = 65535;
+		
+	if (line_color.green < (65535-satVal))
+		line_color_inact.green = line_color.green + satVal;
+	else
+		line_color_inact.green = 65535;
+		
+	if (line_color.blue < (65535-satVal))
+		line_color_inact.blue = line_color.blue + satVal;
+	else
+		line_color_inact.blue = 65535;
+
+	line_color_inact.pixel = ((uint32_t)(line_color_inact.red/256)<<16) + ((uint32_t)(line_color_inact.green/256)<<8) + ((uint32_t)(line_color_inact.blue/256));
+	
+	char buttonText[256];
+	
+	if (type == DASHED)
+		sprintf(buttonText, "-- %s --", name);
+	else if (type == DOTTED)
+		sprintf(buttonText, ".. %s ..", name);
+	else if (type == DASH_DOT)
+		sprintf(buttonText, "-. %s -.", name);
+	else
+		sprintf(buttonText, "%s", name);
+	
+	GtkWidget* enableToggle = gtk_toggle_button_new_with_label (buttonText);
+	gtk_toggle_button_set_active ((GtkToggleButton*)enableToggle, TRUE);
+
+	gtk_widget_modify_bg(enableToggle, GTK_STATE_NORMAL, &line_color_inact);
 	gtk_widget_modify_bg(enableToggle, GTK_STATE_ACTIVE, &line_color);
-	gtk_widget_modify_bg(enableToggle, GTK_STATE_PRELIGHT, &line_color);
-	gtk_widget_modify_bg(enableToggle, GTK_STATE_SELECTED, &line_color);
-	gtk_widget_modify_bg(enableToggle, GTK_STATE_INSENSITIVE, &line_color);
+	gtk_widget_modify_bg(enableToggle, GTK_STATE_PRELIGHT, &line_color_inact);
+	gtk_widget_modify_bg(enableToggle, GTK_STATE_SELECTED, &line_color_inact);
+	gtk_widget_modify_bg(enableToggle, GTK_STATE_INSENSITIVE, &line_color_inact);
+
 
 	// align container for enableACheck
-	GtkWidget* enableToggleAlign = gtk_alignment_new (0,0,0,0); // align left, top   y - dont fill, x - dont fill
+	GtkWidget* enableToggleAlign = gtk_alignment_new (0,0,1,0); // align left, top   y - dont fill, x - dont fill
 	gtk_container_add(GTK_CONTAINER(enableToggleAlign), enableToggle); // add hZoomScale to the align container
 	
 	gtk_box_pack_start ((GtkBox*)graphInfo->enableBox, enableToggleAlign, FALSE, FALSE, 0);
 
 	gtk_widget_show_all (graphInfo->enableBox); // show everything we just added to enableBox
 	
-	// add trace
-	
-	gint trace = gtk_graph_trace_new(graphInfo->graph);
-	
-	gtk_graph_trace_format_line(graphInfo->graph, trace, type, width, &line_color, TRUE);
-	gtk_graph_trace_format_title(graphInfo->graph, trace, name);	
-	
+	// make trace struct
+
 	graphInfo->traces[graphInfo->traceCount] = (struct dyTrace*)malloc(sizeof(struct dyTrace));
 	
 	graphInfo->traces[graphInfo->traceCount]->trace = trace;
@@ -232,6 +258,11 @@ struct dyTrace * dyGraphAddTrace (struct dyGraph * graphInfo, GtkGraphLineType t
 	graphInfo->traces[graphInfo->traceCount]->yData = (float*)malloc(sizeof(float)*INITIAL_TRACE_DATA_LENGTH);
 	graphInfo->traces[graphInfo->traceCount]->dataLength = INITIAL_TRACE_DATA_LENGTH;
 	graphInfo->traces[graphInfo->traceCount]->dataCurr = 0;
+	
+	graphInfo->traces[graphInfo->traceCount]->xDataMax = 0;
+	graphInfo->traces[graphInfo->traceCount]->xDataMin = 0;
+	graphInfo->traces[graphInfo->traceCount]->yDataMax = 0;
+	graphInfo->traces[graphInfo->traceCount]->yDataMin = 0;
 	
 	graphInfo->traces[graphInfo->traceCount]->enabled = 1;	
 	
@@ -262,13 +293,13 @@ void dyGraphAddData (struct dyGraph * graphInfo, struct dyTrace * trace, float x
 	if (x > trace->xDataMax) {
 		trace->xDataMax = x;
 		if (x > graphInfo->xDataMax) {
+			float oldXDataMax = graphInfo->xDataMax;
+			float oldXDataMin = graphInfo->xDataMin;
 			graphInfo->xDataMax = x;
-			if (graphInfo->globalEnable && trace->enabled) {
-				if (graphInfo->autoScaleX)
-					gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_INDEPENDANT, x, graphInfo->xDataMin);
-				else
-					gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_INDEPENDANT, x, x-graphInfo->hZoom);
-			}
+			if (graphInfo->globalEnable && trace->enabled && graphInfo->autoPanX)
+				gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_INDEPENDANT, graphInfo->xDataMax, graphInfo->xDataMax - (graphInfo->graph->independant->axis_max - graphInfo->graph->independant->axis_min));
+			else if (graphInfo->globalEnable && trace->enabled && graphInfo->autoScaleX)
+				gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_INDEPENDANT, graphInfo->xDataMax, graphInfo->xDataMin);
 		}
 	}
 	
@@ -276,12 +307,8 @@ void dyGraphAddData (struct dyGraph * graphInfo, struct dyTrace * trace, float x
 		trace->xDataMin = x;
 		if (x < graphInfo->xDataMin) {
 			graphInfo->xDataMin = x;
-			if (graphInfo->globalEnable && graphInfo->autoScaleX && trace->enabled) {
-				if (graphInfo->autoScaleX)
-					gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_INDEPENDANT, graphInfo->xDataMax, x);
-				else
-					gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_INDEPENDANT, x, x-graphInfo->hZoom);
-			}
+			if (graphInfo->globalEnable && trace->enabled && graphInfo->autoScaleX  && !graphInfo->autoPanX)
+				gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_INDEPENDANT, graphInfo->xDataMax, graphInfo->xDataMin);
 		}
 	}
 
@@ -289,8 +316,10 @@ void dyGraphAddData (struct dyGraph * graphInfo, struct dyTrace * trace, float x
 		trace->yDataMax = y;
 		if (y > graphInfo->yDataMax) {
 			graphInfo->yDataMax = y;
-			if (graphInfo->globalEnable && graphInfo->autoScaleY && trace->enabled)
-				gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_DEPENDANT, y, graphInfo->yDataMin);
+			float oldYDataMax = graphInfo->yDataMax;
+			float oldYDataMin = graphInfo->yDataMin;
+			if (graphInfo->globalEnable && trace->enabled && graphInfo->autoScaleY)
+				gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_DEPENDANT, graphInfo->yDataMax, graphInfo->yDataMin);
 		}
 	}
 		
@@ -298,8 +327,8 @@ void dyGraphAddData (struct dyGraph * graphInfo, struct dyTrace * trace, float x
 		trace->yDataMin = y;
 		if (y < graphInfo->yDataMin) {
 			graphInfo->yDataMin = y;
-			if (graphInfo->globalEnable && graphInfo->autoScaleY && trace->enabled)
-				gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_DEPENDANT, graphInfo->yDataMax, y);
+			if (graphInfo->globalEnable && trace->enabled && graphInfo->autoScaleY)
+				gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_DEPENDANT, graphInfo->yDataMax, graphInfo->yDataMin);
 		}
 	}
 	
@@ -332,76 +361,32 @@ void dyGraphRedrawTrace (struct dyGraph* graphInfo, struct dyTrace* trace) {
 	gtk_graph_redraw_all((GtkWidget*)graphInfo->graph);
 }
 
-static void hZoomAdjustCB (GtkAdjustment* adjust, struct dyGraph* graphInfo) {
-	printf("\n\n**********hZoomAdjustCB**********\n\n");
-	//~ graphInfo->hZoom = adjust->value/100;
-	//~ gtk_graph_axis_set_limits(graphInfo->graph, GTK_GRAPH_AXIS_INDEPENDANT, graphInfo->hScroll+graphInfo->hZoom, graphInfo->hScroll);
-	//~ gtk_adjustment_configure (adjust, adjust->value, 1., adjust->value*3., adjust->value/10., adjust->value, adjust->value);
-	//~ dyGraphRedrawAll(graphInfo);
-}
-
-static void vZoomAdjustCB (GtkAdjustment* adjust, struct dyGraph* graphInfo) {
-	printf("\n\n**********vZoomAdjustCB**********\n\n");
-	//~ graphInfo->vZoom = adjust->value/100;
-	//~ gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_DEPENDANT, graphInfo->vScroll+graphInfo->vZoom, graphInfo->vScroll);
-	//~ gtk_adjustment_configure (adjust, adjust->value, 1., adjust->value*3., adjust->value/10., adjust->value, adjust->value);
-	//~ dyGraphRedrawAll(graphInfo);
-}
-
-static void hScrollAdjustCB (GtkAdjustment* adjust, struct dyGraph* graphInfo) {
-	printf("\n\n**********hScrollAdjustCB %f**********\n", adjust->value);
-	//~ graphInfo->hScroll = adjust->value;
-	//~ gtk_graph_axis_set_limits(graphInfo->graph, GTK_GRAPH_AXIS_INDEPENDANT, graphInfo->hScroll+graphInfo->hZoom/2, graphInfo->hScroll-graphInfo->hZoom/2);
-	//~ dyGraphRedrawAll(graphInfo);
-}
-
-static void vScrollAdjustCB (GtkAdjustment* adjust, struct dyGraph* graphInfo) {
-	printf("\n\n**********vScrollAdjustCB**********\n\n");
-}
-
-static void hMaxCheckCB (GtkToggleButton* checkBox, struct dyGraph* graphInfo) {
-	printf("\n\n**********hMaxCheckCB**********\n\n");
-	graphInfo->autoScaleX = gtk_toggle_button_get_active (checkBox);
-	if (graphInfo->autoScaleX) {
-		gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_INDEPENDANT, graphInfo->xDataMax, graphInfo->xDataMin);
-		gtk_widget_set_sensitive (graphInfo->hZoomScale, FALSE);
-	} else {
-		gtk_widget_set_sensitive (graphInfo->hZoomScale, TRUE);
-	}
-	dyGraphRedrawAll(graphInfo);
-}
-
-static void vMaxCheckCB (GtkToggleButton* checkBox, struct dyGraph* graphInfo) {
-	printf("\n\n**********vMaxCheckCB**********\n\n");
-	graphInfo->autoScaleY = gtk_toggle_button_get_active (checkBox);
-	if (graphInfo->autoScaleY) {
-		gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_DEPENDANT, graphInfo->yDataMax, graphInfo->yDataMin);
-		gtk_widget_set_sensitive (graphInfo->vZoomScale, FALSE);
-	} else {
-		gtk_widget_set_sensitive (graphInfo->vZoomScale, TRUE);
-	}
-	dyGraphRedrawAll(graphInfo);
-}
-
 //this will have to serve for all trace enable checkboxes
 static void traceEnableToggleCB (GtkToggleButton* toggleButton, struct handlerData* data) {
-	printf("\n\n**********traceEnableCheckCB**********\n");
 	data->trace->enabled = gtk_toggle_button_get_active (toggleButton);
-	printf("%d\n\n", data->trace->enabled);
 	dyGraphRedrawAll(data->graphInfo);
 }
 
 static void globalEnableToggleCB (GtkToggleButton* toggleButton, struct dyGraph* graphInfo) {
-	printf("\n\n**********globalEnableCheckCB**********\n\n");
 	graphInfo->globalEnable = gtk_toggle_button_get_active (toggleButton);
-	
-	if (graphInfo->globalEnable) {
-		gtk_widget_set_sensitive (graphInfo->hScrollBar, FALSE);
-	} else {
-		gtk_widget_set_sensitive (graphInfo->hScrollBar, TRUE);
-		//~ gtk_adjustment_configure (graphInfo->xDataMax-(, adjust->value, graphInfo->hScroll-graphInfo->hZoom/2, graphInfo->hScroll-graphInfo->hZoom/2, graphInfo->hZoom/10, graphInfo->hZoom, graphInfo->hZoom);
-	}
+	gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_DEPENDANT, graphInfo->yDataMax, graphInfo->yDataMin);
 	dyGraphRedrawAll(graphInfo);
+}
+
+static void scaleXToggleCB (GtkToggleButton* toggleButton, struct dyGraph* graphInfo) {
+	graphInfo->autoScaleX = gtk_toggle_button_get_active (toggleButton);
+	gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_INDEPENDANT, graphInfo->xDataMax, graphInfo->xDataMin);
+	dyGraphRedrawAll(graphInfo);
+}
+
+static void scaleYToggleCB (GtkToggleButton* toggleButton, struct dyGraph* graphInfo) {
+	graphInfo->autoScaleY = gtk_toggle_button_get_active (toggleButton);
+	gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_DEPENDANT, graphInfo->yDataMax, graphInfo->yDataMin);
+	dyGraphRedrawAll(graphInfo);
+}
+
+static void panXToggleCB (GtkToggleButton* toggleButton, struct dyGraph* graphInfo) {
+	graphInfo->autoPanX = gtk_toggle_button_get_active (toggleButton);
 }
 
 static gint buttonPressCB (GtkWidget *widget, GdkEventButton *event, struct dyGraph* graphInfo) {
@@ -409,7 +394,11 @@ static gint buttonPressCB (GtkWidget *widget, GdkEventButton *event, struct dyGr
 		graphInfo->translateOriginX = event->x;
 		graphInfo->translateOriginY = event->y;
 		
-		printf ("translateOriginX=%d translateOriginY=%d\n", graphInfo->translateOriginX, graphInfo->translateOriginY);
+		graphInfo->translateOrigionalMinX = graphInfo->graph->independant->axis_min;
+		graphInfo->translateOrigionalMaxX = graphInfo->graph->independant->axis_max;
+		
+		graphInfo->translateOrigionalMinY = graphInfo->graph->dependant->axis_min;
+		graphInfo->translateOrigionalMaxY = graphInfo->graph->dependant->axis_max;
 	}
 	return TRUE;
 }
@@ -430,22 +419,23 @@ static gint pointerMotionCB (GtkWidget *widget, GdkEventMotion *event, struct dy
 	int maxXPix = minXPix + graphInfo->graph->user_width;
 	int maxYPix = minYPix + graphInfo->graph->user_height;
 	
-	float xNumsPerPixel = (graphInfo->graph->independant->axis_max - graphInfo->graph->independant->axis_min) / (maxXPix - minXPix);
-	float yNumsPerPixel = (graphInfo->graph->dependant->axis_max - graphInfo->graph->dependant->axis_min) / (maxYPix - minYPix);
+	if (!graphInfo->autoScaleX || !graphInfo->globalEnable || graphInfo->autoPanX) {
+		float xNumsPerPixel = (graphInfo->graph->independant->axis_max - graphInfo->graph->independant->axis_min) / (maxXPix - minXPix);
+		float newXMin = graphInfo->translateOrigionalMinX - (x - graphInfo->translateOriginX)*xNumsPerPixel;
+		float newXMax = graphInfo->translateOrigionalMaxX - (x - graphInfo->translateOriginX)*xNumsPerPixel;
+		gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_INDEPENDANT, newXMax, newXMin);
+	}
 	
-	float newXMin = graphInfo->graph->independant->axis_min + (x - graphInfo->translateOriginX)*xNumsPerPixel;
-	float newXMax = graphInfo->graph->independant->axis_max + (x - graphInfo->translateOriginX)*xNumsPerPixel;
+	if (!graphInfo->autoScaleY || !graphInfo->globalEnable) {
+		float yNumsPerPixel = (graphInfo->graph->dependant->axis_max - graphInfo->graph->dependant->axis_min) / (maxYPix - minYPix);		
+		float newYMin = graphInfo->translateOrigionalMinY + (y - graphInfo->translateOriginY)*yNumsPerPixel;
+		float newYMax = graphInfo->translateOrigionalMaxY + (y - graphInfo->translateOriginY)*yNumsPerPixel;
+		gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_DEPENDANT, newYMax, newYMin);
+	}
 	
-	float newYMin = graphInfo->graph->dependant->axis_min + (y - graphInfo->translateOriginY)*yNumsPerPixel;
-	float newYMax = graphInfo->graph->dependant->axis_max + (y - graphInfo->translateOriginY)*yNumsPerPixel;
-	
-	gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_INDEPENDANT, newXMax, newXMin);
-	//~ gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_DEPENDANT, newYMax, newYMin);
-	
-	dyGraphRedrawAll(graphInfo);
-	
-	printf ("xNumsPerPixel=%f\n", xNumsPerPixel);
-	
+	if (!graphInfo->autoScaleX || !graphInfo->autoScaleY || !graphInfo->globalEnable || graphInfo->autoPanX)
+		dyGraphRedrawAll(graphInfo);
+		
 	return TRUE;	
 }
 
@@ -458,36 +448,58 @@ static gint scrollWheelCB (GtkWidget *widget, GdkEventScroll *event, struct dyGr
 	int maxYPix = minYPix + graphInfo->graph->user_height;
 	if (y > minYPix && y < maxYPix && x > minXPix && x < maxXPix) {
 		if (event->direction == GDK_SCROLL_UP) {
-			if (event->state & GDK_SHIFT_MASK) {
+			if ((event->state & GDK_SHIFT_MASK) && (!graphInfo->autoScaleX || !graphInfo->globalEnable || graphInfo->autoPanX)) {
 				// Zoom in x axis
 				float min, max;
 				findZoomedLimits (graphInfo->graph->independant->axis_min, graphInfo->graph->independant->axis_max, x, minXPix, maxXPix, graphInfo->xZoomFactor, &min, &max);				
 				gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_INDEPENDANT, max, min);
 				dyGraphRedrawAll(graphInfo);
-			} else if (event->state & GDK_CONTROL_MASK) {
-				printf ("ZOOM IN CTRL @ %d %d\n", x, y);
-			} else {
-				// Zoom in y axis
+			} else if ((event->state & GDK_CONTROL_MASK) && (!graphInfo->autoScaleY || !graphInfo->globalEnable)) {
+				// zoom in y axis
 				float min, max;
 				findZoomedLimits (graphInfo->graph->dependant->axis_min, graphInfo->graph->dependant->axis_max, maxYPix-y+minYPix, minYPix, maxYPix, graphInfo->yZoomFactor, &min, &max);				
 				gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_DEPENDANT, max, min);
 				dyGraphRedrawAll(graphInfo);
+			} else {
+				// Zoom in x and y axis
+				float min, max;
+				if (!graphInfo->autoScaleX || !graphInfo->globalEnable || graphInfo->autoPanX) {
+					findZoomedLimits (graphInfo->graph->independant->axis_min, graphInfo->graph->independant->axis_max, x, minXPix, maxXPix, graphInfo->xZoomFactor, &min, &max);				
+					gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_INDEPENDANT, max, min);
+					dyGraphRedrawAll(graphInfo);
+				}
+				if (!graphInfo->autoScaleY || !graphInfo->globalEnable) {
+					findZoomedLimits (graphInfo->graph->dependant->axis_min, graphInfo->graph->dependant->axis_max, maxYPix-y+minYPix, minYPix, maxYPix, graphInfo->yZoomFactor, &min, &max);				
+					gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_DEPENDANT, max, min);
+					dyGraphRedrawAll(graphInfo);
+				}
 			}
 		} else if (event->direction == GDK_SCROLL_DOWN) {
-			if (event->state & GDK_SHIFT_MASK) {
+			if ((event->state & GDK_SHIFT_MASK) && (!graphInfo->autoScaleX || !graphInfo->globalEnable || graphInfo->autoPanX)) {
 				// Zoom out x axis
 				float min, max;
 				findZoomedLimits (graphInfo->graph->independant->axis_min, graphInfo->graph->independant->axis_max, x, minXPix, maxXPix, 1/graphInfo->xZoomFactor, &min, &max);				
 				gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_INDEPENDANT, max, min);
 				dyGraphRedrawAll(graphInfo);
-			} else if (event->state & GDK_CONTROL_MASK) {
-				printf ("ZOOM OUT CTRL @ %d %d\n", x, y);
-			} else {
+			} else if ((event->state & GDK_CONTROL_MASK) && (!graphInfo->autoScaleY || !graphInfo->globalEnable)) {
 				// Zoom out y axis
 				float min, max;
 				findZoomedLimits (graphInfo->graph->dependant->axis_min, graphInfo->graph->dependant->axis_max, maxYPix-y+minYPix, minYPix, maxYPix, 1/graphInfo->yZoomFactor, &min, &max);				
 				gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_DEPENDANT, max, min);
 				dyGraphRedrawAll(graphInfo);
+			} else {
+				// Zoom out x and y axis
+				float min, max;
+				if (!graphInfo->autoScaleX || !graphInfo->globalEnable || graphInfo->autoPanX) {
+					findZoomedLimits (graphInfo->graph->independant->axis_min, graphInfo->graph->independant->axis_max, x, minXPix, maxXPix, 1/graphInfo->xZoomFactor, &min, &max);				
+					gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_INDEPENDANT, max, min);
+					dyGraphRedrawAll(graphInfo);
+				} 
+				if (!graphInfo->autoScaleY || !graphInfo->globalEnable) {
+					findZoomedLimits (graphInfo->graph->dependant->axis_min, graphInfo->graph->dependant->axis_max, maxYPix-y+minYPix, minYPix, maxYPix, 1/graphInfo->yZoomFactor, &min, &max);				
+					gtk_graph_axis_set_limits (graphInfo->graph, GTK_GRAPH_AXIS_DEPENDANT, max, min);
+					dyGraphRedrawAll(graphInfo);
+				}
 			}
 		}
 	}
