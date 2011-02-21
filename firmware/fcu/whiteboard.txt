@@ -28,4 +28,18 @@ z
 x
 y
 
-
+OFFSETS:
+roll 
+    -610
+pitch
+    304
+yaw
+    304
+x
+    11571
+y
+    11429
+z
+    8728
+pitch_tmp
+yaw_tmp

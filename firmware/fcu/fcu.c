@@ -28,7 +28,7 @@ volatile uint8_t request_imu_pkt_flag = 0;
 volatile uint8_t receive_imu_pkt_flag = 0;
 
 volatile uint8_t first_spi_interrupt_flag = 0;
-volatile uint8_t stream_data_flag = 0;
+volatile uint8_t stream_data_flag = 1;
 volatile uint8_t request_new_pkt_flag = 0;
 
 void init_mot_tx_pkt(volatile struct mot_tx_pkt_t * pkt)
@@ -145,8 +145,7 @@ void print_imu_pkts(volatile struct imu_tx_pkt_t * tx_pkt, volatile struct imu_r
     printf("imu_tx_pkt:\t\timu_rx_pkt:\n\r");
     printf("\tstart:   %#02x\t        start:     %#02x\n\r",     tx_pkt->start,      rx_pkt->start);
     printf("\t                        parity:    %#02x\n\r",     rx_pkt->parity);
-    //printf("\t                   real_parity:    %#02x\n\r",     parity_byte((char *)&imu_rx, sizeof(struct imu_rx_pkt_t) - 1));
-    printf("\t                   real_parity:    %#02x\n\r",     parity_byte((uint16_t *)&imu_rx + 1, sizeof(struct imu_rx_pkt_t) - 1));
+    printf("\t                   real_parity:    %#02x\n\r",     parity_byte((uint16_t *)&imu_rx + 1, sizeof(struct imu_rx_pkt_t)/ 2 - 1));
     printf("\t                        roll:      %6d\n\r",     rx_pkt->roll);
     printf("\t                        pitch:     %6d\n\r",     rx_pkt->pitch);
     printf("\t                        yaw:       %6d\n\r",     rx_pkt->yaw);
@@ -281,6 +280,12 @@ ISR(SPIE_INT_vect)
                     ptr[i] = ptr[i+1];
                     ptr[i+1] = tmp;
                 }
+                imu_rx.roll += ROLL_OFFSET;
+                imu_rx.pitch += PITCH_OFFSET;
+                imu_rx.yaw += YAW_OFFSET;
+                imu_rx.x_accel += X_OFFSET;
+                imu_rx.y_accel += Y_OFFSET;
+                imu_rx.z_accel += Z_OFFSET;
 
                 //uint16_t actual_parity = parity_byte(&imu_rx, sizeof(struct imu_rx_pkt_t) -1);
 
@@ -482,8 +487,8 @@ int main (void)
         {
             if(print_status_flag)
             {
-                request_imu_pkt();
                 print_status();
+                request_imu_pkt();
             }
             loop_count = 0;
         }
