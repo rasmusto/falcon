@@ -629,14 +629,6 @@ interrupt void SPITXINTA_ISR(void)     // SPI-A
 // INT6.3
 interrupt void SPIRXINTB_ISR(void)    // SPI-B
 {
-	//PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;
-	asm ("      ESTOP0");
-  	for(;;);
-}
-
-// INT6.4
-interrupt void SPITXINTB_ISR(void)     // SPI-B
-{
 	static Uint16 index = 0;
 
 	if(SpibRegs.SPIRXBUF == FCU_START){
@@ -649,6 +641,15 @@ interrupt void SPITXINTB_ISR(void)     // SPI-B
 			flags.bit.wait_for_master = 1;
 	}
 	PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;
+}
+
+// INT6.4
+interrupt void SPITXINTB_ISR(void)     // SPI-B
+{
+
+	//PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;
+	asm ("      ESTOP0");
+  	for(;;);
 }
 
 // INT6.5 - Reserved

@@ -16,14 +16,14 @@ enum PACKET_TYPE{ RAW_SENSOR_DATA, EULER_ANGLES, STATUS};
 #define FCU_START 0xFACE
 
 struct SENSOR_VALUES {
+	int roll;
 	int	pitch_temp;
 	int pitch;
 	int yaw;
 	int yaw_temp;
 	int z_accel;
-	int y_accel;
 	int x_accel;
-	int roll;
+	int y_accel;
 };
 union SENSOR_DATA {
 	int	sensor[8];

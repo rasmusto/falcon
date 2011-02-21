@@ -36,7 +36,7 @@ void make_fcu_packet(volatile struct FCU_PACKET * fcu_pkt)
 		default:
 			break;	
 	}
-	fcu_pkt->data[0] |= parity_byte(fcu_pkt->data + 1, fcu_pkt->length - 1); //dont calculate on fcu_pkt->data[0].
+	fcu_pkt->data[0] = (fcu_pkt->data[0] & 0xFF00) | parity_byte(fcu_pkt->data + 1, fcu_pkt->length - 1); //dont calculate on fcu_pkt->data[0].
 }
 
 void init_fcu_packet(volatile struct FCU_PACKET * fcu_pkt, enum PACKET_TYPE type)
@@ -55,6 +55,7 @@ void init_fcu_packet(volatile struct FCU_PACKET * fcu_pkt, enum PACKET_TYPE type
 		default:
 			break;	
 	}
+	fcu_pkt->data[0] = 0xAA00;
 	fcu_pkt->type = type;	
 	make_fcu_packet(fcu_pkt);
 	fcu_pkt->data[0] ^= 0x000F; //mess up parity_byte, so fcu knows data isn't valid yet.

@@ -13,7 +13,7 @@ void main(void)
 
 	//initialize variables to known state
 	for(i=0;i<8;i++){
-		sensors.sensor[i] = 0;
+		sensors.sensor[i] = i;
 	}
 	flags.all = 0x0000; //clear flags
 	flags.bit.want_new_adc_data = 1;
