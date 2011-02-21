@@ -29,6 +29,7 @@ volatile uint8_t receive_imu_pkt_flag = 0;
 
 volatile uint8_t first_spi_interrupt_flag = 0;
 volatile uint8_t stream_data_flag = 0;
+volatile uint8_t request_new_pkt_flag = 0;
 
 void init_mot_tx_pkt(volatile struct mot_tx_pkt_t * pkt)
 {
@@ -143,7 +144,9 @@ void print_imu_pkts(volatile struct imu_tx_pkt_t * tx_pkt, volatile struct imu_r
     printf("\n\r\n\r");
     printf("imu_tx_pkt:\t\timu_rx_pkt:\n\r");
     printf("\tstart:   %#02x\t        start:     %#02x\n\r",     tx_pkt->start,      rx_pkt->start);
-    printf("\t                        parity:    %6d\n\r",     rx_pkt->parity);
+    printf("\t                        parity:    %#02x\n\r",     rx_pkt->parity);
+    //printf("\t                   real_parity:    %#02x\n\r",     parity_byte((char *)&imu_rx, sizeof(struct imu_rx_pkt_t) - 1));
+    printf("\t                   real_parity:    %#02x\n\r",     parity_byte((uint16_t *)&imu_rx + 1, sizeof(struct imu_rx_pkt_t) - 1));
     printf("\t                        roll:      %6d\n\r",     rx_pkt->roll);
     printf("\t                        pitch:     %6d\n\r",     rx_pkt->pitch);
     printf("\t                        yaw:       %6d\n\r",     rx_pkt->yaw);
@@ -169,8 +172,8 @@ void print_status(void)
         FILE * tmp = stdout;
         stdout = &usb_out;
         printf("%c", 12);
-        print_pid_info(&pid);
-        print_mot_pkts(&mot_tx, &mot_rx);
+        //print_pid_info(&pid);
+        //print_mot_pkts(&mot_tx, &mot_rx);
         print_imu_pkts(&imu_tx, &imu_rx);
         print_bat();
         stdout = tmp;
@@ -279,6 +282,9 @@ ISR(SPIE_INT_vect)
                     ptr[i+1] = tmp;
                 }
 
+                //uint16_t actual_parity = parity_byte(&imu_rx, sizeof(struct imu_rx_pkt_t) -1);
+
+                //if(stream_data_flag && actual_parity == imu_rx.parity)
                 if(stream_data_flag)
                 {
                     FILE * tmp_ptr = stdout;
@@ -286,10 +292,16 @@ ISR(SPIE_INT_vect)
                     int j;
                     for(j = 0; j < sizeof(struct imu_rx_pkt_t); j++)
                     {
-                        printf("%c\n\r", ptr[j]);
+                        printf("%c", ptr[j]);
                     }
                     stdout = tmp_ptr;
                 }
+                /*
+                if(actual_parity != imu_rx.parity)
+                {
+                    request_new_pkt_flag = 1;
+                }
+                */
             }
             else
                 SPIE.DATA = 0;
@@ -337,7 +349,8 @@ ISR(USARTC1_TXC_vect)
 ISR(USARTC1_RXC_vect) 
 {
     unsigned char c = USARTC1.DATA;
-    //stdout = &usb_out;
+    FILE * tmp = stdout;
+    stdout = &usb_out;
     if(c == '\r')
     {
         usb_rx_buf[usb_rx_count] = '\0';
@@ -353,6 +366,7 @@ ISR(USARTC1_RXC_vect)
         usb_rx_buf[usb_rx_count] = c; 
         usb_rx_count++;
     }
+    stdout = tmp;
 }
 
 /***** rs232 *****/
@@ -468,11 +482,11 @@ int main (void)
         {
             if(print_status_flag)
             {
+                request_imu_pkt();
                 print_status();
             }
             loop_count = 0;
         }
-        request_imu_pkt();
         printf("\r");
         printf("fcu: %s", usb_rx_buf);
 

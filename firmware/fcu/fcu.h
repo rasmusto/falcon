@@ -16,6 +16,7 @@
 #include "adc.h"
 #include "adc_driver.h"
 #include "pid.h"
+#include "parity_byte.h"
 
 //#include "/usr/lib/avr/include/avr/iox128a3.h"
 
@@ -43,7 +44,7 @@
 #define IMU_TX_START_H 0xFA
 #define IMU_TX_START_L 0xCE
 
-#define IMU_RX_START 0b10101010
+#define IMU_RX_START 0bAA
 //AA
 
 /* Global Variables */
