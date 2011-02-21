@@ -488,13 +488,13 @@ int main (void)
             if(print_status_flag)
             {
                 print_status();
-                request_imu_pkt();
             }
             loop_count = 0;
         }
         printf("\r");
         printf("fcu: %s", usb_rx_buf);
 
+        request_imu_pkt();
         _delay_ms(1);
         loop_count++;
     }
