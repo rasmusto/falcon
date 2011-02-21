@@ -8,6 +8,7 @@
 #include <sys/types.h>
 
 #include "uart.h"
+#include "node_com_defs.h"
 
 #define TRUE 1
 #define FALSE 0
@@ -28,7 +29,8 @@ int initUART(char *devicePath){
     int fd = open(devicePath, O_RDWR | O_NOCTTY );
 
 	if (fd < 0) { 
-		printf("Could not open serial port [%s]\n", devicePath);
+		printf("IMU: could not open serial port\n");
+		printf("IMU: devicePath = %s\n", devicePath);
 		exit(-1); 
 	}
 
