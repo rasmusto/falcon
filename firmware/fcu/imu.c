@@ -24,8 +24,8 @@ void init_imu_rx_pkt(volatile struct imu_rx_pkt_t * pkt)
 void request_imu_pkt()
 { 
     int i;
-    spi_write((char)IMU_START>>8, SS1); 
-    spi_write((char)IMU_START>>0, SS1); 
+    //spi_write((char)IMU_START>>8, SS1); 
+    //spi_write((char)IMU_START>>0, SS1); 
     _delay_us(10);
     cli();
     while(spi_read(SS1) != IMU_START)

@@ -38,7 +38,7 @@
 #define LED_4_GREEN_ON()    PORTF.OUTSET=PIN7_bm;
 #define LED_4_GREEN_OFF()   PORTF.OUTCLR=PIN7_bm;
 
-#define MOT_START 0b01011111
+#define MCU_START 0xB5
 
 #define IMU_TX_START 0xFACE
 #define IMU_TX_START_H 0xFA
@@ -62,7 +62,7 @@ static FILE rs232_out   = FDEV_SETUP_STREAM (putchar_rs232, NULL, _FDEV_SETUP_WR
 static FILE sonar_out   = FDEV_SETUP_STREAM (putchar_sonar, NULL, _FDEV_SETUP_WRITE);
 
 /* Data Structures */
-struct mot_tx_pkt_t
+struct mcu_tx_pkt_t
 {
     volatile uint8_t start;
     volatile uint16_t tgt_1;
@@ -72,14 +72,14 @@ struct mot_tx_pkt_t
     volatile uint8_t crc;
 };
 
-struct mot_rx_pkt_t
+struct mcu_rx_pkt_t
 {
-    volatile uint8_t start;
+    //volatile uint8_t start;
     volatile uint16_t spd_1;
     volatile uint16_t spd_2;
     volatile uint16_t spd_3;
     volatile uint16_t spd_4;
-    volatile uint8_t crc;
+    //volatile uint8_t crc;
 };
 
 struct imu_tx_pkt_t
@@ -102,13 +102,14 @@ struct imu_rx_pkt_t
 };
 
 /* Function Prototypes */
-void init_mot_tx_pkt(volatile struct mot_tx_pkt_t * pkt);
-void init_mot_rx_pkt(volatile struct mot_rx_pkt_t * pkt);
-void print_mot_pkts(volatile struct mot_tx_pkt_t * tx_pkt, volatile struct mot_rx_pkt_t * rx_pkt);
+void init_mcu_tx_pkt(volatile struct mcu_tx_pkt_t * pkt);
+void init_mcu_rx_pkt(volatile struct mcu_rx_pkt_t * pkt);
+void print_mcu_pkts(volatile struct mcu_tx_pkt_t * tx_pkt, volatile struct mcu_rx_pkt_t * rx_pkt);
 
 void init_imu_tx_pkt(volatile struct imu_tx_pkt_t * pkt);
 void init_imu_rx_pkt(volatile struct imu_rx_pkt_t * pkt);
 void request_imu_pkt();
+void send_mcu_pkt();
 void print_imu_pkts(volatile struct imu_tx_pkt_t * tx_pkt, volatile struct imu_rx_pkt_t * rx_pkt);
 
 void process_rx_buf(volatile char * rx_buf);
