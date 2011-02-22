@@ -338,6 +338,7 @@ void spiInit () {
 	//~ SPIC.CTRL = SPI_ENABLE_bm | SPI_MODE_2_gc;
 	SPIC.INTCTRL = SPI_INTLVL_HI_gc;
 	PORTC.DIRSET = SPI_MISO_bm;
+    PORTC.DIRCLR = 0b10111111;
 }
 
 ISR(SPIC_INT_vect) {
