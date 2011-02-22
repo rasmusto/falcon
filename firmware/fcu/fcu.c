@@ -28,7 +28,7 @@ volatile uint8_t request_imu_pkt_flag = 0;
 volatile uint8_t receive_imu_pkt_flag = 0;
 
 volatile uint8_t first_spi_interrupt_flag = 0;
-volatile uint8_t stream_data_flag = 1;
+volatile uint8_t stream_data_flag = 0;
 volatile uint8_t request_new_pkt_flag = 0;
 
 void init_mot_tx_pkt(volatile struct mot_tx_pkt_t * pkt)
