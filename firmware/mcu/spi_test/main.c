@@ -14,6 +14,7 @@
 #include "awex_driver.h"
 #include "adc_driver.h"
 #include "usart_driver.h"
+#include "spi_driver.h"
 
 #define SET_phaseOutputsEHigh(value) phaseOutputsEHigh = (value)
 #define SET_phaseOutputsELow(value) phaseOutputsELow = (value)
@@ -118,6 +119,7 @@ void configPWM (volatile TC0_t * tc, HIRES_t * hires, uint16_t period); // confi
 void configDelayTimer (volatile TC0_t * tc); // configure timer used to generate delays
 void configHalfPWMTimer (volatile TC0_t * tc, HIRES_t * hires, uint16_t period);
 void initAdc (ADC_t * adc); // use to initialize adcs
+void spiInit (SPI_t *module, PORT_t *port, bool lsbFirst, SPI_MODE_t mode, SPI_INTLVL_t intLevel);
 
 void setMotor1State (uint8_t state); // motors to their a commutation state based on an integ 
 void setMotor2State (uint8_t state); // -- used instead of macros to allow numerical indexing of states
@@ -151,6 +153,8 @@ volatile uint8_t autoCommutationFlag = 0;
 
 volatile uint8_t missedCommFlag = 0;
 
+volatile uint8_t spiBuffer[8];
+
 // these variables keep track of which pins should be driven during the high and low parts of the pwm cycle
 
 	#define phaseOutputsEHigh GPIO0 // keep track of which pins should be driven high during high part of pwm
@@ -170,6 +174,11 @@ volatile uint8_t missedCommFlag = 0;
 
 #define risingCount GPIOB
 #define fallingCount GPIOC
+
+#define getSpiPktFlag GPIOD
+#define spiIndex GPIOE
+
+#define writeBackFlag GPIOF
 
 // here is the pinout of the motor phases and sense lines for reference
 
@@ -253,13 +262,16 @@ int main (void) {
 	//~ initUarts ();
 	//~ stdout = &debug;
 	
-	PORTC.DIR = 0b01000001;
+	//~ PORTC.DIR = 0b01000001;
 	
-	PORTE.DIR = 0b11000000;
-	PORTF.DIR = 0b00001111;
+	//~ PORTE.DIR = 0b11000000;
+	//~ PORTF.DIR = 0b00001111;
 	
 	//~ initUart();
 	//~ stdout = &debug;
+	
+	spiInit (&SPIC, &PORTC, false, 2, SPI_INTLVL_HI_gc);
+	PMIC.CTRL |= PMIC_HILVLEN_bm;
 	
 	TCF0.CCABUF = STARTUP_PWM;
 	TCF0.CCBBUF = STARTUP_PWM;
@@ -328,6 +340,58 @@ void configClock (void) {
 	
 	// output clock on port d pin 7
 	//~ PORTCFG.CLKEVOUT = PORTCFG_CLKOUT_PD7_gc; 
+}	              
+
+void spiInit (SPI_t *module, PORT_t *port, bool lsbFirst, SPI_MODE_t mode, SPI_INTLVL_t intLevel) {
+	module->CTRL = SPI_ENABLE_bm |                /* Enable SPI module. */
+	                    (lsbFirst ? SPI_DORD_bm : 0) | /* Data order. */
+	                    mode;                          /* SPI mode. */
+
+	/* Interrupt level. */
+	module->INTCTRL = intLevel;
+
+	/* MISO as output. */
+	port->DIRSET = SPI_MISO_bm;
+}
+
+ISR(SPIC_INT_vect) {
+	uint8_t data = SPIC.DATA;
+	if (writeBackFlag) {
+		if (spiIndex == 0)
+			SPIC.DATA = ((uint8_t*)(&(TCF0.CCABUF)))[0];
+		if (spiIndex == 1)
+			SPIC.DATA = ((uint8_t*)(&(TCF0.CCABUF)))[1];
+		if (spiIndex == 2)
+			SPIC.DATA = ((uint8_t*)(&(TCF0.CCBBUF)))[0];
+		if (spiIndex == 3)
+			SPIC.DATA = ((uint8_t*)(&(TCF0.CCBBUF)))[1];
+		if (spiIndex == 4)
+			SPIC.DATA = ((uint8_t*)(&(TCF0.CCCBUF)))[0];
+		if (spiIndex == 5)
+			SPIC.DATA = ((uint8_t*)(&(TCF0.CCCBUF)))[1];
+		if (spiIndex == 6)
+			SPIC.DATA = ((uint8_t*)(&(TCF0.CCDBUF)))[0];
+		if (spiIndex == 7) {
+			SPIC.DATA = ((uint8_t*)(&(TCF0.CCDBUF)))[1];
+			writeBackFlag = 0;
+		}
+	} else {
+		if (data == 0xB5) {
+			getSpiPktFlag = 1;
+			spiIndex = 0;
+		} else if (getSpiPktFlag) {
+			spiBuffer[spiIndex] = data;
+			spiIndex++;
+			if (spiIndex == 8) {
+				getSpiPktFlag = 0;
+				TCF0.CCABUF = ((uint16_t *)spiBuffer)[0];
+				TCF0.CCBBUF = ((uint16_t *)spiBuffer)[1];
+				TCF0.CCCBUF = ((uint16_t *)spiBuffer)[2];
+				TCF0.CCDBUF = ((uint16_t *)spiBuffer)[3];
+				writeBackFlag = 1;
+			}
+		}
+	}
 }
 
 // *************** PWM **********************
@@ -548,7 +612,7 @@ ISR (ADCA_CH1_vect) {
 					TCD1.PER = TCD1.CNT*2;
 					missedCommFlag = 0;
 					passedCenterFlag = 1;
-					PORTC.OUTSET = 0xFF;
+					//~ PORTC.OUTSET = 0xFF;
 				}
 			} else {
 				risingCount++;
@@ -564,7 +628,7 @@ ISR (ADCA_CH1_vect) {
 					TCD1.PER = TCD1.CNT*2;
 					missedCommFlag = 0;
 					passedCenterFlag = 1;
-					PORTC.OUTCLR = 0xFF;
+					//~ PORTC.OUTCLR = 0xFF;
 				}
 			} else {
 				fallingCount++;
@@ -631,7 +695,7 @@ void startup(void) {
 	
 	firstSampleFlag = 1;
 	
-	PORTC.OUTSET = 0xFF;
+	//~ PORTC.OUTSET = 0xFF;
 	
 	//~ while (TCC0.CNT < startupDelays[5]) {}
 	//~ while (1);
@@ -680,8 +744,8 @@ static int putcharDebug (char c, FILE *stream) {
 
 static void initUart (void) {
     // Set the TxD pin high - set PORTD DIR register bit 3 to 1
-    PORTC.DIRSET = PIN7_bm;
-    PORTC.DIRCLR = PIN6_bm;
+    //~ PORTC.DIRSET = PIN7_bm;
+    //~ PORTC.DIRCLR = PIN6_bm;
 
     // BSEL = 51 so at 32mhz clock, baud rate should be 38400
 

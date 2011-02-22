@@ -5,6 +5,11 @@ Archive member included because of file (symbol)
 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_clear_bss.o)
                               main.o (__do_clear_bss)
 
+Allocating common symbols
+Common symbol       size              file
+
+spiBuffer           0x8               main.o
+
 Memory Configuration
 
 Name             Origin             Length             Attributes
@@ -121,7 +126,7 @@ LOAD /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0x1358
+.text           0x00000000     0x14c8
  *(.vectors)
  .vectors       0x00000000      0x1e8 /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/crtx128a3.o
                 0x00000000                __vectors
@@ -192,7 +197,6 @@ LOAD /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a
                 0x0000022a                __vector_62
                 0x0000022a                __vector_77
                 0x0000022a                __vector_102
-                0x0000022a                __vector_24
                 0x0000022a                __vector_12
                 0x0000022a                __vector_69
                 0x0000022a                __vector_81
@@ -284,106 +288,108 @@ LOAD /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a
                 0x0000022a                __vector_87
                 0x0000022a                __vector_65
                 0x0000022a                __vector_120
- .text          0x0000022e      0xa30 main.o
-                0x0000022e                __vector_110
-                0x00000266                __vector_111
-                0x000002ae                __vector_112
-                0x000002f6                __vector_113
-                0x0000032e                __vector_108
-                0x0000037a                __vector_49
-                0x0000038e                __vector_50
-                0x000003d6                __vector_51
-                0x000003ea                __vector_52
-                0x000003fe                __vector_47
-                0x00000412                configMotTimer0
-                0x00000414                configMotTimer1
-                0x00000416                __vector_22
-                0x0000042a                __vector_55
-                0x0000043e                __vector_79
-                0x00000452                __vector_72
-                0x00000524                startup
-                0x000007e0                setMotor1State
-                0x000007e2                setMotor2State
-                0x0000094e                __vector_83
-                0x000009d6                setMotor3State
-                0x000009d8                setMotor4State
-                0x000009da                configDelayTimer
-                0x00000a00                initAdc
-                0x00000a80                configHalfPWMTimer
-                0x00000aec                configPWM
-                0x00000b58                configClock
-                0x00000b98                main
- .text          0x00000c5e      0x184 clksys_driver.o
-                0x00000c5e                CCPWrite
-                0x00000c88                CLKSYS_XOSC_Config
-                0x00000ca8                CLKSYS_PLL_Config
-                0x00000cb4                CLKSYS_Disable
-                0x00000cc8                CLKSYS_Prescalers_Config
-                0x00000cf8                CLKSYS_Main_ClockSource_Select
-                0x00000d32                CLKSYS_RTC_ClockSource_Enable
-                0x00000d42                CLKSYS_AutoCalibration_Enable
-                0x00000d82                CLKSYS_XOSC_FailureDetection_Enable
-                0x00000db2                CLKSYS_Configuration_Lock
- .text          0x00000de2      0x114 TC_driver.o
-                0x00000de2                TC0_ConfigClockSource
-                0x00000dee                TC1_ConfigClockSource
-                0x00000dfa                TC0_ConfigWGM
-                0x00000e06                TC1_ConfigWGM
-                0x00000e12                TC0_ConfigInputCapture
-                0x00000e20                TC1_ConfigInputCapture
-                0x00000e2e                TC0_EnableCCChannels
-                0x00000e3a                TC1_EnableCCChannels
-                0x00000e46                TC0_DisableCCChannels
-                0x00000e54                TC1_DisableCCChannels
-                0x00000e62                TC0_SetOverflowIntLevel
-                0x00000e6e                TC1_SetOverflowIntLevel
-                0x00000e7a                TC0_SetErrorIntLevel
-                0x00000e86                TC1_SetErrorIntLevel
-                0x00000e92                TC0_SetCCAIntLevel
-                0x00000e9e                TC1_SetCCAIntLevel
-                0x00000eaa                TC0_SetCCBIntLevel
-                0x00000eb6                TC1_SetCCBIntLevel
-                0x00000ec2                TC0_SetCCCIntLevel
-                0x00000ece                TC0_SetCCDIntLevel
-                0x00000eda                TC0_Reset
-                0x00000ee8                TC1_Reset
- .text          0x00000ef6       0x28 awex_driver.o
-                0x00000ef6                AWEX_EnableDeadTimeInsertion
-                0x00000f02                AWEX_DisableDeadTimeInsertion
-                0x00000f10                AWEX_ConfigureFaultDetection
- .text          0x00000f1e      0x194 adc_driver.o
-                0x00000f1e                ADC_CalibrationValues_Load
-                0x00000f7c                ADC_ResultCh_GetWord_Unsigned
-                0x00000f8e                ADC_ResultCh_GetWord_Signed
-                0x00000fa6                ADC_ResultCh_GetWord
-                0x00000fb4                ADC_ResultCh_GetLowByte
-                0x00000fbe                ADC_ResultCh_GetHighByte
-                0x00000fc8                ADC_Wait_8MHz
-                0x00000fd8                ADC_Wait_32MHz
-                0x00000fea                ADC_Offset_Get_Unsigned
-                0x0000103c                ADC_Offset_Get_Signed
-                0x0000109e                SP_ReadCalibrationByte
- .text          0x000010b2        0x6 hires_driver.o
-                0x000010b2                HIRES_Enable
- .text          0x000010b8      0x29c spi_driver.o
-                0x000010b8                SPI_MasterInit
-                0x0000111e                SPI_SlaveInit
-                0x0000115c                SPI_MasterCreateDataPacket
-                0x00001180                SPI_MasterInterruptHandler
-                0x00001204                SPI_MasterInterruptTransceivePacket
-                0x00001290                SPI_MasterTransceiveByte
-                0x000012aa                SPI_MasterTransceivePacket
- .text          0x00001354        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_exit.o)
- .text          0x00001354        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_clear_bss.o)
-                0x00001354                . = ALIGN (0x2)
+ .text          0x0000022e      0xba0 main.o
+                0x0000022e                spiInit
+                0x0000025c                __vector_24
+                0x000003c2                __vector_110
+                0x000003fa                __vector_111
+                0x00000442                __vector_112
+                0x0000048a                __vector_113
+                0x000004c2                __vector_108
+                0x0000050e                __vector_49
+                0x00000522                __vector_50
+                0x0000056a                __vector_51
+                0x0000057e                __vector_52
+                0x00000592                __vector_47
+                0x000005a6                configMotTimer0
+                0x000005a8                configMotTimer1
+                0x000005aa                __vector_22
+                0x000005be                __vector_55
+                0x000005d2                __vector_79
+                0x000005e6                __vector_72
+                0x0000068c                startup
+                0x00000940                setMotor1State
+                0x00000942                setMotor2State
+                0x00000aae                __vector_83
+                0x00000b36                setMotor3State
+                0x00000b38                setMotor4State
+                0x00000b3a                configDelayTimer
+                0x00000b60                initAdc
+                0x00000be0                configHalfPWMTimer
+                0x00000c4c                configPWM
+                0x00000cb8                configClock
+                0x00000cf8                main
+ .text          0x00000dce      0x184 clksys_driver.o
+                0x00000dce                CCPWrite
+                0x00000df8                CLKSYS_XOSC_Config
+                0x00000e18                CLKSYS_PLL_Config
+                0x00000e24                CLKSYS_Disable
+                0x00000e38                CLKSYS_Prescalers_Config
+                0x00000e68                CLKSYS_Main_ClockSource_Select
+                0x00000ea2                CLKSYS_RTC_ClockSource_Enable
+                0x00000eb2                CLKSYS_AutoCalibration_Enable
+                0x00000ef2                CLKSYS_XOSC_FailureDetection_Enable
+                0x00000f22                CLKSYS_Configuration_Lock
+ .text          0x00000f52      0x114 TC_driver.o
+                0x00000f52                TC0_ConfigClockSource
+                0x00000f5e                TC1_ConfigClockSource
+                0x00000f6a                TC0_ConfigWGM
+                0x00000f76                TC1_ConfigWGM
+                0x00000f82                TC0_ConfigInputCapture
+                0x00000f90                TC1_ConfigInputCapture
+                0x00000f9e                TC0_EnableCCChannels
+                0x00000faa                TC1_EnableCCChannels
+                0x00000fb6                TC0_DisableCCChannels
+                0x00000fc4                TC1_DisableCCChannels
+                0x00000fd2                TC0_SetOverflowIntLevel
+                0x00000fde                TC1_SetOverflowIntLevel
+                0x00000fea                TC0_SetErrorIntLevel
+                0x00000ff6                TC1_SetErrorIntLevel
+                0x00001002                TC0_SetCCAIntLevel
+                0x0000100e                TC1_SetCCAIntLevel
+                0x0000101a                TC0_SetCCBIntLevel
+                0x00001026                TC1_SetCCBIntLevel
+                0x00001032                TC0_SetCCCIntLevel
+                0x0000103e                TC0_SetCCDIntLevel
+                0x0000104a                TC0_Reset
+                0x00001058                TC1_Reset
+ .text          0x00001066       0x28 awex_driver.o
+                0x00001066                AWEX_EnableDeadTimeInsertion
+                0x00001072                AWEX_DisableDeadTimeInsertion
+                0x00001080                AWEX_ConfigureFaultDetection
+ .text          0x0000108e      0x194 adc_driver.o
+                0x0000108e                ADC_CalibrationValues_Load
+                0x000010ec                ADC_ResultCh_GetWord_Unsigned
+                0x000010fe                ADC_ResultCh_GetWord_Signed
+                0x00001116                ADC_ResultCh_GetWord
+                0x00001124                ADC_ResultCh_GetLowByte
+                0x0000112e                ADC_ResultCh_GetHighByte
+                0x00001138                ADC_Wait_8MHz
+                0x00001148                ADC_Wait_32MHz
+                0x0000115a                ADC_Offset_Get_Unsigned
+                0x000011ac                ADC_Offset_Get_Signed
+                0x0000120e                SP_ReadCalibrationByte
+ .text          0x00001222        0x6 hires_driver.o
+                0x00001222                HIRES_Enable
+ .text          0x00001228      0x29c spi_driver.o
+                0x00001228                SPI_MasterInit
+                0x0000128e                SPI_SlaveInit
+                0x000012cc                SPI_MasterCreateDataPacket
+                0x000012f0                SPI_MasterInterruptHandler
+                0x00001374                SPI_MasterInterruptTransceivePacket
+                0x00001400                SPI_MasterTransceiveByte
+                0x0000141a                SPI_MasterTransceivePacket
+ .text          0x000014c4        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_exit.o)
+ .text          0x000014c4        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_clear_bss.o)
+                0x000014c4                . = ALIGN (0x2)
  *(.text.*)
- .text.libgcc   0x00001354        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_exit.o)
- .text.libgcc   0x00001354        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_clear_bss.o)
-                0x00001354                . = ALIGN (0x2)
+ .text.libgcc   0x000014c4        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_exit.o)
+ .text.libgcc   0x000014c4        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_clear_bss.o)
+                0x000014c4                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00001354        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_exit.o)
-                0x00001354                exit
-                0x00001354                _exit
+ .fini9         0x000014c4        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_exit.o)
+                0x000014c4                exit
+                0x000014c4                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -402,11 +408,11 @@ LOAD /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00001354        0x4 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_exit.o)
+ .fini0         0x000014c4        0x4 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_exit.o)
  *(.fini0)
-                0x00001358                _etext = .
+                0x000014c8                _etext = .
 
-.data           0x00802000       0x20 load address 0x00001358
+.data           0x00802000       0x20 load address 0x000014c8
                 0x00802000                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00802000        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/crtx128a3.o
@@ -433,7 +439,7 @@ LOAD /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a
                 0x00802020                _edata = .
                 0x00802020                PROVIDE (__data_end, .)
 
-.bss            0x00802020        0x9
+.bss            0x00802020       0x11
                 0x00802020                PROVIDE (__bss_start, .)
  *(.bss)
  .bss           0x00802020        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/../../../../avr/lib/avrxmega6/crtx128a3.o
@@ -457,16 +463,18 @@ LOAD /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a
  .bss           0x00802029        0x0 /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a(_clear_bss.o)
  *(.bss*)
  *(COMMON)
-                0x00802029                PROVIDE (__bss_end, .)
-                0x00001358                __data_load_start = LOADADDR (.data)
-                0x00001378                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x00802029        0x8 main.o
+                0x00802029                spiBuffer
+                0x00802031                PROVIDE (__bss_end, .)
+                0x000014c8                __data_load_start = LOADADDR (.data)
+                0x000014e8                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00802029        0x0
-                0x00802029                PROVIDE (__noinit_start, .)
+.noinit         0x00802031        0x0
+                0x00802031                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x00802029                PROVIDE (__noinit_end, .)
-                0x00802029                _end = .
-                0x00802029                PROVIDE (__heap_start, .)
+                0x00802031                PROVIDE (__noinit_end, .)
+                0x00802031                _end = .
+                0x00802031                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -537,89 +545,89 @@ LOAD /usr/local/avr/lib/gcc/avr/4.3.4/avrxmega6/libgcc.a
                 0x000000c0       0x20 spi_driver.o
 
 .debug_pubnames
-                0x00000000      0x8cc
+                0x00000000      0x8f6
  *(.debug_pubnames)
  .debug_pubnames
-                0x00000000      0x2e0 main.o
+                0x00000000      0x30a main.o
  .debug_pubnames
-                0x000002e0      0x129 clksys_driver.o
+                0x0000030a      0x129 clksys_driver.o
  .debug_pubnames
-                0x00000409      0x216 TC_driver.o
+                0x00000433      0x216 TC_driver.o
  .debug_pubnames
-                0x0000061f       0x76 awex_driver.o
+                0x00000649       0x76 awex_driver.o
  .debug_pubnames
-                0x00000695      0x13b adc_driver.o
+                0x000006bf      0x13b adc_driver.o
  .debug_pubnames
-                0x000007d0       0x23 hires_driver.o
+                0x000007fa       0x23 hires_driver.o
  .debug_pubnames
-                0x000007f3       0xd9 spi_driver.o
+                0x0000081d       0xd9 spi_driver.o
 
-.debug_info     0x00000000     0x48c0
+.debug_info     0x00000000     0x4aa4
  *(.debug_info)
- .debug_info    0x00000000     0x1a16 main.o
- .debug_info    0x00001a16      0x64a clksys_driver.o
- .debug_info    0x00002060     0x1248 TC_driver.o
- .debug_info    0x000032a8      0x22b awex_driver.o
- .debug_info    0x000034d3      0xba8 adc_driver.o
- .debug_info    0x0000407b      0x102 hires_driver.o
- .debug_info    0x0000417d      0x743 spi_driver.o
+ .debug_info    0x00000000     0x1bfa main.o
+ .debug_info    0x00001bfa      0x64a clksys_driver.o
+ .debug_info    0x00002244     0x1248 TC_driver.o
+ .debug_info    0x0000348c      0x22b awex_driver.o
+ .debug_info    0x000036b7      0xba8 adc_driver.o
+ .debug_info    0x0000425f      0x102 hires_driver.o
+ .debug_info    0x00004361      0x743 spi_driver.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev   0x00000000      0xb4d
+.debug_abbrev   0x00000000      0xba6
  *(.debug_abbrev)
- .debug_abbrev  0x00000000      0x1f9 main.o
- .debug_abbrev  0x000001f9      0x1e4 clksys_driver.o
- .debug_abbrev  0x000003dd      0x165 TC_driver.o
- .debug_abbrev  0x00000542       0xdd awex_driver.o
- .debug_abbrev  0x0000061f      0x2d5 adc_driver.o
- .debug_abbrev  0x000008f4       0xac hires_driver.o
- .debug_abbrev  0x000009a0      0x1ad spi_driver.o
+ .debug_abbrev  0x00000000      0x252 main.o
+ .debug_abbrev  0x00000252      0x1e4 clksys_driver.o
+ .debug_abbrev  0x00000436      0x165 TC_driver.o
+ .debug_abbrev  0x0000059b       0xdd awex_driver.o
+ .debug_abbrev  0x00000678      0x2d5 adc_driver.o
+ .debug_abbrev  0x0000094d       0xac hires_driver.o
+ .debug_abbrev  0x000009f9      0x1ad spi_driver.o
 
-.debug_line     0x00000000     0x17b4
+.debug_line     0x00000000     0x191e
  *(.debug_line)
- .debug_line    0x00000000      0x81a main.o
- .debug_line    0x0000081a      0x2a1 clksys_driver.o
- .debug_line    0x00000abb      0x301 TC_driver.o
- .debug_line    0x00000dbc      0x133 awex_driver.o
- .debug_line    0x00000eef      0x430 adc_driver.o
- .debug_line    0x0000131f       0xb3 hires_driver.o
- .debug_line    0x000013d2      0x3e2 spi_driver.o
+ .debug_line    0x00000000      0x984 main.o
+ .debug_line    0x00000984      0x2a1 clksys_driver.o
+ .debug_line    0x00000c25      0x301 TC_driver.o
+ .debug_line    0x00000f26      0x133 awex_driver.o
+ .debug_line    0x00001059      0x430 adc_driver.o
+ .debug_line    0x00001489       0xb3 hires_driver.o
+ .debug_line    0x0000153c      0x3e2 spi_driver.o
 
-.debug_frame    0x00000000      0x590
+.debug_frame    0x00000000      0x5b0
  *(.debug_frame)
- .debug_frame   0x00000000      0x1d0 main.o
- .debug_frame   0x000001d0       0xb0 clksys_driver.o
- .debug_frame   0x00000280      0x170 TC_driver.o
- .debug_frame   0x000003f0       0x40 awex_driver.o
- .debug_frame   0x00000430       0xc0 adc_driver.o
- .debug_frame   0x000004f0       0x20 hires_driver.o
- .debug_frame   0x00000510       0x80 spi_driver.o
+ .debug_frame   0x00000000      0x1f0 main.o
+ .debug_frame   0x000001f0       0xb0 clksys_driver.o
+ .debug_frame   0x000002a0      0x170 TC_driver.o
+ .debug_frame   0x00000410       0x40 awex_driver.o
+ .debug_frame   0x00000450       0xc0 adc_driver.o
+ .debug_frame   0x00000510       0x20 hires_driver.o
+ .debug_frame   0x00000530       0x80 spi_driver.o
 
-.debug_str      0x00000000     0x223b
+.debug_str      0x00000000     0x2292
  *(.debug_str)
- .debug_str     0x00000000      0xfac main.o
-                               0x1007 (size before relaxing)
- .debug_str     0x00000fac      0x44e clksys_driver.o
+ .debug_str     0x00000000     0x10be main.o
+                               0x111e (size before relaxing)
+ .debug_str     0x000010be      0x487 clksys_driver.o
                                 0x6bd (size before relaxing)
- .debug_str     0x000013fa      0x562 TC_driver.o
+ .debug_str     0x00001545      0x559 TC_driver.o
                                 0xb94 (size before relaxing)
- .debug_str     0x0000195c      0x134 awex_driver.o
+ .debug_str     0x00001a9e      0x134 awex_driver.o
                                 0x22d (size before relaxing)
- .debug_str     0x00001a90      0x485 adc_driver.o
+ .debug_str     0x00001bd2      0x485 adc_driver.o
                                 0x7ed (size before relaxing)
- .debug_str     0x00001f15       0x2e hires_driver.o
+ .debug_str     0x00002057       0x2e hires_driver.o
                                 0x15a (size before relaxing)
- .debug_str     0x00001f43      0x2f8 spi_driver.o
+ .debug_str     0x00002085      0x20d spi_driver.o
                                 0x4a4 (size before relaxing)
 
-.debug_loc      0x00000000      0xcb6
+.debug_loc      0x00000000      0xd58
  *(.debug_loc)
- .debug_loc     0x00000000      0x188 main.o
- .debug_loc     0x00000188       0x85 clksys_driver.o
- .debug_loc     0x0000020d      0x370 TC_driver.o
- .debug_loc     0x0000057d       0x78 awex_driver.o
- .debug_loc     0x000005f5      0x32b adc_driver.o
- .debug_loc     0x00000920      0x396 spi_driver.o
+ .debug_loc     0x00000000      0x22a main.o
+ .debug_loc     0x0000022a       0x85 clksys_driver.o
+ .debug_loc     0x000002af      0x370 TC_driver.o
+ .debug_loc     0x0000061f       0x78 awex_driver.o
+ .debug_loc     0x00000697      0x32b adc_driver.o
+ .debug_loc     0x000009c2      0x396 spi_driver.o
 
 .debug_macinfo
  *(.debug_macinfo)
