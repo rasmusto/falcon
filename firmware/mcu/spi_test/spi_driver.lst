@@ -1,4 +1,4 @@
-GAS LISTING /tmp/ccTR6krr.s 			page 1
+GAS LISTING /tmp/ccIjfqzd.s 			page 1
 
 
    1               		.file	"spi_driver.c"
@@ -58,7 +58,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
   55               	.L8:
   56 002a 80E0      		ldi r24,lo8(0)
   57               	.L5:
-GAS LISTING /tmp/ccTR6krr.s 			page 2
+GAS LISTING /tmp/ccIjfqzd.s 			page 2
 
 
   58 002c 0065      		ori r16,lo8(80)
@@ -118,7 +118,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  112               	.LVL16:
  113 0068 0F93      		push r16
  114               	.LVL17:
-GAS LISTING /tmp/ccTR6krr.s 			page 3
+GAS LISTING /tmp/ccIjfqzd.s 			page 3
 
 
  115               	/* prologue: function */
@@ -178,7 +178,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  169               	.LVL24:
  170 00a4 EF92      		push r14
  171               	.LVL25:
-GAS LISTING /tmp/ccTR6krr.s 			page 4
+GAS LISTING /tmp/ccIjfqzd.s 			page 4
 
 
  172 00a6 0F93      		push r16
@@ -238,7 +238,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  226 00d8 E881      		ld r30,Y
  227 00da F981      		ldd r31,Y+1
  228 00dc 8081      		ld r24,Z
-GAS LISTING /tmp/ccTR6krr.s 			page 5
+GAS LISTING /tmp/ccIjfqzd.s 			page 5
 
 
  229               	.LVL33:
@@ -298,7 +298,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  283 0120 F481      		ldd r31,Z+4
  284 0122 E02D      		mov r30,__tmp_reg__
  285 0124 E90F      		add r30,r25
-GAS LISTING /tmp/ccTR6krr.s 			page 6
+GAS LISTING /tmp/ccIjfqzd.s 			page 6
 
 
  286 0126 F11D      		adc r31,__zero_reg__
@@ -358,7 +358,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  340 0162 3097      		sbiw r30,0
  341 0164 01F0      		breq .L28
  342               	.LVL46:
-GAS LISTING /tmp/ccTR6krr.s 			page 7
+GAS LISTING /tmp/ccIjfqzd.s 			page 7
 
 
  343               	.LM50:
@@ -418,7 +418,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  397 01b4 8383      		std Z+3,r24
  398 01b6 80E0      		ldi r24,lo8(0)
  399               	.LVL50:
-GAS LISTING /tmp/ccTR6krr.s 			page 8
+GAS LISTING /tmp/ccIjfqzd.s 			page 8
 
 
  400               	.LM61:
@@ -478,7 +478,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  454               	.LVL58:
  455 01ea 87FF      		sbrs r24,7
  456 01ec 00C0      		rjmp .L32
-GAS LISTING /tmp/ccTR6krr.s 			page 9
+GAS LISTING /tmp/ccIjfqzd.s 			page 9
 
 
  457               	.LM70:
@@ -538,7 +538,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  511               	.LBB3:
  512               	.LM80:
  513 0220 1596      		adiw r26,5
-GAS LISTING /tmp/ccTR6krr.s 			page 10
+GAS LISTING /tmp/ccIjfqzd.s 			page 10
 
 
  514 0222 ED91      		ld r30,X+
@@ -598,7 +598,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  568 0270 D181      		ldd r29,Z+1
  569 0272 2097      		sbiw r28,0
  570 0274 01F0      		breq .L43
-GAS LISTING /tmp/ccTR6krr.s 			page 11
+GAS LISTING /tmp/ccIjfqzd.s 			page 11
 
 
  571               	.LM87:
@@ -658,7 +658,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  625               		.p2align	2
  626               	.LEFDE0:
  627               	.LSFDE2:
-GAS LISTING /tmp/ccTR6krr.s 			page 12
+GAS LISTING /tmp/ccIjfqzd.s 			page 12
 
 
  628 0020 0C00 0000 		.long	.LEFDE2-.LASFDE2
@@ -718,7 +718,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  682 0008 0600      		.word	0x6
  683 000a 68        		.byte	0x68
  684 000b 93        		.byte	0x93
-GAS LISTING /tmp/ccTR6krr.s 			page 13
+GAS LISTING /tmp/ccIjfqzd.s 			page 13
 
 
  685 000c 01        		.uleb128 0x1
@@ -778,7 +778,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  739 0091 0200 0000 		.long	.LVL1-.Ltext0
  740 0095 0100      		.word	0x1
  741 0097 5A        		.byte	0x5a
-GAS LISTING /tmp/ccTR6krr.s 			page 14
+GAS LISTING /tmp/ccIjfqzd.s 			page 14
 
 
  742 0098 3000 0000 		.long	.LVL8-.Ltext0
@@ -838,7 +838,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  796 011a 93        		.byte	0x93
  797 011b 01        		.uleb128 0x1
  798 011c 61        		.byte	0x61
-GAS LISTING /tmp/ccTR6krr.s 			page 15
+GAS LISTING /tmp/ccIjfqzd.s 			page 15
 
 
  799 011d 93        		.byte	0x93
@@ -898,7 +898,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  853 018d 0600      		.word	0x6
  854 018f 6C        		.byte	0x6c
  855 0190 93        		.byte	0x93
-GAS LISTING /tmp/ccTR6krr.s 			page 16
+GAS LISTING /tmp/ccIjfqzd.s 			page 16
 
 
  856 0191 01        		.uleb128 0x1
@@ -958,7 +958,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  910 0205 01        		.uleb128 0x1
  911 0206 6601 0000 		.long	.LVL46-.Ltext0
  912 020a BC01 0000 		.long	.LVL51-.Ltext0
-GAS LISTING /tmp/ccTR6krr.s 			page 17
+GAS LISTING /tmp/ccIjfqzd.s 			page 17
 
 
  913 020e 0600      		.word	0x6
@@ -1018,7 +1018,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  967 026e 0600      		.word	0x6
  968 0270 6C        		.byte	0x6c
  969 0271 93        		.byte	0x93
-GAS LISTING /tmp/ccTR6krr.s 			page 18
+GAS LISTING /tmp/ccIjfqzd.s 			page 18
 
 
  970 0272 01        		.uleb128 0x1
@@ -1078,7 +1078,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  1024 02eb 01        		.uleb128 0x1
  1025 02ec 6B        		.byte	0x6b
  1026 02ed 93        		.byte	0x93
-GAS LISTING /tmp/ccTR6krr.s 			page 19
+GAS LISTING /tmp/ccIjfqzd.s 			page 19
 
 
  1027 02ee 01        		.uleb128 0x1
@@ -1138,7 +1138,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  1081 035d 0000 0000 		.long	0x0
  1082 0361 0000 0000 		.long	0x0
  1083               	.LLST30:
-GAS LISTING /tmp/ccTR6krr.s 			page 20
+GAS LISTING /tmp/ccIjfqzd.s 			page 20
 
 
  1084 0365 1802 0000 		.long	.LVL65-.Ltext0
@@ -1198,7 +1198,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  1138 004f 0000 0000 		.long	.LASF3
  1139 0053 02        		.uleb128 0x2
  1140 0054 04        		.byte	0x4
-GAS LISTING /tmp/ccTR6krr.s 			page 21
+GAS LISTING /tmp/ccIjfqzd.s 			page 21
 
 
  1141 0055 07        		.byte	0x7
@@ -1258,7 +1258,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  1195 00c0 02        		.byte	0x2
  1196 00c1 6207      		.word	0x762
  1197 00c3 6D00 0000 		.long	0x6d
-GAS LISTING /tmp/ccTR6krr.s 			page 22
+GAS LISTING /tmp/ccIjfqzd.s 			page 22
 
 
  1198 00c7 02        		.byte	0x2
@@ -1318,7 +1318,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  1252 0129 6907      		.word	0x769
  1253 012b 6D00 0000 		.long	0x6d
  1254 012f 02        		.byte	0x2
-GAS LISTING /tmp/ccTR6krr.s 			page 23
+GAS LISTING /tmp/ccIjfqzd.s 			page 23
 
 
  1255 0130 23        		.byte	0x23
@@ -1378,7 +1378,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  1309 0194 6D00 0000 		.long	0x6d
  1310 0198 02        		.byte	0x2
  1311 0199 23        		.byte	0x23
-GAS LISTING /tmp/ccTR6krr.s 			page 24
+GAS LISTING /tmp/ccIjfqzd.s 			page 24
 
 
  1312 019a 12        		.uleb128 0x12
@@ -1438,7 +1438,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  1366 0201 0000 0000 		.long	.LASF32
  1367 0205 02        		.byte	0x2
  1368 0206 8A09      		.word	0x98a
-GAS LISTING /tmp/ccTR6krr.s 			page 25
+GAS LISTING /tmp/ccIjfqzd.s 			page 25
 
 
  1369 0208 6D00 0000 		.long	0x6d
@@ -1498,7 +1498,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  1423 0270 0000 0000 		.long	.LASF40
  1424 0274 02        		.byte	0x2
  1425 0275 9709      		.word	0x997
-GAS LISTING /tmp/ccTR6krr.s 			page 26
+GAS LISTING /tmp/ccIjfqzd.s 			page 26
 
 
  1426 0277 4902 0000 		.long	0x249
@@ -1558,7 +1558,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  1480 02e4 08        		.byte	0x8
  1481 02e5 0D        		.uleb128 0xd
  1482 02e6 0000 0000 		.long	.LASF54
-GAS LISTING /tmp/ccTR6krr.s 			page 27
+GAS LISTING /tmp/ccIjfqzd.s 			page 27
 
 
  1483 02ea 0A        		.byte	0xa
@@ -1618,7 +1618,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  1537 034a 04        		.byte	0x4
  1538 034b 57        		.byte	0x57
  1539 034c 6B03 0000 		.long	0x36b
-GAS LISTING /tmp/ccTR6krr.s 			page 28
+GAS LISTING /tmp/ccIjfqzd.s 			page 28
 
 
  1540 0350 02        		.byte	0x2
@@ -1678,7 +1678,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  1594 03b6 23        		.byte	0x23
  1595 03b7 04        		.uleb128 0x4
  1596 03b8 0E        		.uleb128 0xe
-GAS LISTING /tmp/ccTR6krr.s 			page 29
+GAS LISTING /tmp/ccIjfqzd.s 			page 29
 
 
  1597 03b9 0000 0000 		.long	.LASF68
@@ -1738,7 +1738,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  1651 041f 0000 0000 		.long	.LFE6
  1652 0423 02        		.byte	0x2
  1653 0424 90        		.byte	0x90
-GAS LISTING /tmp/ccTR6krr.s 			page 30
+GAS LISTING /tmp/ccIjfqzd.s 			page 30
 
 
  1654 0425 20        		.uleb128 0x20
@@ -1798,7 +1798,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  1708 048e 5D        		.byte	0x5d
  1709 048f 7003 0000 		.long	0x370
  1710 0493 0000 0000 		.long	.LLST4
-GAS LISTING /tmp/ccTR6krr.s 			page 31
+GAS LISTING /tmp/ccIjfqzd.s 			page 31
 
 
  1711 0497 14        		.uleb128 0x14
@@ -1858,7 +1858,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  1765 04fd 01        		.byte	0x1
  1766 04fe 87        		.byte	0x87
  1767 04ff 7003 0000 		.long	0x370
-GAS LISTING /tmp/ccTR6krr.s 			page 32
+GAS LISTING /tmp/ccIjfqzd.s 			page 32
 
 
  1768 0503 01        		.byte	0x1
@@ -1918,7 +1918,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  1822 0566 13        		.uleb128 0x13
  1823 0567 0000 0000 		.long	.LASF58
  1824 056b 01        		.byte	0x1
-GAS LISTING /tmp/ccTR6krr.s 			page 33
+GAS LISTING /tmp/ccIjfqzd.s 			page 33
 
 
  1825 056c AF        		.byte	0xaf
@@ -1978,7 +1978,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  1879 05d8 2C00 0000 		.long	0x2c
  1880 05dc 0000 0000 		.long	.LLST15
  1881 05e0 16        		.uleb128 0x16
-GAS LISTING /tmp/ccTR6krr.s 			page 34
+GAS LISTING /tmp/ccIjfqzd.s 			page 34
 
 
  1882 05e1 0000 0000 		.long	.LASF60
@@ -2038,7 +2038,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  1936 0660 69        		.byte	0x69
  1937 0661 1A        		.uleb128 0x1a
  1938 0662 0000 0000 		.long	.LASF56
-GAS LISTING /tmp/ccTR6krr.s 			page 35
+GAS LISTING /tmp/ccIjfqzd.s 			page 35
 
 
  1939 0666 01        		.byte	0x1
@@ -2098,7 +2098,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  1993 06df A704 0000 		.long	0x4a7
  1994 06e3 0000 0000 		.long	.LLST26
  1995 06e7 19        		.uleb128 0x19
-GAS LISTING /tmp/ccTR6krr.s 			page 36
+GAS LISTING /tmp/ccIjfqzd.s 			page 36
 
 
  1996 06e8 0000 0000 		.long	.LASF68
@@ -2158,7 +2158,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  2050 0012 00        		.byte	0x0
  2051 0013 02        		.uleb128 0x2
  2052 0014 24        		.uleb128 0x24
-GAS LISTING /tmp/ccTR6krr.s 			page 37
+GAS LISTING /tmp/ccIjfqzd.s 			page 37
 
 
  2053 0015 00        		.byte	0x0
@@ -2218,7 +2218,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  2107 004b 00        		.byte	0x0
  2108 004c 07        		.uleb128 0x7
  2109 004d 0D        		.uleb128 0xd
-GAS LISTING /tmp/ccTR6krr.s 			page 38
+GAS LISTING /tmp/ccIjfqzd.s 			page 38
 
 
  2110 004e 00        		.byte	0x0
@@ -2278,7 +2278,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  2164 0084 00        		.byte	0x0
  2165 0085 00        		.byte	0x0
  2166 0086 0B        		.uleb128 0xb
-GAS LISTING /tmp/ccTR6krr.s 			page 39
+GAS LISTING /tmp/ccIjfqzd.s 			page 39
 
 
  2167 0087 28        		.uleb128 0x28
@@ -2338,7 +2338,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  2221 00bd 00        		.byte	0x0
  2222 00be 00        		.byte	0x0
  2223 00bf 10        		.uleb128 0x10
-GAS LISTING /tmp/ccTR6krr.s 			page 40
+GAS LISTING /tmp/ccIjfqzd.s 			page 40
 
 
  2224 00c0 26        		.uleb128 0x26
@@ -2398,7 +2398,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  2278 00f6 13        		.uleb128 0x13
  2279 00f7 02        		.uleb128 0x2
  2280 00f8 0A        		.uleb128 0xa
-GAS LISTING /tmp/ccTR6krr.s 			page 41
+GAS LISTING /tmp/ccIjfqzd.s 			page 41
 
 
  2281 00f9 00        		.byte	0x0
@@ -2458,7 +2458,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  2335 012f 00        		.byte	0x0
  2336 0130 00        		.byte	0x0
  2337 0131 18        		.uleb128 0x18
-GAS LISTING /tmp/ccTR6krr.s 			page 42
+GAS LISTING /tmp/ccIjfqzd.s 			page 42
 
 
  2338 0132 2E        		.uleb128 0x2e
@@ -2518,7 +2518,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  2392 0168 1B        		.uleb128 0x1b
  2393 0169 34        		.uleb128 0x34
  2394 016a 00        		.byte	0x0
-GAS LISTING /tmp/ccTR6krr.s 			page 43
+GAS LISTING /tmp/ccIjfqzd.s 			page 43
 
 
  2395 016b 03        		.uleb128 0x3
@@ -2578,7 +2578,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  2449 01a1 0C        		.uleb128 0xc
  2450 01a2 49        		.uleb128 0x49
  2451 01a3 13        		.uleb128 0x13
-GAS LISTING /tmp/ccTR6krr.s 			page 44
+GAS LISTING /tmp/ccIjfqzd.s 			page 44
 
 
  2452 01a4 11        		.uleb128 0x11
@@ -2638,7 +2638,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  2480 00d5 0000 0000 		.long	0x0
  2481               		.section	.debug_aranges,"",@progbits
  2482 0000 1C00 0000 		.long	0x1c
-GAS LISTING /tmp/ccTR6krr.s 			page 45
+GAS LISTING /tmp/ccIjfqzd.s 			page 45
 
 
  2483 0004 0200      		.word	0x2
@@ -2698,7 +2698,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  2523 00ae 01        		.uleb128 0x1
  2524 00af 00        		.uleb128 0x0
  2525 00b0 00        		.uleb128 0x0
-GAS LISTING /tmp/ccTR6krr.s 			page 46
+GAS LISTING /tmp/ccIjfqzd.s 			page 46
 
 
  2526 00b1 7374 6469 		.string	"stdint.h"
@@ -2758,7 +2758,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  2575 010d 17        		.byte	0x17
  2576 010e 00        		.byte	0x0
  2577 010f 05        		.uleb128 0x5
-GAS LISTING /tmp/ccTR6krr.s 			page 47
+GAS LISTING /tmp/ccIjfqzd.s 			page 47
 
 
  2578 0110 02        		.byte	0x2
@@ -2818,7 +2818,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  2632 0167 38        		.byte	0x38
  2633 0168 00        		.byte	0x0
  2634 0169 05        		.uleb128 0x5
-GAS LISTING /tmp/ccTR6krr.s 			page 48
+GAS LISTING /tmp/ccIjfqzd.s 			page 48
 
 
  2635 016a 02        		.byte	0x2
@@ -2878,7 +2878,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  2689 01c1 05        		.uleb128 0x5
  2690 01c2 02        		.byte	0x2
  2691 01c3 0000 0000 		.long	.LM31
-GAS LISTING /tmp/ccTR6krr.s 			page 49
+GAS LISTING /tmp/ccIjfqzd.s 			page 49
 
 
  2692 01c7 1B        		.byte	0x1b
@@ -2938,7 +2938,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  2746 021b 05        		.uleb128 0x5
  2747 021c 02        		.byte	0x2
  2748 021d 0000 0000 		.long	.LM42
-GAS LISTING /tmp/ccTR6krr.s 			page 50
+GAS LISTING /tmp/ccIjfqzd.s 			page 50
 
 
  2749 0221 22        		.byte	0x22
@@ -2998,7 +2998,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  2803 0275 05        		.uleb128 0x5
  2804 0276 02        		.byte	0x2
  2805 0277 0000 0000 		.long	.LM53
-GAS LISTING /tmp/ccTR6krr.s 			page 51
+GAS LISTING /tmp/ccIjfqzd.s 			page 51
 
 
  2806 027b 1F        		.byte	0x1f
@@ -3058,7 +3058,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  2860 02cf 05        		.uleb128 0x5
  2861 02d0 02        		.byte	0x2
  2862 02d1 0000 0000 		.long	.LM64
-GAS LISTING /tmp/ccTR6krr.s 			page 52
+GAS LISTING /tmp/ccIjfqzd.s 			page 52
 
 
  2863 02d5 03        		.byte	0x3
@@ -3118,7 +3118,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  2917 0329 19        		.byte	0x19
  2918 032a 00        		.byte	0x0
  2919 032b 05        		.uleb128 0x5
-GAS LISTING /tmp/ccTR6krr.s 			page 53
+GAS LISTING /tmp/ccIjfqzd.s 			page 53
 
 
  2920 032c 02        		.byte	0x2
@@ -3178,7 +3178,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  2974 0383 01        		.byte	0x1
  2975 0384 00        		.byte	0x0
  2976 0385 05        		.uleb128 0x5
-GAS LISTING /tmp/ccTR6krr.s 			page 54
+GAS LISTING /tmp/ccIjfqzd.s 			page 54
 
 
  2977 0386 02        		.byte	0x2
@@ -3238,7 +3238,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  3024      564C 5F65 
  3024      6E75 6D00 
  3025               	.LASF86:
-GAS LISTING /tmp/ccTR6krr.s 			page 55
+GAS LISTING /tmp/ccIjfqzd.s 			page 55
 
 
  3026 0017 5350 495F 		.string	"SPI_MasterTransceivePacket"
@@ -3298,7 +3298,7 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  3051               	.LASF38:
  3052 00bb 5350 495F 		.string	"SPI_MODE_2_gc"
  3052      4D4F 4445 
-GAS LISTING /tmp/ccTR6krr.s 			page 56
+GAS LISTING /tmp/ccIjfqzd.s 			page 56
 
 
  3052      5F32 5F67 
@@ -3306,366 +3306,366 @@ GAS LISTING /tmp/ccTR6krr.s 			page 1
  3053               	.LASF73:
  3054 00c9 6D6F 6465 		.string	"mode"
  3054      00
- 3055               	.LASF89:
- 3056 00ce 2F68 6F6D 		.string	"/home/tomlinsj/falconSvn/44x201007/firmware/mcu/chb_motor_test"
- 3056      652F 746F 
- 3056      6D6C 696E 
- 3056      736A 2F66 
- 3056      616C 636F 
- 3057               	.LASF17:
- 3058 010d 7265 7365 		.string	"reserved_0x0D"
- 3058      7276 6564 
- 3058      5F30 7830 
- 3058      4400 
- 3059               	.LASF75:
- 3060 011b 636C 6B32 		.string	"clk2x"
- 3060      7800 
- 3061               	.LASF76:
- 3062 0121 636C 6F63 		.string	"clockDivision"
- 3062      6B44 6976 
- 3062      6973 696F 
- 3062      6E00 
- 3063               	.LASF18:
- 3064 012f 7265 7365 		.string	"reserved_0x0E"
+ 3055               	.LASF17:
+ 3056 00ce 7265 7365 		.string	"reserved_0x0D"
+ 3056      7276 6564 
+ 3056      5F30 7830 
+ 3056      4400 
+ 3057               	.LASF75:
+ 3058 00dc 636C 6B32 		.string	"clk2x"
+ 3058      7800 
+ 3059               	.LASF76:
+ 3060 00e2 636C 6F63 		.string	"clockDivision"
+ 3060      6B44 6976 
+ 3060      6973 696F 
+ 3060      6E00 
+ 3061               	.LASF18:
+ 3062 00f0 7265 7365 		.string	"reserved_0x0E"
+ 3062      7276 6564 
+ 3062      5F30 7830 
+ 3062      4500 
+ 3063               	.LASF19:
+ 3064 00fe 7265 7365 		.string	"reserved_0x0F"
  3064      7276 6564 
  3064      5F30 7830 
- 3064      4500 
- 3065               	.LASF19:
- 3066 013d 7265 7365 		.string	"reserved_0x0F"
- 3066      7276 6564 
- 3066      5F30 7830 
- 3066      4600 
- 3067               	.LASF42:
- 3068 014b 5350 495F 		.string	"SPI_PRESCALER_enum"
- 3068      5052 4553 
- 3068      4341 4C45 
- 3068      525F 656E 
- 3068      756D 00
- 3069               	.LASF28:
- 3070 015e 7569 6E74 		.string	"uint8_t"
- 3070      385F 7400 
- 3071               	.LASF9:
- 3072 0166 4449 5254 		.string	"DIRTGL"
- 3072      474C 00
- 3073               	.LASF72:
- 3074 016d 6C73 6246 		.string	"lsbFirst"
- 3074      6972 7374 
- 3074      00
- 3075               	.LASF78:
- 3076 0176 5350 495F 		.string	"SPI_SlaveInit"
- 3076      536C 6176 
- 3076      6549 6E69 
- 3076      7400 
- 3077               	.LASF59:
- 3078 0184 6279 7465 		.string	"bytesToTransceive"
-GAS LISTING /tmp/ccTR6krr.s 			page 57
+ 3064      4600 
+ 3065               	.LASF42:
+ 3066 010c 5350 495F 		.string	"SPI_PRESCALER_enum"
+ 3066      5052 4553 
+ 3066      4341 4C45 
+ 3066      525F 656E 
+ 3066      756D 00
+ 3067               	.LASF28:
+ 3068 011f 7569 6E74 		.string	"uint8_t"
+ 3068      385F 7400 
+ 3069               	.LASF9:
+ 3070 0127 4449 5254 		.string	"DIRTGL"
+ 3070      474C 00
+ 3071               	.LASF72:
+ 3072 012e 6C73 6246 		.string	"lsbFirst"
+ 3072      6972 7374 
+ 3072      00
+ 3073               	.LASF78:
+ 3074 0137 5350 495F 		.string	"SPI_SlaveInit"
+ 3074      536C 6176 
+ 3074      6549 6E69 
+ 3074      7400 
+ 3075               	.LASF59:
+ 3076 0145 6279 7465 		.string	"bytesToTransceive"
+ 3076      7354 6F54 
+ 3076      7261 6E73 
+ 3076      6365 6976 
+ 3076      6500 
+ 3077               	.LASF35:
+ 3078 0157 5350 495F 		.string	"SPI_t"
+GAS LISTING /tmp/ccIjfqzd.s 			page 57
 
 
- 3078      7354 6F54 
- 3078      7261 6E73 
- 3078      6365 6976 
- 3078      6500 
- 3079               	.LASF35:
- 3080 0196 5350 495F 		.string	"SPI_t"
- 3080      7400 
- 3081               	.LASF21:
- 3082 019c 5049 4E31 		.string	"PIN1CTRL"
- 3082      4354 524C 
- 3082      00
- 3083               	.LASF51:
- 3084 01a5 5350 495F 		.string	"SPI_INTLVL_MED_gc"
+ 3078      7400 
+ 3079               	.LASF21:
+ 3080 015d 5049 4E31 		.string	"PIN1CTRL"
+ 3080      4354 524C 
+ 3080      00
+ 3081               	.LASF51:
+ 3082 0166 5350 495F 		.string	"SPI_INTLVL_MED_gc"
+ 3082      494E 544C 
+ 3082      564C 5F4D 
+ 3082      4544 5F67 
+ 3082      6300 
+ 3083               	.LASF50:
+ 3084 0178 5350 495F 		.string	"SPI_INTLVL_LO_gc"
  3084      494E 544C 
- 3084      564C 5F4D 
- 3084      4544 5F67 
- 3084      6300 
- 3085               	.LASF50:
- 3086 01b7 5350 495F 		.string	"SPI_INTLVL_LO_gc"
- 3086      494E 544C 
- 3086      564C 5F4C 
- 3086      4F5F 6763 
- 3086      00
- 3087               	.LASF58:
- 3088 01c8 7265 6365 		.string	"receiveData"
- 3088      6976 6544 
- 3088      6174 6100 
- 3089               	.LASF80:
- 3090 01d4 5350 495F 		.string	"SPI_MasterInterruptHandler"
- 3090      4D61 7374 
- 3090      6572 496E 
- 3090      7465 7272 
- 3090      7570 7448 
- 3091               	.LASF43:
- 3092 01ef 5350 495F 		.string	"SPI_PRESCALER_DIV4_gc"
- 3092      5052 4553 
- 3092      4341 4C45 
- 3092      525F 4449 
- 3092      5634 5F67 
- 3093               	.LASF24:
- 3094 0205 5049 4E34 		.string	"PIN4CTRL"
- 3094      4354 524C 
- 3094      00
- 3095               	.LASF29:
- 3096 020e 504F 5254 		.string	"PORT_t"
- 3096      5F74 00
- 3097               	.LASF52:
- 3098 0215 5350 495F 		.string	"SPI_INTLVL_HI_gc"
- 3098      494E 544C 
- 3098      564C 5F48 
- 3098      495F 6763 
- 3098      00
- 3099               	.LASF6:
- 3100 0226 6C6F 6E67 		.string	"long long unsigned int"
- 3100      206C 6F6E 
- 3100      6720 756E 
- 3100      7369 676E 
-GAS LISTING /tmp/ccTR6krr.s 			page 58
+ 3084      564C 5F4C 
+ 3084      4F5F 6763 
+ 3084      00
+ 3085               	.LASF58:
+ 3086 0189 7265 6365 		.string	"receiveData"
+ 3086      6976 6544 
+ 3086      6174 6100 
+ 3087               	.LASF80:
+ 3088 0195 5350 495F 		.string	"SPI_MasterInterruptHandler"
+ 3088      4D61 7374 
+ 3088      6572 496E 
+ 3088      7465 7272 
+ 3088      7570 7448 
+ 3089               	.LASF43:
+ 3090 01b0 5350 495F 		.string	"SPI_PRESCALER_DIV4_gc"
+ 3090      5052 4553 
+ 3090      4341 4C45 
+ 3090      525F 4449 
+ 3090      5634 5F67 
+ 3091               	.LASF24:
+ 3092 01c6 5049 4E34 		.string	"PIN4CTRL"
+ 3092      4354 524C 
+ 3092      00
+ 3093               	.LASF29:
+ 3094 01cf 504F 5254 		.string	"PORT_t"
+ 3094      5F74 00
+ 3095               	.LASF52:
+ 3096 01d6 5350 495F 		.string	"SPI_INTLVL_HI_gc"
+ 3096      494E 544C 
+ 3096      564C 5F48 
+ 3096      495F 6763 
+ 3096      00
+ 3097               	.LASF6:
+ 3098 01e7 6C6F 6E67 		.string	"long long unsigned int"
+ 3098      206C 6F6E 
+ 3098      6720 756E 
+ 3098      7369 676E 
+ 3098      6564 2069 
+ 3099               	.LASF33:
+ 3100 01fe 5354 4154 		.string	"STATUS"
+ 3100      5553 00
+ 3101               	.LASF3:
+ 3102 0205 6C6F 6E67 		.string	"long int"
+GAS LISTING /tmp/ccIjfqzd.s 			page 58
 
 
- 3100      6564 2069 
- 3101               	.LASF33:
- 3102 023d 5354 4154 		.string	"STATUS"
- 3102      5553 00
- 3103               	.LASF3:
- 3104 0244 6C6F 6E67 		.string	"long int"
- 3104      2069 6E74 
+ 3102      2069 6E74 
+ 3102      00
+ 3103               	.LASF27:
+ 3104 020e 5049 4E37 		.string	"PIN7CTRL"
+ 3104      4354 524C 
  3104      00
- 3105               	.LASF27:
- 3106 024d 5049 4E37 		.string	"PIN7CTRL"
- 3106      4354 524C 
- 3106      00
- 3107               	.LASF82:
- 3108 0256 5350 495F 		.string	"SPI_MasterInterruptTransceivePacket"
- 3108      4D61 7374 
- 3108      6572 496E 
- 3108      7465 7272 
- 3108      7570 7454 
- 3109               	.LASF44:
- 3110 027a 5350 495F 		.string	"SPI_PRESCALER_DIV16_gc"
- 3110      5052 4553 
- 3110      4341 4C45 
- 3110      525F 4449 
- 3110      5631 365F 
- 3111               	.LASF56:
- 3112 0291 7373 5069 		.string	"ssPinMask"
- 3112      6E4D 6173 
- 3112      6B00 
- 3113               	.LASF12:
- 3114 029b 4F55 5454 		.string	"OUTTGL"
- 3114      474C 00
- 3115               	.LASF41:
- 3116 02a2 5350 495F 		.string	"SPI_MODE_enum"
+ 3105               	.LASF82:
+ 3106 0217 5350 495F 		.string	"SPI_MasterInterruptTransceivePacket"
+ 3106      4D61 7374 
+ 3106      6572 496E 
+ 3106      7465 7272 
+ 3106      7570 7454 
+ 3107               	.LASF44:
+ 3108 023b 5350 495F 		.string	"SPI_PRESCALER_DIV16_gc"
+ 3108      5052 4553 
+ 3108      4341 4C45 
+ 3108      525F 4449 
+ 3108      5631 365F 
+ 3109               	.LASF56:
+ 3110 0252 7373 5069 		.string	"ssPinMask"
+ 3110      6E4D 6173 
+ 3110      6B00 
+ 3111               	.LASF12:
+ 3112 025c 4F55 5454 		.string	"OUTTGL"
+ 3112      474C 00
+ 3113               	.LASF41:
+ 3114 0263 5350 495F 		.string	"SPI_MODE_enum"
+ 3114      4D4F 4445 
+ 3114      5F65 6E75 
+ 3114      6D00 
+ 3115               	.LASF40:
+ 3116 0271 5350 495F 		.string	"SPI_MODE_t"
  3116      4D4F 4445 
- 3116      5F65 6E75 
- 3116      6D00 
- 3117               	.LASF40:
- 3118 02b0 5350 495F 		.string	"SPI_MODE_t"
- 3118      4D4F 4445 
- 3118      5F74 00
- 3119               	.LASF69:
- 3120 02bb 5350 495F 		.string	"SPI_Master_t"
- 3120      4D61 7374 
- 3120      6572 5F74 
+ 3116      5F74 00
+ 3117               	.LASF69:
+ 3118 027c 5350 495F 		.string	"SPI_Master_t"
+ 3118      4D61 7374 
+ 3118      6572 5F74 
+ 3118      00
+ 3119               	.LASF53:
+ 3120 0289 5350 495F 		.string	"SPI_INTLVL_t"
+ 3120      494E 544C 
+ 3120      564C 5F74 
  3120      00
- 3121               	.LASF53:
- 3122 02c8 5350 495F 		.string	"SPI_INTLVL_t"
- 3122      494E 544C 
- 3122      564C 5F74 
+ 3121               	.LASF34:
+ 3122 0296 4441 5441 		.string	"DATA"
  3122      00
- 3123               	.LASF34:
- 3124 02d5 4441 5441 		.string	"DATA"
- 3124      00
- 3125               	.LASF1:
- 3126 02da 756E 7369 		.string	"unsigned char"
- 3126      676E 6564 
- 3126      2063 6861 
-GAS LISTING /tmp/ccTR6krr.s 			page 59
+ 3123               	.LASF1:
+ 3124 029b 756E 7369 		.string	"unsigned char"
+ 3124      676E 6564 
+ 3124      2063 6861 
+ 3124      7200 
+ 3125               	.LASF32:
+ 3126 02a9 4354 524C 		.string	"CTRL"
+ 3126      00
+ 3127               	.LASF47:
+ 3128 02ae 5350 495F 		.string	"SPI_PRESCALER_t"
+GAS LISTING /tmp/ccIjfqzd.s 			page 59
 
 
- 3126      7200 
- 3127               	.LASF32:
- 3128 02e8 4354 524C 		.string	"CTRL"
- 3128      00
- 3129               	.LASF47:
- 3130 02ed 5350 495F 		.string	"SPI_PRESCALER_t"
- 3130      5052 4553 
- 3130      4341 4C45 
- 3130      525F 7400 
- 3131               	.LASF0:
- 3132 02fd 7369 676E 		.string	"signed char"
- 3132      6564 2063 
- 3132      6861 7200 
- 3133               	.LASF77:
- 3134 0309 5350 495F 		.string	"SPI_MasterInit"
- 3134      4D61 7374 
- 3134      6572 496E 
- 3134      6974 00
- 3135               	.LASF68:
- 3136 0318 6461 7461 		.string	"dataPacket"
- 3136      5061 636B 
- 3136      6574 00
- 3137               	.LASF8:
- 3138 0323 4449 5243 		.string	"DIRCLR"
- 3138      4C52 00
- 3139               	.LASF61:
- 3140 032a 636F 6D70 		.string	"complete"
- 3140      6C65 7465 
+ 3128      5052 4553 
+ 3128      4341 4C45 
+ 3128      525F 7400 
+ 3129               	.LASF0:
+ 3130 02be 7369 676E 		.string	"signed char"
+ 3130      6564 2063 
+ 3130      6861 7200 
+ 3131               	.LASF77:
+ 3132 02ca 5350 495F 		.string	"SPI_MasterInit"
+ 3132      4D61 7374 
+ 3132      6572 496E 
+ 3132      6974 00
+ 3133               	.LASF68:
+ 3134 02d9 6461 7461 		.string	"dataPacket"
+ 3134      5061 636B 
+ 3134      6574 00
+ 3135               	.LASF8:
+ 3136 02e4 4449 5243 		.string	"DIRCLR"
+ 3136      4C52 00
+ 3137               	.LASF61:
+ 3138 02eb 636F 6D70 		.string	"complete"
+ 3138      6C65 7465 
+ 3138      00
+ 3139               	.LASF22:
+ 3140 02f4 5049 4E32 		.string	"PIN2CTRL"
+ 3140      4354 524C 
  3140      00
- 3141               	.LASF22:
- 3142 0333 5049 4E32 		.string	"PIN2CTRL"
- 3142      4354 524C 
- 3142      00
- 3143               	.LASF49:
- 3144 033c 5350 495F 		.string	"SPI_INTLVL_OFF_gc"
- 3144      494E 544C 
- 3144      564C 5F4F 
- 3144      4646 5F67 
+ 3141               	.LASF49:
+ 3142 02fd 5350 495F 		.string	"SPI_INTLVL_OFF_gc"
+ 3142      494E 544C 
+ 3142      564C 5F4F 
+ 3142      4646 5F67 
+ 3142      6300 
+ 3143               	.LASF36:
+ 3144 030f 5350 495F 		.string	"SPI_MODE_0_gc"
+ 3144      4D4F 4445 
+ 3144      5F30 5F67 
  3144      6300 
- 3145               	.LASF36:
- 3146 034e 5350 495F 		.string	"SPI_MODE_0_gc"
- 3146      4D4F 4445 
- 3146      5F30 5F67 
- 3146      6300 
- 3147               	.LASF55:
- 3148 035c 7373 506F 		.string	"ssPort"
- 3148      7274 00
- 3149               	.LASF16:
- 3150 0363 494E 5446 		.string	"INTFLAGS"
- 3150      4C41 4753 
+ 3145               	.LASF55:
+ 3146 031d 7373 506F 		.string	"ssPort"
+ 3146      7274 00
+ 3147               	.LASF16:
+ 3148 0324 494E 5446 		.string	"INTFLAGS"
+ 3148      4C41 4753 
+ 3148      00
+ 3149               	.LASF25:
+ 3150 032d 5049 4E35 		.string	"PIN5CTRL"
+ 3150      4354 524C 
  3150      00
- 3151               	.LASF25:
- 3152 036c 5049 4E35 		.string	"PIN5CTRL"
- 3152      4354 524C 
- 3152      00
+ 3151               	.LASF89:
+ 3152 0336 2F68 6F6D 		.string	"/home/tomlinsj/falconSvn/44x201007/firmware/mcu/spi_test"
+ 3152      652F 746F 
+ 3152      6D6C 696E 
+ 3152      736A 2F66 
+ 3152      616C 636F 
  3153               	.LASF62:
- 3154 0375 5F42 6F6F 		.string	"_Bool"
-GAS LISTING /tmp/ccTR6krr.s 			page 60
+ 3154 036f 5F42 6F6F 		.string	"_Bool"
+GAS LISTING /tmp/ccIjfqzd.s 			page 60
 
 
  3154      6C00 
  3155               	.LASF81:
- 3156 037b 6461 7461 		.string	"data"
+ 3156 0375 6461 7461 		.string	"data"
  3156      00
  3157               	.LASF10:
- 3158 0380 4F55 5453 		.string	"OUTSET"
+ 3158 037a 4F55 5453 		.string	"OUTSET"
  3158      4554 00
  3159               	.LASF46:
- 3160 0387 5350 495F 		.string	"SPI_PRESCALER_DIV128_gc"
+ 3160 0381 5350 495F 		.string	"SPI_PRESCALER_DIV128_gc"
  3160      5052 4553 
  3160      4341 4C45 
  3160      525F 4449 
  3160      5631 3238 
  3161               	.LASF14:
- 3162 039f 494E 5430 		.string	"INT0MASK"
+ 3162 0399 494E 5430 		.string	"INT0MASK"
  3162      4D41 534B 
  3162      00
  3163               	.LASF66:
- 3164 03a8 706F 7274 		.string	"port"
+ 3164 03a2 706F 7274 		.string	"port"
  3164      00
  3165               	.LASF88:
- 3166 03ad 7370 695F 		.string	"spi_driver.c"
+ 3166 03a7 7370 695F 		.string	"spi_driver.c"
  3166      6472 6976 
  3166      6572 2E63 
  3166      00
  3167               	.LASF4:
- 3168 03ba 6C6F 6E67 		.string	"long unsigned int"
+ 3168 03b4 6C6F 6E67 		.string	"long unsigned int"
  3168      2075 6E73 
  3168      6967 6E65 
  3168      6420 696E 
  3168      7400 
  3169               	.LASF63:
- 3170 03cc 5350 495F 		.string	"SPI_DataPacket_t"
+ 3170 03c6 5350 495F 		.string	"SPI_DataPacket_t"
  3170      4461 7461 
  3170      5061 636B 
  3170      6574 5F74 
  3170      00
  3171               	.LASF60:
- 3172 03dd 6279 7465 		.string	"bytesTransceived"
+ 3172 03d7 6279 7465 		.string	"bytesTransceived"
  3172      7354 7261 
  3172      6E73 6365 
  3172      6976 6564 
  3172      00
  3173               	.LASF30:
- 3174 03ee 504F 5254 		.string	"PORT_struct"
+ 3174 03e8 504F 5254 		.string	"PORT_struct"
  3174      5F73 7472 
  3174      7563 7400 
  3175               	.LASF74:
- 3176 03fa 696E 744C 		.string	"intLevel"
+ 3176 03f4 696E 744C 		.string	"intLevel"
  3176      6576 656C 
  3176      00
  3177               	.LASF70:
- 3178 0403 5350 495F 		.string	"SPI_Slave"
+ 3178 03fd 5350 495F 		.string	"SPI_Slave"
  3178      536C 6176 
  3178      6500 
  3179               	.LASF7:
- 3180 040d 4449 5253 		.string	"DIRSET"
-GAS LISTING /tmp/ccTR6krr.s 			page 61
+ 3180 0407 4449 5253 		.string	"DIRSET"
+GAS LISTING /tmp/ccIjfqzd.s 			page 61
 
 
  3180      4554 00
  3181               	.LASF31:
- 3182 0414 5350 495F 		.string	"SPI_struct"
+ 3182 040e 5350 495F 		.string	"SPI_struct"
  3182      7374 7275 
  3182      6374 00
  3183               	.LASF79:
- 3184 041f 5350 495F 		.string	"SPI_MasterCreateDataPacket"
+ 3184 0419 5350 495F 		.string	"SPI_MasterCreateDataPacket"
  3184      4D61 7374 
  3184      6572 4372 
  3184      6561 7465 
  3184      4461 7461 
  3185               	.LASF13:
- 3186 043a 494E 5443 		.string	"INTCTRL"
+ 3186 0434 494E 5443 		.string	"INTCTRL"
  3186      5452 4C00 
  3187               	.LASF37:
- 3188 0442 5350 495F 		.string	"SPI_MODE_1_gc"
+ 3188 043c 5350 495F 		.string	"SPI_MODE_1_gc"
  3188      4D4F 4445 
  3188      5F31 5F67 
  3188      6300 
  3189               	.LASF20:
- 3190 0450 5049 4E30 		.string	"PIN0CTRL"
+ 3190 044a 5049 4E30 		.string	"PIN0CTRL"
  3190      4354 524C 
  3190      00
  3191               	.LASF2:
- 3192 0459 756E 7369 		.string	"unsigned int"
+ 3192 0453 756E 7369 		.string	"unsigned int"
  3192      676E 6564 
  3192      2069 6E74 
  3192      00
  3193               	.LASF83:
- 3194 0466 5350 495F 		.string	"SPI_MasterTransceiveByte"
+ 3194 0460 5350 495F 		.string	"SPI_MasterTransceiveByte"
  3194      4D61 7374 
  3194      6572 5472 
  3194      616E 7363 
  3194      6569 7665 
  3195               	.LASF23:
- 3196 047f 5049 4E33 		.string	"PIN3CTRL"
+ 3196 0479 5049 4E33 		.string	"PIN3CTRL"
  3196      4354 524C 
  3196      00
  3197               	.LASF5:
- 3198 0488 6C6F 6E67 		.string	"long long int"
+ 3198 0482 6C6F 6E67 		.string	"long long int"
  3198      206C 6F6E 
  3198      6720 696E 
  3198      7400 
  3199               	.LASF39:
- 3200 0496 5350 495F 		.string	"SPI_MODE_3_gc"
+ 3200 0490 5350 495F 		.string	"SPI_MODE_3_gc"
  3200      4D4F 4445 
  3200      5F33 5F67 
  3200      6300 
-GAS LISTING /tmp/ccTR6krr.s 			page 62
+GAS LISTING /tmp/ccIjfqzd.s 			page 62
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 spi_driver.c
-     /tmp/ccTR6krr.s:2      *ABS*:0000003f __SREG__
-     /tmp/ccTR6krr.s:3      *ABS*:0000003e __SP_H__
-     /tmp/ccTR6krr.s:4      *ABS*:0000003d __SP_L__
-     /tmp/ccTR6krr.s:5      *ABS*:00000034 __CCP__
-     /tmp/ccTR6krr.s:6      *ABS*:00000000 __tmp_reg__
-     /tmp/ccTR6krr.s:7      *ABS*:00000001 __zero_reg__
-     /tmp/ccTR6krr.s:18     .text:00000000 SPI_MasterInit
-     /tmp/ccTR6krr.s:107    .text:00000066 SPI_SlaveInit
-     /tmp/ccTR6krr.s:166    .text:000000a4 SPI_MasterCreateDataPacket
-     /tmp/ccTR6krr.s:209    .text:000000c8 SPI_MasterInterruptHandler
-     /tmp/ccTR6krr.s:320    .text:0000014c SPI_MasterInterruptTransceivePacket
-     /tmp/ccTR6krr.s:436    .text:000001d8 SPI_MasterTransceiveByte
-     /tmp/ccTR6krr.s:468    .text:000001f2 SPI_MasterTransceivePacket
+     /tmp/ccIjfqzd.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccIjfqzd.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccIjfqzd.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccIjfqzd.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccIjfqzd.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccIjfqzd.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccIjfqzd.s:18     .text:00000000 SPI_MasterInit
+     /tmp/ccIjfqzd.s:107    .text:00000066 SPI_SlaveInit
+     /tmp/ccIjfqzd.s:166    .text:000000a4 SPI_MasterCreateDataPacket
+     /tmp/ccIjfqzd.s:209    .text:000000c8 SPI_MasterInterruptHandler
+     /tmp/ccIjfqzd.s:320    .text:0000014c SPI_MasterInterruptTransceivePacket
+     /tmp/ccIjfqzd.s:436    .text:000001d8 SPI_MasterTransceiveByte
+     /tmp/ccIjfqzd.s:468    .text:000001f2 SPI_MasterTransceivePacket
 
 NO UNDEFINED SYMBOLS

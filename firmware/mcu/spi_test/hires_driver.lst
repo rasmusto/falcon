@@ -1,4 +1,4 @@
-GAS LISTING /tmp/cc0OKbFk.s 			page 1
+GAS LISTING /tmp/ccP92Gva.s 			page 1
 
 
    1               		.file	"hires_driver.c"
@@ -58,7 +58,7 @@ GAS LISTING /tmp/cc0OKbFk.s 			page 1
   55               		.text
   56               	.Letext0:
   57               		.section	.debug_info
-GAS LISTING /tmp/cc0OKbFk.s 			page 2
+GAS LISTING /tmp/ccP92Gva.s 			page 2
 
 
   58 0000 FE00 0000 		.long	0xfe
@@ -118,7 +118,7 @@ GAS LISTING /tmp/cc0OKbFk.s 			page 1
  112 0074 02        		.byte	0x2
  113 0075 A908      		.word	0x8a9
  114 0077 5D00 0000 		.long	0x5d
-GAS LISTING /tmp/cc0OKbFk.s 			page 3
+GAS LISTING /tmp/ccP92Gva.s 			page 3
 
 
  115 007b 02        		.byte	0x2
@@ -178,7 +178,7 @@ GAS LISTING /tmp/cc0OKbFk.s 			page 1
  169 00e1 45        		.byte	0x45
  170 00e2 FB00 0000 		.long	0xfb
  171 00e6 06        		.byte	0x6
-GAS LISTING /tmp/cc0OKbFk.s 			page 4
+GAS LISTING /tmp/ccP92Gva.s 			page 4
 
 
  172 00e7 68        		.byte	0x68
@@ -238,7 +238,7 @@ GAS LISTING /tmp/cc0OKbFk.s 			page 1
  226 0023 3E        		.uleb128 0x3e
  227 0024 0B        		.uleb128 0xb
  228 0025 03        		.uleb128 0x3
-GAS LISTING /tmp/cc0OKbFk.s 			page 5
+GAS LISTING /tmp/ccP92Gva.s 			page 5
 
 
  229 0026 08        		.uleb128 0x8
@@ -298,7 +298,7 @@ GAS LISTING /tmp/cc0OKbFk.s 			page 1
  283 005c 04        		.uleb128 0x4
  284 005d 01        		.byte	0x1
  285 005e 03        		.uleb128 0x3
-GAS LISTING /tmp/cc0OKbFk.s 			page 6
+GAS LISTING /tmp/ccP92Gva.s 			page 6
 
 
  286 005f 0E        		.uleb128 0xe
@@ -358,7 +358,7 @@ GAS LISTING /tmp/cc0OKbFk.s 			page 1
  340 0095 00        		.byte	0x0
  341 0096 03        		.uleb128 0x3
  342 0097 0E        		.uleb128 0xe
-GAS LISTING /tmp/cc0OKbFk.s 			page 7
+GAS LISTING /tmp/ccP92Gva.s 			page 7
 
 
  343 0098 3A        		.uleb128 0x3a
@@ -418,7 +418,7 @@ GAS LISTING /tmp/cc0OKbFk.s 			page 1
  394 000f 00        		.byte	0x0
  395 0010 01        		.byte	0x1
  396 0011 01        		.byte	0x1
-GAS LISTING /tmp/cc0OKbFk.s 			page 8
+GAS LISTING /tmp/ccP92Gva.s 			page 8
 
 
  397 0012 01        		.byte	0x1
@@ -478,7 +478,7 @@ GAS LISTING /tmp/cc0OKbFk.s 			page 1
  439      FB0E 0A00 
  439      0101 0101 
  440               	.LASF5:
-GAS LISTING /tmp/cc0OKbFk.s 			page 9
+GAS LISTING /tmp/ccP92Gva.s 			page 9
 
 
  441 0000 6C6F 6E67 		.string	"long long int"
@@ -490,116 +490,116 @@ GAS LISTING /tmp/cc0OKbFk.s 			page 1
  443      676E 6564 
  443      2069 6E74 
  443      00
- 444               	.LASF17:
- 445 001b 2F68 6F6D 		.string	"/home/tomlinsj/falconSvn/44x201007/firmware/mcu/chb_motor_test"
- 445      652F 746F 
- 445      6D6C 696E 
- 445      736A 2F66 
- 445      616C 636F 
+ 444               	.LASF7:
+ 445 001b 4849 5245 		.string	"HIRES_HREN_NONE_gc"
+ 445      535F 4852 
+ 445      454E 5F4E 
+ 445      4F4E 455F 
+ 445      6763 00
  446               	.LASF15:
- 447 005a 474E 5520 		.string	"GNU C 4.3.4"
+ 447 002e 474E 5520 		.string	"GNU C 4.3.4"
  447      4320 342E 
  447      332E 3400 
  448               	.LASF9:
- 449 0066 4849 5245 		.string	"HIRES_HREN_TC1_gc"
+ 449 003a 4849 5245 		.string	"HIRES_HREN_TC1_gc"
  449      535F 4852 
  449      454E 5F54 
  449      4331 5F67 
  449      6300 
  450               	.LASF4:
- 451 0078 6C6F 6E67 		.string	"long unsigned int"
+ 451 004c 6C6F 6E67 		.string	"long unsigned int"
  451      2075 6E73 
  451      6967 6E65 
  451      6420 696E 
  451      7400 
  452               	.LASF19:
- 453 008a 4354 524C 		.string	"CTRL"
+ 453 005e 4354 524C 		.string	"CTRL"
  453      00
  454               	.LASF6:
- 455 008f 6C6F 6E67 		.string	"long long unsigned int"
+ 455 0063 6C6F 6E67 		.string	"long long unsigned int"
  455      206C 6F6E 
  455      6720 756E 
  455      7369 676E 
  455      6564 2069 
  456               	.LASF21:
- 457 00a6 4849 5245 		.string	"HIRES_Enable"
+ 457 007a 4849 5245 		.string	"HIRES_Enable"
  457      535F 456E 
  457      6162 6C65 
  457      00
- 458               	.LASF10:
- 459 00b3 4849 5245 		.string	"HIRES_HREN_BOTH_gc"
- 459      535F 4852 
- 459      454E 5F42 
- 459      4F54 485F 
- 459      6763 00
- 460               	.LASF20:
- 461 00c6 4849 5245 		.string	"HIRES_HREN_enum"
+ 458               	.LASF17:
+ 459 0087 2F68 6F6D 		.string	"/home/tomlinsj/falconSvn/44x201007/firmware/mcu/spi_test"
+ 459      652F 746F 
+ 459      6D6C 696E 
+ 459      736A 2F66 
+ 459      616C 636F 
+ 460               	.LASF10:
+ 461 00c0 4849 5245 		.string	"HIRES_HREN_BOTH_gc"
  461      535F 4852 
- 461      454E 5F65 
- 461      6E75 6D00 
- 462               	.LASF14:
-GAS LISTING /tmp/cc0OKbFk.s 			page 10
+ 461      454E 5F42 
+ 461      4F54 485F 
+ 461      6763 00
+GAS LISTING /tmp/ccP92Gva.s 			page 10
 
 
- 463 00d6 6872 656E 		.string	"hren"
- 463      00
- 464               	.LASF1:
- 465 00db 756E 7369 		.string	"unsigned char"
- 465      676E 6564 
- 465      2063 6861 
- 465      7200 
- 466               	.LASF3:
- 467 00e9 6C6F 6E67 		.string	"long int"
- 467      2069 6E74 
- 467      00
- 468               	.LASF8:
- 469 00f2 4849 5245 		.string	"HIRES_HREN_TC0_gc"
- 469      535F 4852 
- 469      454E 5F54 
- 469      4330 5F67 
- 469      6300 
- 470               	.LASF11:
- 471 0104 4849 5245 		.string	"HIRES_t"
- 471      535F 7400 
- 472               	.LASF0:
- 473 010c 7369 676E 		.string	"signed char"
- 473      6564 2063 
- 473      6861 7200 
- 474               	.LASF7:
- 475 0118 4849 5245 		.string	"HIRES_HREN_NONE_gc"
- 475      535F 4852 
- 475      454E 5F4E 
- 475      4F4E 455F 
- 475      6763 00
+ 462               	.LASF20:
+ 463 00d3 4849 5245 		.string	"HIRES_HREN_enum"
+ 463      535F 4852 
+ 463      454E 5F65 
+ 463      6E75 6D00 
+ 464               	.LASF14:
+ 465 00e3 6872 656E 		.string	"hren"
+ 465      00
+ 466               	.LASF1:
+ 467 00e8 756E 7369 		.string	"unsigned char"
+ 467      676E 6564 
+ 467      2063 6861 
+ 467      7200 
+ 468               	.LASF3:
+ 469 00f6 6C6F 6E67 		.string	"long int"
+ 469      2069 6E74 
+ 469      00
+ 470               	.LASF8:
+ 471 00ff 4849 5245 		.string	"HIRES_HREN_TC0_gc"
+ 471      535F 4852 
+ 471      454E 5F54 
+ 471      4330 5F67 
+ 471      6300 
+ 472               	.LASF11:
+ 473 0111 4849 5245 		.string	"HIRES_t"
+ 473      535F 7400 
+ 474               	.LASF0:
+ 475 0119 7369 676E 		.string	"signed char"
+ 475      6564 2063 
+ 475      6861 7200 
  476               	.LASF13:
- 477 012b 6869 7265 		.string	"hires"
+ 477 0125 6869 7265 		.string	"hires"
  477      7300 
  478               	.LASF18:
- 479 0131 4849 5245 		.string	"HIRES_struct"
+ 479 012b 4849 5245 		.string	"HIRES_struct"
  479      535F 7374 
  479      7275 6374 
  479      00
  480               	.LASF16:
- 481 013e 6869 7265 		.string	"hires_driver.c"
+ 481 0138 6869 7265 		.string	"hires_driver.c"
  481      735F 6472 
  481      6976 6572 
  481      2E63 00
  482               	.LASF12:
- 483 014d 4849 5245 		.string	"HIRES_HREN_t"
+ 483 0147 4849 5245 		.string	"HIRES_HREN_t"
  483      535F 4852 
  483      454E 5F74 
  483      00
-GAS LISTING /tmp/cc0OKbFk.s 			page 11
+GAS LISTING /tmp/ccP92Gva.s 			page 11
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 hires_driver.c
-     /tmp/cc0OKbFk.s:2      *ABS*:0000003f __SREG__
-     /tmp/cc0OKbFk.s:3      *ABS*:0000003e __SP_H__
-     /tmp/cc0OKbFk.s:4      *ABS*:0000003d __SP_L__
-     /tmp/cc0OKbFk.s:5      *ABS*:00000034 __CCP__
-     /tmp/cc0OKbFk.s:6      *ABS*:00000000 __tmp_reg__
-     /tmp/cc0OKbFk.s:7      *ABS*:00000001 __zero_reg__
-     /tmp/cc0OKbFk.s:18     .text:00000000 HIRES_Enable
+     /tmp/ccP92Gva.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccP92Gva.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccP92Gva.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccP92Gva.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccP92Gva.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccP92Gva.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccP92Gva.s:18     .text:00000000 HIRES_Enable
 
 NO UNDEFINED SYMBOLS

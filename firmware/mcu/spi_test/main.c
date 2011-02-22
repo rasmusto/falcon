@@ -110,16 +110,12 @@
 															\
 	PORTE.OUT &= 0b00111111; /* set a2 floating */
 
-static int putcharDebug(char c, FILE *stream);
-static void initUart (void);
-static FILE debug = FDEV_SETUP_STREAM (putcharDebug, NULL, _FDEV_SETUP_WRITE);
-
 void configClock (void);
 void configPWM (volatile TC0_t * tc, HIRES_t * hires, uint16_t period); // configure timer used to generate pwm
 void configDelayTimer (volatile TC0_t * tc); // configure timer used to generate delays
 void configHalfPWMTimer (volatile TC0_t * tc, HIRES_t * hires, uint16_t period);
 void initAdc (ADC_t * adc); // use to initialize adcs
-void spiInit (SPI_t *module, PORT_t *port, bool lsbFirst, SPI_MODE_t mode, SPI_INTLVL_t intLevel);
+void spiInit ();
 
 void setMotor1State (uint8_t state); // motors to their a commutation state based on an integ 
 void setMotor2State (uint8_t state); // -- used instead of macros to allow numerical indexing of states
@@ -255,22 +251,17 @@ uint8_t startupDelays[6] = {250, 150, 105, 80, 75, 75}; // 630
 //~ uint8_t startupDelays[6] = {200, 150, 115, 100, 92, 90};
 	
 int main (void) {
-	
+
 	passedCenterFlag = 0;
 	
 	configClock ();
-	//~ initUarts ();
-	//~ stdout = &debug;
 	
 	//~ PORTC.DIR = 0b01000001;
 	
 	//~ PORTE.DIR = 0b11000000;
 	//~ PORTF.DIR = 0b00001111;
 	
-	//~ initUart();
-	//~ stdout = &debug;
-	
-	spiInit (&SPIC, &PORTC, false, 2, SPI_INTLVL_HI_gc);
+	spiInit ();
 	PMIC.CTRL |= PMIC_HILVLEN_bm;
 	
 	TCF0.CCABUF = STARTUP_PWM;
@@ -342,16 +333,11 @@ void configClock (void) {
 	//~ PORTCFG.CLKEVOUT = PORTCFG_CLKOUT_PD7_gc; 
 }	              
 
-void spiInit (SPI_t *module, PORT_t *port, bool lsbFirst, SPI_MODE_t mode, SPI_INTLVL_t intLevel) {
-	module->CTRL = SPI_ENABLE_bm |                /* Enable SPI module. */
-	                    (lsbFirst ? SPI_DORD_bm : 0) | /* Data order. */
-	                    mode;                          /* SPI mode. */
-
-	/* Interrupt level. */
-	module->INTCTRL = intLevel;
-
-	/* MISO as output. */
-	port->DIRSET = SPI_MISO_bm;
+void spiInit () {
+	SPIC.CTRL = SPI_MODE_2_gc;
+	//~ SPIC.CTRL = SPI_ENABLE_bm | SPI_MODE_2_gc;
+	SPIC.INTCTRL = SPI_INTLVL_HI_gc;
+	PORTC.DIRSET = SPI_MISO_bm;
 }
 
 ISR(SPIC_INT_vect) {
@@ -727,35 +713,4 @@ void setMotor3State (uint8_t state) {
 
 void setMotor4State (uint8_t state) {
 	
-}
-
-static int putcharDebug (char c, FILE *stream) {
-	if (c == '\n')
-	putcharDebug('\r', stream);
- 
-    // Wait for the transmit buffer to be empty
-    while ( !( USARTC1.STATUS & USART_DREIF_bm) );
- 
-    // Put our character into the transmit buffer
-    USARTC1.DATA = c; 
- 
-    return 0;
-}
-
-static void initUart (void) {
-    // Set the TxD pin high - set PORTD DIR register bit 3 to 1
-    //~ PORTC.DIRSET = PIN7_bm;
-    //~ PORTC.DIRCLR = PIN6_bm;
-
-    // BSEL = 51 so at 32mhz clock, baud rate should be 38400
-
-    USARTC1.BAUDCTRLB = 0;			// BSCALE = 0 as well
-    USARTC1.BAUDCTRLA = 51;
-
-    // Set mode of operation
-    USARTC1.CTRLA = 0;				// no interrupts please
-    USARTC1.CTRLC = 0x03;			// async, no parity, 8 bit data, 1 stop bit
-
-    // Enable transmitter only
-    USARTC1.CTRLB = USART_TXEN_bm;
 }

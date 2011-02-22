@@ -1,4 +1,4 @@
-GAS LISTING /tmp/ccF1hZrf.s 			page 1
+GAS LISTING /tmp/ccmQzcQc.s 			page 1
 
 
    1               		.file	"awex_driver.c"
@@ -58,7 +58,7 @@ GAS LISTING /tmp/ccF1hZrf.s 			page 1
   55               	.LM6:
   56 0018 0895      		ret
   57               	.LFE7:
-GAS LISTING /tmp/ccF1hZrf.s 			page 2
+GAS LISTING /tmp/ccmQzcQc.s 			page 2
 
 
   58               		.size	AWEX_DisableDeadTimeInsertion, .-AWEX_DisableDeadTimeInsertion
@@ -118,7 +118,7 @@ GAS LISTING /tmp/ccF1hZrf.s 			page 1
  112               	.LSFDE4:
  113 0030 0C00 0000 		.long	.LEFDE4-.LASFDE4
  114               	.LASFDE4:
-GAS LISTING /tmp/ccF1hZrf.s 			page 3
+GAS LISTING /tmp/ccmQzcQc.s 			page 3
 
 
  115 0034 0000 0000 		.long	.Lframe0
@@ -178,7 +178,7 @@ GAS LISTING /tmp/ccF1hZrf.s 			page 1
  169 0058 0600      		.word	0x6
  170 005a 68        		.byte	0x68
  171 005b 93        		.byte	0x93
-GAS LISTING /tmp/ccF1hZrf.s 			page 4
+GAS LISTING /tmp/ccmQzcQc.s 			page 4
 
 
  172 005c 01        		.uleb128 0x1
@@ -238,7 +238,7 @@ GAS LISTING /tmp/ccF1hZrf.s 			page 1
  226 0054 04        		.byte	0x4
  227 0055 07        		.byte	0x7
  228 0056 0000 0000 		.long	.LASF4
-GAS LISTING /tmp/ccF1hZrf.s 			page 5
+GAS LISTING /tmp/ccmQzcQc.s 			page 5
 
 
  229 005a 02        		.uleb128 0x2
@@ -298,7 +298,7 @@ GAS LISTING /tmp/ccF1hZrf.s 			page 1
  283 00c3 23        		.byte	0x23
  284 00c4 04        		.uleb128 0x4
  285 00c5 07        		.uleb128 0x7
-GAS LISTING /tmp/ccF1hZrf.s 			page 6
+GAS LISTING /tmp/ccmQzcQc.s 			page 6
 
 
  286 00c6 0000 0000 		.long	.LASF12
@@ -358,7 +358,7 @@ GAS LISTING /tmp/ccF1hZrf.s 			page 1
  340 012d 0B        		.uleb128 0xb
  341 012e 07        		.uleb128 0x7
  342 012f 0000 0000 		.long	.LASF19
-GAS LISTING /tmp/ccF1hZrf.s 			page 7
+GAS LISTING /tmp/ccmQzcQc.s 			page 7
 
 
  343 0133 02        		.byte	0x2
@@ -418,7 +418,7 @@ GAS LISTING /tmp/ccF1hZrf.s 			page 1
  397 019a 49        		.byte	0x49
  398 019b B101 0000 		.long	0x1b1
  399 019f 0000 0000 		.long	.LLST1
-GAS LISTING /tmp/ccF1hZrf.s 			page 8
+GAS LISTING /tmp/ccmQzcQc.s 			page 8
 
 
  400 01a3 0E        		.uleb128 0xe
@@ -478,7 +478,7 @@ GAS LISTING /tmp/ccF1hZrf.s 			page 1
  454 020f 0E        		.uleb128 0xe
  455 0210 0000 0000 		.long	.LASF31
  456 0214 01        		.byte	0x1
-GAS LISTING /tmp/ccF1hZrf.s 			page 9
+GAS LISTING /tmp/ccmQzcQc.s 			page 9
 
 
  457 0215 76        		.byte	0x76
@@ -538,7 +538,7 @@ GAS LISTING /tmp/ccF1hZrf.s 			page 1
  511 0028 13        		.uleb128 0x13
  512 0029 00        		.byte	0x0
  513 002a 00        		.byte	0x0
-GAS LISTING /tmp/ccF1hZrf.s 			page 10
+GAS LISTING /tmp/ccmQzcQc.s 			page 10
 
 
  514 002b 04        		.uleb128 0x4
@@ -598,7 +598,7 @@ GAS LISTING /tmp/ccF1hZrf.s 			page 1
  568 0061 0B        		.uleb128 0xb
  569 0062 3B        		.uleb128 0x3b
  570 0063 05        		.uleb128 0x5
-GAS LISTING /tmp/ccF1hZrf.s 			page 11
+GAS LISTING /tmp/ccmQzcQc.s 			page 11
 
 
  571 0064 49        		.uleb128 0x49
@@ -658,7 +658,7 @@ GAS LISTING /tmp/ccF1hZrf.s 			page 1
  625 009a 40        		.uleb128 0x40
  626 009b 0A        		.uleb128 0xa
  627 009c 01        		.uleb128 0x1
-GAS LISTING /tmp/ccF1hZrf.s 			page 12
+GAS LISTING /tmp/ccmQzcQc.s 			page 12
 
 
  628 009d 13        		.uleb128 0x13
@@ -718,7 +718,7 @@ GAS LISTING /tmp/ccF1hZrf.s 			page 1
  682 00d3 0C        		.uleb128 0xc
  683 00d4 11        		.uleb128 0x11
  684 00d5 01        		.uleb128 0x1
-GAS LISTING /tmp/ccF1hZrf.s 			page 13
+GAS LISTING /tmp/ccmQzcQc.s 			page 13
 
 
  685 00d6 12        		.uleb128 0x12
@@ -778,7 +778,7 @@ GAS LISTING /tmp/ccF1hZrf.s 			page 1
  727 000f 00        		.byte	0x0
  728 0010 01        		.byte	0x1
  729 0011 01        		.byte	0x1
-GAS LISTING /tmp/ccF1hZrf.s 			page 14
+GAS LISTING /tmp/ccmQzcQc.s 			page 14
 
 
  730 0012 01        		.byte	0x1
@@ -838,7 +838,7 @@ GAS LISTING /tmp/ccF1hZrf.s 			page 1
  768 00d2 0000 0000 		.long	.LM3
  769 00d6 15        		.byte	0x15
  770 00d7 00        		.byte	0x0
-GAS LISTING /tmp/ccF1hZrf.s 			page 15
+GAS LISTING /tmp/ccmQzcQc.s 			page 15
 
 
  771 00d8 05        		.uleb128 0x5
@@ -898,7 +898,7 @@ GAS LISTING /tmp/ccF1hZrf.s 			page 1
  817 0016 4157 4558 		.string	"AWEX_ConfigureFaultDetection"
  817      5F43 6F6E 
  817      6669 6775 
-GAS LISTING /tmp/ccF1hZrf.s 			page 16
+GAS LISTING /tmp/ccmQzcQc.s 			page 16
 
 
  817      7265 4661 
@@ -958,7 +958,7 @@ GAS LISTING /tmp/ccF1hZrf.s 			page 1
  843      6420 696E 
  843      7400 
  844               	.LASF24:
-GAS LISTING /tmp/ccF1hZrf.s 			page 17
+GAS LISTING /tmp/ccmQzcQc.s 			page 17
 
 
  845 00c7 4157 4558 		.string	"AWEX_FDACT_CLEARDIR_gc"
@@ -1013,73 +1013,73 @@ GAS LISTING /tmp/ccF1hZrf.s 			page 1
  864               	.LASF20:
  865 0176 7569 6E74 		.string	"uint8_t"
  865      385F 7400 
- 866               	.LASF35:
- 867 017e 2F68 6F6D 		.string	"/home/tomlinsj/falconSvn/44x201007/firmware/mcu/chb_motor_test"
- 867      652F 746F 
- 867      6D6C 696E 
- 867      736A 2F66 
-GAS LISTING /tmp/ccF1hZrf.s 			page 18
+ 866               	.LASF16:
+ 867 017e 4454 4853 		.string	"DTHS"
+ 867      00
+ 868               	.LASF7:
+ 869 0183 4354 524C 		.string	"CTRL"
+GAS LISTING /tmp/ccmQzcQc.s 			page 18
 
 
- 867      616C 636F 
- 868               	.LASF16:
- 869 01bd 4454 4853 		.string	"DTHS"
  869      00
- 870               	.LASF7:
- 871 01c2 4354 524C 		.string	"CTRL"
- 871      00
- 872               	.LASF31:
- 873 01c7 6661 756C 		.string	"faultAction"
- 873      7441 6374 
- 873      696F 6E00 
+ 870               	.LASF31:
+ 871 0188 6661 756C 		.string	"faultAction"
+ 871      7441 6374 
+ 871      696F 6E00 
+ 872               	.LASF35:
+ 873 0194 2F68 6F6D 		.string	"/home/tomlinsj/falconSvn/44x201007/firmware/mcu/spi_test"
+ 873      652F 746F 
+ 873      6D6C 696E 
+ 873      736A 2F66 
+ 873      616C 636F 
  874               	.LASF10:
- 875 01d3 4644 4354 		.string	"FDCTRL"
+ 875 01cd 4644 4354 		.string	"FDCTRL"
  875      524C 00
  876               	.LASF5:
- 877 01da 6C6F 6E67 		.string	"long long int"
+ 877 01d4 6C6F 6E67 		.string	"long long int"
  877      206C 6F6E 
  877      6720 696E 
  877      7400 
  878               	.LASF25:
- 879 01e8 4157 4558 		.string	"AWEX_FDACT_t"
+ 879 01e2 4157 4558 		.string	"AWEX_FDACT_t"
  879      5F46 4441 
  879      4354 5F74 
  879      00
  880               	.LASF15:
- 881 01f5 4454 4C53 		.string	"DTLS"
+ 881 01ef 4454 4C53 		.string	"DTLS"
  881      00
  882               	.LASF27:
- 883 01fa 656E 6162 		.string	"enableMask"
+ 883 01f4 656E 6162 		.string	"enableMask"
  883      6C65 4D61 
  883      736B 00
  884               	.LASF21:
- 885 0205 4157 4558 		.string	"AWEX_t"
+ 885 01ff 4157 4558 		.string	"AWEX_t"
  885      5F74 00
  886               	.LASF3:
- 887 020c 6C6F 6E67 		.string	"long int"
+ 887 0206 6C6F 6E67 		.string	"long int"
  887      2069 6E74 
  887      00
  888               	.LASF0:
- 889 0215 7369 676E 		.string	"signed char"
+ 889 020f 7369 676E 		.string	"signed char"
  889      6564 2063 
  889      6861 7200 
  890               	.LASF30:
- 891 0221 6469 7361 		.string	"disableMask"
+ 891 021b 6469 7361 		.string	"disableMask"
  891      626C 654D 
  891      6173 6B00 
-GAS LISTING /tmp/ccF1hZrf.s 			page 19
+GAS LISTING /tmp/ccmQzcQc.s 			page 19
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 awex_driver.c
-     /tmp/ccF1hZrf.s:2      *ABS*:0000003f __SREG__
-     /tmp/ccF1hZrf.s:3      *ABS*:0000003e __SP_H__
-     /tmp/ccF1hZrf.s:4      *ABS*:0000003d __SP_L__
-     /tmp/ccF1hZrf.s:5      *ABS*:00000034 __CCP__
-     /tmp/ccF1hZrf.s:6      *ABS*:00000000 __tmp_reg__
-     /tmp/ccF1hZrf.s:7      *ABS*:00000001 __zero_reg__
-     /tmp/ccF1hZrf.s:18     .text:00000000 AWEX_EnableDeadTimeInsertion
-     /tmp/ccF1hZrf.s:39     .text:0000000c AWEX_DisableDeadTimeInsertion
-     /tmp/ccF1hZrf.s:61     .text:0000001a AWEX_ConfigureFaultDetection
+     /tmp/ccmQzcQc.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccmQzcQc.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccmQzcQc.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccmQzcQc.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccmQzcQc.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccmQzcQc.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccmQzcQc.s:18     .text:00000000 AWEX_EnableDeadTimeInsertion
+     /tmp/ccmQzcQc.s:39     .text:0000000c AWEX_DisableDeadTimeInsertion
+     /tmp/ccmQzcQc.s:61     .text:0000001a AWEX_ConfigureFaultDetection
 
 NO UNDEFINED SYMBOLS

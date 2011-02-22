@@ -1,4 +1,4 @@
-GAS LISTING /tmp/cckxQFk2.s 			page 1
+GAS LISTING /tmp/ccxp0SI5.s 			page 1
 
 
    1               		.file	"TC_driver.c"
@@ -58,7 +58,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
   55               		.size	TC1_ConfigClockSource, .-TC1_ConfigClockSource
   56               	.global	TC0_ConfigWGM
   57               		.type	TC0_ConfigWGM, @function
-GAS LISTING /tmp/cckxQFk2.s 			page 2
+GAS LISTING /tmp/ccxp0SI5.s 			page 2
 
 
   58               	TC0_ConfigWGM:
@@ -118,7 +118,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  112               	/* epilogue start */
  113               	.LM15:
  114 003c 0895      		ret
-GAS LISTING /tmp/cckxQFk2.s 			page 3
+GAS LISTING /tmp/ccxp0SI5.s 			page 3
 
 
  115               	.LFE10:
@@ -178,7 +178,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  169 005a 8181      		ldd r24,Z+1
  170               	.LVL16:
  171 005c 6073      		andi r22,lo8(48)
-GAS LISTING /tmp/cckxQFk2.s 			page 4
+GAS LISTING /tmp/ccxp0SI5.s 			page 4
 
 
  172               	.LVL17:
@@ -238,7 +238,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  226               	TC0_SetOverflowIntLevel:
  227               	.LFB16:
  228               	.LM31:
-GAS LISTING /tmp/cckxQFk2.s 			page 5
+GAS LISTING /tmp/ccxp0SI5.s 			page 5
 
 
  229               	.LVL24:
@@ -298,7 +298,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  283               		.size	TC0_SetErrorIntLevel, .-TC0_SetErrorIntLevel
  284               	.global	TC1_SetErrorIntLevel
  285               		.type	TC1_SetErrorIntLevel, @function
-GAS LISTING /tmp/cckxQFk2.s 			page 6
+GAS LISTING /tmp/ccxp0SI5.s 			page 6
 
 
  286               	TC1_SetErrorIntLevel:
@@ -358,7 +358,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  340               	.LM48:
  341 00c6 0895      		ret
  342               	.LFE21:
-GAS LISTING /tmp/cckxQFk2.s 			page 7
+GAS LISTING /tmp/ccxp0SI5.s 			page 7
 
 
  343               		.size	TC1_SetCCAIntLevel, .-TC1_SetCCAIntLevel
@@ -418,7 +418,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  397 00e6 862B      		or r24,r22
  398 00e8 8783      		std Z+7,r24
  399               	/* epilogue start */
-GAS LISTING /tmp/cckxQFk2.s 			page 8
+GAS LISTING /tmp/ccxp0SI5.s 			page 8
 
 
  400               	.LM57:
@@ -478,7 +478,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  454 0106 FC01      		movw r30,r24
  455               	.LM66:
  456 0108 8081      		ld r24,Z
-GAS LISTING /tmp/cckxQFk2.s 			page 9
+GAS LISTING /tmp/ccxp0SI5.s 			page 9
 
 
  457               	.LVL47:
@@ -538,7 +538,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  511 0048 0000 0000 		.long	.LFB9
  512 004c 0C00 0000 		.long	.LFE9-.LFB9
  513               		.p2align	2
-GAS LISTING /tmp/cckxQFk2.s 			page 10
+GAS LISTING /tmp/ccxp0SI5.s 			page 10
 
 
  514               	.LEFDE6:
@@ -598,7 +598,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  568 00bc 0C00 0000 		.long	.LFE16-.LFB16
  569               		.p2align	2
  570               	.LEFDE20:
-GAS LISTING /tmp/cckxQFk2.s 			page 11
+GAS LISTING /tmp/ccxp0SI5.s 			page 11
 
 
  571               	.LSFDE22:
@@ -658,7 +658,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  625               		.p2align	2
  626               	.LEFDE34:
  627               	.LSFDE36:
-GAS LISTING /tmp/cckxQFk2.s 			page 12
+GAS LISTING /tmp/ccxp0SI5.s 			page 12
 
 
  628 0130 0C00 0000 		.long	.LEFDE36-.LASFDE36
@@ -718,7 +718,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  682 0020 0000 0000 		.long	0x0
  683 0024 0000 0000 		.long	0x0
  684               	.LLST3:
-GAS LISTING /tmp/cckxQFk2.s 			page 13
+GAS LISTING /tmp/ccxp0SI5.s 			page 13
 
 
  685 0028 0C00 0000 		.long	.LVL2-.Ltext0
@@ -778,7 +778,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  739 0092 6E        		.byte	0x6e
  740 0093 93        		.byte	0x93
  741 0094 01        		.uleb128 0x1
-GAS LISTING /tmp/cckxQFk2.s 			page 14
+GAS LISTING /tmp/ccxp0SI5.s 			page 14
 
 
  742 0095 6F        		.byte	0x6f
@@ -838,7 +838,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  796 00fd 69        		.byte	0x69
  797 00fe 93        		.byte	0x93
  798 00ff 01        		.uleb128 0x1
-GAS LISTING /tmp/cckxQFk2.s 			page 15
+GAS LISTING /tmp/ccxp0SI5.s 			page 15
 
 
  799 0100 5000 0000 		.long	.LVL13-.Ltext0
@@ -898,7 +898,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  853 0168 7200 0000 		.long	.LVL21-.Ltext0
  854 016c 7600 0000 		.long	.LVL22-.Ltext0
  855 0170 0600      		.word	0x6
-GAS LISTING /tmp/cckxQFk2.s 			page 16
+GAS LISTING /tmp/ccxp0SI5.s 			page 16
 
 
  856 0172 68        		.byte	0x68
@@ -958,7 +958,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  910 01d5 6F        		.byte	0x6f
  911 01d6 93        		.byte	0x93
  912 01d7 01        		.uleb128 0x1
-GAS LISTING /tmp/cckxQFk2.s 			page 17
+GAS LISTING /tmp/ccxp0SI5.s 			page 17
 
 
  913 01d8 0000 0000 		.long	0x0
@@ -1018,7 +1018,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  967 0240 B400 0000 		.long	.LVL33-.Ltext0
  968 0244 BC00 0000 		.long	.LFE20-.Ltext0
  969 0248 0600      		.word	0x6
-GAS LISTING /tmp/cckxQFk2.s 			page 18
+GAS LISTING /tmp/ccxp0SI5.s 			page 18
 
 
  970 024a 6E        		.byte	0x6e
@@ -1078,7 +1078,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  1024 02b2 68        		.byte	0x68
  1025 02b3 93        		.byte	0x93
  1026 02b4 01        		.uleb128 0x1
-GAS LISTING /tmp/cckxQFk2.s 			page 19
+GAS LISTING /tmp/ccxp0SI5.s 			page 19
 
 
  1027 02b5 69        		.byte	0x69
@@ -1138,7 +1138,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  1081 0318 0000 0000 		.long	0x0
  1082 031c 0000 0000 		.long	0x0
  1083               	.LLST41:
-GAS LISTING /tmp/cckxQFk2.s 			page 20
+GAS LISTING /tmp/ccxp0SI5.s 			page 20
 
 
  1084 0320 F800 0000 		.long	.LVL44-.Ltext0
@@ -1198,7 +1198,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  1138 0025 02        		.uleb128 0x2
  1139 0026 01        		.byte	0x1
  1140 0027 06        		.byte	0x6
-GAS LISTING /tmp/cckxQFk2.s 			page 21
+GAS LISTING /tmp/ccxp0SI5.s 			page 21
 
 
  1141 0028 0000 0000 		.long	.LASF0
@@ -1258,7 +1258,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  1195 0090 3108      		.word	0x831
  1196 0092 6800 0000 		.long	0x68
  1197 0096 02        		.byte	0x2
-GAS LISTING /tmp/cckxQFk2.s 			page 22
+GAS LISTING /tmp/ccxp0SI5.s 			page 22
 
 
  1198 0097 23        		.byte	0x23
@@ -1318,7 +1318,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  1252 00fb 3708      		.word	0x837
  1253 00fd 2001 0000 		.long	0x120
  1254 0101 07        		.uleb128 0x7
-GAS LISTING /tmp/cckxQFk2.s 			page 23
+GAS LISTING /tmp/ccxp0SI5.s 			page 23
 
 
  1255 0102 0000 0000 		.long	.LASF11
@@ -1378,7 +1378,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  1309 0166 3808      		.word	0x838
  1310 0168 7E01 0000 		.long	0x17e
  1311 016c 09        		.uleb128 0x9
-GAS LISTING /tmp/cckxQFk2.s 			page 24
+GAS LISTING /tmp/ccxp0SI5.s 			page 24
 
 
  1312 016d 4343 4200 		.string	"CCB"
@@ -1438,7 +1438,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  1366 01d8 00        		.uleb128 0x0
  1367 01d9 07        		.uleb128 0x7
  1368 01da 0000 0000 		.long	.LASF18
-GAS LISTING /tmp/cckxQFk2.s 			page 25
+GAS LISTING /tmp/ccxp0SI5.s 			page 25
 
 
  1369 01de 02        		.byte	0x2
@@ -1498,7 +1498,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  1423 0246 00        		.byte	0x0
  1424 0247 06        		.uleb128 0x6
  1425 0248 02        		.byte	0x2
-GAS LISTING /tmp/cckxQFk2.s 			page 26
+GAS LISTING /tmp/ccxp0SI5.s 			page 26
 
 
  1426 0249 02        		.byte	0x2
@@ -1558,7 +1558,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  1480 02b1 00        		.byte	0x0
  1481 02b2 08        		.uleb128 0x8
  1482 02b3 02        		.byte	0x2
-GAS LISTING /tmp/cckxQFk2.s 			page 27
+GAS LISTING /tmp/ccxp0SI5.s 			page 27
 
 
  1483 02b4 02        		.byte	0x2
@@ -1618,7 +1618,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  1537 031f 4508      		.word	0x845
  1538 0321 6800 0000 		.long	0x68
  1539 0325 02        		.byte	0x2
-GAS LISTING /tmp/cckxQFk2.s 			page 28
+GAS LISTING /tmp/ccxp0SI5.s 			page 28
 
 
  1540 0326 23        		.byte	0x23
@@ -1678,7 +1678,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  1594 038d 07        		.uleb128 0x7
  1595 038e 0000 0000 		.long	.LASF37
  1596 0392 02        		.byte	0x2
-GAS LISTING /tmp/cckxQFk2.s 			page 29
+GAS LISTING /tmp/ccxp0SI5.s 			page 29
 
 
  1597 0393 1408      		.word	0x814
@@ -1738,7 +1738,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  1651 03f7 0000 0000 		.long	.LASF44
  1652 03fb 02        		.byte	0x2
  1653 03fc 1B08      		.word	0x81b
-GAS LISTING /tmp/cckxQFk2.s 			page 30
+GAS LISTING /tmp/ccxp0SI5.s 			page 30
 
 
  1654 03fe 6800 0000 		.long	0x68
@@ -1798,7 +1798,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  1708 0464 02        		.byte	0x2
  1709 0465 2208      		.word	0x822
  1710 0467 6800 0000 		.long	0x68
-GAS LISTING /tmp/cckxQFk2.s 			page 31
+GAS LISTING /tmp/ccxp0SI5.s 			page 31
 
 
  1711 046b 02        		.byte	0x2
@@ -1858,7 +1858,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  1765 04ce 2908      		.word	0x829
  1766 04d0 6800 0000 		.long	0x68
  1767 04d4 02        		.byte	0x2
-GAS LISTING /tmp/cckxQFk2.s 			page 32
+GAS LISTING /tmp/ccxp0SI5.s 			page 32
 
 
  1768 04d5 23        		.byte	0x23
@@ -1918,7 +1918,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  1822 0539 6800 0000 		.long	0x68
  1823 053d 02        		.byte	0x2
  1824 053e 23        		.byte	0x23
-GAS LISTING /tmp/cckxQFk2.s 			page 33
+GAS LISTING /tmp/ccxp0SI5.s 			page 33
 
 
  1825 053f 1F        		.uleb128 0x1f
@@ -1978,7 +1978,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  1879 059d A601 0000 		.long	0x1a6
  1880 05a1 02        		.byte	0x2
  1881 05a2 23        		.byte	0x23
-GAS LISTING /tmp/cckxQFk2.s 			page 34
+GAS LISTING /tmp/ccxp0SI5.s 			page 34
 
 
  1882 05a3 2C        		.uleb128 0x2c
@@ -2038,7 +2038,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  1936 0606 0D        		.uleb128 0xd
  1937 0607 2C02 0000 		.long	0x22c
  1938 060b 02        		.byte	0x2
-GAS LISTING /tmp/cckxQFk2.s 			page 35
+GAS LISTING /tmp/ccxp0SI5.s 			page 35
 
 
  1939 060c 23        		.byte	0x23
@@ -2098,7 +2098,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  1993 0668 7E06 0000 		.long	0x67e
  1994 066c 09        		.uleb128 0x9
  1995 066d 434E 5400 		.string	"CNT"
-GAS LISTING /tmp/cckxQFk2.s 			page 36
+GAS LISTING /tmp/ccxp0SI5.s 			page 36
 
 
  1996 0671 02        		.byte	0x2
@@ -2158,7 +2158,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  2050 06d9 07        		.uleb128 0x7
  2051 06da 0000 0000 		.long	.LASF12
  2052 06de 02        		.byte	0x2
-GAS LISTING /tmp/cckxQFk2.s 			page 37
+GAS LISTING /tmp/ccxp0SI5.s 			page 37
 
 
  2053 06df 7708      		.word	0x877
@@ -2218,7 +2218,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  2107 0747 06        		.uleb128 0x6
  2108 0748 02        		.byte	0x2
  2109 0749 02        		.byte	0x2
-GAS LISTING /tmp/cckxQFk2.s 			page 38
+GAS LISTING /tmp/ccxp0SI5.s 			page 38
 
 
  2110 074a 8308      		.word	0x883
@@ -2278,7 +2278,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  2164 07b2 08        		.uleb128 0x8
  2165 07b3 02        		.byte	0x2
  2166 07b4 02        		.byte	0x2
-GAS LISTING /tmp/cckxQFk2.s 			page 39
+GAS LISTING /tmp/ccxp0SI5.s 			page 39
 
 
  2167 07b5 8408      		.word	0x884
@@ -2338,7 +2338,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  2221 0823 5108      		.word	0x851
  2222 0825 6800 0000 		.long	0x68
  2223 0829 02        		.byte	0x2
-GAS LISTING /tmp/cckxQFk2.s 			page 40
+GAS LISTING /tmp/ccxp0SI5.s 			page 40
 
 
  2224 082a 23        		.byte	0x23
@@ -2398,7 +2398,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  2278 088e 6800 0000 		.long	0x68
  2279 0892 02        		.byte	0x2
  2280 0893 23        		.byte	0x23
-GAS LISTING /tmp/cckxQFk2.s 			page 41
+GAS LISTING /tmp/ccxp0SI5.s 			page 41
 
 
  2281 0894 07        		.uleb128 0x7
@@ -2458,7 +2458,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  2335 08fb 02        		.byte	0x2
  2336 08fc 23        		.byte	0x23
  2337 08fd 0E        		.uleb128 0xe
-GAS LISTING /tmp/cckxQFk2.s 			page 42
+GAS LISTING /tmp/ccxp0SI5.s 			page 42
 
 
  2338 08fe 07        		.uleb128 0x7
@@ -2518,7 +2518,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  2392 0965 23        		.byte	0x23
  2393 0966 15        		.uleb128 0x15
  2394 0967 07        		.uleb128 0x7
-GAS LISTING /tmp/cckxQFk2.s 			page 43
+GAS LISTING /tmp/ccxp0SI5.s 			page 43
 
 
  2395 0968 0000 0000 		.long	.LASF56
@@ -2578,7 +2578,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  2449 09cf 1C        		.uleb128 0x1c
  2450 09d0 07        		.uleb128 0x7
  2451 09d1 0000 0000 		.long	.LASF63
-GAS LISTING /tmp/cckxQFk2.s 			page 44
+GAS LISTING /tmp/ccxp0SI5.s 			page 44
 
 
  2452 09d5 02        		.byte	0x2
@@ -2638,7 +2638,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  2506 0a38 7508      		.word	0x875
  2507 0a3a 6800 0000 		.long	0x68
  2508 0a3e 02        		.byte	0x2
-GAS LISTING /tmp/cckxQFk2.s 			page 45
+GAS LISTING /tmp/ccxp0SI5.s 			page 45
 
 
  2509 0a3f 23        		.byte	0x23
@@ -2698,7 +2698,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  2563 0aa1 02        		.byte	0x2
  2564 0aa2 23        		.byte	0x23
  2565 0aa3 30        		.uleb128 0x30
-GAS LISTING /tmp/cckxQFk2.s 			page 46
+GAS LISTING /tmp/ccxp0SI5.s 			page 46
 
 
  2566 0aa4 07        		.uleb128 0x7
@@ -2758,7 +2758,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  2620 0b06 3A        		.uleb128 0x3a
  2621 0b07 00        		.byte	0x0
  2622 0b08 0E        		.uleb128 0xe
-GAS LISTING /tmp/cckxQFk2.s 			page 47
+GAS LISTING /tmp/ccxp0SI5.s 			page 47
 
 
  2623 0b09 0000 0000 		.long	.LASF84
@@ -2818,7 +2818,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  2677 0b7a 0E        		.sleb128 14
  2678 0b7b 10        		.uleb128 0x10
  2679 0b7c 0000 0000 		.long	.LASF100
-GAS LISTING /tmp/cckxQFk2.s 			page 48
+GAS LISTING /tmp/ccxp0SI5.s 			page 48
 
 
  2680 0b80 0F        		.sleb128 15
@@ -2878,7 +2878,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  2734 0bf1 E000      		.sleb128 96
  2735 0bf3 10        		.uleb128 0x10
  2736 0bf4 0000 0000 		.long	.LASF116
-GAS LISTING /tmp/cckxQFk2.s 			page 49
+GAS LISTING /tmp/ccxp0SI5.s 			page 49
 
 
  2737 0bf8 8001      		.sleb128 128
@@ -2938,7 +2938,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  2791 0c67 0000 0000 		.long	.LASF131
  2792 0c6b 00        		.sleb128 0
  2793 0c6c 10        		.uleb128 0x10
-GAS LISTING /tmp/cckxQFk2.s 			page 50
+GAS LISTING /tmp/ccxp0SI5.s 			page 50
 
 
  2794 0c6d 0000 0000 		.long	.LASF132
@@ -2998,7 +2998,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  2848 0cdf 0000 0000 		.long	.LASF146
  2849 0ce3 C001      		.sleb128 192
  2850 0ce5 00        		.byte	0x0
-GAS LISTING /tmp/cckxQFk2.s 			page 51
+GAS LISTING /tmp/ccxp0SI5.s 			page 51
 
 
  2851 0ce6 0E        		.uleb128 0xe
@@ -3058,7 +3058,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  2905 0d57 0000 0000 		.long	.LASF160
  2906 0d5b 01        		.byte	0x1
  2907 0d5c 02        		.byte	0x2
-GAS LISTING /tmp/cckxQFk2.s 			page 52
+GAS LISTING /tmp/ccxp0SI5.s 			page 52
 
 
  2908 0d5d 1509      		.word	0x915
@@ -3118,7 +3118,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  2962 0dc6 90        		.byte	0x90
  2963 0dc7 20        		.uleb128 0x20
  2964 0dc8 E80D 0000 		.long	0xde8
-GAS LISTING /tmp/cckxQFk2.s 			page 53
+GAS LISTING /tmp/ccxp0SI5.s 			page 53
 
 
  2965 0dcc 13        		.uleb128 0x13
@@ -3178,7 +3178,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  3019 0e39 6B        		.byte	0x6b
  3020 0e3a 01        		.byte	0x1
  3021 0e3b 0000 0000 		.long	.LFB8
-GAS LISTING /tmp/cckxQFk2.s 			page 54
+GAS LISTING /tmp/ccxp0SI5.s 			page 54
 
 
  3022 0e3f 0000 0000 		.long	.LFE8
@@ -3238,7 +3238,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  3076 0eac 90        		.byte	0x90
  3077 0ead 20        		.uleb128 0x20
  3078 0eae CE0E 0000 		.long	0xece
-GAS LISTING /tmp/cckxQFk2.s 			page 55
+GAS LISTING /tmp/ccxp0SI5.s 			page 55
 
 
  3079 0eb2 13        		.uleb128 0x13
@@ -3298,7 +3298,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  3133 0f1e 01        		.byte	0x1
  3134 0f1f B6        		.byte	0xb6
  3135 0f20 E80D 0000 		.long	0xde8
-GAS LISTING /tmp/cckxQFk2.s 			page 56
+GAS LISTING /tmp/ccxp0SI5.s 			page 56
 
 
  3136 0f24 0000 0000 		.long	.LLST13
@@ -3358,7 +3358,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  3190 0f91 0000 0000 		.long	.LASF183
  3191 0f95 01        		.byte	0x1
  3192 0f96 E8        		.byte	0xe8
-GAS LISTING /tmp/cckxQFk2.s 			page 57
+GAS LISTING /tmp/ccxp0SI5.s 			page 57
 
 
  3193 0f97 2C00 0000 		.long	0x2c
@@ -3418,7 +3418,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  3247 1008 66        		.byte	0x66
  3248 1009 00        		.byte	0x0
  3249 100a 17        		.uleb128 0x17
-GAS LISTING /tmp/cckxQFk2.s 			page 58
+GAS LISTING /tmp/ccxp0SI5.s 			page 58
 
 
  3250 100b 01        		.byte	0x1
@@ -3478,7 +3478,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  3304 107e 01        		.byte	0x1
  3305 107f 3701      		.word	0x137
  3306 1081 01        		.byte	0x1
-GAS LISTING /tmp/cckxQFk2.s 			page 59
+GAS LISTING /tmp/ccxp0SI5.s 			page 59
 
 
  3307 1082 0000 0000 		.long	.LFB19
@@ -3538,7 +3538,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  3361 10f8 02        		.byte	0x2
  3362 10f9 90        		.byte	0x90
  3363 10fa 20        		.uleb128 0x20
-GAS LISTING /tmp/cckxQFk2.s 			page 60
+GAS LISTING /tmp/ccxp0SI5.s 			page 60
 
 
  3364 10fb 1D11 0000 		.long	0x111d
@@ -3598,7 +3598,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  3418 116e 7463 00   		.string	"tc"
  3419 1171 01        		.byte	0x1
  3420 1172 6E01      		.word	0x16e
-GAS LISTING /tmp/cckxQFk2.s 			page 61
+GAS LISTING /tmp/ccxp0SI5.s 			page 61
 
 
  3421 1174 270E 0000 		.long	0xe27
@@ -3658,7 +3658,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  3475 11ea 19        		.uleb128 0x19
  3476 11eb 0000 0000 		.long	.LASF186
  3477 11ef 01        		.byte	0x1
-GAS LISTING /tmp/cckxQFk2.s 			page 62
+GAS LISTING /tmp/ccxp0SI5.s 			page 62
 
 
  3478 11f0 8A01      		.word	0x18a
@@ -3718,7 +3718,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  3532 000a 0E        		.uleb128 0xe
  3533 000b 11        		.uleb128 0x11
  3534 000c 01        		.uleb128 0x1
-GAS LISTING /tmp/cckxQFk2.s 			page 63
+GAS LISTING /tmp/ccxp0SI5.s 			page 63
 
 
  3535 000d 12        		.uleb128 0x12
@@ -3778,7 +3778,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  3589 0043 0B        		.uleb128 0xb
  3590 0044 3B        		.uleb128 0x3b
  3591 0045 05        		.uleb128 0x5
-GAS LISTING /tmp/cckxQFk2.s 			page 64
+GAS LISTING /tmp/ccxp0SI5.s 			page 64
 
 
  3592 0046 01        		.uleb128 0x1
@@ -3838,7 +3838,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  3646 007c 00        		.byte	0x0
  3647 007d 03        		.uleb128 0x3
  3648 007e 0E        		.uleb128 0xe
-GAS LISTING /tmp/cckxQFk2.s 			page 65
+GAS LISTING /tmp/ccxp0SI5.s 			page 65
 
 
  3649 007f 3A        		.uleb128 0x3a
@@ -3898,7 +3898,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  3703 00b5 3B        		.uleb128 0x3b
  3704 00b6 05        		.uleb128 0x5
  3705 00b7 01        		.uleb128 0x1
-GAS LISTING /tmp/cckxQFk2.s 			page 66
+GAS LISTING /tmp/ccxp0SI5.s 			page 66
 
 
  3706 00b8 13        		.uleb128 0x13
@@ -3958,7 +3958,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  3760 00ee 13        		.uleb128 0x13
  3761 00ef 02        		.uleb128 0x2
  3762 00f0 06        		.uleb128 0x6
-GAS LISTING /tmp/cckxQFk2.s 			page 67
+GAS LISTING /tmp/ccxp0SI5.s 			page 67
 
 
  3763 00f1 00        		.byte	0x0
@@ -4018,7 +4018,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  3817 0127 11        		.uleb128 0x11
  3818 0128 01        		.uleb128 0x1
  3819 0129 12        		.uleb128 0x12
-GAS LISTING /tmp/cckxQFk2.s 			page 68
+GAS LISTING /tmp/ccxp0SI5.s 			page 68
 
 
  3820 012a 01        		.uleb128 0x1
@@ -4078,7 +4078,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  3874 0160 40        		.uleb128 0x40
  3875 0161 0A        		.uleb128 0xa
  3876 0162 00        		.byte	0x0
-GAS LISTING /tmp/cckxQFk2.s 			page 69
+GAS LISTING /tmp/ccxp0SI5.s 			page 69
 
 
  3877 0163 00        		.byte	0x0
@@ -4138,7 +4138,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  3901 00d2 5443 305F 		.string	"TC0_DisableCCChannels"
  3901      4469 7361 
  3901      626C 6543 
-GAS LISTING /tmp/cckxQFk2.s 			page 70
+GAS LISTING /tmp/ccxp0SI5.s 			page 70
 
 
  3901      4343 6861 
@@ -4198,7 +4198,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  3919      744C 6576 
  3919      656C 00
  3920 01c8 8B11 0000 		.long	0x118b
-GAS LISTING /tmp/cckxQFk2.s 			page 71
+GAS LISTING /tmp/ccxp0SI5.s 			page 71
 
 
  3921 01cc 5443 305F 		.string	"TC0_SetCCCIntLevel"
@@ -4258,7 +4258,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  3961      616C 2F61 
  3961      7672 2F6C 
  3961      6962 2F67 
-GAS LISTING /tmp/cckxQFk2.s 			page 72
+GAS LISTING /tmp/ccxp0SI5.s 			page 72
 
 
  3962 0050 00        		.byte	0
@@ -4318,7 +4318,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  4005 00e5 00        		.byte	0x0
  4006 00e6 05        		.uleb128 0x5
  4007 00e7 02        		.byte	0x2
-GAS LISTING /tmp/cckxQFk2.s 			page 73
+GAS LISTING /tmp/ccxp0SI5.s 			page 73
 
 
  4008 00e8 0000 0000 		.long	.LM6
@@ -4378,7 +4378,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  4062 013f 02        		.byte	0x2
  4063 0140 0000 0000 		.long	.LM17
  4064 0144 15        		.byte	0x15
-GAS LISTING /tmp/cckxQFk2.s 			page 74
+GAS LISTING /tmp/ccxp0SI5.s 			page 74
 
 
  4065 0145 00        		.byte	0x0
@@ -4438,7 +4438,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  4119 019c 25        		.byte	0x25
  4120 019d 00        		.byte	0x0
  4121 019e 05        		.uleb128 0x5
-GAS LISTING /tmp/cckxQFk2.s 			page 75
+GAS LISTING /tmp/ccxp0SI5.s 			page 75
 
 
  4122 019f 02        		.byte	0x2
@@ -4498,7 +4498,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  4176 01f6 05        		.uleb128 0x5
  4177 01f7 02        		.byte	0x2
  4178 01f8 0000 0000 		.long	.LM40
-GAS LISTING /tmp/cckxQFk2.s 			page 76
+GAS LISTING /tmp/ccxp0SI5.s 			page 76
 
 
  4179 01fc 1F        		.byte	0x1f
@@ -4558,7 +4558,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  4233 0250 0000 0000 		.long	.LM51
  4234 0254 15        		.byte	0x15
  4235 0255 00        		.byte	0x0
-GAS LISTING /tmp/cckxQFk2.s 			page 77
+GAS LISTING /tmp/ccxp0SI5.s 			page 77
 
 
  4236 0256 05        		.uleb128 0x5
@@ -4618,7 +4618,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  4290 02ad 00        		.byte	0x0
  4291 02ae 05        		.uleb128 0x5
  4292 02af 02        		.byte	0x2
-GAS LISTING /tmp/cckxQFk2.s 			page 78
+GAS LISTING /tmp/ccxp0SI5.s 			page 78
 
 
  4293 02b0 0000 0000 		.long	.LM63
@@ -4678,7 +4678,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  4335               	.LASF192:
  4336 002b 5443 305F 		.string	"TC0_SetCCBIntLevel"
  4336      5365 7443 
-GAS LISTING /tmp/cckxQFk2.s 			page 79
+GAS LISTING /tmp/ccxp0SI5.s 			page 79
 
 
  4336      4342 496E 
@@ -4738,7 +4738,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  4358      00
  4359               	.LASF17:
  4360 00d6 4343 444C 		.string	"CCDL"
-GAS LISTING /tmp/cckxQFk2.s 			page 80
+GAS LISTING /tmp/ccxp0SI5.s 			page 80
 
 
  4360      00
@@ -4798,7 +4798,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  4382      6720 696E 
  4382      7400 
  4383               	.LASF0:
-GAS LISTING /tmp/cckxQFk2.s 			page 81
+GAS LISTING /tmp/ccxp0SI5.s 			page 81
 
 
  4384 0186 7369 676E 		.string	"signed char"
@@ -4858,7 +4858,7 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  4404      5632 3536 
  4404      5F67 6300 
  4405               	.LASF7:
-GAS LISTING /tmp/cckxQFk2.s 			page 82
+GAS LISTING /tmp/ccxp0SI5.s 			page 82
 
 
  4406 022d 434E 544C 		.string	"CNTL"
@@ -4867,874 +4867,874 @@ GAS LISTING /tmp/cckxQFk2.s 			page 1
  4408 0232 5443 5F57 		.string	"TC_WGMODE_t"
  4408      474D 4F44 
  4408      455F 7400 
- 4409               	.LASF199:
- 4410 023e 2F68 6F6D 		.string	"/home/tomlinsj/falconSvn/44x201007/firmware/mcu/chb_motor_test"
- 4410      652F 746F 
- 4410      6D6C 696E 
- 4410      736A 2F66 
- 4410      616C 636F 
- 4411               	.LASF26:
- 4412 027d 4343 4242 		.string	"CCBBUFH"
- 4412      5546 4800 
- 4413               	.LASF25:
- 4414 0285 4343 4242 		.string	"CCBBUFL"
- 4414      5546 4C00 
- 4415               	.LASF100:
- 4416 028d 5443 5F43 		.string	"TC_CLKSEL_EVCH7_gc"
- 4416      4C4B 5345 
- 4416      4C5F 4556 
- 4416      4348 375F 
- 4416      6763 00
- 4417               	.LASF166:
- 4418 02a0 5443 5F43 		.string	"TC_CMD_enum"
- 4418      4D44 5F65 
- 4418      6E75 6D00 
- 4419               	.LASF149:
- 4420 02ac 5443 5F43 		.string	"TC_CCCINTLVL_OFF_gc"
+ 4409               	.LASF26:
+ 4410 023e 4343 4242 		.string	"CCBBUFH"
+ 4410      5546 4800 
+ 4411               	.LASF25:
+ 4412 0246 4343 4242 		.string	"CCBBUFL"
+ 4412      5546 4C00 
+ 4413               	.LASF100:
+ 4414 024e 5443 5F43 		.string	"TC_CLKSEL_EVCH7_gc"
+ 4414      4C4B 5345 
+ 4414      4C5F 4556 
+ 4414      4348 375F 
+ 4414      6763 00
+ 4415               	.LASF166:
+ 4416 0261 5443 5F43 		.string	"TC_CMD_enum"
+ 4416      4D44 5F65 
+ 4416      6E75 6D00 
+ 4417               	.LASF149:
+ 4418 026d 5443 5F43 		.string	"TC_CCCINTLVL_OFF_gc"
+ 4418      4343 494E 
+ 4418      544C 564C 
+ 4418      5F4F 4646 
+ 4418      5F67 6300 
+ 4419               	.LASF152:
+ 4420 0281 5443 5F43 		.string	"TC_CCCINTLVL_HI_gc"
  4420      4343 494E 
  4420      544C 564C 
- 4420      5F4F 4646 
- 4420      5F67 6300 
- 4421               	.LASF152:
- 4422 02c0 5443 5F43 		.string	"TC_CCCINTLVL_HI_gc"
- 4422      4343 494E 
+ 4420      5F48 495F 
+ 4420      6763 00
+ 4421               	.LASF147:
+ 4422 0294 5443 5F43 		.string	"TC_CCDINTLVL_t"
+ 4422      4344 494E 
  4422      544C 564C 
- 4422      5F48 495F 
- 4422      6763 00
- 4423               	.LASF147:
- 4424 02d3 5443 5F43 		.string	"TC_CCDINTLVL_t"
- 4424      4344 494E 
+ 4422      5F74 00
+ 4423               	.LASF133:
+ 4424 02a3 5443 5F45 		.string	"TC_ERRINTLVL_MED_gc"
+ 4424      5252 494E 
  4424      544C 564C 
- 4424      5F74 00
- 4425               	.LASF133:
- 4426 02e2 5443 5F45 		.string	"TC_ERRINTLVL_MED_gc"
- 4426      5252 494E 
- 4426      544C 564C 
- 4426      5F4D 4544 
- 4426      5F67 6300 
- 4427               	.LASF86:
- 4428 02f6 5443 5F43 		.string	"TC_CLKSEL_DIV1_gc"
- 4428      4C4B 5345 
- 4428      4C5F 4449 
- 4428      5631 5F67 
- 4428      6300 
-GAS LISTING /tmp/cckxQFk2.s 			page 83
+ 4424      5F4D 4544 
+ 4424      5F67 6300 
+ 4425               	.LASF86:
+ 4426 02b7 5443 5F43 		.string	"TC_CLKSEL_DIV1_gc"
+ 4426      4C4B 5345 
+ 4426      4C5F 4449 
+ 4426      5631 5F67 
+ 4426      6300 
+ 4427               	.LASF182:
+ 4428 02c9 5443 305F 		.string	"TC0_DisableCCChannels"
+ 4428      4469 7361 
+ 4428      626C 6543 
+ 4428      4343 6861 
+ 4428      6E6E 656C 
+GAS LISTING /tmp/ccxp0SI5.s 			page 83
 
 
- 4429               	.LASF182:
- 4430 0308 5443 305F 		.string	"TC0_DisableCCChannels"
- 4430      4469 7361 
- 4430      626C 6543 
- 4430      4343 6861 
- 4430      6E6E 656C 
- 4431               	.LASF128:
- 4432 031e 5443 5F45 		.string	"TC_EVSEL_CH7_gc"
- 4432      5653 454C 
- 4432      5F43 4837 
- 4432      5F67 6300 
- 4433               	.LASF197:
- 4434 032e 474E 5520 		.string	"GNU C 4.3.4"
- 4434      4320 342E 
- 4434      332E 3400 
- 4435               	.LASF106:
- 4436 033a 5443 5F57 		.string	"TC_WGMODE_SS_gc"
- 4436      474D 4F44 
- 4436      455F 5353 
+ 4429               	.LASF128:
+ 4430 02df 5443 5F45 		.string	"TC_EVSEL_CH7_gc"
+ 4430      5653 454C 
+ 4430      5F43 4837 
+ 4430      5F67 6300 
+ 4431               	.LASF197:
+ 4432 02ef 474E 5520 		.string	"GNU C 4.3.4"
+ 4432      4320 342E 
+ 4432      332E 3400 
+ 4433               	.LASF106:
+ 4434 02fb 5443 5F57 		.string	"TC_WGMODE_SS_gc"
+ 4434      474D 4F44 
+ 4434      455F 5353 
+ 4434      5F67 6300 
+ 4435               	.LASF151:
+ 4436 030b 5443 5F43 		.string	"TC_CCCINTLVL_MED_gc"
+ 4436      4343 494E 
+ 4436      544C 564C 
+ 4436      5F4D 4544 
  4436      5F67 6300 
- 4437               	.LASF151:
- 4438 034a 5443 5F43 		.string	"TC_CCCINTLVL_MED_gc"
- 4438      4343 494E 
- 4438      544C 564C 
- 4438      5F4D 4544 
- 4438      5F67 6300 
- 4439               	.LASF70:
- 4440 035e 7265 7365 		.string	"reserved_0x30"
+ 4437               	.LASF70:
+ 4438 031f 7265 7365 		.string	"reserved_0x30"
+ 4438      7276 6564 
+ 4438      5F30 7833 
+ 4438      3000 
+ 4439               	.LASF72:
+ 4440 032d 7265 7365 		.string	"reserved_0x32"
  4440      7276 6564 
  4440      5F30 7833 
- 4440      3000 
- 4441               	.LASF72:
- 4442 036c 7265 7365 		.string	"reserved_0x32"
- 4442      7276 6564 
- 4442      5F30 7833 
- 4442      3200 
- 4443               	.LASF41:
- 4444 037a 494E 5443 		.string	"INTCTRLB"
- 4444      5452 4C42 
+ 4440      3200 
+ 4441               	.LASF41:
+ 4442 033b 494E 5443 		.string	"INTCTRLB"
+ 4442      5452 4C42 
+ 4442      00
+ 4443               	.LASF2:
+ 4444 0344 756E 7369 		.string	"unsigned int"
+ 4444      676E 6564 
+ 4444      2069 6E74 
  4444      00
- 4445               	.LASF2:
- 4446 0383 756E 7369 		.string	"unsigned int"
- 4446      676E 6564 
- 4446      2069 6E74 
- 4446      00
- 4447               	.LASF75:
- 4448 0390 7265 7365 		.string	"reserved_0x35"
- 4448      7276 6564 
- 4448      5F30 7833 
- 4448      3500 
- 4449               	.LASF99:
- 4450 039e 5443 5F43 		.string	"TC_CLKSEL_EVCH6_gc"
- 4450      4C4B 5345 
- 4450      4C5F 4556 
- 4450      4348 365F 
- 4450      6763 00
- 4451               	.LASF176:
-GAS LISTING /tmp/cckxQFk2.s 			page 84
+ 4445               	.LASF75:
+ 4446 0351 7265 7365 		.string	"reserved_0x35"
+ 4446      7276 6564 
+ 4446      5F30 7833 
+ 4446      3500 
+ 4447               	.LASF99:
+ 4448 035f 5443 5F43 		.string	"TC_CLKSEL_EVCH6_gc"
+ 4448      4C4B 5345 
+ 4448      4C5F 4556 
+ 4448      4348 365F 
+ 4448      6763 00
+ 4449               	.LASF176:
+ 4450 0372 5443 305F 		.string	"TC0_ConfigInputCapture"
+ 4450      436F 6E66 
+ 4450      6967 496E 
+ 4450      7075 7443 
+ 4450      6170 7475 
+ 4451               	.LASF191:
+GAS LISTING /tmp/ccxp0SI5.s 			page 84
 
 
- 4452 03b1 5443 305F 		.string	"TC0_ConfigInputCapture"
- 4452      436F 6E66 
- 4452      6967 496E 
- 4452      7075 7443 
- 4452      6170 7475 
- 4453               	.LASF191:
- 4454 03c8 5443 315F 		.string	"TC1_SetCCAIntLevel"
- 4454      5365 7443 
- 4454      4341 496E 
- 4454      744C 6576 
- 4454      656C 00
- 4455               	.LASF45:
- 4456 03db 4354 524C 		.string	"CTRLGSET"
- 4456      4753 4554 
- 4456      00
- 4457               	.LASF180:
- 4458 03e4 656E 6162 		.string	"enableMask"
- 4458      6C65 4D61 
- 4458      736B 00
- 4459               	.LASF115:
- 4460 03ef 5443 5F45 		.string	"TC_EVACT_QDEC_gc"
- 4460      5641 4354 
- 4460      5F51 4445 
- 4460      435F 6763 
- 4460      00
- 4461               	.LASF119:
- 4462 0400 5443 5F45 		.string	"TC_EVSEL_enum"
- 4462      5653 454C 
- 4462      5F65 6E75 
- 4462      6D00 
- 4463               	.LASF85:
- 4464 040e 5443 5F43 		.string	"TC_CLKSEL_OFF_gc"
- 4464      4C4B 5345 
- 4464      4C5F 4F46 
- 4464      465F 6763 
- 4464      00
- 4465               	.LASF127:
- 4466 041f 5443 5F45 		.string	"TC_EVSEL_CH6_gc"
- 4466      5653 454C 
- 4466      5F43 4836 
+ 4452 0389 5443 315F 		.string	"TC1_SetCCAIntLevel"
+ 4452      5365 7443 
+ 4452      4341 496E 
+ 4452      744C 6576 
+ 4452      656C 00
+ 4453               	.LASF45:
+ 4454 039c 4354 524C 		.string	"CTRLGSET"
+ 4454      4753 4554 
+ 4454      00
+ 4455               	.LASF180:
+ 4456 03a5 656E 6162 		.string	"enableMask"
+ 4456      6C65 4D61 
+ 4456      736B 00
+ 4457               	.LASF115:
+ 4458 03b0 5443 5F45 		.string	"TC_EVACT_QDEC_gc"
+ 4458      5641 4354 
+ 4458      5F51 4445 
+ 4458      435F 6763 
+ 4458      00
+ 4459               	.LASF119:
+ 4460 03c1 5443 5F45 		.string	"TC_EVSEL_enum"
+ 4460      5653 454C 
+ 4460      5F65 6E75 
+ 4460      6D00 
+ 4461               	.LASF85:
+ 4462 03cf 5443 5F43 		.string	"TC_CLKSEL_OFF_gc"
+ 4462      4C4B 5345 
+ 4462      4C5F 4F46 
+ 4462      465F 6763 
+ 4462      00
+ 4463               	.LASF127:
+ 4464 03e0 5443 5F45 		.string	"TC_EVSEL_CH6_gc"
+ 4464      5653 454C 
+ 4464      5F43 4836 
+ 4464      5F67 6300 
+ 4465               	.LASF145:
+ 4466 03f0 5443 5F43 		.string	"TC_CCDINTLVL_MED_gc"
+ 4466      4344 494E 
+ 4466      544C 564C 
+ 4466      5F4D 4544 
  4466      5F67 6300 
- 4467               	.LASF145:
- 4468 042f 5443 5F43 		.string	"TC_CCDINTLVL_MED_gc"
- 4468      4344 494E 
+ 4467               	.LASF155:
+ 4468 0404 5443 5F43 		.string	"TC_CCBINTLVL_OFF_gc"
+ 4468      4342 494E 
  4468      544C 564C 
- 4468      5F4D 4544 
+ 4468      5F4F 4646 
  4468      5F67 6300 
- 4469               	.LASF155:
- 4470 0443 5443 5F43 		.string	"TC_CCBINTLVL_OFF_gc"
- 4470      4342 494E 
- 4470      544C 564C 
- 4470      5F4F 4646 
- 4470      5F67 6300 
- 4471               	.LASF172:
- 4472 0457 5443 305F 		.string	"TC0_ConfigClockSource"
- 4472      436F 6E66 
- 4472      6967 436C 
-GAS LISTING /tmp/cckxQFk2.s 			page 85
+ 4469               	.LASF172:
+ 4470 0418 5443 305F 		.string	"TC0_ConfigClockSource"
+ 4470      436F 6E66 
+ 4470      6967 436C 
+ 4470      6F63 6B53 
+ 4470      6F75 7263 
+ 4471               	.LASF103:
+ 4472 042e 5443 5F57 		.string	"TC_WGMODE_enum"
+ 4472      474D 4F44 
+ 4472      455F 656E 
+GAS LISTING /tmp/ccxp0SI5.s 			page 85
 
 
- 4472      6F63 6B53 
- 4472      6F75 7263 
- 4473               	.LASF103:
- 4474 046d 5443 5F57 		.string	"TC_WGMODE_enum"
- 4474      474D 4F44 
- 4474      455F 656E 
- 4474      756D 00
- 4475               	.LASF132:
- 4476 047c 5443 5F45 		.string	"TC_ERRINTLVL_LO_gc"
- 4476      5252 494E 
- 4476      544C 564C 
- 4476      5F4C 4F5F 
+ 4472      756D 00
+ 4473               	.LASF132:
+ 4474 043d 5443 5F45 		.string	"TC_ERRINTLVL_LO_gc"
+ 4474      5252 494E 
+ 4474      544C 564C 
+ 4474      5F4C 4F5F 
+ 4474      6763 00
+ 4475               	.LASF98:
+ 4476 0450 5443 5F43 		.string	"TC_CLKSEL_EVCH5_gc"
+ 4476      4C4B 5345 
+ 4476      4C5F 4556 
+ 4476      4348 355F 
  4476      6763 00
- 4477               	.LASF98:
- 4478 048f 5443 5F43 		.string	"TC_CLKSEL_EVCH5_gc"
- 4478      4C4B 5345 
- 4478      4C5F 4556 
- 4478      4348 355F 
- 4478      6763 00
- 4479               	.LASF157:
- 4480 04a2 5443 5F43 		.string	"TC_CCBINTLVL_MED_gc"
- 4480      4342 494E 
- 4480      544C 564C 
- 4480      5F4D 4544 
- 4480      5F67 6300 
- 4481               	.LASF32:
- 4482 04b6 4343 4442 		.string	"CCDBUFH"
- 4482      5546 4800 
- 4483               	.LASF31:
- 4484 04be 4343 4442 		.string	"CCDBUFL"
- 4484      5546 4C00 
- 4485               	.LASF39:
- 4486 04c6 7265 7365 		.string	"reserved_0x05"
- 4486      7276 6564 
- 4486      5F30 7830 
- 4486      3500 
- 4487               	.LASF42:
- 4488 04d4 4354 524C 		.string	"CTRLFCLR"
- 4488      4643 4C52 
- 4488      00
- 4489               	.LASF188:
- 4490 04dd 5443 305F 		.string	"TC0_SetErrorIntLevel"
- 4490      5365 7445 
- 4490      7272 6F72 
- 4490      496E 744C 
- 4490      6576 656C 
- 4491               	.LASF193:
- 4492 04f2 5443 315F 		.string	"TC1_SetCCBIntLevel"
- 4492      5365 7443 
- 4492      4342 496E 
- 4492      744C 6576 
- 4492      656C 00
- 4493               	.LASF186:
- 4494 0505 696E 744C 		.string	"intLevel"
- 4494      6576 656C 
- 4494      00
- 4495               	.LASF200:
-GAS LISTING /tmp/cckxQFk2.s 			page 86
+ 4477               	.LASF157:
+ 4478 0463 5443 5F43 		.string	"TC_CCBINTLVL_MED_gc"
+ 4478      4342 494E 
+ 4478      544C 564C 
+ 4478      5F4D 4544 
+ 4478      5F67 6300 
+ 4479               	.LASF32:
+ 4480 0477 4343 4442 		.string	"CCDBUFH"
+ 4480      5546 4800 
+ 4481               	.LASF31:
+ 4482 047f 4343 4442 		.string	"CCDBUFL"
+ 4482      5546 4C00 
+ 4483               	.LASF39:
+ 4484 0487 7265 7365 		.string	"reserved_0x05"
+ 4484      7276 6564 
+ 4484      5F30 7830 
+ 4484      3500 
+ 4485               	.LASF42:
+ 4486 0495 4354 524C 		.string	"CTRLFCLR"
+ 4486      4643 4C52 
+ 4486      00
+ 4487               	.LASF188:
+ 4488 049e 5443 305F 		.string	"TC0_SetErrorIntLevel"
+ 4488      5365 7445 
+ 4488      7272 6F72 
+ 4488      496E 744C 
+ 4488      6576 656C 
+ 4489               	.LASF193:
+ 4490 04b3 5443 315F 		.string	"TC1_SetCCBIntLevel"
+ 4490      5365 7443 
+ 4490      4342 496E 
+ 4490      744C 6576 
+ 4490      656C 00
+ 4491               	.LASF186:
+ 4492 04c6 696E 744C 		.string	"intLevel"
+ 4492      6576 656C 
+ 4492      00
+ 4493               	.LASF200:
+ 4494 04cf 5443 315F 		.string	"TC1_Reset"
+ 4494      5265 7365 
+ 4494      7400 
+ 4495               	.LASF89:
+ 4496 04d9 5443 5F43 		.string	"TC_CLKSEL_DIV8_gc"
+ 4496      4C4B 5345 
+GAS LISTING /tmp/ccxp0SI5.s 			page 86
 
 
- 4496 050e 5443 315F 		.string	"TC1_Reset"
- 4496      5265 7365 
- 4496      7400 
- 4497               	.LASF89:
- 4498 0518 5443 5F43 		.string	"TC_CLKSEL_DIV8_gc"
- 4498      4C4B 5345 
- 4498      4C5F 4449 
- 4498      5638 5F67 
- 4498      6300 
- 4499               	.LASF44:
- 4500 052a 4354 524C 		.string	"CTRLGCLR"
- 4500      4743 4C52 
- 4500      00
- 4501               	.LASF126:
- 4502 0533 5443 5F45 		.string	"TC_EVSEL_CH5_gc"
- 4502      5653 454C 
- 4502      5F43 4835 
- 4502      5F67 6300 
- 4503               	.LASF48:
- 4504 0543 7265 7365 		.string	"reserved_0x0E"
- 4504      7276 6564 
- 4504      5F30 7830 
- 4504      4500 
- 4505               	.LASF19:
- 4506 0551 5045 5242 		.string	"PERBUFL"
- 4506      5546 4C00 
- 4507               	.LASF138:
- 4508 0559 5443 5F4F 		.string	"TC_OVFINTLVL_LO_gc"
- 4508      5646 494E 
+ 4496      4C5F 4449 
+ 4496      5638 5F67 
+ 4496      6300 
+ 4497               	.LASF44:
+ 4498 04eb 4354 524C 		.string	"CTRLGCLR"
+ 4498      4743 4C52 
+ 4498      00
+ 4499               	.LASF126:
+ 4500 04f4 5443 5F45 		.string	"TC_EVSEL_CH5_gc"
+ 4500      5653 454C 
+ 4500      5F43 4835 
+ 4500      5F67 6300 
+ 4501               	.LASF48:
+ 4502 0504 7265 7365 		.string	"reserved_0x0E"
+ 4502      7276 6564 
+ 4502      5F30 7830 
+ 4502      4500 
+ 4503               	.LASF19:
+ 4504 0512 5045 5242 		.string	"PERBUFL"
+ 4504      5546 4C00 
+ 4505               	.LASF138:
+ 4506 051a 5443 5F4F 		.string	"TC_OVFINTLVL_LO_gc"
+ 4506      5646 494E 
+ 4506      544C 564C 
+ 4506      5F4C 4F5F 
+ 4506      6763 00
+ 4507               	.LASF148:
+ 4508 052d 5443 5F43 		.string	"TC_CCCINTLVL_enum"
+ 4508      4343 494E 
  4508      544C 564C 
- 4508      5F4C 4F5F 
- 4508      6763 00
- 4509               	.LASF148:
- 4510 056c 5443 5F43 		.string	"TC_CCCINTLVL_enum"
- 4510      4343 494E 
- 4510      544C 564C 
- 4510      5F65 6E75 
- 4510      6D00 
- 4511               	.LASF114:
- 4512 057e 5443 5F45 		.string	"TC_EVACT_UPDOWN_gc"
- 4512      5641 4354 
- 4512      5F55 5044 
- 4512      4F57 4E5F 
- 4512      6763 00
- 4513               	.LASF184:
- 4514 0591 5443 315F 		.string	"TC1_DisableCCChannels"
- 4514      4469 7361 
- 4514      626C 6543 
- 4514      4343 6861 
- 4514      6E6E 656C 
- 4515               	.LASF117:
- 4516 05a7 5443 5F45 		.string	"TC_EVACT_FRW_gc"
- 4516      5641 4354 
- 4516      5F46 5257 
- 4516      5F67 6300 
- 4517               	.LASF129:
- 4518 05b7 5443 5F45 		.string	"TC_EVSEL_t"
-GAS LISTING /tmp/cckxQFk2.s 			page 87
+ 4508      5F65 6E75 
+ 4508      6D00 
+ 4509               	.LASF114:
+ 4510 053f 5443 5F45 		.string	"TC_EVACT_UPDOWN_gc"
+ 4510      5641 4354 
+ 4510      5F55 5044 
+ 4510      4F57 4E5F 
+ 4510      6763 00
+ 4511               	.LASF184:
+ 4512 0552 5443 315F 		.string	"TC1_DisableCCChannels"
+ 4512      4469 7361 
+ 4512      626C 6543 
+ 4512      4343 6861 
+ 4512      6E6E 656C 
+ 4513               	.LASF117:
+ 4514 0568 5443 5F45 		.string	"TC_EVACT_FRW_gc"
+ 4514      5641 4354 
+ 4514      5F46 5257 
+ 4514      5F67 6300 
+ 4515               	.LASF129:
+ 4516 0578 5443 5F45 		.string	"TC_EVSEL_t"
+ 4516      5653 454C 
+ 4516      5F74 00
+ 4517               	.LASF113:
+ 4518 0583 5443 5F45 		.string	"TC_EVACT_CAPT_gc"
+ 4518      5641 4354 
+ 4518      5F43 4150 
+GAS LISTING /tmp/ccxp0SI5.s 			page 87
 
 
- 4518      5653 454C 
- 4518      5F74 00
- 4519               	.LASF113:
- 4520 05c2 5443 5F45 		.string	"TC_EVACT_CAPT_gc"
- 4520      5641 4354 
- 4520      5F43 4150 
- 4520      545F 6763 
- 4520      00
- 4521               	.LASF153:
- 4522 05d3 5443 5F43 		.string	"TC_CCCINTLVL_t"
- 4522      4343 494E 
- 4522      544C 564C 
- 4522      5F74 00
- 4523               	.LASF54:
- 4524 05e2 7265 7365 		.string	"reserved_0x14"
- 4524      7276 6564 
- 4524      5F30 7831 
- 4524      3400 
- 4525               	.LASF97:
- 4526 05f0 5443 5F43 		.string	"TC_CLKSEL_EVCH4_gc"
- 4526      4C4B 5345 
- 4526      4C5F 4556 
- 4526      4348 345F 
- 4526      6763 00
- 4527               	.LASF161:
- 4528 0603 5443 5F43 		.string	"TC_CCAINTLVL_OFF_gc"
- 4528      4341 494E 
+ 4518      545F 6763 
+ 4518      00
+ 4519               	.LASF153:
+ 4520 0594 5443 5F43 		.string	"TC_CCCINTLVL_t"
+ 4520      4343 494E 
+ 4520      544C 564C 
+ 4520      5F74 00
+ 4521               	.LASF54:
+ 4522 05a3 7265 7365 		.string	"reserved_0x14"
+ 4522      7276 6564 
+ 4522      5F30 7831 
+ 4522      3400 
+ 4523               	.LASF97:
+ 4524 05b1 5443 5F43 		.string	"TC_CLKSEL_EVCH4_gc"
+ 4524      4C4B 5345 
+ 4524      4C5F 4556 
+ 4524      4348 345F 
+ 4524      6763 00
+ 4525               	.LASF161:
+ 4526 05c4 5443 5F43 		.string	"TC_CCAINTLVL_OFF_gc"
+ 4526      4341 494E 
+ 4526      544C 564C 
+ 4526      5F4F 4646 
+ 4526      5F67 6300 
+ 4527               	.LASF131:
+ 4528 05d8 5443 5F45 		.string	"TC_ERRINTLVL_OFF_gc"
+ 4528      5252 494E 
  4528      544C 564C 
  4528      5F4F 4646 
  4528      5F67 6300 
- 4529               	.LASF131:
- 4530 0617 5443 5F45 		.string	"TC_ERRINTLVL_OFF_gc"
- 4530      5252 494E 
- 4530      544C 564C 
- 4530      5F4F 4646 
- 4530      5F67 6300 
- 4531               	.LASF179:
- 4532 062b 5443 305F 		.string	"TC0_EnableCCChannels"
- 4532      456E 6162 
- 4532      6C65 4343 
- 4532      4368 616E 
- 4532      6E65 6C73 
- 4533               	.LASF174:
- 4534 0640 5443 305F 		.string	"TC0_ConfigWGM"
- 4534      436F 6E66 
- 4534      6967 5747 
- 4534      4D00 
- 4535               	.LASF134:
- 4536 064e 5443 5F45 		.string	"TC_ERRINTLVL_HI_gc"
- 4536      5252 494E 
- 4536      544C 564C 
- 4536      5F48 495F 
- 4536      6763 00
- 4537               	.LASF21:
- 4538 0661 5045 5242 		.string	"PERBUF"
- 4538      5546 00
- 4539               	.LASF22:
-GAS LISTING /tmp/cckxQFk2.s 			page 88
+ 4529               	.LASF179:
+ 4530 05ec 5443 305F 		.string	"TC0_EnableCCChannels"
+ 4530      456E 6162 
+ 4530      6C65 4343 
+ 4530      4368 616E 
+ 4530      6E65 6C73 
+ 4531               	.LASF174:
+ 4532 0601 5443 305F 		.string	"TC0_ConfigWGM"
+ 4532      436F 6E66 
+ 4532      6967 5747 
+ 4532      4D00 
+ 4533               	.LASF134:
+ 4534 060f 5443 5F45 		.string	"TC_ERRINTLVL_HI_gc"
+ 4534      5252 494E 
+ 4534      544C 564C 
+ 4534      5F48 495F 
+ 4534      6763 00
+ 4535               	.LASF21:
+ 4536 0622 5045 5242 		.string	"PERBUF"
+ 4536      5546 00
+ 4537               	.LASF22:
+ 4538 0629 4343 4142 		.string	"CCABUFL"
+ 4538      5546 4C00 
+ 4539               	.LASF47:
+ 4540 0631 7265 7365 		.string	"reserved_0x0D"
+ 4540      7276 6564 
+ 4540      5F30 7830 
+GAS LISTING /tmp/ccxp0SI5.s 			page 88
 
 
- 4540 0668 4343 4142 		.string	"CCABUFL"
- 4540      5546 4C00 
- 4541               	.LASF47:
- 4542 0670 7265 7365 		.string	"reserved_0x0D"
+ 4540      4400 
+ 4541               	.LASF50:
+ 4542 063f 7265 7365 		.string	"reserved_0x10"
  4542      7276 6564 
- 4542      5F30 7830 
- 4542      4400 
- 4543               	.LASF50:
- 4544 067e 7265 7365 		.string	"reserved_0x10"
- 4544      7276 6564 
- 4544      5F30 7831 
- 4544      3000 
- 4545               	.LASF34:
- 4546 068c 4354 524C 		.string	"CTRLA"
- 4546      4100 
- 4547               	.LASF163:
- 4548 0692 5443 5F43 		.string	"TC_CCAINTLVL_MED_gc"
- 4548      4341 494E 
+ 4542      5F30 7831 
+ 4542      3000 
+ 4543               	.LASF34:
+ 4544 064d 4354 524C 		.string	"CTRLA"
+ 4544      4100 
+ 4545               	.LASF163:
+ 4546 0653 5443 5F43 		.string	"TC_CCAINTLVL_MED_gc"
+ 4546      4341 494E 
+ 4546      544C 564C 
+ 4546      5F4D 4544 
+ 4546      5F67 6300 
+ 4547               	.LASF158:
+ 4548 0667 5443 5F43 		.string	"TC_CCBINTLVL_HI_gc"
+ 4548      4342 494E 
  4548      544C 564C 
- 4548      5F4D 4544 
- 4548      5F67 6300 
- 4549               	.LASF158:
- 4550 06a6 5443 5F43 		.string	"TC_CCBINTLVL_HI_gc"
- 4550      4342 494E 
- 4550      544C 564C 
- 4550      5F48 495F 
- 4550      6763 00
- 4551               	.LASF37:
- 4552 06b9 4354 524C 		.string	"CTRLD"
- 4552      4400 
- 4553               	.LASF38:
- 4554 06bf 4354 524C 		.string	"CTRLE"
- 4554      4500 
- 4555               	.LASF56:
- 4556 06c5 7265 7365 		.string	"reserved_0x16"
+ 4548      5F48 495F 
+ 4548      6763 00
+ 4549               	.LASF37:
+ 4550 067a 4354 524C 		.string	"CTRLD"
+ 4550      4400 
+ 4551               	.LASF38:
+ 4552 0680 4354 524C 		.string	"CTRLE"
+ 4552      4500 
+ 4553               	.LASF56:
+ 4554 0686 7265 7365 		.string	"reserved_0x16"
+ 4554      7276 6564 
+ 4554      5F30 7831 
+ 4554      3600 
+ 4555               	.LASF57:
+ 4556 0694 7265 7365 		.string	"reserved_0x17"
  4556      7276 6564 
  4556      5F30 7831 
- 4556      3600 
- 4557               	.LASF57:
- 4558 06d3 7265 7365 		.string	"reserved_0x17"
+ 4556      3700 
+ 4557               	.LASF58:
+ 4558 06a2 7265 7365 		.string	"reserved_0x18"
  4558      7276 6564 
  4558      5F30 7831 
- 4558      3700 
- 4559               	.LASF58:
- 4560 06e1 7265 7365 		.string	"reserved_0x18"
+ 4558      3800 
+ 4559               	.LASF59:
+ 4560 06b0 7265 7365 		.string	"reserved_0x19"
  4560      7276 6564 
  4560      5F30 7831 
- 4560      3800 
- 4561               	.LASF59:
- 4562 06ef 7265 7365 		.string	"reserved_0x19"
- 4562      7276 6564 
- 4562      5F30 7831 
- 4562      3900 
- 4563               	.LASF141:
- 4564 06fd 5443 5F4F 		.string	"TC_OVFINTLVL_t"
- 4564      5646 494E 
+ 4560      3900 
+ 4561               	.LASF141:
+ 4562 06be 5443 5F4F 		.string	"TC_OVFINTLVL_t"
+ 4562      5646 494E 
+ 4562      544C 564C 
+ 4562      5F74 00
+ 4563               	.LASF162:
+ 4564 06cd 5443 5F43 		.string	"TC_CCAINTLVL_LO_gc"
+ 4564      4341 494E 
  4564      544C 564C 
-GAS LISTING /tmp/cckxQFk2.s 			page 89
+ 4564      5F4C 4F5F 
+GAS LISTING /tmp/ccxp0SI5.s 			page 89
 
 
- 4564      5F74 00
- 4565               	.LASF162:
- 4566 070c 5443 5F43 		.string	"TC_CCAINTLVL_LO_gc"
- 4566      4341 494E 
- 4566      544C 564C 
- 4566      5F4C 4F5F 
+ 4564      6763 00
+ 4565               	.LASF118:
+ 4566 06e0 5443 5F45 		.string	"TC_EVACT_PW_gc"
+ 4566      5641 4354 
+ 4566      5F50 575F 
  4566      6763 00
- 4567               	.LASF118:
- 4568 071f 5443 5F45 		.string	"TC_EVACT_PW_gc"
- 4568      5641 4354 
- 4568      5F50 575F 
- 4568      6763 00
- 4569               	.LASF60:
- 4570 072e 7265 7365 		.string	"reserved_0x1A"
+ 4567               	.LASF60:
+ 4568 06ef 7265 7365 		.string	"reserved_0x1A"
+ 4568      7276 6564 
+ 4568      5F30 7831 
+ 4568      4100 
+ 4569               	.LASF61:
+ 4570 06fd 7265 7365 		.string	"reserved_0x1B"
  4570      7276 6564 
  4570      5F30 7831 
- 4570      4100 
- 4571               	.LASF61:
- 4572 073c 7265 7365 		.string	"reserved_0x1B"
+ 4570      4200 
+ 4571               	.LASF62:
+ 4572 070b 7265 7365 		.string	"reserved_0x1C"
  4572      7276 6564 
  4572      5F30 7831 
- 4572      4200 
- 4573               	.LASF62:
- 4574 074a 7265 7365 		.string	"reserved_0x1C"
- 4574      7276 6564 
- 4574      5F30 7831 
- 4574      4300 
- 4575               	.LASF1:
- 4576 0758 756E 7369 		.string	"unsigned char"
- 4576      676E 6564 
- 4576      2063 6861 
- 4576      7200 
- 4577               	.LASF64:
- 4578 0766 7265 7365 		.string	"reserved_0x1E"
+ 4572      4300 
+ 4573               	.LASF1:
+ 4574 0719 756E 7369 		.string	"unsigned char"
+ 4574      676E 6564 
+ 4574      2063 6861 
+ 4574      7200 
+ 4575               	.LASF64:
+ 4576 0727 7265 7365 		.string	"reserved_0x1E"
+ 4576      7276 6564 
+ 4576      5F30 7831 
+ 4576      4500 
+ 4577               	.LASF65:
+ 4578 0735 7265 7365 		.string	"reserved_0x1F"
  4578      7276 6564 
  4578      5F30 7831 
- 4578      4500 
- 4579               	.LASF65:
- 4580 0774 7265 7365 		.string	"reserved_0x1F"
- 4580      7276 6564 
- 4580      5F30 7831 
- 4580      4600 
- 4581               	.LASF189:
- 4582 0782 5443 315F 		.string	"TC1_SetErrorIntLevel"
- 4582      5365 7445 
- 4582      7272 6F72 
- 4582      496E 744C 
- 4582      6576 656C 
- 4583               	.LASF105:
- 4584 0797 5443 5F57 		.string	"TC_WGMODE_FRQ_gc"
+ 4578      4600 
+ 4579               	.LASF189:
+ 4580 0743 5443 315F 		.string	"TC1_SetErrorIntLevel"
+ 4580      5365 7445 
+ 4580      7272 6F72 
+ 4580      496E 744C 
+ 4580      6576 656C 
+ 4581               	.LASF105:
+ 4582 0758 5443 5F57 		.string	"TC_WGMODE_FRQ_gc"
+ 4582      474D 4F44 
+ 4582      455F 4652 
+ 4582      515F 6763 
+ 4582      00
+ 4583               	.LASF109:
+ 4584 0769 5443 5F57 		.string	"TC_WGMODE_DS_B_gc"
  4584      474D 4F44 
- 4584      455F 4652 
- 4584      515F 6763 
- 4584      00
- 4585               	.LASF109:
- 4586 07a8 5443 5F57 		.string	"TC_WGMODE_DS_B_gc"
- 4586      474D 4F44 
-GAS LISTING /tmp/cckxQFk2.s 			page 90
+ 4584      455F 4453 
+ 4584      5F42 5F67 
+ 4584      6300 
+ 4585               	.LASF96:
+ 4586 077b 5443 5F43 		.string	"TC_CLKSEL_EVCH3_gc"
+ 4586      4C4B 5345 
+GAS LISTING /tmp/ccxp0SI5.s 			page 90
 
 
- 4586      455F 4453 
- 4586      5F42 5F67 
- 4586      6300 
- 4587               	.LASF96:
- 4588 07ba 5443 5F43 		.string	"TC_CLKSEL_EVCH3_gc"
- 4588      4C4B 5345 
- 4588      4C5F 4556 
- 4588      4348 335F 
- 4588      6763 00
- 4589               	.LASF177:
- 4590 07cd 6576 656E 		.string	"eventSource"
- 4590      7453 6F75 
- 4590      7263 6500 
- 4591               	.LASF140:
- 4592 07d9 5443 5F4F 		.string	"TC_OVFINTLVL_HI_gc"
- 4592      5646 494E 
- 4592      544C 564C 
- 4592      5F48 495F 
- 4592      6763 00
- 4593               	.LASF12:
- 4594 07ec 4343 4148 		.string	"CCAH"
- 4594      00
- 4595               	.LASF144:
- 4596 07f1 5443 5F43 		.string	"TC_CCDINTLVL_LO_gc"
- 4596      4344 494E 
- 4596      544C 564C 
- 4596      5F4C 4F5F 
+ 4586      4C5F 4556 
+ 4586      4348 335F 
+ 4586      6763 00
+ 4587               	.LASF177:
+ 4588 078e 6576 656E 		.string	"eventSource"
+ 4588      7453 6F75 
+ 4588      7263 6500 
+ 4589               	.LASF140:
+ 4590 079a 5443 5F4F 		.string	"TC_OVFINTLVL_HI_gc"
+ 4590      5646 494E 
+ 4590      544C 564C 
+ 4590      5F48 495F 
+ 4590      6763 00
+ 4591               	.LASF12:
+ 4592 07ad 4343 4148 		.string	"CCAH"
+ 4592      00
+ 4593               	.LASF144:
+ 4594 07b2 5443 5F43 		.string	"TC_CCDINTLVL_LO_gc"
+ 4594      4344 494E 
+ 4594      544C 564C 
+ 4594      5F4C 4F5F 
+ 4594      6763 00
+ 4595               	.LASF90:
+ 4596 07c5 5443 5F43 		.string	"TC_CLKSEL_DIV64_gc"
+ 4596      4C4B 5345 
+ 4596      4C5F 4449 
+ 4596      5636 345F 
  4596      6763 00
- 4597               	.LASF90:
- 4598 0804 5443 5F43 		.string	"TC_CLKSEL_DIV64_gc"
- 4598      4C4B 5345 
- 4598      4C5F 4449 
- 4598      5636 345F 
- 4598      6763 00
- 4599               	.LASF11:
- 4600 0817 4343 414C 		.string	"CCAL"
- 4600      00
- 4601               	.LASF178:
- 4602 081c 5443 315F 		.string	"TC1_ConfigInputCapture"
- 4602      436F 6E66 
- 4602      6967 496E 
- 4602      7075 7443 
- 4602      6170 7475 
- 4603               	.LASF136:
- 4604 0833 5443 5F4F 		.string	"TC_OVFINTLVL_enum"
+ 4597               	.LASF11:
+ 4598 07d8 4343 414C 		.string	"CCAL"
+ 4598      00
+ 4599               	.LASF178:
+ 4600 07dd 5443 315F 		.string	"TC1_ConfigInputCapture"
+ 4600      436F 6E66 
+ 4600      6967 496E 
+ 4600      7075 7443 
+ 4600      6170 7475 
+ 4601               	.LASF136:
+ 4602 07f4 5443 5F4F 		.string	"TC_OVFINTLVL_enum"
+ 4602      5646 494E 
+ 4602      544C 564C 
+ 4602      5F65 6E75 
+ 4602      6D00 
+ 4603               	.LASF137:
+ 4604 0806 5443 5F4F 		.string	"TC_OVFINTLVL_OFF_gc"
  4604      5646 494E 
  4604      544C 564C 
- 4604      5F65 6E75 
- 4604      6D00 
- 4605               	.LASF137:
- 4606 0845 5443 5F4F 		.string	"TC_OVFINTLVL_OFF_gc"
- 4606      5646 494E 
- 4606      544C 564C 
- 4606      5F4F 4646 
- 4606      5F67 6300 
- 4607               	.LASF30:
- 4608 0859 4343 4342 		.string	"CCCBUF"
-GAS LISTING /tmp/cckxQFk2.s 			page 91
+ 4604      5F4F 4646 
+ 4604      5F67 6300 
+ 4605               	.LASF30:
+ 4606 081a 4343 4342 		.string	"CCCBUF"
+ 4606      5546 00
+ 4607               	.LASF84:
+ 4608 0821 5443 315F 		.string	"TC1_t"
+ 4608      7400 
+ 4609               	.LASF124:
+ 4610 0827 5443 5F45 		.string	"TC_EVSEL_CH3_gc"
+GAS LISTING /tmp/ccxp0SI5.s 			page 91
 
 
- 4608      5546 00
- 4609               	.LASF84:
- 4610 0860 5443 315F 		.string	"TC1_t"
- 4610      7400 
- 4611               	.LASF124:
- 4612 0866 5443 5F45 		.string	"TC_EVSEL_CH3_gc"
- 4612      5653 454C 
- 4612      5F43 4833 
- 4612      5F67 6300 
- 4613               	.LASF66:
- 4614 0876 7265 7365 		.string	"reserved_0x22"
+ 4610      5653 454C 
+ 4610      5F43 4833 
+ 4610      5F67 6300 
+ 4611               	.LASF66:
+ 4612 0837 7265 7365 		.string	"reserved_0x22"
+ 4612      7276 6564 
+ 4612      5F30 7832 
+ 4612      3200 
+ 4613               	.LASF67:
+ 4614 0845 7265 7365 		.string	"reserved_0x23"
  4614      7276 6564 
  4614      5F30 7832 
- 4614      3200 
- 4615               	.LASF67:
- 4616 0884 7265 7365 		.string	"reserved_0x23"
- 4616      7276 6564 
- 4616      5F30 7832 
- 4616      3300 
- 4617               	.LASF108:
- 4618 0892 5443 5F57 		.string	"TC_WGMODE_DS_TB_gc"
- 4618      474D 4F44 
- 4618      455F 4453 
- 4618      5F54 425F 
- 4618      6763 00
- 4619               	.LASF69:
- 4620 08a5 7265 7365 		.string	"reserved_0x25"
- 4620      7276 6564 
- 4620      5F30 7832 
- 4620      3500 
- 4621               	.LASF120:
- 4622 08b3 5443 5F45 		.string	"TC_EVSEL_OFF_gc"
- 4622      5653 454C 
- 4622      5F4F 4646 
- 4622      5F67 6300 
- 4623               	.LASF55:
- 4624 08c3 7265 7365 		.string	"reserved_0x15"
- 4624      7276 6564 
- 4624      5F30 7831 
- 4624      3500 
- 4625               	.LASF79:
- 4626 08d1 5443 315F 		.string	"TC1_struct"
- 4626      7374 7275 
- 4626      6374 00
- 4627               	.LASF167:
- 4628 08dc 5443 5F43 		.string	"TC_CMD_NONE_gc"
- 4628      4D44 5F4E 
- 4628      4F4E 455F 
- 4628      6763 00
- 4629               	.LASF111:
- 4630 08eb 5443 5F45 		.string	"TC_EVACT_enum"
- 4630      5641 4354 
- 4630      5F65 6E75 
- 4630      6D00 
- 4631               	.LASF80:
- 4632 08f9 7265 7365 		.string	"reserved_0x2C"
- 4632      7276 6564 
-GAS LISTING /tmp/cckxQFk2.s 			page 92
+ 4614      3300 
+ 4615               	.LASF108:
+ 4616 0853 5443 5F57 		.string	"TC_WGMODE_DS_TB_gc"
+ 4616      474D 4F44 
+ 4616      455F 4453 
+ 4616      5F54 425F 
+ 4616      6763 00
+ 4617               	.LASF69:
+ 4618 0866 7265 7365 		.string	"reserved_0x25"
+ 4618      7276 6564 
+ 4618      5F30 7832 
+ 4618      3500 
+ 4619               	.LASF120:
+ 4620 0874 5443 5F45 		.string	"TC_EVSEL_OFF_gc"
+ 4620      5653 454C 
+ 4620      5F4F 4646 
+ 4620      5F67 6300 
+ 4621               	.LASF55:
+ 4622 0884 7265 7365 		.string	"reserved_0x15"
+ 4622      7276 6564 
+ 4622      5F30 7831 
+ 4622      3500 
+ 4623               	.LASF79:
+ 4624 0892 5443 315F 		.string	"TC1_struct"
+ 4624      7374 7275 
+ 4624      6374 00
+ 4625               	.LASF167:
+ 4626 089d 5443 5F43 		.string	"TC_CMD_NONE_gc"
+ 4626      4D44 5F4E 
+ 4626      4F4E 455F 
+ 4626      6763 00
+ 4627               	.LASF111:
+ 4628 08ac 5443 5F45 		.string	"TC_EVACT_enum"
+ 4628      5641 4354 
+ 4628      5F65 6E75 
+ 4628      6D00 
+ 4629               	.LASF80:
+ 4630 08ba 7265 7365 		.string	"reserved_0x2C"
+ 4630      7276 6564 
+ 4630      5F30 7832 
+ 4630      4300 
+ 4631               	.LASF164:
+ 4632 08c8 5443 5F43 		.string	"TC_CCAINTLVL_HI_gc"
+ 4632      4341 494E 
+ 4632      544C 564C 
+GAS LISTING /tmp/ccxp0SI5.s 			page 92
 
 
- 4632      5F30 7832 
- 4632      4300 
- 4633               	.LASF164:
- 4634 0907 5443 5F43 		.string	"TC_CCAINTLVL_HI_gc"
- 4634      4341 494E 
- 4634      544C 564C 
- 4634      5F48 495F 
- 4634      6763 00
- 4635               	.LASF82:
- 4636 091a 7265 7365 		.string	"reserved_0x2E"
+ 4632      5F48 495F 
+ 4632      6763 00
+ 4633               	.LASF82:
+ 4634 08db 7265 7365 		.string	"reserved_0x2E"
+ 4634      7276 6564 
+ 4634      5F30 7832 
+ 4634      4500 
+ 4635               	.LASF83:
+ 4636 08e9 7265 7365 		.string	"reserved_0x2F"
  4636      7276 6564 
  4636      5F30 7832 
- 4636      4500 
- 4637               	.LASF83:
- 4638 0928 7265 7365 		.string	"reserved_0x2F"
+ 4636      4600 
+ 4637               	.LASF51:
+ 4638 08f7 7265 7365 		.string	"reserved_0x11"
  4638      7276 6564 
- 4638      5F30 7832 
- 4638      4600 
- 4639               	.LASF51:
- 4640 0936 7265 7365 		.string	"reserved_0x11"
- 4640      7276 6564 
- 4640      5F30 7831 
- 4640      3100 
- 4641               	.LASF173:
- 4642 0944 5443 315F 		.string	"TC1_ConfigClockSource"
- 4642      436F 6E66 
- 4642      6967 436C 
- 4642      6F63 6B53 
- 4642      6F75 7263 
- 4643               	.LASF52:
- 4644 095a 7265 7365 		.string	"reserved_0x12"
+ 4638      5F30 7831 
+ 4638      3100 
+ 4639               	.LASF173:
+ 4640 0905 5443 315F 		.string	"TC1_ConfigClockSource"
+ 4640      436F 6E66 
+ 4640      6967 436C 
+ 4640      6F63 6B53 
+ 4640      6F75 7263 
+ 4641               	.LASF52:
+ 4642 091b 7265 7365 		.string	"reserved_0x12"
+ 4642      7276 6564 
+ 4642      5F30 7831 
+ 4642      3200 
+ 4643               	.LASF53:
+ 4644 0929 7265 7365 		.string	"reserved_0x13"
  4644      7276 6564 
  4644      5F30 7831 
- 4644      3200 
- 4645               	.LASF53:
- 4646 0968 7265 7365 		.string	"reserved_0x13"
- 4646      7276 6564 
- 4646      5F30 7831 
- 4646      3300 
- 4647               	.LASF116:
- 4648 0976 5443 5F45 		.string	"TC_EVACT_RESTART_gc"
- 4648      5641 4354 
- 4648      5F52 4553 
- 4648      5441 5254 
+ 4644      3300 
+ 4645               	.LASF116:
+ 4646 0937 5443 5F45 		.string	"TC_EVACT_RESTART_gc"
+ 4646      5641 4354 
+ 4646      5F52 4553 
+ 4646      5441 5254 
+ 4646      5F67 6300 
+ 4647               	.LASF143:
+ 4648 094b 5443 5F43 		.string	"TC_CCDINTLVL_OFF_gc"
+ 4648      4344 494E 
+ 4648      544C 564C 
+ 4648      5F4F 4646 
  4648      5F67 6300 
- 4649               	.LASF143:
- 4650 098a 5443 5F43 		.string	"TC_CCDINTLVL_OFF_gc"
- 4650      4344 494E 
- 4650      544C 564C 
- 4650      5F4F 4646 
- 4650      5F67 6300 
- 4651               	.LASF92:
- 4652 099e 5443 5F43 		.string	"TC_CLKSEL_DIV1024_gc"
- 4652      4C4B 5345 
- 4652      4C5F 4449 
- 4652      5631 3032 
- 4652      345F 6763 
-GAS LISTING /tmp/cckxQFk2.s 			page 93
+ 4649               	.LASF92:
+ 4650 095f 5443 5F43 		.string	"TC_CLKSEL_DIV1024_gc"
+ 4650      4C4B 5345 
+ 4650      4C5F 4449 
+ 4650      5631 3032 
+ 4650      345F 6763 
+ 4651               	.LASF14:
+ 4652 0974 4343 4248 		.string	"CCBH"
+ 4652      00
+ 4653               	.LASF43:
+ 4654 0979 4354 524C 		.string	"CTRLFSET"
+ 4654      4653 4554 
+GAS LISTING /tmp/ccxp0SI5.s 			page 93
 
 
- 4653               	.LASF14:
- 4654 09b3 4343 4248 		.string	"CCBH"
  4654      00
- 4655               	.LASF43:
- 4656 09b8 4354 524C 		.string	"CTRLFSET"
- 4656      4653 4554 
+ 4655               	.LASF13:
+ 4656 0982 4343 424C 		.string	"CCBL"
  4656      00
- 4657               	.LASF13:
- 4658 09c1 4343 424C 		.string	"CCBL"
- 4658      00
- 4659               	.LASF146:
- 4660 09c6 5443 5F43 		.string	"TC_CCDINTLVL_HI_gc"
- 4660      4344 494E 
+ 4657               	.LASF146:
+ 4658 0987 5443 5F43 		.string	"TC_CCDINTLVL_HI_gc"
+ 4658      4344 494E 
+ 4658      544C 564C 
+ 4658      5F48 495F 
+ 4658      6763 00
+ 4659               	.LASF165:
+ 4660 099a 5443 5F43 		.string	"TC_CCAINTLVL_t"
+ 4660      4341 494E 
  4660      544C 564C 
- 4660      5F48 495F 
- 4660      6763 00
- 4661               	.LASF165:
- 4662 09d9 5443 5F43 		.string	"TC_CCAINTLVL_t"
- 4662      4341 494E 
- 4662      544C 564C 
- 4662      5F74 00
- 4663               	.LASF9:
- 4664 09e8 5045 524C 		.string	"PERL"
- 4664      00
- 4665               	.LASF33:
- 4666 09ed 4343 4442 		.string	"CCDBUF"
+ 4660      5F74 00
+ 4661               	.LASF9:
+ 4662 09a9 5045 524C 		.string	"PERL"
+ 4662      00
+ 4663               	.LASF33:
+ 4664 09ae 4343 4442 		.string	"CCDBUF"
+ 4664      5546 00
+ 4665               	.LASF27:
+ 4666 09b5 4343 4242 		.string	"CCBBUF"
  4666      5546 00
- 4667               	.LASF27:
- 4668 09f4 4343 4242 		.string	"CCBBUF"
- 4668      5546 00
- 4669               	.LASF46:
- 4670 09fb 494E 5446 		.string	"INTFLAGS"
- 4670      4C41 4753 
- 4670      00
- 4671               	.LASF123:
- 4672 0a04 5443 5F45 		.string	"TC_EVSEL_CH2_gc"
- 4672      5653 454C 
- 4672      5F43 4832 
- 4672      5F67 6300 
- 4673               	.LASF29:
- 4674 0a14 4343 4342 		.string	"CCCBUFH"
- 4674      5546 4800 
- 4675               	.LASF171:
- 4676 0a1c 636C 6F63 		.string	"clockSelection"
- 4676      6B53 656C 
- 4676      6563 7469 
- 4676      6F6E 00
- 4677               	.LASF121:
- 4678 0a2b 5443 5F45 		.string	"TC_EVSEL_CH0_gc"
- 4678      5653 454C 
- 4678      5F43 4830 
- 4678      5F67 6300 
- 4679               	.LASF28:
- 4680 0a3b 4343 4342 		.string	"CCCBUFL"
- 4680      5546 4C00 
- 4681               	.LASF71:
- 4682 0a43 7265 7365 		.string	"reserved_0x31"
-GAS LISTING /tmp/cckxQFk2.s 			page 94
+ 4667               	.LASF46:
+ 4668 09bc 494E 5446 		.string	"INTFLAGS"
+ 4668      4C41 4753 
+ 4668      00
+ 4669               	.LASF123:
+ 4670 09c5 5443 5F45 		.string	"TC_EVSEL_CH2_gc"
+ 4670      5653 454C 
+ 4670      5F43 4832 
+ 4670      5F67 6300 
+ 4671               	.LASF29:
+ 4672 09d5 4343 4342 		.string	"CCCBUFH"
+ 4672      5546 4800 
+ 4673               	.LASF171:
+ 4674 09dd 636C 6F63 		.string	"clockSelection"
+ 4674      6B53 656C 
+ 4674      6563 7469 
+ 4674      6F6E 00
+ 4675               	.LASF121:
+ 4676 09ec 5443 5F45 		.string	"TC_EVSEL_CH0_gc"
+ 4676      5653 454C 
+ 4676      5F43 4830 
+ 4676      5F67 6300 
+ 4677               	.LASF28:
+ 4678 09fc 4343 4342 		.string	"CCCBUFL"
+ 4678      5546 4C00 
+ 4679               	.LASF71:
+ 4680 0a04 7265 7365 		.string	"reserved_0x31"
+ 4680      7276 6564 
+ 4680      5F30 7833 
+ 4680      3100 
+ 4681               	.LASF112:
+ 4682 0a12 5443 5F45 		.string	"TC_EVACT_OFF_gc"
+ 4682      5641 4354 
+GAS LISTING /tmp/ccxp0SI5.s 			page 94
 
 
- 4682      7276 6564 
- 4682      5F30 7833 
- 4682      3100 
- 4683               	.LASF112:
- 4684 0a51 5443 5F45 		.string	"TC_EVACT_OFF_gc"
- 4684      5641 4354 
- 4684      5F4F 4646 
- 4684      5F67 6300 
- 4685               	.LASF73:
- 4686 0a61 7265 7365 		.string	"reserved_0x33"
+ 4682      5F4F 4646 
+ 4682      5F67 6300 
+ 4683               	.LASF73:
+ 4684 0a22 7265 7365 		.string	"reserved_0x33"
+ 4684      7276 6564 
+ 4684      5F30 7833 
+ 4684      3300 
+ 4685               	.LASF74:
+ 4686 0a30 7265 7365 		.string	"reserved_0x34"
  4686      7276 6564 
  4686      5F30 7833 
- 4686      3300 
- 4687               	.LASF74:
- 4688 0a6f 7265 7365 		.string	"reserved_0x34"
- 4688      7276 6564 
- 4688      5F30 7833 
- 4688      3400 
- 4689               	.LASF139:
- 4690 0a7d 5443 5F4F 		.string	"TC_OVFINTLVL_MED_gc"
- 4690      5646 494E 
- 4690      544C 564C 
- 4690      5F4D 4544 
- 4690      5F67 6300 
- 4691               	.LASF190:
- 4692 0a91 5443 305F 		.string	"TC0_SetCCAIntLevel"
- 4692      5365 7443 
- 4692      4341 496E 
- 4692      744C 6576 
- 4692      656C 00
- 4693               	.LASF94:
- 4694 0aa4 5443 5F43 		.string	"TC_CLKSEL_EVCH1_gc"
- 4694      4C4B 5345 
- 4694      4C5F 4556 
- 4694      4348 315F 
- 4694      6763 00
- 4695               	.LASF24:
- 4696 0ab7 4343 4142 		.string	"CCABUF"
- 4696      5546 00
- 4697               	.LASF142:
- 4698 0abe 5443 5F43 		.string	"TC_CCDINTLVL_enum"
- 4698      4344 494E 
- 4698      544C 564C 
- 4698      5F65 6E75 
- 4698      6D00 
- 4699               	.LASF76:
- 4700 0ad0 7569 6E74 		.string	"uint8_t"
- 4700      385F 7400 
- 4701               	.LASF77:
- 4702 0ad8 5443 305F 		.string	"TC0_t"
- 4702      7400 
- 4703               	.LASF95:
- 4704 0ade 5443 5F43 		.string	"TC_CLKSEL_EVCH2_gc"
- 4704      4C4B 5345 
- 4704      4C5F 4556 
- 4704      4348 325F 
- 4704      6763 00
-GAS LISTING /tmp/cckxQFk2.s 			page 95
+ 4686      3400 
+ 4687               	.LASF139:
+ 4688 0a3e 5443 5F4F 		.string	"TC_OVFINTLVL_MED_gc"
+ 4688      5646 494E 
+ 4688      544C 564C 
+ 4688      5F4D 4544 
+ 4688      5F67 6300 
+ 4689               	.LASF190:
+ 4690 0a52 5443 305F 		.string	"TC0_SetCCAIntLevel"
+ 4690      5365 7443 
+ 4690      4341 496E 
+ 4690      744C 6576 
+ 4690      656C 00
+ 4691               	.LASF94:
+ 4692 0a65 5443 5F43 		.string	"TC_CLKSEL_EVCH1_gc"
+ 4692      4C4B 5345 
+ 4692      4C5F 4556 
+ 4692      4348 315F 
+ 4692      6763 00
+ 4693               	.LASF24:
+ 4694 0a78 4343 4142 		.string	"CCABUF"
+ 4694      5546 00
+ 4695               	.LASF142:
+ 4696 0a7f 5443 5F43 		.string	"TC_CCDINTLVL_enum"
+ 4696      4344 494E 
+ 4696      544C 564C 
+ 4696      5F65 6E75 
+ 4696      6D00 
+ 4697               	.LASF76:
+ 4698 0a91 7569 6E74 		.string	"uint8_t"
+ 4698      385F 7400 
+ 4699               	.LASF77:
+ 4700 0a99 5443 305F 		.string	"TC0_t"
+ 4700      7400 
+ 4701               	.LASF95:
+ 4702 0a9f 5443 5F43 		.string	"TC_CLKSEL_EVCH2_gc"
+ 4702      4C4B 5345 
+ 4702      4C5F 4556 
+ 4702      4348 325F 
+ 4702      6763 00
+ 4703               	.LASF23:
+ 4704 0ab2 4343 4142 		.string	"CCABUFH"
+ 4704      5546 4800 
+ 4705               	.LASF40:
+ 4706 0aba 494E 5443 		.string	"INTCTRLA"
+ 4706      5452 4C41 
+GAS LISTING /tmp/ccxp0SI5.s 			page 95
 
 
- 4705               	.LASF23:
- 4706 0af1 4343 4142 		.string	"CCABUFH"
- 4706      5546 4800 
- 4707               	.LASF40:
- 4708 0af9 494E 5443 		.string	"INTCTRLA"
- 4708      5452 4C41 
+ 4706      00
+ 4707               	.LASF16:
+ 4708 0ac3 4343 4348 		.string	"CCCH"
  4708      00
- 4709               	.LASF16:
- 4710 0b02 4343 4348 		.string	"CCCH"
+ 4709               	.LASF15:
+ 4710 0ac8 4343 434C 		.string	"CCCL"
  4710      00
- 4711               	.LASF15:
- 4712 0b07 4343 434C 		.string	"CCCL"
- 4712      00
- 4713               	.LASF88:
- 4714 0b0c 5443 5F43 		.string	"TC_CLKSEL_DIV4_gc"
- 4714      4C4B 5345 
- 4714      4C5F 4449 
- 4714      5634 5F67 
- 4714      6300 
- 4715               	.LASF122:
- 4716 0b1e 5443 5F45 		.string	"TC_EVSEL_CH1_gc"
+ 4711               	.LASF88:
+ 4712 0acd 5443 5F43 		.string	"TC_CLKSEL_DIV4_gc"
+ 4712      4C4B 5345 
+ 4712      4C5F 4449 
+ 4712      5634 5F67 
+ 4712      6300 
+ 4713               	.LASF122:
+ 4714 0adf 5443 5F45 		.string	"TC_EVSEL_CH1_gc"
+ 4714      5653 454C 
+ 4714      5F43 4831 
+ 4714      5F67 6300 
+ 4715               	.LASF125:
+ 4716 0aef 5443 5F45 		.string	"TC_EVSEL_CH4_gc"
  4716      5653 454C 
- 4716      5F43 4831 
+ 4716      5F43 4834 
  4716      5F67 6300 
- 4717               	.LASF125:
- 4718 0b2e 5443 5F45 		.string	"TC_EVSEL_CH4_gc"
- 4718      5653 454C 
- 4718      5F43 4834 
- 4718      5F67 6300 
+ 4717               	.LASF199:
+ 4718 0aff 2F68 6F6D 		.string	"/home/tomlinsj/falconSvn/44x201007/firmware/mcu/spi_test"
+ 4718      652F 746F 
+ 4718      6D6C 696E 
+ 4718      736A 2F66 
+ 4718      616C 636F 
  4719               	.LASF159:
- 4720 0b3e 5443 5F43 		.string	"TC_CCBINTLVL_t"
+ 4720 0b38 5443 5F43 		.string	"TC_CCBINTLVL_t"
  4720      4342 494E 
  4720      544C 564C 
  4720      5F74 00
  4721               	.LASF168:
- 4722 0b4d 5443 5F43 		.string	"TC_CMD_UPDATE_gc"
+ 4722 0b47 5443 5F43 		.string	"TC_CMD_UPDATE_gc"
  4722      4D44 5F55 
  4722      5044 4154 
  4722      455F 6763 
  4722      00
  4723               	.LASF35:
- 4724 0b5e 4354 524C 		.string	"CTRLB"
+ 4724 0b58 4354 524C 		.string	"CTRLB"
  4724      4200 
  4725               	.LASF196:
- 4726 0b64 5443 305F 		.string	"TC0_Reset"
+ 4726 0b5e 5443 305F 		.string	"TC0_Reset"
  4726      5265 7365 
  4726      7400 
  4727               	.LASF156:
- 4728 0b6e 5443 5F43 		.string	"TC_CCBINTLVL_LO_gc"
+ 4728 0b68 5443 5F43 		.string	"TC_CCBINTLVL_LO_gc"
  4728      4342 494E 
  4728      544C 564C 
  4728      5F4C 4F5F 
  4728      6763 00
  4729               	.LASF93:
- 4730 0b81 5443 5F43 		.string	"TC_CLKSEL_EVCH0_gc"
+ 4730 0b7b 5443 5F43 		.string	"TC_CLKSEL_EVCH0_gc"
  4730      4C4B 5345 
  4730      4C5F 4556 
-GAS LISTING /tmp/cckxQFk2.s 			page 96
+GAS LISTING /tmp/ccxp0SI5.s 			page 96
 
 
  4730      4348 305F 
  4730      6763 00
-GAS LISTING /tmp/cckxQFk2.s 			page 97
+GAS LISTING /tmp/ccxp0SI5.s 			page 97
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 TC_driver.c
-     /tmp/cckxQFk2.s:2      *ABS*:0000003f __SREG__
-     /tmp/cckxQFk2.s:3      *ABS*:0000003e __SP_H__
-     /tmp/cckxQFk2.s:4      *ABS*:0000003d __SP_L__
-     /tmp/cckxQFk2.s:5      *ABS*:00000034 __CCP__
-     /tmp/cckxQFk2.s:6      *ABS*:00000000 __tmp_reg__
-     /tmp/cckxQFk2.s:7      *ABS*:00000001 __zero_reg__
-     /tmp/cckxQFk2.s:18     .text:00000000 TC0_ConfigClockSource
-     /tmp/cckxQFk2.s:38     .text:0000000c TC1_ConfigClockSource
-     /tmp/cckxQFk2.s:58     .text:00000018 TC0_ConfigWGM
-     /tmp/cckxQFk2.s:78     .text:00000024 TC1_ConfigWGM
-     /tmp/cckxQFk2.s:98     .text:00000030 TC0_ConfigInputCapture
-     /tmp/cckxQFk2.s:119    .text:0000003e TC1_ConfigInputCapture
-     /tmp/cckxQFk2.s:140    .text:0000004c TC0_EnableCCChannels
-     /tmp/cckxQFk2.s:161    .text:00000058 TC1_EnableCCChannels
-     /tmp/cckxQFk2.s:182    .text:00000064 TC0_DisableCCChannels
-     /tmp/cckxQFk2.s:204    .text:00000072 TC1_DisableCCChannels
-     /tmp/cckxQFk2.s:226    .text:00000080 TC0_SetOverflowIntLevel
-     /tmp/cckxQFk2.s:246    .text:0000008c TC1_SetOverflowIntLevel
-     /tmp/cckxQFk2.s:266    .text:00000098 TC0_SetErrorIntLevel
-     /tmp/cckxQFk2.s:286    .text:000000a4 TC1_SetErrorIntLevel
-     /tmp/cckxQFk2.s:306    .text:000000b0 TC0_SetCCAIntLevel
-     /tmp/cckxQFk2.s:326    .text:000000bc TC1_SetCCAIntLevel
-     /tmp/cckxQFk2.s:346    .text:000000c8 TC0_SetCCBIntLevel
-     /tmp/cckxQFk2.s:366    .text:000000d4 TC1_SetCCBIntLevel
-     /tmp/cckxQFk2.s:386    .text:000000e0 TC0_SetCCCIntLevel
-     /tmp/cckxQFk2.s:406    .text:000000ec TC0_SetCCDIntLevel
-     /tmp/cckxQFk2.s:426    .text:000000f8 TC0_Reset
-     /tmp/cckxQFk2.s:448    .text:00000106 TC1_Reset
+     /tmp/ccxp0SI5.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccxp0SI5.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccxp0SI5.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccxp0SI5.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccxp0SI5.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccxp0SI5.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccxp0SI5.s:18     .text:00000000 TC0_ConfigClockSource
+     /tmp/ccxp0SI5.s:38     .text:0000000c TC1_ConfigClockSource
+     /tmp/ccxp0SI5.s:58     .text:00000018 TC0_ConfigWGM
+     /tmp/ccxp0SI5.s:78     .text:00000024 TC1_ConfigWGM
+     /tmp/ccxp0SI5.s:98     .text:00000030 TC0_ConfigInputCapture
+     /tmp/ccxp0SI5.s:119    .text:0000003e TC1_ConfigInputCapture
+     /tmp/ccxp0SI5.s:140    .text:0000004c TC0_EnableCCChannels
+     /tmp/ccxp0SI5.s:161    .text:00000058 TC1_EnableCCChannels
+     /tmp/ccxp0SI5.s:182    .text:00000064 TC0_DisableCCChannels
+     /tmp/ccxp0SI5.s:204    .text:00000072 TC1_DisableCCChannels
+     /tmp/ccxp0SI5.s:226    .text:00000080 TC0_SetOverflowIntLevel
+     /tmp/ccxp0SI5.s:246    .text:0000008c TC1_SetOverflowIntLevel
+     /tmp/ccxp0SI5.s:266    .text:00000098 TC0_SetErrorIntLevel
+     /tmp/ccxp0SI5.s:286    .text:000000a4 TC1_SetErrorIntLevel
+     /tmp/ccxp0SI5.s:306    .text:000000b0 TC0_SetCCAIntLevel
+     /tmp/ccxp0SI5.s:326    .text:000000bc TC1_SetCCAIntLevel
+     /tmp/ccxp0SI5.s:346    .text:000000c8 TC0_SetCCBIntLevel
+     /tmp/ccxp0SI5.s:366    .text:000000d4 TC1_SetCCBIntLevel
+     /tmp/ccxp0SI5.s:386    .text:000000e0 TC0_SetCCCIntLevel
+     /tmp/ccxp0SI5.s:406    .text:000000ec TC0_SetCCDIntLevel
+     /tmp/ccxp0SI5.s:426    .text:000000f8 TC0_Reset
+     /tmp/ccxp0SI5.s:448    .text:00000106 TC1_Reset
 
 NO UNDEFINED SYMBOLS
