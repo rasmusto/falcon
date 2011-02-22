@@ -14,7 +14,9 @@ volatile struct mcu_rx_pkt_t mcu_rx;
 volatile struct imu_tx_pkt_t imu_tx;
 volatile struct imu_rx_pkt_t imu_rx;
 
-volatile struct pid_info pid;
+volatile struct pid_info roll_pid;
+volatile struct pid_info pitch_pid;
+volatile struct pid_info yaw_pid;
 
 volatile uint8_t print_status_flag = 1;
 
@@ -37,6 +39,10 @@ volatile uint8_t receive_mcu_pkt_flag = 0;
 volatile uint8_t first_spi_interrupt_flag = 0;
 volatile uint8_t stream_data_flag = 0;
 volatile uint8_t request_new_pkt_flag = 0;
+
+volatile float roll_pid_output = 0;
+volatile float pitch_pid_output = 0;
+volatile float yaw_pid_output = 0;
 
 void init_mcu_tx_pkt(volatile struct mcu_tx_pkt_t * pkt)
 {
@@ -161,8 +167,15 @@ void print_status(void)
         FILE * tmp = stdout;
         stdout = &usb_out;
         printf("%c", 12);
-        //print_pid_info(&pid);
-        print_mcu_pkts(&mcu_tx, &mcu_rx);
+        /*
+        print_pid_info(&roll_pid);
+        printf("roll_pid_output = %f\n\r", roll_pid_output);
+        print_pid_info(&pitch_pid);
+        printf("pitch_pid_output = %f\n\r", pitch_pid_output);
+        print_pid_info(&yaw_pid);
+        printf("yaw_pid_output = %f\n\r", yaw_pid_output);
+        */
+        //print_mcu_pkts(&mcu_tx, &mcu_rx);
         print_imu_pkts(&imu_tx, &imu_rx);
         print_bat();
         stdout = tmp;
@@ -216,12 +229,22 @@ void process_rx_buf(volatile char * rx_buf)
     else if(strcmp(cmd, "led4r_off") == 0) { LED_4_RED_OFF(); }
     else if(strcmp(cmd, "help") == 0) { printf(help); }
     else if(strcmp(cmd, "clear") == 0) { printf("%c", 12); }
-    else if(strcmp(cmd, "kp") == 0) { pid_set_kp(&pid, val); }
-    else if(strcmp(cmd, "ki") == 0) { pid_set_ki(&pid, val); }
-    else if(strcmp(cmd, "kd") == 0) { pid_set_kd(&pid, val); }
-    else if(strcmp(cmd, "target") == 0) { pid_set_target(&pid, val); }
-    else if(strcmp(cmd, "print_pid") == 0) { print_pid_info(&pid); }
-    else if(strcmp(cmd, "reset_i") == 0) { pid_reset_i(&pid); }
+    else if(strcmp(cmd, "rkp") == 0) {      pid_set_kp(     &roll_pid,  val); }
+    else if(strcmp(cmd, "rki") == 0) {      pid_set_ki(     &roll_pid,  val); }
+    else if(strcmp(cmd, "rkd") == 0) {      pid_set_kd(     &roll_pid,  val); }
+    else if(strcmp(cmd, "rtarget") == 0) {  pid_set_target( &roll_pid,  val); }
+    else if(strcmp(cmd, "rreset_i") == 0) { pid_reset_i(    &roll_pid); }
+    else if(strcmp(cmd, "pkp") == 0) {      pid_set_kp(     &pitch_pid, val); }
+    else if(strcmp(cmd, "pki") == 0) {      pid_set_ki(     &pitch_pid, val); }
+    else if(strcmp(cmd, "pkd") == 0) {      pid_set_kd(     &pitch_pid, val); }
+    else if(strcmp(cmd, "ptarget") == 0) {  pid_set_target( &pitch_pid, val); }
+    else if(strcmp(cmd, "preset_i") == 0) { pid_reset_i(    &pitch_pid); }
+    else if(strcmp(cmd, "ykp") == 0) {      pid_set_kp(     &yaw_pid,   val); }
+    else if(strcmp(cmd, "yki") == 0) {      pid_set_ki(     &yaw_pid,   val); }
+    else if(strcmp(cmd, "ykd") == 0) {      pid_set_kd(     &yaw_pid,   val); }
+    else if(strcmp(cmd, "ytarget") == 0) {  pid_set_target( &yaw_pid,   val); }
+    else if(strcmp(cmd, "yreset_i") == 0) { pid_reset_i(    &yaw_pid); }
+    //else if(strcmp(cmd, "print_pid") == 0) { print_pid_info(&pid); }
     else if(strcmp(cmd, "request_imu") == 0) { request_imu_pkt(); }
     else if(strcmp(cmd, "init_imu_rx") == 0) { init_imu_rx_pkt(&imu_rx); }
     else if(strcmp(cmd, "stream") == 0) { stream_data_flag ^= 1; }
@@ -482,8 +505,11 @@ int main (void)
         printf("\r");
         printf("fcu: %s", usb_rx_buf);
 
-        //request_imu_pkt();
-        send_mcu_pkt();
+        request_imu_pkt();
+        roll_pid_output  = pid_iteration (&roll_pid, imu_rx.roll, 0);
+        pitch_pid_output = pid_iteration (&pitch_pid, imu_rx.pitch, 0);
+        yaw_pid_output   = pid_iteration (&yaw_pid, imu_rx.yaw, 0);
+        //send_mcu_pkt();
         _delay_ms(1);
         loop_count++;
     }
