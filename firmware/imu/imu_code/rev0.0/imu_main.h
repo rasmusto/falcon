@@ -2,6 +2,7 @@
 #define IMU_MAIN_H_
 
 #include "DSP28x_Project.h"
+#include "CLAShared.h"
 #include <stdlib.h>
 
 enum PACKET_TYPE{ RAW_SENSOR_DATA, EULER_ANGLES, STATUS};
@@ -9,6 +10,14 @@ enum PACKET_TYPE{ RAW_SENSOR_DATA, EULER_ANGLES, STATUS};
 #define IMU_PWR_ON() GpioDataRegs.GPBSET.bit.GPIO34 = 1; GpioDataRegs.GPASET.bit.GPIO21 = 1
 #define IMU_PWR_OFF() GpioDataRegs.GPBCLEAR.bit.GPIO34 = 1; GpioDataRegs.GPACLEAR.bit.GPIO21 = 1
 #define ADC_DRDY() !GpioDataRegs.GPADAT.bit.GPIO20
+
+//multipliers for sensors.
+//results in gyro readings in deg/sec or rad/sec
+//accelerometer readings in m/(s^2)
+#define GYRO_RAD_MULT	0.00022193686
+#define GYRO_DEG_MULT 	0.012716046
+#define TEMP_MULT		1
+#define ACCEL_MULT		0.0039091476
 
 //spi defines
 #define SPIA_CHAR_LNGTH_MSK 0x0F //16-bit
@@ -53,6 +62,17 @@ extern volatile union SENSOR_DATA sensors;
 extern volatile union IMU_FLAGS flags;
 extern volatile struct FCU_PACKET * fcu_tx_packet;
 extern volatile struct FCU_PACKET sensor_tx_packet;
+
+// These are defined by the linker file and used to copy
+// the CLA code from its load address to its run address
+// in CLA program memory in the CLA initalization function
+extern Uint16 Cla1funcsLoadStart;
+extern Uint16 Cla1funcsLoadEnd;
+extern Uint16 Cla1funcsRunStart;
+//Cla data memory locations
+extern Uint16 Cla1DataLoadStart;
+extern Uint16 Cla1DataLoadEnd;
+extern Uint16 Cla1DataRunStart;
 
 //function prototypes
 void InitMicrocontroller(void);

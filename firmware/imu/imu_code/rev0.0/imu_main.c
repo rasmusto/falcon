@@ -1,7 +1,14 @@
 
 #include "imu_main.h"
 
+#pragma DATA_SECTION(sensors, "CpuToCla1MsgRAM") //so cpu can read/write to sensors, cla can read
 volatile union SENSOR_DATA sensors;
+
+#pragma DATA_SECTION(sensor_multipliers, "Cla1DataRam1")
+const float32 sensor_multipliers[8] = {GYRO_RAD_MULT, TEMP_MULT, GYRO_RAD_MULT, GYRO_RAD_MULT, TEMP_MULT, ACCEL_MULT, ACCEL_MULT, ACCEL_MULT};
+
+float32 converted_sensors[8];
+Uint16 uint16_conv_sensors[8];
 volatile union IMU_FLAGS flags;
 volatile struct FCU_PACKET * fcu_tx_packet;
 volatile struct FCU_PACKET sensor_tx_packet;
@@ -25,8 +32,9 @@ void main(void)
 	InitGpio(); //set gpio for general i/o pins, not peripheral pins.	
 	InitSpi();  //sets gpio and all registers for spiA and spiB
 	
-	IER |= M_INT6; //turn on group 6 interrupts
+	IER |= M_INT6 | M_INT11; //turn on group 6 and 11 interrupts
 	PieCtrlRegs.PIEIER6.all = 0x0F; // turn on all spi interrupts
+	PieCtrlRegs.PIEIER11.all = 0x03; // turn on CLA INT1 and INT2
 	EINT;   // Enable Global interrupt INTM
 	ERTM;   // Enable Global realtime interrupt DBGM //not sure what this is for
 
