@@ -129,10 +129,16 @@ void print_mcu_pkts(volatile struct mcu_tx_pkt_t * tx_pkt, volatile struct mcu_r
     tx_pkt->crc = crc((char *)tx_pkt, 9, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
     printf("\n\r");
     printf("mcu_tx_pkt:\t\tmcu_rx_pkt:\n\r");
+    /*
     printf("\ttgt_1: %6lu\t\tspd_1: %6lu\n\r", (uint32_t)tx_pkt->tgt_1, (uint32_t)rx_pkt->spd_1);
     printf("\ttgt_2: %6lu\t\tspd_2: %6lu\n\r", (uint32_t)tx_pkt->tgt_2, (uint32_t)rx_pkt->spd_2);
     printf("\ttgt_3: %6lu\t\tspd_3: %6lu\n\r", (uint32_t)tx_pkt->tgt_3, (uint32_t)rx_pkt->spd_3);
     printf("\ttgt_4: %6lu\t\tspd_4: %6lu\n\r", (uint32_t)tx_pkt->tgt_4, (uint32_t)rx_pkt->spd_4);
+    */
+    printf("%X\n\r", rx_pkt->spd_1);
+    printf("%X\n\r", rx_pkt->spd_2);
+    printf("%X\n\r", rx_pkt->spd_3);
+    printf("%X\n\r", rx_pkt->spd_4);
 }
 
 void print_imu_pkts(volatile struct imu_tx_pkt_t * tx_pkt, volatile struct imu_rx_pkt_t * rx_pkt)
@@ -175,7 +181,7 @@ void print_status(void)
         print_pid_info(&yaw_pid);
         printf("yaw_pid_output = %f\n\r", yaw_pid_output);
         */
-        //print_mcu_pkts(&mcu_tx, &mcu_rx);
+        print_mcu_pkts(&mcu_tx, &mcu_rx);
         print_imu_pkts(&imu_tx, &imu_rx);
         print_bat();
         stdout = tmp;
@@ -316,7 +322,9 @@ ISR(SPIE_INT_vect)
         if(send_mcu_pkt_flag == 1)
         {
             char * mcu_tx_ptr = (char *)&mcu_tx;
-            SPIE.DATA = mcu_tx_ptr[mcu_tx_index];
+            //SPIE.DATA = mcu_tx_ptr[mcu_tx_index];
+            //CHANGE THIS BACK!!!
+            SPIE.DATA = 0xAA;
             mcu_tx_index++;
             if(mcu_tx_index > sizeof(struct mcu_tx_pkt_t))
             {
@@ -505,11 +513,11 @@ int main (void)
         printf("\r");
         printf("fcu: %s", usb_rx_buf);
 
-        request_imu_pkt();
+        //request_imu_pkt();
         roll_pid_output  = pid_iteration (&roll_pid, imu_rx.roll, 0);
         pitch_pid_output = pid_iteration (&pitch_pid, imu_rx.pitch, 0);
         yaw_pid_output   = pid_iteration (&yaw_pid, imu_rx.yaw, 0);
-        //send_mcu_pkt();
+        send_mcu_pkt();
         _delay_ms(1);
         loop_count++;
     }

@@ -1,0 +1,125 @@
+GAS LISTING /tmp/ccsPyNqR.s 			page 1
+
+
+   1               		.file	"fcu.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  10               		.text
+  11               	.global	main
+  12               		.type	main, @function
+  13               	main:
+  14               	/* prologue: function */
+  15               	/* frame size = 0 */
+  16 0000 E0E8      		ldi r30,lo8(1664)
+  17 0002 F6E0      		ldi r31,hi8(1664)
+  18 0004 80E2      		ldi r24,lo8(32)
+  19 0006 8183      		std Z+1,r24
+  20 0008 80E8      		ldi r24,lo8(-128)
+  21 000a 8183      		std Z+1,r24
+  22 000c 91E0      		ldi r25,lo8(1)
+  23 000e E0E2      		ldi r30,lo8(1568)
+  24 0010 F6E0      		ldi r31,hi8(1568)
+  25 0012 9183      		std Z+1,r25
+  26 0014 8AE5      		ldi r24,lo8(90)
+  27 0016 8093 C00A 		sts 2752,r24
+  28 001a E0EC      		ldi r30,lo8(2752)
+  29 001c FAE0      		ldi r31,hi8(2752)
+  30 001e 9183      		std Z+1,r25
+  31 0020 8091 A200 		lds r24,162
+  32 0024 8160      		ori r24,lo8(1)
+  33 0026 E0EA      		ldi r30,lo8(160)
+  34 0028 F0E0      		ldi r31,hi8(160)
+  35 002a 8283      		std Z+2,r24
+  36               	/* #APP */
+  37               	 ;  20 "fcu.c" 1
+  38 002c 7894      		sei
+  39               	 ;  0 "" 2
+  40               	/* #NOAPP */
+  41 002e 81E0      		ldi r24,lo8(1)
+  42 0030 E0E2      		ldi r30,lo8(1568)
+  43 0032 F6E0      		ldi r31,hi8(1568)
+  44 0034 8183      		std Z+1,r24
+  45 0036 41E0      		ldi r20,lo8(1)
+  46 0038 A0EC      		ldi r26,lo8(2752)
+  47 003a BAE0      		ldi r27,hi8(2752)
+  48 003c 5AEA      		ldi r21,lo8(-86)
+  49 003e 20E2      		ldi r18,lo8(800)
+  50 0040 33E0      		ldi r19,hi8(800)
+  51               	.L2:
+  52 0042 4683      		std Z+6,r20
+  53 0044 1396      		adiw r26,3
+  54 0046 5C93      		st X,r21
+  55 0048 1397      		sbiw r26,3
+  56 004a C901      		movw r24,r18
+  57               	/* #APP */
+GAS LISTING /tmp/ccsPyNqR.s 			page 2
+
+
+  58               	 ;  105 "/usr/lib/gcc/avr/4.3.4/../../../avr/include/util/delay_basic.h" 1
+  59 004c 0197      		1: sbiw r24,1
+  60 004e 01F4      		brne 1b
+  61               	 ;  0 "" 2
+  62               	/* #NOAPP */
+  63 0050 4583      		std Z+5,r20
+  64 0052 C901      		movw r24,r18
+  65               	/* #APP */
+  66               	 ;  105 "/usr/lib/gcc/avr/4.3.4/../../../avr/include/util/delay_basic.h" 1
+  67 0054 0197      		1: sbiw r24,1
+  68 0056 01F4      		brne 1b
+  69               	 ;  0 "" 2
+  70               	/* #NOAPP */
+  71 0058 00C0      		rjmp .L2
+  72               		.size	main, .-main
+  73               	.global	spiInit
+  74               		.type	spiInit, @function
+  75               	spiInit:
+  76               	/* prologue: function */
+  77               	/* frame size = 0 */
+  78 005a E0E8      		ldi r30,lo8(1664)
+  79 005c F6E0      		ldi r31,hi8(1664)
+  80 005e 80E2      		ldi r24,lo8(32)
+  81 0060 8183      		std Z+1,r24
+  82 0062 80E8      		ldi r24,lo8(-128)
+  83 0064 8183      		std Z+1,r24
+  84 0066 91E0      		ldi r25,lo8(1)
+  85 0068 E0E2      		ldi r30,lo8(1568)
+  86 006a F6E0      		ldi r31,hi8(1568)
+  87 006c 9183      		std Z+1,r25
+  88 006e E0EC      		ldi r30,lo8(2752)
+  89 0070 FAE0      		ldi r31,hi8(2752)
+  90 0072 8AE5      		ldi r24,lo8(90)
+  91 0074 8083      		st Z,r24
+  92 0076 9183      		std Z+1,r25
+  93 0078 E0EA      		ldi r30,lo8(160)
+  94 007a F0E0      		ldi r31,hi8(160)
+  95 007c 8281      		ldd r24,Z+2
+  96 007e 8160      		ori r24,lo8(1)
+  97 0080 8283      		std Z+2,r24
+  98               	/* epilogue start */
+  99 0082 0895      		ret
+ 100               		.size	spiInit, .-spiInit
+ 101               		.comm spiBuffer,8,1
+GAS LISTING /tmp/ccsPyNqR.s 			page 3
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 fcu.c
+     /tmp/ccsPyNqR.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccsPyNqR.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccsPyNqR.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccsPyNqR.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccsPyNqR.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccsPyNqR.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccsPyNqR.s:13     .text:00000000 main
+     /tmp/ccsPyNqR.s:75     .text:0000005a spiInit
+                            *COM*:00000008 spiBuffer
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
