@@ -125,10 +125,10 @@ void send_mcu_pkt()
 
 void print_mcu_pkts(volatile struct mcu_tx_pkt_t * tx_pkt, volatile struct mcu_rx_pkt_t * rx_pkt)
 {   
-    printf("\n\r");
-    tx_pkt->crc = crc((char *)tx_pkt, 9, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
-    printf("\n\r");
-    printf("mcu_tx_pkt:\t\tmcu_rx_pkt:\n\r");
+    //printf("\n\r");
+    //tx_pkt->crc = crc((char *)tx_pkt, 9, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
+    //printf("\n\r");
+    //printf("mcu_tx_pkt:\t\tmcu_rx_pkt:\n\r");
     /*
     printf("\ttgt_1: %6lu\t\tspd_1: %6lu\n\r", (uint32_t)tx_pkt->tgt_1, (uint32_t)rx_pkt->spd_1);
     printf("\ttgt_2: %6lu\t\tspd_2: %6lu\n\r", (uint32_t)tx_pkt->tgt_2, (uint32_t)rx_pkt->spd_2);
@@ -513,7 +513,7 @@ int main (void)
         printf("\r");
         printf("fcu: %s", usb_rx_buf);
 
-        //request_imu_pkt();
+        request_imu_pkt();
         roll_pid_output  = pid_iteration (&roll_pid, imu_rx.roll, 0);
         pitch_pid_output = pid_iteration (&pitch_pid, imu_rx.pitch, 0);
         yaw_pid_output   = pid_iteration (&yaw_pid, imu_rx.yaw, 0);
