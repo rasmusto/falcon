@@ -176,6 +176,7 @@ void print_status(void)
         FILE * tmp = stdout;
         stdout = &usb_out;
         printf("%c", 12);
+
         /*
         print_pid_info(&roll_pid);
         printf("roll_pid_output = %f\n\r", roll_pid_output);
@@ -184,6 +185,7 @@ void print_status(void)
         print_pid_info(&yaw_pid);
         printf("yaw_pid_output = %f\n\r", yaw_pid_output);
         */
+
         print_mcu_pkts(&mcu_tx, &mcu_rx);
         print_imu_pkts(&imu_tx, &imu_rx);
         print_bat();
@@ -375,7 +377,6 @@ ISR(USARTF0_TXC_vect)
 ISR(USARTF0_RXC_vect) 
 {
     unsigned char c = USARTF0.DATA;
-    stdout = &xbee_out;
     if(c == '\r')
     {
         xbee_rx_buf[xbee_rx_count] = '\0';
@@ -401,8 +402,6 @@ ISR(USARTC1_TXC_vect)
 ISR(USARTC1_RXC_vect) 
 {
     unsigned char c = USARTC1.DATA;
-    FILE * tmp = stdout;
-    stdout = &usb_out;
     if(c == '\r')
     {
         usb_rx_buf[usb_rx_count] = '\0';
@@ -418,7 +417,6 @@ ISR(USARTC1_RXC_vect)
         usb_rx_buf[usb_rx_count] = c; 
         usb_rx_count++;
     }
-    stdout = tmp;
 }
 
 /***** rs232 *****/
@@ -429,8 +427,8 @@ ISR(USARTD1_TXC_vect)
 ISR(USARTD1_RXC_vect) 
 {
     unsigned char c = USARTD1.DATA;
-    stdout = &usb_out;
-    printf("Received: %c via rs232.\n\r", c);
+    //stdout = &usb_out;
+    //printf("Received: %c via rs232.\n\r", c);
 }
 
 /***** sonar *****/
@@ -441,8 +439,8 @@ ISR(USARTE0_TXC_vect)
 ISR(USARTE0_RXC_vect)
 {
     unsigned char c = USARTE0.DATA;
-    stdout = &usb_out;
-    printf("Received: %c via sonar.\n\r", c);
+    //stdout = &usb_out;
+    //printf("Received: %c via sonar.\n\r", c);
 }
 
 /***** adc *****/
