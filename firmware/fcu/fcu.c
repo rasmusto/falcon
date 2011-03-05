@@ -47,10 +47,10 @@ volatile float yaw_pid_output = 0;
 void init_mcu_tx_pkt(volatile struct mcu_tx_pkt_t * pkt)
 {
     pkt->start = MCU_START;
-    pkt->tgt_1 = 0xFFF1;
-    pkt->tgt_2 = 0xFFF2;
-    pkt->tgt_3 = 0xFFF3;
-    pkt->tgt_4 = 0xFFF4;
+    pkt->tgt_1 = 0xF1F2;
+    pkt->tgt_2 = 0xF3F4;
+    pkt->tgt_3 = 0xF5F6;
+    pkt->tgt_4 = 0xF7F8;
     pkt->crc = crc((char *)pkt, 9, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
 }
 
@@ -69,16 +69,16 @@ void init_imu_tx_pkt(volatile struct imu_tx_pkt_t * pkt)
 
 void init_imu_rx_pkt(volatile struct imu_rx_pkt_t * pkt)
 {
-    pkt->start = 0xAD;
-    pkt->parity = 0xAD;
-    pkt->pitch_tmp = 0xBAD;
-    pkt->pitch = 0xBAD;
-    pkt->yaw = 0xBAD;
-    pkt->yaw_tmp = 0xBAD;
-    pkt->z_accel = 0xBAD;
-    pkt->y_accel = 0xBAD;
-    pkt->x_accel = 0xBAD;
-    pkt->roll = 0xBAD;
+    pkt->start      =   0xAD;
+    pkt->parity     =   0xAD;
+    pkt->pitch_tmp  =   0xBAD;
+    pkt->pitch      =   0xBAD;
+    pkt->yaw        =   0xBAD;
+    pkt->yaw_tmp    =   0xBAD;
+    pkt->z_accel    =   0xBAD;
+    pkt->y_accel    =   0xBAD;
+    pkt->x_accel    =   0xBAD;
+    pkt->roll       =   0xBAD;
 }
 
 void request_imu_pkt()
@@ -117,7 +117,7 @@ void send_mcu_pkt()
     //write first byte of packet
     SPIE.INTCTRL = SPI_INTLVL_LO_gc;
     SPIE.DATA = MCU_START;
-    mcu_tx_index = 0;
+    mcu_tx_index = 1;
     mcu_rx_index = 0;
     send_mcu_pkt_flag = 1;
     sei();
@@ -127,18 +127,20 @@ void print_mcu_pkts(volatile struct mcu_tx_pkt_t * tx_pkt, volatile struct mcu_r
 {   
     //printf("\n\r");
     //tx_pkt->crc = crc((char *)tx_pkt, 9, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
-    //printf("\n\r");
-    //printf("mcu_tx_pkt:\t\tmcu_rx_pkt:\n\r");
-    /*
+    printf("\n\r");
+    printf("mcu_tx_pkt:\t\tmcu_rx_pkt:\n\r");
     printf("\ttgt_1: %6lu\t\tspd_1: %6lu\n\r", (uint32_t)tx_pkt->tgt_1, (uint32_t)rx_pkt->spd_1);
     printf("\ttgt_2: %6lu\t\tspd_2: %6lu\n\r", (uint32_t)tx_pkt->tgt_2, (uint32_t)rx_pkt->spd_2);
     printf("\ttgt_3: %6lu\t\tspd_3: %6lu\n\r", (uint32_t)tx_pkt->tgt_3, (uint32_t)rx_pkt->spd_3);
     printf("\ttgt_4: %6lu\t\tspd_4: %6lu\n\r", (uint32_t)tx_pkt->tgt_4, (uint32_t)rx_pkt->spd_4);
-    */
+    /*
     printf("%X\n\r", rx_pkt->spd_1);
     printf("%X\n\r", rx_pkt->spd_2);
     printf("%X\n\r", rx_pkt->spd_3);
     printf("%X\n\r", rx_pkt->spd_4);
+    */
+    printf("%04X %04X %04X %04X\n\r", tx_pkt->tgt_1, tx_pkt->tgt_2, tx_pkt->tgt_3, tx_pkt->tgt_4);
+    printf("%04X %04X %04X %04X\n\r", rx_pkt->spd_1, rx_pkt->spd_2, rx_pkt->spd_3, rx_pkt->spd_4);
 }
 
 void print_imu_pkts(volatile struct imu_tx_pkt_t * tx_pkt, volatile struct imu_rx_pkt_t * rx_pkt)
@@ -213,10 +215,10 @@ void process_rx_buf(volatile char * rx_buf)
     else if(strcmp(cmd, "reboot") == 0) { printf("\n\rrebooting..."); CCPWrite(&RST_CTRL, RST_SWRST_bm); }
     else if(strcmp(cmd, "print_status") == 0) { if(print_status_flag == 0)print_status_flag = 1; else print_status_flag = 0; }
     else if(strcmp(cmd, "start") == 0) { mcu_tx.start = (uint8_t)val; }
-    else if(strcmp(cmd, "mcu1") == 0) { mcu_tx.tgt_1 = (uint16_t)val; }
-    else if(strcmp(cmd, "mcu2") == 0) { mcu_tx.tgt_2 = (uint16_t)val; }
-    else if(strcmp(cmd, "mcu3") == 0) { mcu_tx.tgt_3 = (uint16_t)val; }
-    else if(strcmp(cmd, "mcu4") == 0) { mcu_tx.tgt_4 = (uint16_t)val; }
+    else if(strcmp(cmd, "mot1") == 0) { mcu_tx.tgt_1 = (uint16_t)val; }
+    else if(strcmp(cmd, "mot2") == 0) { mcu_tx.tgt_2 = (uint16_t)val; }
+    else if(strcmp(cmd, "mot3") == 0) { mcu_tx.tgt_3 = (uint16_t)val; }
+    else if(strcmp(cmd, "mot4") == 0) { mcu_tx.tgt_4 = (uint16_t)val; }
     else if(strcmp(cmd, "led1g_on") == 0) { LED_1_GREEN_ON(); }
     else if(strcmp(cmd, "led2g_on") == 0) { LED_2_GREEN_ON(); }
     else if(strcmp(cmd, "led3g_on") == 0) { LED_3_GREEN_ON(); }
@@ -315,16 +317,15 @@ ISR(SPIE_INT_vect)
                 SPIE.DATA = 0;
         }
     }
-
     /*** Handle MCU Transfer ***/
-    if(slave == MCU_SPI)
+    else if(slave == MCU_SPI)
     {
         if(send_mcu_pkt_flag == 1)
         {
             char * mcu_tx_ptr = (char *)&mcu_tx;
-            //SPIE.DATA = mcu_tx_ptr[mcu_tx_index];
+            SPIE.DATA = mcu_tx_ptr[mcu_tx_index];
             //CHANGE THIS BACK!!!
-            SPIE.DATA = 0xAA;
+            //SPIE.DATA = 0xAA;
             mcu_tx_index++;
             if(mcu_tx_index > sizeof(struct mcu_tx_pkt_t))
             {
@@ -341,6 +342,17 @@ ISR(SPIE_INT_vect)
             {
                 receive_mcu_pkt_flag = 0;
                 PORTB.OUTSET = 1<<SS0;
+
+                //reverse order of bytes
+                int j;
+                char tmp2;
+                for(j = 0; j < sizeof(struct mcu_rx_pkt_t); j+=2)
+                {
+                    tmp2 = mcu_rx_ptr[j];
+                    mcu_rx_ptr[j] = mcu_rx_ptr[j+1];
+                    mcu_rx_ptr[j+1] = tmp2;
+                }
+
             }
             else
                 SPIE.DATA = 0;
@@ -451,6 +463,8 @@ int main (void)
     //set led pins as outputs
     PORTA.DIRSET = 0b11110000;
     PORTF.DIRSET = 0b11110000;
+
+    LED_4_RED_OFF();
 
     PORTD.DIRSET=PIN5_bm; //drive rs232 enable low
     PORTD.OUTCLR=PIN5_bm;

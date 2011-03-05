@@ -40,11 +40,11 @@
 
 #define MCU_START 0xB5
 
-#define IMU_TX_START 0xFACE
-#define IMU_TX_START_H 0xFA
-#define IMU_TX_START_L 0xCE
+#define IMU_TX_START    0xFACE
+#define IMU_TX_START_H  0xFA
+#define IMU_TX_START_L  0xCE
 
-#define IMU_RX_START 0bAA
+#define IMU_RX_START    0xAA
 //AA
 
 #define ROLL_OFFSET     610
