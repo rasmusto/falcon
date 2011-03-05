@@ -35,6 +35,7 @@ volatile uint8_t receive_imu_pkt_flag = 0;
 
 volatile uint8_t send_mcu_pkt_flag = 0;
 volatile uint8_t receive_mcu_pkt_flag = 0;
+volatile uint8_t mcu_rx_first_packet_flag = 0;
 
 volatile uint8_t first_spi_interrupt_flag = 0;
 volatile uint8_t stream_data_flag = 0;
@@ -139,8 +140,8 @@ void print_mcu_pkts(volatile struct mcu_tx_pkt_t * tx_pkt, volatile struct mcu_r
     printf("%X\n\r", rx_pkt->spd_3);
     printf("%X\n\r", rx_pkt->spd_4);
     */
-    printf("%04X %04X %04X %04X\n\r", tx_pkt->tgt_1, tx_pkt->tgt_2, tx_pkt->tgt_3, tx_pkt->tgt_4);
-    printf("%04X %04X %04X %04X\n\r", rx_pkt->spd_1, rx_pkt->spd_2, rx_pkt->spd_3, rx_pkt->spd_4);
+    printf("%04X %04X %04X %04X %02X\n\r", tx_pkt->tgt_1, tx_pkt->tgt_2, tx_pkt->tgt_3, tx_pkt->tgt_4, tx_pkt->crc);
+    printf("%04X %04X %04X %04X %02X\n\r", rx_pkt->spd_1, rx_pkt->spd_2, rx_pkt->spd_3, rx_pkt->spd_4, rx_pkt->crc);
 }
 
 void print_imu_pkts(volatile struct imu_tx_pkt_t * tx_pkt, volatile struct imu_rx_pkt_t * rx_pkt)
@@ -324,38 +325,44 @@ ISR(SPIE_INT_vect)
         {
             char * mcu_tx_ptr = (char *)&mcu_tx;
             SPIE.DATA = mcu_tx_ptr[mcu_tx_index];
-            //CHANGE THIS BACK!!!
-            //SPIE.DATA = 0xAA;
             mcu_tx_index++;
             if(mcu_tx_index > sizeof(struct mcu_tx_pkt_t))
             {
                 send_mcu_pkt_flag = 0;
                 receive_mcu_pkt_flag = 1;
+                mcu_rx_first_packet_flag = 1;
             }
         }
         if(receive_mcu_pkt_flag == 1)
         {
             char * mcu_rx_ptr = (char *)&mcu_rx;
             mcu_rx_ptr[mcu_rx_index] = SPIE.DATA;
-            mcu_rx_index++;
-            if(mcu_rx_index > sizeof(struct mcu_rx_pkt_t))
+            if(mcu_rx_first_packet_flag)
             {
-                receive_mcu_pkt_flag = 0;
-                PORTB.OUTSET = 1<<SS0;
-
-                //reverse order of bytes
-                int j;
-                char tmp2;
-                for(j = 0; j < sizeof(struct mcu_rx_pkt_t); j+=2)
-                {
-                    tmp2 = mcu_rx_ptr[j];
-                    mcu_rx_ptr[j] = mcu_rx_ptr[j+1];
-                    mcu_rx_ptr[j+1] = tmp2;
-                }
-
-            }
-            else
                 SPIE.DATA = 0;
+                mcu_rx_first_packet_flag = 0;
+            }
+            else{
+                mcu_rx_index++;
+                if(mcu_rx_index > sizeof(struct mcu_rx_pkt_t))
+                {
+                    receive_mcu_pkt_flag = 0;
+                    PORTB.OUTSET = 1<<SS0;
+
+                    //reverse order of bytes
+                    int j;
+                    char tmp2;
+                    for(j = 0; j < sizeof(struct mcu_rx_pkt_t)-1; j+=2)
+                    {
+                        tmp2 = mcu_rx_ptr[j];
+                        mcu_rx_ptr[j] = mcu_rx_ptr[j+1];
+                        mcu_rx_ptr[j+1] = tmp2;
+                    }
+
+                }
+                else
+                    SPIE.DATA = 0;
+            }
         }
     }
 }
@@ -532,6 +539,9 @@ int main (void)
         pitch_pid_output = pid_iteration (&pitch_pid, imu_rx.pitch, 0);
         yaw_pid_output   = pid_iteration (&yaw_pid, imu_rx.yaw, 0);
         send_mcu_pkt();
+        char * mcu_ptr = &mcu_tx;
+        mcu_ptr++;
+        //mcu_tx.crc = crc((char *)mcu_ptr, 8, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
         _delay_ms(1);
         loop_count++;
     }

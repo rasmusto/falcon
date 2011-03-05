@@ -79,7 +79,7 @@ struct mcu_rx_pkt_t
     volatile uint16_t spd_2;
     volatile uint16_t spd_3;
     volatile uint16_t spd_4;
-    //volatile uint8_t crc;
+    volatile uint8_t crc;
 };
 
 struct imu_tx_pkt_t
