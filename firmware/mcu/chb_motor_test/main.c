@@ -243,6 +243,8 @@ uint8_t startupDelays[6] = {250, 150, 105, 80, 75, 75}; // 630
 	
 int main (void) {
 	
+    PORTC.DIRSET = PIN5_bm;
+    PORTC.OUTCLR = PIN5_bm;
 	passedCenterFlag = 0;
 	
 	configClock ();
@@ -292,8 +294,23 @@ int main (void) {
 	PORTE.OUT = 0;
 	PORTF.OUT = 0;
 	
+    _delay_ms(1000);
+    _delay_ms(1000);
+    _delay_ms(1000);
+    _delay_ms(1000);
+
+	TCF0.CCBBUF = 2000;
+	TCE0.CCBBUF = 2000/2;
+
+    _delay_ms(1000);
+    _delay_ms(1000);
+    _delay_ms(1000);
+    _delay_ms(1000);
+
+	TCF0.CCBBUF = 3000;
+	TCE0.CCBBUF = 3000/2;
+
 	while (1) {}
-	
 }
 
 void configClock (void) {
@@ -530,7 +547,7 @@ ISR (ADCA_CH1_vect) {
         /* rising */
 		if (stateSlope[motor2State])
         { 
-			if (risingCount > 10) 
+			if (risingCount > 1) 
             {
 				if (result > motor2Thresh) 
                 {
@@ -543,7 +560,7 @@ ISR (ADCA_CH1_vect) {
         /* falling */
         else 
         { 
-			if (fallingCount > 10) 
+			if (fallingCount > 1) 
             {
 				if (result < motor2Thresh) 
                 {
@@ -567,7 +584,9 @@ void startup(void) {
 	SET_PHASE_STATE_5_MOT2();
 	TCC0.CNT = 0;
 	while (TCC0.CNT < 65000) {}
+    PORTC.OUTSET = PIN5_bm;
 	
+    /*
 	TCF0.CCBBUF = startupPwms[0];
 	SET_PHASE_STATE_0_MOT2();
 	TCC0.CNT = 0;
@@ -592,10 +611,11 @@ void startup(void) {
 	SET_PHASE_STATE_4_MOT2();
 	TCC0.CNT = 0;
 	while (TCC0.CNT < startupDelays[4]) {}
+    */
 
 	TCF0.CCBBUF = startupPwms[5];
 	TCE0.CCBBUF = startupPwms[5]/2;
-	
+
 	TC_SetPeriod( &TCD1, 65000 );
 	//~ xxx TC1_ConfigClockSource( &TCD1, TC_CLKSEL_DIV64_gc );
 	TC1_ConfigClockSource( &TCD1, TC_CLKSEL_DIV4_gc );
@@ -603,8 +623,8 @@ void startup(void) {
 	
 	missedCommFlag = 1;
 	
-	SET_PHASE_STATE_5_MOT2();
-	motor2State = 5;
+    SET_PHASE_STATE_0_MOT2();
+	motor2State = 0;
 	
 	//~ while (TCC0.CNT < startupDelays[5]) {}
 	//~ while (1);
