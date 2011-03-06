@@ -540,7 +540,7 @@ int main (void)
         char * mcu_ptr = &mcu_tx;
         mcu_ptr++;
         //mcu_tx.crc = crc((char *)mcu_ptr, 8, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
-        _delay_ms(1);
+        _delay_us(100);
         loop_count++;
     }
     return 0;
