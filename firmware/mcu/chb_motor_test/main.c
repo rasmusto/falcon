@@ -109,10 +109,6 @@
 															\
 	PORTE.OUT &= 0b00111111; /* set a2 floating */
 
-static int putcharDebug(char c, FILE *stream);
-static void initUart (void);
-static FILE debug = FDEV_SETUP_STREAM (putcharDebug, NULL, _FDEV_SETUP_WRITE);
-
 void configClock (void);
 void configPWM (volatile TC0_t * tc, HIRES_t * hires, uint16_t period); // configure timer used to generate pwm
 void configDelayTimer (volatile TC0_t * tc); // configure timer used to generate delays
@@ -250,16 +246,9 @@ int main (void) {
 	passedCenterFlag = 0;
 	
 	configClock ();
-	//~ initUarts ();
-	//~ stdout = &debug;
-	
-	PORTC.DIR = 0b01000001;
 	
 	PORTE.DIR = 0b11000000;
 	PORTF.DIR = 0b00001111;
-	
-	//~ initUart();
-	//~ stdout = &debug;
 	
 	TCF0.CCABUF = STARTUP_PWM;
 	TCF0.CCBBUF = STARTUP_PWM;
@@ -325,9 +314,6 @@ void configClock (void) {
 
 	// select main clock source as pll output
 	CLKSYS_Main_ClockSource_Select( CLK_SCLKSEL_PLL_gc );
-	
-	// output clock on port d pin 7
-	//~ PORTCFG.CLKEVOUT = PORTCFG_CLKOUT_PD7_gc; 
 }
 
 // *************** PWM **********************
@@ -473,7 +459,7 @@ ISR (TCC1_CCA_vect) {
 
 ISR (TCD1_OVF_vect) {
 	//~ if (missedCommFlag)
-		//~ PORTC.OUTSET = 1;
+		// stuff
 	
 	missedCommFlag = 1; // should be set back to 0 before we get here again
 	
@@ -541,38 +527,31 @@ ISR (ADCA_CH1_vect) {
 	uint8_t result = ADCA.CH1.RES;
 	
 	if (!passedCenterFlag) {
-		if (stateSlope[motor2State]) { // rising
-			//~ if (risingReadyFlag) {
-			if (risingCount > 10) {
-				if (result > motor2Thresh) {
-					TCD1.PER = TCD1.CNT*2;
+        /* rising */
+		if (stateSlope[motor2State])
+        { 
+			if (risingCount > 10) 
+            {
+				if (result > motor2Thresh) 
+                {
+					TCD1.PER = TCD1.CNT * 2;
 					missedCommFlag = 0;
 					passedCenterFlag = 1;
-					PORTC.OUTSET = 0xFF;
 				}
-			} else {
-				risingCount++;
-			}
-			//~ } else {
-				//~ if (result < motor2Thresh)
-					//~ risingReadyFlag = 1;
-			//~ }
-		} else { // falling
-			//~ if (fallingReadyFlag) {
-			if (fallingCount > 10) {
-				if (result < motor2Thresh) {
-					TCD1.PER = TCD1.CNT*2;
+			} else { risingCount++; }
+		} 
+        /* falling */
+        else 
+        { 
+			if (fallingCount > 10) 
+            {
+				if (result < motor2Thresh) 
+                {
+					TCD1.PER = TCD1.CNT * 2;
 					missedCommFlag = 0;
 					passedCenterFlag = 1;
-					PORTC.OUTCLR = 0xFF;
 				}
-			} else {
-				fallingCount++;
-			}
-			//~ } else {
-				//~ if (result > motor2Thresh)
-					//~ fallingReadyFlag = 1;
-			//~ }
+			} else { fallingCount++; }
 		}
 	}
 }
@@ -617,21 +596,15 @@ void startup(void) {
 	TCF0.CCBBUF = startupPwms[5];
 	TCE0.CCBBUF = startupPwms[5]/2;
 	
-	//~ TC_SetPeriod( &TCD1, 65000 );
+	TC_SetPeriod( &TCD1, 65000 );
 	//~ xxx TC1_ConfigClockSource( &TCD1, TC_CLKSEL_DIV64_gc );
-	//~ TC1_ConfigClockSource( &TCD1, TC_CLKSEL_DIV4_gc );
-	//~ TC1_SetOverflowIntLevel (&TCD1, TC_OVFINTLVL_HI_gc);
+	TC1_ConfigClockSource( &TCD1, TC_CLKSEL_DIV4_gc );
+	TC1_SetOverflowIntLevel (&TCD1, TC_OVFINTLVL_HI_gc);
 	
 	missedCommFlag = 1;
 	
 	SET_PHASE_STATE_5_MOT2();
 	motor2State = 5;
-	TCC0.CNT = 0;
-	TCD1.CNT = 0;
-	
-	firstSampleFlag = 1;
-	
-	PORTC.OUTSET = 0xFF;
 	
 	//~ while (TCC0.CNT < startupDelays[5]) {}
 	//~ while (1);
@@ -663,35 +636,4 @@ void setMotor3State (uint8_t state) {
 
 void setMotor4State (uint8_t state) {
 	
-}
-
-static int putcharDebug (char c, FILE *stream) {
-	if (c == '\n')
-	putcharDebug('\r', stream);
- 
-    // Wait for the transmit buffer to be empty
-    while ( !( USARTC1.STATUS & USART_DREIF_bm) );
- 
-    // Put our character into the transmit buffer
-    USARTC1.DATA = c; 
- 
-    return 0;
-}
-
-static void initUart (void) {
-    // Set the TxD pin high - set PORTD DIR register bit 3 to 1
-    PORTC.DIRSET = PIN7_bm;
-    PORTC.DIRCLR = PIN6_bm;
-
-    // BSEL = 51 so at 32mhz clock, baud rate should be 38400
-
-    USARTC1.BAUDCTRLB = 0;			// BSCALE = 0 as well
-    USARTC1.BAUDCTRLA = 51;
-
-    // Set mode of operation
-    USARTC1.CTRLA = 0;				// no interrupts please
-    USARTC1.CTRLC = 0x03;			// async, no parity, 8 bit data, 1 stop bit
-
-    // Enable transmitter only
-    USARTC1.CTRLB = USART_TXEN_bm;
 }
