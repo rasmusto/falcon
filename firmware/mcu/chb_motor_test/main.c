@@ -138,7 +138,7 @@ volatile uint8_t motor2StateSenseIndex[6] = {5,4,3,5,4,3};
 
 // middle thresholds for back emf "zero" crossing for each motor.  I'm not sure if this needs to vary with pwm or not...
 volatile uint8_t motor1Thresh = 0;
-volatile uint8_t motor2Thresh = 88;
+volatile uint8_t motor2Thresh = 92;
 volatile uint8_t motor3Thresh = 0;
 volatile uint8_t motor4Thresh = 0;
 
@@ -296,19 +296,68 @@ int main (void) {
 	
     _delay_ms(1000);
     _delay_ms(1000);
-    _delay_ms(1000);
-    _delay_ms(1000);
+	TCF0.CCBBUF = 1600;
+	TCE0.CCBBUF = 1600/2;
 
+    _delay_ms(1000);
+    _delay_ms(1000);
 	TCF0.CCBBUF = 2000;
 	TCE0.CCBBUF = 2000/2;
 
     _delay_ms(1000);
     _delay_ms(1000);
-    _delay_ms(1000);
-    _delay_ms(1000);
+	TCF0.CCBBUF = 2100;
+	TCE0.CCBBUF = 2100/2;
 
+    _delay_ms(1000);
+    _delay_ms(1000);
+	TCF0.CCBBUF = 2200;
+	TCE0.CCBBUF = 2200/2;
+
+    _delay_ms(1000);
+    _delay_ms(1000);
+	TCF0.CCBBUF = 2400;
+	TCE0.CCBBUF = 2400/2;
+
+    _delay_ms(1000);
+    _delay_ms(1000);
+	TCF0.CCBBUF = 2600;
+	TCE0.CCBBUF = 2600/2;
+
+    _delay_ms(1000);
+    _delay_ms(1000);
+	TCF0.CCBBUF = 2800;
+	TCE0.CCBBUF = 2800/2;
+
+    _delay_ms(1000);
+    _delay_ms(1000);
 	TCF0.CCBBUF = 3000;
 	TCE0.CCBBUF = 3000/2;
+
+    _delay_ms(1000);
+    _delay_ms(1000);
+	TCF0.CCBBUF = 3200;
+	TCE0.CCBBUF = 3200/2;
+
+    _delay_ms(1000);
+    _delay_ms(1000);
+	TCF0.CCBBUF = 3400;
+	TCE0.CCBBUF = 3400/2;
+
+    _delay_ms(1000);
+    _delay_ms(1000);
+	TCF0.CCBBUF = 3600;
+	TCE0.CCBBUF = 3600/2;
+
+    _delay_ms(1000);
+    _delay_ms(1000);
+	TCF0.CCBBUF = 3800;
+	TCE0.CCBBUF = 3800/2;
+
+    _delay_ms(1000);
+    _delay_ms(1000);
+	TCF0.CCBBUF = 4000;
+	TCE0.CCBBUF = 4000/2;
 
 	while (1) {}
 }
@@ -547,10 +596,11 @@ ISR (ADCA_CH1_vect) {
         /* rising */
 		if (stateSlope[motor2State])
         { 
-			if (risingCount > 1) 
+			if (risingCount > 2) 
             {
 				if (result > motor2Thresh) 
                 {
+                    PORTC.OUTSET = PIN5_bm;
 					TCD1.PER = TCD1.CNT * 2;
 					missedCommFlag = 0;
 					passedCenterFlag = 1;
@@ -560,10 +610,11 @@ ISR (ADCA_CH1_vect) {
         /* falling */
         else 
         { 
-			if (fallingCount > 1) 
+			if (fallingCount > 2) 
             {
 				if (result < motor2Thresh) 
                 {
+                    PORTC.OUTCLR = PIN5_bm;
 					TCD1.PER = TCD1.CNT * 2;
 					missedCommFlag = 0;
 					passedCenterFlag = 1;
