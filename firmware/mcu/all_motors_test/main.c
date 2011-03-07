@@ -75,6 +75,19 @@
 		#define motor4State GPIO9
 
 	#define passedCenterFlags GPIOA // holds flags for each motor telling wether they are half way through the state yet
+	#define missedCommFlags GPIOB // holds flags for each motor telling wether they are half way through the state yet
+	
+	volatile uint8_t risingCount1;
+	volatile uint8_t fallingCount1;
+	
+	volatile uint8_t risingCount2;
+	volatile uint8_t fallingCount2;
+	
+	volatile uint8_t risingCount3;
+	volatile uint8_t fallingCount3;
+	
+	volatile uint8_t risingCount4;
+	volatile uint8_t fallingCount4;
 	
 int main (void) {
 	
@@ -574,7 +587,7 @@ void startup(void) {
 		
 	TC_SetPeriod( &TCD0, 6500 );
 	TC0_ConfigClockSource( &TCD0, TC_CLKSEL_DIV4_gc );
-	TC1_SetOverflowIntLevel (&TCD0, TC_OVFINTLVL_HI_gc);
+	TC0_SetOverflowIntLevel (&TCD0, TC_OVFINTLVL_HI_gc);
 	
 	missedCommFlags = (1<<1) | (1<<2) | (1<<3) | (1<<4); 
 	
