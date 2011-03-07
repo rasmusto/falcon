@@ -48,17 +48,13 @@
 	const uint8_t motor4StateSenseIndex[6] = {3,2,1,3,2,1};
 
 	// middle thresholds for back emf "zero" crossing for each motor.  I'm not sure if this needs to vary with pwm or not...
-	#define MOTOR_1_THRESH 88
-	#define MOTOR_2_THRESH 88
-	#define MOTOR_3_THRESH 88
-	#define MOTOR_4_THRESH 88
+	#define MOTOR_1_THRESH 92
+	#define MOTOR_2_THRESH 92
+	#define MOTOR_3_THRESH 92
+	#define MOTOR_4_THRESH 92
 	
-	// PWM to use to lock rotor to initial position
-	#define STARTUP_PWM 500
-
-	// PWMs and delays to use during and after each manual commutation cycle
-	const uint16_t startupPwms[6] = {800, 800, 900, 900, 1200, 1200};
-	const uint8_t startupDelays[6] = {250, 150, 105, 80, 75, 65};
+	#define LOCK_PWM 500 // PWM to use to lock rotor to initial position
+	#define STARTUP_PWM 1200 // PWM to use for startup push
 
 // Global variables 
 
@@ -84,16 +80,12 @@ int main (void) {
 	
 	configClock (); // set up 32mhz internal oscillator 
 	
-	PORTC.DIR = 0b00000001; // led on PORTC0
-	
 	PORTE.DIR = 0xFF; // all motor lines outputs
 	PORTF.DIR = 0xFF;
 	PORTD.DIR = 0xFF;
 	
 	configPWMTimer (&TCF0, &HIRESF, 5000);
 	configHalfPWMTimer (&TCE0, &HIRESE, 5000);
-	TCF0.CNT = 0;
-	TCE0.CNT = 0;
 	
 	configDelayTimer (&TCC0);
 	
@@ -209,7 +201,7 @@ void configClock (void) {
 	// Configures PWM output on compare a b and c for single slope pwm, with hires, and clk source as sys clk
 	void configHalfPWMTimer (volatile TC0_t * tc, HIRES_t * hires, uint16_t period) {
 		TC_SetPeriod (tc, period );
-		TC0_ConfigWGM (tc, TC_WGMODE_NORMAL_gc ); // set to single slope pwm generation mode
+		TC0_ConfigWGM (tc, TC_WGMODE_NORMAL_gc); // set to single slope pwm generation mode
 		TC0_EnableCCChannels (tc, TC0_CCAEN_bm); // enable compare A
 		TC0_EnableCCChannels (tc, TC0_CCBEN_bm); // enable compare B
 		TC0_EnableCCChannels (tc, TC0_CCCEN_bm); // enable compare C
@@ -269,21 +261,23 @@ void configClock (void) {
 	// Motor 1
 	ISR (TCC1_OVF_vect) {
 		// time to change motor1 state
+		missedCommFlags |= (1<<1);
 		TCC1.PER = 65000;
 		if (motor1State < 5)
 			motor1State++;
 		else
 			motor1State=0;
 
-		passedCenterFlags &= ~(1<<1); // clear motor 2 passedCenterFlag	
+		passedCenterFlags &= ~(1<<1); // clear motor 1 passedCenterFlag	
+		risingCount1 = 0;
+		fallingCount1 = 0;
 		setMotor1State(motor1State);
-
-		TC1_SetOverflowIntLevel (&TCC1, TC_OVFINTLVL_OFF_gc);
 	}
 
 	// Motor 2
 	ISR (TCD1_OVF_vect) {
 		// time to change motor2 state
+		missedCommFlags |= (1<<2);
 		TCD1.PER = 65000;
 		if (motor2State < 5)
 			motor2State++;
@@ -291,38 +285,39 @@ void configClock (void) {
 			motor2State=0;
 
 		passedCenterFlags &= ~(1<<2); // clear motor 2 passedCenterFlag	
+		risingCount2 = 0;
+		fallingCount2 = 0;
 		setMotor2State(motor2State);
-		
-		PORTC.OUTSET = 1;
-		TC1_SetOverflowIntLevel (&TCD1, TC_OVFINTLVL_OFF_gc);
 	}
 
 	// Motor 3
 	ISR (TCE1_OVF_vect) {
+		missedCommFlags |= (1<<3);
 		TCE1.PER = 65000;
 		if (motor3State < 5)
 			motor3State++;
 		else
 			motor3State=0;
 
-		passedCenterFlags &= ~(1<<3); // clear motor 2 passedCenterFlag	
+		passedCenterFlags &= ~(1<<3); // clear motor 3 passedCenterFlag	
+		risingCount3 = 0;
+		fallingCount3 = 0;
 		setMotor3State(motor3State);
-
-		TC1_SetOverflowIntLevel (&TCE1, TC_OVFINTLVL_OFF_gc);
 	}
 
 	// Motor 4
 	ISR (TCD0_OVF_vect) {
+		missedCommFlags |= (1<<4);
 		TCD0.PER = 65000;
 		if (motor4State < 5)
 			motor4State++;
 		else
 			motor4State=0;
 
-		passedCenterFlags &= ~(1<<4); // clear motor 2 passedCenterFlag	
+		passedCenterFlags &= ~(1<<4); // clear motor 4 passedCenterFlag	
+		risingCount4 = 0;
+		fallingCount4 = 0;
 		setMotor4State(motor4State);
-		
-		TC0_SetOverflowIntLevel (&TCD0, TC_OVFINTLVL_OFF_gc);
 	}
 
 // *************** /Commutation Timing **********************
@@ -367,20 +362,30 @@ void configClock (void) {
 		ADCA.CH0.INTFLAGS = ADC_CH_CHIF_bm; // clear interrupt flag
 
 		uint8_t result = ADCA.CH0.RES;
-		if (STATE_SLOPE & (1<<motor1State)) { // rising
-			if (result > MOTOR_1_THRESH  && result < 205) {
-				if (!(passedCenterFlags & (1<<1))) {
-					TCC1.PER = TCC1.CNT*2;
-					TC1_SetOverflowIntLevel (&TCC1, TC_OVFINTLVL_HI_gc);
-					passedCenterFlags |= (1<<1); 
+		
+		if (!(passedCenterFlags & (1<<1))) 
+		{
+			if (STATE_SLOPE & (1<<motor1State)) 
+			{ // rising
+				if (risingCount1 > 2) 
+				{
+					if (result > MOTOR_1_THRESH)
+					{
+						TCC1.PER = TCC1.CNT*2;
+						missedCommFlags &= ~(1<<1);
+						passedCenterFlags |= (1<<1); 
+					}
 				}
-			}
-		} else { // falling
-			if (result < MOTOR_1_THRESH && result > 50) {
-				if (!(passedCenterFlags & (1<<1))) {
-					TCC1.PER = TCC1.CNT*2;
-					TC1_SetOverflowIntLevel (&TCC1, TC_OVFINTLVL_HI_gc);
-					passedCenterFlags |= (1<<1);
+			} else 
+			{ // falling
+				if (fallingCount1 > 2) 
+				{
+					if (result < MOTOR_1_THRESH) 
+					{
+						TCC1.PER = TCC1.CNT*2;
+						missedCommFlags &= ~(1<<1);
+						passedCenterFlags |= (1<<1);
+					}
 				}
 			}
 		}
@@ -391,22 +396,30 @@ void configClock (void) {
 		ADCA.CH1.INTFLAGS = ADC_CH_CHIF_bm; // clear interrupt flag
 
 		uint8_t result = ADCA.CH1.RES;
-		if (STATE_SLOPE & (1<<motor2State)) { // rising
-			if (result > MOTOR_2_THRESH  && result < 205) {
-				if (!(passedCenterFlags & (1<<2))) {
-					PORTC.OUTCLR = 1;
-					TCD1.PER = TCD1.CNT*2;
-					TC1_SetOverflowIntLevel (&TCD1, TC_OVFINTLVL_HI_gc);
-					passedCenterFlags |= (1<<2); 
+		
+		if (!(passedCenterFlags & (1<<2))) 
+		{
+			if (STATE_SLOPE & (1<<motor2State)) 
+			{ // rising
+				if (risingCount2 > 2) 
+				{
+					if (result > MOTOR_2_THRESH)
+					{
+						TCD1.PER = TCD1.CNT*2;
+						missedCommFlags &= ~(1<<2);
+						passedCenterFlags |= (1<<2); 
+					}
 				}
-			}
-		} else { // falling
-			if (result < MOTOR_2_THRESH && result > 50) {
-				if (!(passedCenterFlags & (1<<2))) {
-					PORTC.OUTCLR = 1;
-					TCD1.PER = TCD1.CNT*2;
-					TC1_SetOverflowIntLevel (&TCD1, TC_OVFINTLVL_HI_gc);
-					passedCenterFlags |= (1<<2);
+			} else 
+			{ // falling
+				if (fallingCount2 > 2) 
+				{
+					if (result < MOTOR_2_THRESH) 
+					{
+						TCD1.PER = TCD1.CNT*2;
+						missedCommFlags &= ~(1<<2);
+						passedCenterFlags |= (1<<2);
+					}
 				}
 			}
 		}
@@ -417,44 +430,64 @@ void configClock (void) {
 		ADCA.CH2.INTFLAGS = ADC_CH_CHIF_bm; // clear interrupt flag
 
 		uint8_t result = ADCA.CH2.RES;
-		if (STATE_SLOPE & (1<<motor3State)) { // rising
-			if (result > MOTOR_3_THRESH  && result < 205) {
-				if (!(passedCenterFlags & (1<<3))) {
-					TCE1.PER = TCE1.CNT*2;
-					TC1_SetOverflowIntLevel (&TCE1, TC_OVFINTLVL_HI_gc);
-					passedCenterFlags |= (1<<3); 
+		
+		if (!(passedCenterFlags & (1<<3))) 
+		{
+			if (STATE_SLOPE & (1<<motor3State)) 
+			{ // rising
+				if (risingCount3 > 2) 
+				{
+					if (result > MOTOR_3_THRESH)
+					{
+						TCE1.PER = TCE1.CNT*2;
+						missedCommFlags &= ~(1<<3);
+						passedCenterFlags |= (1<<3); 
+					}
 				}
-			}
-		} else { // falling
-			if (result < MOTOR_3_THRESH && result > 50) {
-				if (!(passedCenterFlags & (1<<3))) {
-					TCE1.PER = TCE1.CNT*2;
-					TC1_SetOverflowIntLevel (&TCE1, TC_OVFINTLVL_HI_gc);
-					passedCenterFlags |= (1<<3);
+			} else 
+			{ // falling
+				if (fallingCount3 > 2) 
+				{
+					if (result < MOTOR_3_THRESH) 
+					{
+						TCE1.PER = TCE1.CNT*2;
+						missedCommFlags &= ~(1<<3);
+						passedCenterFlags |= (1<<3);
+					}
 				}
 			}
 		}
 	}
 
-	// Motor 2 - called for phase c (phase c feedback is on adcb)
+	// Motor 3 - called for phase c (phase c feedback is on adcb)
 	ISR (ADCB_CH2_vect) {
 		ADCB.CH2.INTFLAGS = ADC_CH_CHIF_bm; // clear interrupt flag
 
 		uint8_t result = ADCB.CH2.RES;
-		if (STATE_SLOPE & (1<<motor3State)) { // rising
-			if (result > MOTOR_3_THRESH  && result < 205) {
-				if (!(passedCenterFlags & (1<<3))) {
-					TCE1.PER = TCE1.CNT*2;
-					TC1_SetOverflowIntLevel (&TCE1, TC_OVFINTLVL_HI_gc);
-					passedCenterFlags |= (1<<3); 
+
+		if (!(passedCenterFlags & (1<<3))) 
+		{
+			if (STATE_SLOPE & (1<<motor3State)) 
+			{ // rising
+				if (risingCount3 > 2) 
+				{
+					if (result > MOTOR_3_THRESH)
+					{
+						TCE1.PER = TCE1.CNT*2;
+						missedCommFlags &= ~(1<<3);
+						passedCenterFlags |= (1<<3); 
+					}
 				}
-			}
-		} else { // falling
-			if (result < MOTOR_3_THRESH && result > 50) {
-				if (!(passedCenterFlags & (1<<3))) {
-					TCE1.PER = TCE1.CNT*2;
-					TC1_SetOverflowIntLevel (&TCE1, TC_OVFINTLVL_HI_gc);
-					passedCenterFlags |= (1<<3);
+			} else 
+			{ // falling
+				if (fallingCount3 > 2) 
+				{
+					if (result < MOTOR_3_THRESH) 
+					{
+						TCE1.PER = TCE1.CNT*2;
+						missedCommFlags &= ~(1<<3);
+						passedCenterFlags |= (1<<3);
+					}
 				}
 			}
 		}
@@ -465,20 +498,30 @@ void configClock (void) {
 		ADCB.CH3.INTFLAGS = ADC_CH_CHIF_bm; // clear interrupt flag
 
 		uint8_t result = ADCB.CH3.RES;
-		if (STATE_SLOPE & (1<<motor4State)) { // rising
-			if (result > MOTOR_4_THRESH  && result < 205) {
-				if (!(passedCenterFlags & (1<<4))) {
-					TCD0.PER = TCD0.CNT*2;
-					TC0_SetOverflowIntLevel (&TCD0, TC_OVFINTLVL_HI_gc);
-					passedCenterFlags |= (1<<4); 
+
+		if (!(passedCenterFlags & (1<<4)))
+		{
+			if (STATE_SLOPE & (1<<motor4State))
+			{ // rising
+				if (risingCount4 > 2) 
+				{
+					if (result > MOTOR_4_THRESH)
+					{
+						TCD0.PER = TCD0.CNT*2;
+						missedCommFlags &= ~(1<<4);
+						passedCenterFlags |= (1<<4); 
+					}
 				}
-			}
-		} else { // falling
-			if (result < MOTOR_4_THRESH && result > 50) {
-				if (!(passedCenterFlags & (1<<4))) {
-					TCD0.PER = TCD0.CNT*2;
-					TC0_SetOverflowIntLevel (&TCD0, TC_OVFINTLVL_HI_gc);
-					passedCenterFlags |= (1<<4);
+			} else 
+			{ // falling
+				if (fallingCount4 > 2) 
+				{
+					if (result < MOTOR_4_THRESH) 
+					{
+						TCD0.PER = TCD0.CNT*2;
+						missedCommFlags &= ~(1<<4);
+						passedCenterFlags |= (1<<4);
+					}
 				}
 			}
 		}
@@ -494,108 +537,55 @@ void configDelayTimer (volatile TC0_t * tc) {
 
 void startup(void) {
 	
+	TCF0.CCABUF = LOCK_PWM;
+	TCF0.CCBBUF = LOCK_PWM;
+	TCF0.CCCBUF = LOCK_PWM;
+	TCF0.CCDBUF = LOCK_PWM;
+	
+	SET_PHASE_STATE_5_MOT1();
+	SET_PHASE_STATE_5_MOT2();
+	SET_PHASE_STATE_5_MOT3();
+	SET_PHASE_STATE_5_MOT4();
+	
+	TCC0.CNT = 0;
+	while (TCC0.CNT < 65000) {}
+	
 	TCF0.CCABUF = STARTUP_PWM;
 	TCF0.CCBBUF = STARTUP_PWM;
 	TCF0.CCCBUF = STARTUP_PWM;
 	TCF0.CCDBUF = STARTUP_PWM;
 	
-	SET_PHASE_STATE_5_MOT1();
-	SET_PHASE_STATE_5_MOT2();
-	SET_PHASE_STATE_5_MOT3();
-	SET_PHASE_STATE_5_MOT4();
-	TCC0.CNT = 0;
+	TCE0.CCABUF = STARTUP_PWM/2;
+	TCE0.CCBBUF = STARTUP_PWM/2;
+	TCE0.CCCBUF = STARTUP_PWM/2;
+	TCE0.CCDBUF = STARTUP_PWM/2;
 	
-	PORTC.OUTSET = 1;
-	while (TCC0.CNT < 65000) {}
-	PORTC.OUTCLR = 1;
+	TC_SetPeriod( &TCC1, 6500 );
+	TC1_ConfigClockSource( &TCC1, TC_CLKSEL_DIV4_gc );
+	TC1_SetOverflowIntLevel (&TCC1, TC_OVFINTLVL_HI_gc);
 	
-	TCF0.CCABUF = startupPwms[0];
-	TCF0.CCBBUF = startupPwms[0];
-	TCF0.CCCBUF = startupPwms[0];
-	TCF0.CCDBUF = startupPwms[0];
+	TC_SetPeriod( &TCD1, 6500 );
+	TC1_ConfigClockSource( &TCD1, TC_CLKSEL_DIV4_gc );
+	TC1_SetOverflowIntLevel (&TCD1, TC_OVFINTLVL_HI_gc);
+	
+	TC_SetPeriod( &TCE1, 6500 );
+	TC1_ConfigClockSource( &TCE1, TC_CLKSEL_DIV4_gc );
+	TC1_SetOverflowIntLevel (&TCE1, TC_OVFINTLVL_HI_gc);
+		
+	TC_SetPeriod( &TCD0, 6500 );
+	TC0_ConfigClockSource( &TCD0, TC_CLKSEL_DIV4_gc );
+	TC1_SetOverflowIntLevel (&TCD0, TC_OVFINTLVL_HI_gc);
+	
+	missedCommFlags = (1<<1) | (1<<2) | (1<<3) | (1<<4); 
+	
 	SET_PHASE_STATE_0_MOT1();
 	SET_PHASE_STATE_0_MOT2();
 	SET_PHASE_STATE_0_MOT3();
 	SET_PHASE_STATE_0_MOT4();
-	TCC0.CNT = 0;
-	while (TCC0.CNT < startupDelays[0]) {}
-	
-	TCF0.CCABUF = startupPwms[1];
-	TCF0.CCBBUF = startupPwms[1];
-	TCF0.CCCBUF = startupPwms[1];
-	TCF0.CCDBUF = startupPwms[1];
-	SET_PHASE_STATE_1_MOT1();
-	SET_PHASE_STATE_1_MOT2();
-	SET_PHASE_STATE_1_MOT3();
-	SET_PHASE_STATE_1_MOT4();
-	TCC0.CNT = 0;
-	while (TCC0.CNT < startupDelays[1]) {}
-	
-	TCF0.CCABUF = startupPwms[2];
-	TCF0.CCBBUF = startupPwms[2];
-	TCF0.CCCBUF = startupPwms[2];
-	TCF0.CCDBUF = startupPwms[2];
-	SET_PHASE_STATE_2_MOT1();	
-	SET_PHASE_STATE_2_MOT2();	
-	SET_PHASE_STATE_2_MOT3();	
-	SET_PHASE_STATE_2_MOT4();	
-	TCC0.CNT = 0;
-	while (TCC0.CNT < startupDelays[2]) {}
-		
-	TCF0.CCABUF = startupPwms[3];
-	TCF0.CCBBUF = startupPwms[3];
-	TCF0.CCCBUF = startupPwms[3];
-	TCF0.CCDBUF = startupPwms[3];
-	SET_PHASE_STATE_3_MOT1();
-	SET_PHASE_STATE_3_MOT2();
-	SET_PHASE_STATE_3_MOT3();
-	SET_PHASE_STATE_3_MOT4();
-	TCC0.CNT = 0;
-	while (TCC0.CNT < startupDelays[3]) {}
-	
-	TCF0.CCABUF = startupPwms[4];
-	TCF0.CCBBUF = startupPwms[4];
-	TCF0.CCCBUF = startupPwms[4];
-	TCF0.CCBBUF = startupPwms[4];
-	SET_PHASE_STATE_4_MOT1();
-	SET_PHASE_STATE_4_MOT2();
-	SET_PHASE_STATE_4_MOT3();
-	SET_PHASE_STATE_4_MOT4();
-	TCC0.CNT = 0;
-	while (TCC0.CNT < startupDelays[4]) {}
-
-	TCF0.CCABUF = startupPwms[5];
-	TCF0.CCBBUF = startupPwms[5];
-	TCF0.CCCBUF = startupPwms[5];
-	TCF0.CCDBUF = startupPwms[5];
-	
-	TCE0.CCABUF = startupPwms[5]/2;
-	TCE0.CCBBUF = startupPwms[5]/2;
-	TCE0.CCCBUF = startupPwms[5]/2;
-	TCE0.CCDBUF = startupPwms[5]/2;
-	
-	TC_SetPeriod( &TCC1, 6500 );
-	TC1_ConfigClockSource( &TCC1, TC_CLKSEL_DIV64_gc );
-	
-	TC_SetPeriod( &TCD1, 6500 );
-	TC1_ConfigClockSource( &TCD1, TC_CLKSEL_DIV64_gc );
-	
-	TC_SetPeriod( &TCE1, 6500 );
-	TC1_ConfigClockSource( &TCE1, TC_CLKSEL_DIV64_gc );
-	
-	TC_SetPeriod( &TCD0, 6500 );
-	TC0_ConfigClockSource( &TCD0, TC_CLKSEL_DIV64_gc );
-	
-	//~ PORTC.OUTSET = 1;
-	
-	SET_PHASE_STATE_5_MOT1();
-	SET_PHASE_STATE_5_MOT2();
-	SET_PHASE_STATE_5_MOT3();
-	SET_PHASE_STATE_5_MOT4();
-	motor1State = 5;
-	motor2State = 5;
-	motor3State = 5;
-	motor4State = 5;
+	motor1State = 0;
+	motor2State = 0;
+	motor3State = 0;
+	motor4State = 0;
 	
 	while (1);
 }
