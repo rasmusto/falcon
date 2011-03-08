@@ -52,10 +52,14 @@ volatile float yaw_pid_output = 0;
 void init_mcu_tx_pkt(volatile struct mcu_tx_pkt_t * pkt)
 {
     pkt->start = MCU_START;
-    pkt->tgt_1 = 0xF1F2;
-    pkt->tgt_2 = 0xF3F4;
-    pkt->tgt_3 = 0xF5F6;
-    pkt->tgt_4 = 0xF7F8;
+    //~ pkt->tgt_1 = 0xF1F2;
+    //~ pkt->tgt_2 = 0xF3F4;
+    //~ pkt->tgt_3 = 0xF5F6;
+    //~ pkt->tgt_4 = 0xF7F8;
+    pkt->tgt_1 = 1000;
+    pkt->tgt_2 = 1000;
+    pkt->tgt_3 = 1000;
+    pkt->tgt_4 = 1000;
     pkt->crc = crc((char *)pkt, 9, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
 }
 
@@ -339,6 +343,7 @@ ISR(SPIE_INT_vect)
         if(send_mcu_pkt_flag == 1)
         {
             char * mcu_tx_ptr = (char *)&mcu_tx;
+            _delay_us(1);
             SPIE.DATA = mcu_tx_ptr[mcu_tx_index];
             mcu_tx_index++;
             if(mcu_tx_index > sizeof(struct mcu_tx_pkt_t))
@@ -351,6 +356,7 @@ ISR(SPIE_INT_vect)
         if(receive_mcu_pkt_flag == 1)
         {
             char * mcu_rx_ptr = (char *)&mcu_rx;
+            _delay_us(1);
             mcu_rx_ptr[mcu_rx_index] = SPIE.DATA;
             if(mcu_rx_first_packet_flag)
             {
