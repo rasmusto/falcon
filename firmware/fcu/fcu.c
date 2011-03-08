@@ -352,6 +352,7 @@ ISR(SPIE_INT_vect)
                     PORTB.OUTSET = 1<<SS0;
 
                     //reverse order of bytes
+                    /*
                     int j;
                     char tmp2;
                     for(j = 0; j < sizeof(struct mcu_rx_pkt_t)-1; j+=2)
@@ -360,6 +361,7 @@ ISR(SPIE_INT_vect)
                         mcu_rx_ptr[j] = mcu_rx_ptr[j+1];
                         mcu_rx_ptr[j+1] = tmp2;
                     }
+                    */
 
                 }
                 else
