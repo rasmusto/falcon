@@ -77,7 +77,7 @@ PROGRAMMER_MCU=x128a3
 
 # Name of our project
 # (use a single word, e.g. 'myproject')
-PROJECTNAME=chb_motor_test
+PROJECTNAME=spi_test
 
 # Source files
 # List C/C++/Assembly source files:

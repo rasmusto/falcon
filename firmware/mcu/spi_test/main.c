@@ -171,10 +171,13 @@ volatile uint8_t spiBuffer[8];
 #define risingCount GPIOB
 #define fallingCount GPIOC
 
-#define getSpiPktFlag GPIOD
-#define spiIndex GPIOE
+//#define getSpiPktFlag GPIOD
+volatile uint8_t getSpiPktFlag = 0;
+//#define spiIndex GPIOE
+volatile uint8_t spiIndex = 0;
 
-#define writeBackFlag GPIOF
+//#define writeBackFlag GPIOF
+volatile uint8_t writeBackFlag = 0;
 
 // here is the pinout of the motor phases and sense lines for reference
 
@@ -263,6 +266,8 @@ int main (void) {
 	
 	spiInit ();
 	PMIC.CTRL |= PMIC_HILVLEN_bm;
+    sei();
+    while(1){}
 	
 	TCF0.CCABUF = STARTUP_PWM;
 	TCF0.CCBBUF = STARTUP_PWM;
@@ -334,8 +339,7 @@ void configClock (void) {
 }	              
 
 void spiInit () {
-	SPIC.CTRL = SPI_MODE_2_gc;
-	//~ SPIC.CTRL = SPI_ENABLE_bm | SPI_MODE_2_gc;
+	SPIC.CTRL = SPI_ENABLE_bm | SPI_MODE_2_gc;
 	SPIC.INTCTRL = SPI_INTLVL_HI_gc;
 	PORTC.DIRSET = SPI_MISO_bm;
     PORTC.DIRCLR = 0b10111111;
@@ -343,26 +347,37 @@ void spiInit () {
 
 ISR(SPIC_INT_vect) {
 	uint8_t data = SPIC.DATA;
-	if (writeBackFlag) {
+	if (writeBackFlag) 
+    {
 		if (spiIndex == 0)
+            //add comments please
 			SPIC.DATA = ((uint8_t*)(&(TCF0.CCABUF)))[0];
 		if (spiIndex == 1)
+            //add comments please
 			SPIC.DATA = ((uint8_t*)(&(TCF0.CCABUF)))[1];
 		if (spiIndex == 2)
+            //add comments please
 			SPIC.DATA = ((uint8_t*)(&(TCF0.CCBBUF)))[0];
 		if (spiIndex == 3)
+            //add comments please
 			SPIC.DATA = ((uint8_t*)(&(TCF0.CCBBUF)))[1];
 		if (spiIndex == 4)
+            //add comments please
 			SPIC.DATA = ((uint8_t*)(&(TCF0.CCCBUF)))[0];
 		if (spiIndex == 5)
+            //add comments please
 			SPIC.DATA = ((uint8_t*)(&(TCF0.CCCBUF)))[1];
 		if (spiIndex == 6)
+            //add comments please
 			SPIC.DATA = ((uint8_t*)(&(TCF0.CCDBUF)))[0];
 		if (spiIndex == 7) {
+            //add comments please
 			SPIC.DATA = ((uint8_t*)(&(TCF0.CCDBUF)))[1];
 			writeBackFlag = 0;
 		}
-	} else {
+	} 
+    else 
+    { //not writing data
 		if (data == 0xB5) {
 			getSpiPktFlag = 1;
 			spiIndex = 0;
