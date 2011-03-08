@@ -620,7 +620,7 @@ ISR (ADCA_CH1_vect) {
         /* rising */
 		if (stateSlope[motor2State])
         { 
-			if (risingCount > 2) 
+			if (risingCount > 0) 
             {
 				if (result > motor2Thresh) 
                 {
@@ -637,7 +637,7 @@ ISR (ADCA_CH1_vect) {
         /* falling */
         else 
         { 
-			if (fallingCount > 2) 
+			if (fallingCount > 0) 
             {
 				if (result < motor2Thresh) 
                 {
