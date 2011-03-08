@@ -115,7 +115,7 @@ void configPWM (volatile TC0_t * tc, HIRES_t * hires, uint16_t period); // confi
 void configDelayTimer (volatile TC0_t * tc); // configure timer used to generate delays
 void configHalfPWMTimer (volatile TC0_t * tc, HIRES_t * hires, uint16_t period);
 void initAdc (ADC_t * adc); // use to initialize adcs
-void spiInit ();
+void spiInit (void);
 
 void setMotor1State (uint8_t state); // motors to their a commutation state based on an integ 
 void setMotor2State (uint8_t state); // -- used instead of macros to allow numerical indexing of states
@@ -268,6 +268,7 @@ int main (void) {
 	PMIC.CTRL |= PMIC_HILVLEN_bm;
     sei();
     while(1){}
+    /*
 	
 	TCF0.CCABUF = STARTUP_PWM;
 	TCF0.CCBBUF = STARTUP_PWM;
@@ -312,6 +313,7 @@ int main (void) {
 	PORTF.OUT = 0;
 	
 	while (1) {}
+    */
 	
 }
 
@@ -346,54 +348,37 @@ void spiInit () {
 }
 
 ISR(SPIC_INT_vect) {
+    static uint8_t spi_index = 0;
+    static uint8_t readPacketFlag = 0;
+    static uint8_t writePacketFlag = 0;
 	uint8_t data = SPIC.DATA;
-	if (writeBackFlag) 
+    if(data == 0xB5)
     {
-		if (spiIndex == 0)
-            //add comments please
-			SPIC.DATA = ((uint8_t*)(&(TCF0.CCABUF)))[0];
-		if (spiIndex == 1)
-            //add comments please
-			SPIC.DATA = ((uint8_t*)(&(TCF0.CCABUF)))[1];
-		if (spiIndex == 2)
-            //add comments please
-			SPIC.DATA = ((uint8_t*)(&(TCF0.CCBBUF)))[0];
-		if (spiIndex == 3)
-            //add comments please
-			SPIC.DATA = ((uint8_t*)(&(TCF0.CCBBUF)))[1];
-		if (spiIndex == 4)
-            //add comments please
-			SPIC.DATA = ((uint8_t*)(&(TCF0.CCCBUF)))[0];
-		if (spiIndex == 5)
-            //add comments please
-			SPIC.DATA = ((uint8_t*)(&(TCF0.CCCBUF)))[1];
-		if (spiIndex == 6)
-            //add comments please
-			SPIC.DATA = ((uint8_t*)(&(TCF0.CCDBUF)))[0];
-		if (spiIndex == 7) {
-            //add comments please
-			SPIC.DATA = ((uint8_t*)(&(TCF0.CCDBUF)))[1];
-			writeBackFlag = 0;
-		}
-	} 
-    else 
-    { //not writing data
-		if (data == 0xB5) {
-			getSpiPktFlag = 1;
-			spiIndex = 0;
-		} else if (getSpiPktFlag) {
-			spiBuffer[spiIndex] = data;
-			spiIndex++;
-			if (spiIndex == 8) {
-				getSpiPktFlag = 0;
-				TCF0.CCABUF = ((uint16_t *)spiBuffer)[0];
-				TCF0.CCBBUF = ((uint16_t *)spiBuffer)[1];
-				TCF0.CCCBUF = ((uint16_t *)spiBuffer)[2];
-				TCF0.CCDBUF = ((uint16_t *)spiBuffer)[3];
-				writeBackFlag = 1;
-			}
-		}
-	}
+        readPacketFlag = 1;
+        writePacketFlag = 0;
+        spi_index = 0;
+    }
+    if(readPacketFlag)
+    {
+        if(data != 0xB5)
+        {
+            spiBuffer[spi_index] = data;
+            spi_index++;
+            SPIC.DATA = 0;
+        }
+    }
+    if(readPacketFlag && spi_index >= 9)
+    {
+        readPacketFlag = 0;
+        writePacketFlag = 1;
+        spi_index = 0;
+    }
+    if(writePacketFlag && spi_index <= 8)
+    {
+        SPIC.DATA = spiBuffer[spi_index];
+        //SPIC.DATA = 0xAA;
+        spi_index++;
+    }
 }
 
 // *************** PWM **********************
