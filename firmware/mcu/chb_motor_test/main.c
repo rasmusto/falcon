@@ -16,6 +16,8 @@
 #include "usart_driver.h"
 #include "spi_driver.h"
 
+//#include "/usr/lib/avr/include/avr/iox128a3.h"
+
 #define SET_phaseOutputsEHigh(value) phaseOutputsEHigh = (value)
 #define SET_phaseOutputsELow(value) phaseOutputsELow = (value)
 #define SET_phaseOutputsFHigh(value) phaseOutputsFHigh = (value)
@@ -179,6 +181,8 @@ volatile uint8_t spiIndex = 0;
 
 volatile uint8_t writeBackFlag = 0;
 // here is the pinout of the motor phases and sense lines for reference
+
+volatile uint8_t spiWriteBuffer[9];
 
 //~ PORTE:
 	//~ AH1
@@ -366,7 +370,7 @@ ISR(SPIC_INT_vect) {
 				TCF0.CCBBUF = *((uint16_t *)(spiBuffer+2));
 				TCF0.CCCBUF = *((uint16_t *)(spiBuffer+4));
 				TCF0.CCDBUF = *((uint16_t *)(spiBuffer+6));
-				if (TCF0.CCBBUF == 0)
+				if (TCF0.CCABUF == 0 || TCF0.CCBBUF == 0 || TCF0.CCCBUF == 0 || TCF0.CCDBUF == 0)
 				{
 					PORTD.DIR = 0;
 					PORTE.DIR = 0;
@@ -385,7 +389,7 @@ ISR(SPIC_INT_vect) {
     }
     if(writePacketFlag && spi_index <= 8)
     {
-        SPIC.DATA = spiBuffer[spi_index];
+        SPIC.DATA = spiWriteBuffer[spi_index];
         //SPIC.DATA = 0xAA;
         spi_index++;
     }
@@ -534,8 +538,8 @@ ISR (TCC1_CCA_vect) {
 }
 
 ISR (TCD1_OVF_vect) {
-	//~ if (missedCommFlag)
-		// stuff
+	if (missedCommFlag)
+		spiWriteBuffer[1] = 0xFF;
 	
 	missedCommFlag = 1; // should be set back to 0 before we get here again
 	
@@ -567,7 +571,7 @@ ISR (TCD0_CCA_vect) {
 void initAdc (ADC_t * adc) {
 	ADC_CalibrationValues_Load (adc);
   	ADC_ConvMode_and_Resolution_Config (adc, ADC_ConvMode_Unsigned, ADC_RESOLUTION_8BIT_gc);
-	ADC_Prescaler_Config (adc, ADC_PRESCALER_DIV32_gc); // Fadc = 125khz
+	ADC_Prescaler_Config (adc, ADC_PRESCALER_DIV16_gc); // Fadc = 250khz
 	ADC_Reference_Config (adc, ADC_REFSEL_INT1V_gc); // vref = internal 1v
     
     /* Setup channel 0, 1, 2 and 3 to have single ended input and 1x gain. */
@@ -676,7 +680,8 @@ void startup(void) {
 
 	TC_SetPeriod( &TCD1, 65000 );
 	//~ xxx TC1_ConfigClockSource( &TCD1, TC_CLKSEL_DIV64_gc );
-	TC1_ConfigClockSource( &TCD1, TC_CLKSEL_DIV4_gc );
+	//TC1_ConfigClockSource( &TCD1, TC_CLKSEL_DIV4_gc );
+	TC1_ConfigClockSource( &TCD1, TC_CLKSEL_DIV8_gc);
 	TC1_SetOverflowIntLevel (&TCD1, TC_OVFINTLVL_LO_gc);
 	
 	missedCommFlag = 1;
