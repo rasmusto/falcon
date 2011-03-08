@@ -14,6 +14,7 @@
 #include "awex_driver.h"
 #include "adc_driver.h"
 #include "usart_driver.h"
+#include "spi_driver.h"
 
 #define SET_phaseOutputsEHigh(value) phaseOutputsEHigh = (value)
 #define SET_phaseOutputsELow(value) phaseOutputsELow = (value)
@@ -114,6 +115,7 @@ void configPWM (volatile TC0_t * tc, HIRES_t * hires, uint16_t period); // confi
 void configDelayTimer (volatile TC0_t * tc); // configure timer used to generate delays
 void configHalfPWMTimer (volatile TC0_t * tc, HIRES_t * hires, uint16_t period);
 void initAdc (ADC_t * adc); // use to initialize adcs
+void spiInit (void);
 
 void setMotor1State (uint8_t state); // motors to their a commutation state based on an integ 
 void setMotor2State (uint8_t state); // -- used instead of macros to allow numerical indexing of states
@@ -147,6 +149,8 @@ volatile uint8_t autoCommutationFlag = 0;
 
 volatile uint8_t missedCommFlag = 0;
 
+volatile uint8_t spiBuffer[8];
+
 // these variables keep track of which pins should be driven during the high and low parts of the pwm cycle
 
 	#define phaseOutputsEHigh GPIO0 // keep track of which pins should be driven high during high part of pwm
@@ -167,6 +171,13 @@ volatile uint8_t missedCommFlag = 0;
 #define risingCount GPIOB
 #define fallingCount GPIOC
 
+
+volatile uint8_t getSpiPktFlag = 0;
+
+volatile uint8_t spiIndex = 0;
+
+
+volatile uint8_t writeBackFlag = 0;
 // here is the pinout of the motor phases and sense lines for reference
 
 //~ PORTE:
@@ -249,6 +260,10 @@ int main (void) {
 	
 	PORTE.DIR = 0b11000000;
 	PORTF.DIR = 0b00001111;
+
+    spiInit ();
+	PMIC.CTRL |= PMIC_HILVLEN_bm;
+	PMIC.CTRL |= PMIC_LOLVLEN_bm;
 	
 	TCF0.CCABUF = STARTUP_PWM;
 	TCF0.CCBBUF = STARTUP_PWM;
@@ -297,66 +312,6 @@ int main (void) {
 	TCF0.CCBBUF = 1600;
 	TCE0.CCBBUF = 1600/2;
 
-    _delay_ms(1000);
-    _delay_ms(1000);
-	TCF0.CCBBUF = 2000;
-	TCE0.CCBBUF = 2000/2;
-
-    _delay_ms(1000);
-    _delay_ms(1000);
-	TCF0.CCBBUF = 2100;
-	TCE0.CCBBUF = 2100/2;
-
-    _delay_ms(1000);
-    _delay_ms(1000);
-	TCF0.CCBBUF = 2200;
-	TCE0.CCBBUF = 2200/2;
-
-    _delay_ms(1000);
-    _delay_ms(1000);
-	TCF0.CCBBUF = 2400;
-	TCE0.CCBBUF = 2400/2;
-
-    _delay_ms(1000);
-    _delay_ms(1000);
-	TCF0.CCBBUF = 2600;
-	TCE0.CCBBUF = 2600/2;
-
-    _delay_ms(1000);
-    _delay_ms(1000);
-	TCF0.CCBBUF = 2800;
-	TCE0.CCBBUF = 2800/2;
-
-    _delay_ms(1000);
-    _delay_ms(1000);
-	TCF0.CCBBUF = 3000;
-	TCE0.CCBBUF = 3000/2;
-
-    _delay_ms(1000);
-    _delay_ms(1000);
-	TCF0.CCBBUF = 3200;
-	TCE0.CCBBUF = 3200/2;
-
-    _delay_ms(1000);
-    _delay_ms(1000);
-	TCF0.CCBBUF = 3400;
-	TCE0.CCBBUF = 3400/2;
-
-    _delay_ms(1000);
-    _delay_ms(1000);
-	TCF0.CCBBUF = 3600;
-	TCE0.CCBBUF = 3600/2;
-
-    _delay_ms(1000);
-    _delay_ms(1000);
-	TCF0.CCBBUF = 3800;
-	TCE0.CCBBUF = 3800/2;
-
-    _delay_ms(1000);
-    _delay_ms(1000);
-	TCF0.CCBBUF = 4000;
-	TCE0.CCBBUF = 4000/2;
-
 	while (1) {}
 }
 
@@ -380,6 +335,48 @@ void configClock (void) {
 	CLKSYS_Main_ClockSource_Select( CLK_SCLKSEL_PLL_gc );
 }
 
+void spiInit () {
+	SPIC.CTRL = SPI_ENABLE_bm | SPI_MODE_2_gc;
+	SPIC.INTCTRL = SPI_INTLVL_HI_gc;
+	PORTC.DIRSET = SPI_MISO_bm;
+    PORTC.DIRCLR = 0b10111111;
+}
+
+ISR(SPIC_INT_vect) {
+    static uint8_t spi_index = 0;
+    static uint8_t readPacketFlag = 0;
+    static uint8_t writePacketFlag = 0;
+	uint8_t data = SPIC.DATA;
+    if(data == 0xB5)
+    {
+        readPacketFlag = 1;
+        writePacketFlag = 0;
+        spi_index = 0;
+    }
+    if(readPacketFlag)
+    {
+        if(data != 0xB5)
+        {
+            spiBuffer[spi_index] = data;
+            spi_index++;
+            SPIC.DATA = 0;
+        }
+    }
+    if(readPacketFlag && spi_index >= 9)
+    {
+        readPacketFlag = 0;
+        writePacketFlag = 1;
+        spi_index = 0;
+    }
+    if(writePacketFlag && spi_index <= 8)
+    {
+        SPIC.DATA = spiBuffer[spi_index];
+        //SPIC.DATA = 0xAA;
+        spi_index++;
+    }
+}
+
+
 // *************** PWM **********************
 
 // Configures PWM output on compare a b and c for single slope pwm, with hires, and clk source as sys clk
@@ -392,11 +389,11 @@ void configPWM (volatile TC0_t * tc, HIRES_t * hires, uint16_t period) {
 	TC0_EnableCCChannels (tc, TC0_CCDEN_bm); // enable compare D
 
 	//~ TC0_SetCCAIntLevel (tc, TC_CCAINTLVL_HI_gc);
-	TC0_SetCCBIntLevel (tc, TC_CCBINTLVL_HI_gc);
+	TC0_SetCCBIntLevel (tc, TC_CCBINTLVL_LO_gc);
 	//~ TC0_SetCCCIntLevel (tc, TC_CCCINTLVL_HI_gc);
 	//~ TC0_SetCCDIntLevel (tc, TC_CCDINTLVL_HI_gc);
 
-	TC0_SetOverflowIntLevel (tc, TC_OVFINTLVL_HI_gc);
+	TC0_SetOverflowIntLevel (tc, TC_OVFINTLVL_LO_gc);
 	
 	PMIC.CTRL |= PMIC_HILVLEN_bm;
 
@@ -466,11 +463,11 @@ void configHalfPWMTimer (volatile TC0_t * tc, HIRES_t * hires, uint16_t period) 
 	TC0_EnableCCChannels (tc, TC0_CCDEN_bm); // enable compare D
 
 	//~ TC0_SetCCAIntLevel (tc, TC_CCAINTLVL_HI_gc);
-	TC0_SetCCBIntLevel (tc, TC_CCBINTLVL_HI_gc);
+	TC0_SetCCBIntLevel (tc, TC_CCBINTLVL_LO_gc);
 	//~ TC0_SetCCCIntLevel (tc, TC_CCCINTLVL_HI_gc);
 	//~ TC0_SetCCDIntLevel (tc, TC_CCDINTLVL_HI_gc);
 	
-	TC0_SetOverflowIntLevel (tc, TC_OVFINTLVL_HI_gc);
+	TC0_SetOverflowIntLevel (tc, TC_OVFINTLVL_LO_gc);
 	
 	PMIC.CTRL |= PMIC_HILVLEN_bm;
 
@@ -576,10 +573,10 @@ void initAdc (ADC_t * adc) {
 	                                 ADC_CH_GAIN_1X_gc);
 
 	/* Enable high level sample complete interrupt for channel 3 */
-	ADC_Ch_Interrupts_Config (&(adc->CH0), ADC_CH_INTMODE_COMPLETE_gc, ADC_CH_INTLVL_HI_gc);
-	ADC_Ch_Interrupts_Config (&(adc->CH1), ADC_CH_INTMODE_COMPLETE_gc, ADC_CH_INTLVL_HI_gc);
-	ADC_Ch_Interrupts_Config (&(adc->CH2), ADC_CH_INTMODE_COMPLETE_gc, ADC_CH_INTLVL_HI_gc);
-	ADC_Ch_Interrupts_Config (&(adc->CH3), ADC_CH_INTMODE_COMPLETE_gc, ADC_CH_INTLVL_HI_gc);
+	ADC_Ch_Interrupts_Config (&(adc->CH0), ADC_CH_INTMODE_COMPLETE_gc, ADC_CH_INTLVL_LO_gc);
+	ADC_Ch_Interrupts_Config (&(adc->CH1), ADC_CH_INTMODE_COMPLETE_gc, ADC_CH_INTLVL_LO_gc);
+	ADC_Ch_Interrupts_Config (&(adc->CH2), ADC_CH_INTMODE_COMPLETE_gc, ADC_CH_INTLVL_LO_gc);
+	ADC_Ch_Interrupts_Config (&(adc->CH3), ADC_CH_INTMODE_COMPLETE_gc, ADC_CH_INTLVL_LO_gc);
 
 	PMIC.CTRL |= PMIC_HILVLEN_bm; // Enable low level interrupts
 	ADC_Enable (adc); // Enable ADC A with free running mode
@@ -665,7 +662,7 @@ void startup(void) {
 	TC_SetPeriod( &TCD1, 65000 );
 	//~ xxx TC1_ConfigClockSource( &TCD1, TC_CLKSEL_DIV64_gc );
 	TC1_ConfigClockSource( &TCD1, TC_CLKSEL_DIV4_gc );
-	TC1_SetOverflowIntLevel (&TCD1, TC_OVFINTLVL_HI_gc);
+	TC1_SetOverflowIntLevel (&TCD1, TC_OVFINTLVL_LO_gc);
 	
 	missedCommFlag = 1;
 	
