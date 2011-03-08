@@ -47,9 +47,14 @@
 #define IMU_RX_START    0xAA
 //AA
 
-#define ROLL_OFFSET     610
-#define PITCH_OFFSET    -304
-#define YAW_OFFSET      -304
+//#define ROLL_OFFSET     610
+#define ROLL_OFFSET     622
+//#define PITCH_OFFSET    -304
+#define PITCH_OFFSET    -342
+
+#define YAW_OFFSET      -298
+//#define YAW_OFFSET      -304
+
 #define X_OFFSET        -11571
 #define Y_OFFSET        -11429
 #define Z_OFFSET        -8728

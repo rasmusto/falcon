@@ -18,6 +18,10 @@ volatile struct pid_info roll_pid;
 volatile struct pid_info pitch_pid;
 volatile struct pid_info yaw_pid;
 
+volatile float roll;
+volatile float pitch;
+volatile float yaw;
+
 volatile uint8_t print_status_flag = 1;
 
 volatile uint8_t bat_voltage_raw;
@@ -188,6 +192,11 @@ void print_status(void)
 
         print_mcu_pkts(&mcu_tx, &mcu_rx);
         print_imu_pkts(&imu_tx, &imu_rx);
+
+        printf("roll = %f\n\r", roll);
+        printf("pitch = %f\n\r", pitch);
+        printf("yaw = %f\n\r", yaw);
+
         print_bat();
         stdout = tmp;
     }
@@ -298,8 +307,12 @@ ISR(SPIE_INT_vect)
                     ptr[i+1] = tmp;
                 }
                 imu_rx.roll += ROLL_OFFSET;
+                roll += (float)imu_rx.roll/1000;
                 imu_rx.pitch += PITCH_OFFSET;
+                pitch += (float)imu_rx.pitch/1000;
                 imu_rx.yaw += YAW_OFFSET;
+                yaw += (float)imu_rx.yaw/1000;
+
                 imu_rx.x_accel += X_OFFSET;
                 imu_rx.y_accel += Y_OFFSET;
                 imu_rx.z_accel += Z_OFFSET;
