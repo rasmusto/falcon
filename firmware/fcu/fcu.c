@@ -231,10 +231,26 @@ void process_rx_buf(volatile char * rx_buf)
     else if(strcmp(cmd, "reboot") == 0) { printf("\n\rrebooting..."); CCPWrite(&RST_CTRL, RST_SWRST_bm); }
     else if(strcmp(cmd, "print_status") == 0) { if(print_status_flag == 0)print_status_flag = 1; else print_status_flag = 0; }
     else if(strcmp(cmd, "start") == 0) { mcu_tx.start = (uint8_t)val; }
-    else if(strcmp(cmd, "mot1") == 0) { mcu_tx.tgt_1 = (uint16_t)val; }
-    else if(strcmp(cmd, "mot2") == 0) { mcu_tx.tgt_2 = (uint16_t)val; }
-    else if(strcmp(cmd, "mot3") == 0) { mcu_tx.tgt_3 = (uint16_t)val; }
-    else if(strcmp(cmd, "mot4") == 0) { mcu_tx.tgt_4 = (uint16_t)val; }
+    else if(strcmp(cmd, "mot1") == 0) { 
+        if(val > 3000)
+            val = 3000;
+        mcu_tx.tgt_1 = (uint16_t)val; 
+    }
+    else if(strcmp(cmd, "mot2") == 0) { 
+        if(val > 3000)
+            val = 3000;
+        mcu_tx.tgt_2 = (uint16_t)val; 
+    }
+    else if(strcmp(cmd, "mot3") == 0) { 
+        if(val > 3000)
+            val = 3000;
+        mcu_tx.tgt_3 = (uint16_t)val; 
+    }
+    else if(strcmp(cmd, "mot4") == 0) { 
+        if(val > 3000)
+            val = 3000;
+        mcu_tx.tgt_4 = (uint16_t)val; 
+    }
     else if(strcmp(cmd, "led1g_on") == 0) { LED_1_GREEN_ON(); }
     else if(strcmp(cmd, "led2g_on") == 0) { LED_2_GREEN_ON(); }
     else if(strcmp(cmd, "led3g_on") == 0) { LED_3_GREEN_ON(); }
@@ -552,7 +568,6 @@ int main (void)
         }
         printf("\r");
         printf("fcu: %s", usb_rx_buf);
-
         request_imu_pkt();
         roll_pid_output  = pid_iteration (&roll_pid, imu_rx.roll, 0);
         pitch_pid_output = pid_iteration (&pitch_pid, imu_rx.pitch, 0);
