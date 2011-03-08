@@ -14,6 +14,7 @@
 #include "awex_driver.h"
 #include "adc_driver.h"
 #include "usart_driver.h"
+#include "spi_driver.h"
 
 // Macros
 
@@ -23,94 +24,79 @@
 
 	void configClock (void);
 	void configPWMTimer (volatile TC0_t * tc, HIRES_t * hires, uint16_t period); // configure timer used to generate pwm
-	void configHalfPWMTimer (volatile TC0_t * tc, HIRES_t * hires, uint16_t period); // configure timer used to generate interrupt half way into pwm high period
-	void configDelayTimer (volatile TC0_t * tc); // configure timer used to generate delays
-	void configAdc (ADC_t * adc); // use to initialize adcs
+    void spiInit (void);
 
-	void setMotor1State (uint8_t state); // motors to their a commutation state based on an integ 
-	void setMotor2State (uint8_t state); // -- used instead of macros to allow numerical indexing of states
-	void setMotor3State (uint8_t state);
-	void setMotor4State (uint8_t state);
+// globals
+    volatile uint8_t spiBuffer[8];
 
-	void startup(void); // run startup commutation routine, then transition to automatic comutation
+// vars
+	#define phaseOutputsEHigh GPIO0 // keep track of which pins should be driven high during high part of pwm
+	#define phaseOutputsFHigh GPIO1 // keep track of which pins should be driven high during high part of pwm
+	#define phaseOutputsDHigh GPIO2 // keep track of which pins should be driven high during high part of pwm
 
-// Constant Things
+	#define phaseOutputsELow GPIO3 // keep track of which pins should be driven high during low part of pwm
+	#define phaseOutputsFLow GPIO4 // keep track of which pins should be driven high during low part of pwm
+	#define phaseOutputsDLow GPIO5 // keep track of which pins should be driven high during low part of pwm
 
-	// these are constants that define which direction the back emf slope goes during each state
-	// 0 = falling
-	// 1 = rising
-	#define STATE_SLOPE 0b00101010
+	#define getSpiPktFlag GPIOD
+    #define spiIndex GPIOE
 
-	// these are constants that define the index of the pin to look at for back emf during each state
-	const uint8_t motor1StateSenseIndex[6] = {2,1,0,2,1,0};
-	const uint8_t motor2StateSenseIndex[6] = {5,4,3,5,4,3};
-	const uint8_t motor3StateSenseIndex[6] = {0,7,6,0,7,6};
-	const uint8_t motor4StateSenseIndex[6] = {3,2,1,3,2,1};
-
-	// middle thresholds for back emf "zero" crossing for each motor.  I'm not sure if this needs to vary with pwm or not...
-	#define MOTOR_1_THRESH 92
-	#define MOTOR_2_THRESH 92
-	#define MOTOR_3_THRESH 92
-	#define MOTOR_4_THRESH 92
-	
-	#define LOCK_PWM 500 // PWM to use to lock rotor to initial position
-	#define STARTUP_PWM 1200 // PWM to use for startup push
-
-// Global variables 
-
-	// these variables keep track of which pins should be driven during the high and low parts of the pwm cycle
-
-		#define phaseOutputsEHigh GPIO0 // keep track of which pins should be driven high during high part of pwm
-		#define phaseOutputsFHigh GPIO1 // keep track of which pins should be driven high during high part of pwm
-		#define phaseOutputsDHigh GPIO2 // keep track of which pins should be driven high during high part of pwm
-
-		#define phaseOutputsELow GPIO3 // keep track of which pins should be driven high during low part of pwm
-		#define phaseOutputsFLow GPIO4 // keep track of which pins should be driven high during low part of pwm
-		#define phaseOutputsDLow GPIO5 // keep track of which pins should be driven high during low part of pwm
-
-		// holds current motor state (1-6)
-		#define motor1State GPIO6
-		#define motor2State GPIO7
-		#define motor3State GPIO8
-		#define motor4State GPIO9
-
-	#define passedCenterFlags GPIOA // holds flags for each motor telling wether they are half way through the state yet
-	#define missedCommFlags GPIOB // holds flags for each motor telling wether they are half way through the state yet
-	
-	volatile uint8_t risingCount1;
-	volatile uint8_t fallingCount1;
-	
-	volatile uint8_t risingCount2;
-	volatile uint8_t fallingCount2;
-	
-	volatile uint8_t risingCount3;
-	volatile uint8_t fallingCount3;
-	
-	volatile uint8_t risingCount4;
-	volatile uint8_t fallingCount4;
-	
+#define writeBackFlag GPIOF
+		
 int main (void) {
 	
+	PMIC.CTRL |= PMIC_HILVLEN_bm; // Enable HI Level Interrupts - all interrupts are high level in this application
+	spiInit ();
+    sei();
+    while(1){}
 	configClock (); // set up 32mhz internal oscillator 
 	
 	PORTE.DIR = 0xFF; // all motor lines outputs
 	PORTF.DIR = 0xFF;
 	PORTD.DIR = 0xFF;
 	
-	configPWMTimer (&TCF0, &HIRESF, 5000);
-	configHalfPWMTimer (&TCE0, &HIRESE, 5000);
-	
-	configDelayTimer (&TCC0);
-	
-	configAdc (&ADCA);
-	configAdc (&ADCB);
+	configPWMTimer (&TCF0, &HIRESF, 5000);	
 	
 	PMIC.CTRL |= PMIC_HILVLEN_bm; // Enable HI Level Interrupts - all interrupts are high level in this application
 	sei();
 	
-	startup(); // blocking forever
+	TCF0.CCABUF = 500;
+	TCF0.CCBBUF = 1000;
+	TCF0.CCCBUF = 1500;
+	TCF0.CCDBUF = 2000;
 	
-	while (1);
+	while(1) {
+		SET_PHASE_STATE_0_MOT1();
+		SET_PHASE_STATE_0_MOT2();
+		SET_PHASE_STATE_0_MOT3();
+		SET_PHASE_STATE_0_MOT4();
+		_delay_ms(2);
+		SET_PHASE_STATE_1_MOT1();
+		SET_PHASE_STATE_1_MOT2();
+		SET_PHASE_STATE_1_MOT3();
+		SET_PHASE_STATE_1_MOT4();
+		_delay_ms(2);
+		SET_PHASE_STATE_2_MOT1();
+		SET_PHASE_STATE_2_MOT2();
+		SET_PHASE_STATE_2_MOT3();
+		SET_PHASE_STATE_2_MOT4();
+		_delay_ms(2);
+		SET_PHASE_STATE_3_MOT1();
+		SET_PHASE_STATE_3_MOT2();
+		SET_PHASE_STATE_3_MOT3();
+		SET_PHASE_STATE_3_MOT4();
+		_delay_ms(2);
+		SET_PHASE_STATE_4_MOT1();
+		SET_PHASE_STATE_4_MOT2();
+		SET_PHASE_STATE_4_MOT3();
+		SET_PHASE_STATE_4_MOT4();
+		_delay_ms(2);
+		SET_PHASE_STATE_5_MOT1();
+		SET_PHASE_STATE_5_MOT2();
+		SET_PHASE_STATE_5_MOT3();
+		SET_PHASE_STATE_5_MOT4();
+		_delay_ms(2);
+	}
 }
 
 void configClock (void) {
@@ -209,460 +195,52 @@ void configClock (void) {
 
 // *************** /PWM **********************
 
-// *************** PWM/2 **********************
-
-	// Configures PWM output on compare a b and c for single slope pwm, with hires, and clk source as sys clk
-	void configHalfPWMTimer (volatile TC0_t * tc, HIRES_t * hires, uint16_t period) {
-		TC_SetPeriod (tc, period );
-		TC0_ConfigWGM (tc, TC_WGMODE_NORMAL_gc); // set to single slope pwm generation mode
-		TC0_EnableCCChannels (tc, TC0_CCAEN_bm); // enable compare A
-		TC0_EnableCCChannels (tc, TC0_CCBEN_bm); // enable compare B
-		TC0_EnableCCChannels (tc, TC0_CCCEN_bm); // enable compare C
-		TC0_EnableCCChannels (tc, TC0_CCDEN_bm); // enable compare D
-
-		TC0_SetCCAIntLevel (tc, TC_CCAINTLVL_HI_gc);
-		TC0_SetCCBIntLevel (tc, TC_CCBINTLVL_HI_gc);
-		TC0_SetCCCIntLevel (tc, TC_CCCINTLVL_HI_gc);
-		TC0_SetCCDIntLevel (tc, TC_CCDINTLVL_HI_gc);
-		
-		TC0_ConfigClockSource (tc, TC_CLKSEL_DIV1_gc);
-		HIRES_Enable (hires, HIRES_HREN_TC0_gc);
-		
-	}
-	
-	// Motor 1
-	ISR (TCE0_CCA_vect) {
-		// half way into high part of motor 1 pwm
-		// start adc conversion on adca ch1 (this channel is dedicated to this motor)
-		ADC_Ch_InputMux_Config (&ADCA.CH0, motor1StateSenseIndex[motor1State]<<3, 0);
-		ADC_Ch_Conversion_Start (&(ADCA.CH0));
-	}
-
-	// Motor 2
-	ISR (TCE0_CCB_vect) {
-		// half way into high part of motor 2 pwm
-		// start adc conversion on adca ch1 (this channel is dedicated to this motor)
-		ADC_Ch_InputMux_Config (&ADCA.CH1, motor2StateSenseIndex[motor2State]<<3, 0);
-		ADC_Ch_Conversion_Start (&(ADCA.CH1));
-	}
-
-	// Motor 3
-	ISR (TCE0_CCC_vect) {
-		// half way into high part of motor 3 pwm
-		// start adc conversion on adca ch1 (this channel is dedicated to this motor)
-		if (motor3StateSenseIndex[motor3State] == 0) { // sense c3 is on adcb, sense a3 and b3 are on adca
-			ADC_Ch_InputMux_Config (&ADCB.CH2, motor3StateSenseIndex[motor3State]<<3, 0);
-			ADC_Ch_Conversion_Start (&(ADCB.CH2));
-		} else {
-			ADC_Ch_InputMux_Config (&ADCA.CH2, motor3StateSenseIndex[motor3State]<<3, 0);
-			ADC_Ch_Conversion_Start (&(ADCA.CH2));			
+// *************** SPI **********************
+void spiInit () 
+{
+	SPIC.CTRL = SPI_ENABLE_bm | SPI_MODE_2_gc;
+	SPIC.INTCTRL = SPI_INTLVL_HI_gc;
+	PORTC.DIRSET = SPI_MISO_bm;
+    PORTC.DIRCLR = 0b10111111;
+}
+// *************** /SPI **********************
+ISR(SPIC_INT_vect) 
+{
+	uint8_t data = SPIC.DATA;
+	if (writeBackFlag) {
+		if (spiIndex == 0)
+			SPIC.DATA = ((uint8_t*)(&(TCF0.CCABUF)))[0];
+		if (spiIndex == 1)
+			SPIC.DATA = ((uint8_t*)(&(TCF0.CCABUF)))[1];
+		if (spiIndex == 2)
+			SPIC.DATA = ((uint8_t*)(&(TCF0.CCBBUF)))[0];
+		if (spiIndex == 3)
+			SPIC.DATA = ((uint8_t*)(&(TCF0.CCBBUF)))[1];
+		if (spiIndex == 4)
+			SPIC.DATA = ((uint8_t*)(&(TCF0.CCCBUF)))[0];
+		if (spiIndex == 5)
+			SPIC.DATA = ((uint8_t*)(&(TCF0.CCCBUF)))[1];
+		if (spiIndex == 6)
+			SPIC.DATA = ((uint8_t*)(&(TCF0.CCDBUF)))[0];
+		if (spiIndex == 7) {
+			SPIC.DATA = ((uint8_t*)(&(TCF0.CCDBUF)))[1];
+			writeBackFlag = 0;
 		}
-	}
-
-	// Motor 4
-	ISR (TCE0_CCD_vect) {
-		// half way into high part of motor 4 pwm
-		// start adc conversion on adca ch1 (this channel is dedicated to this motor)
-		ADC_Ch_InputMux_Config (&ADCB.CH3, motor4StateSenseIndex[motor4State]<<3, 0);
-		ADC_Ch_Conversion_Start (&(ADCB.CH3));
-	}
-
-// *************** /PWM/2 **********************
-
-// *************** Commutation Timing **********************
-	
-	// Motor 1
-	ISR (TCC1_OVF_vect) {
-		// time to change motor1 state
-		missedCommFlags |= (1<<1);
-		TCC1.PER = 65000;
-		if (motor1State < 5)
-			motor1State++;
-		else
-			motor1State=0;
-
-		passedCenterFlags &= ~(1<<1); // clear motor 1 passedCenterFlag	
-		risingCount1 = 0;
-		fallingCount1 = 0;
-		setMotor1State(motor1State);
-	}
-
-	// Motor 2
-	ISR (TCD1_OVF_vect) {
-		// time to change motor2 state
-		missedCommFlags |= (1<<2);
-		TCD1.PER = 65000;
-		if (motor2State < 5)
-			motor2State++;
-		else
-			motor2State=0;
-
-		passedCenterFlags &= ~(1<<2); // clear motor 2 passedCenterFlag	
-		risingCount2 = 0;
-		fallingCount2 = 0;
-		setMotor2State(motor2State);
-	}
-
-	// Motor 3
-	ISR (TCE1_OVF_vect) {
-		missedCommFlags |= (1<<3);
-		TCE1.PER = 65000;
-		if (motor3State < 5)
-			motor3State++;
-		else
-			motor3State=0;
-
-		passedCenterFlags &= ~(1<<3); // clear motor 3 passedCenterFlag	
-		risingCount3 = 0;
-		fallingCount3 = 0;
-		setMotor3State(motor3State);
-	}
-
-	// Motor 4
-	ISR (TCD0_OVF_vect) {
-		missedCommFlags |= (1<<4);
-		TCD0.PER = 65000;
-		if (motor4State < 5)
-			motor4State++;
-		else
-			motor4State=0;
-
-		passedCenterFlags &= ~(1<<4); // clear motor 4 passedCenterFlag	
-		risingCount4 = 0;
-		fallingCount4 = 0;
-		setMotor4State(motor4State);
-	}
-
-// *************** /Commutation Timing **********************
-
-// *************** ADC **********************
-
-	void configAdc (ADC_t * adc) {
-		ADC_CalibrationValues_Load (adc);
-		ADC_ConvMode_and_Resolution_Config (adc, ADC_ConvMode_Unsigned, ADC_RESOLUTION_8BIT_gc);
-		ADC_Prescaler_Config (adc, ADC_PRESCALER_DIV32_gc); // Fadc = 125khz
-		ADC_Reference_Config (adc, ADC_REFSEL_INT1V_gc); // vref = internal 1v
-		
-		/* Setup channel 0, 1, 2 and 3 to have single ended input and 1x gain. */
-		ADC_Ch_InputMode_and_Gain_Config (&(adc->CH0),
-										 ADC_CH_INPUTMODE_SINGLEENDED_gc,
-										 ADC_CH_GAIN_1X_gc);
-
-		ADC_Ch_InputMode_and_Gain_Config (&(adc->CH1),
-										 ADC_CH_INPUTMODE_SINGLEENDED_gc,
-										 ADC_CH_GAIN_1X_gc);
-
-		ADC_Ch_InputMode_and_Gain_Config (&(adc->CH2),
-										 ADC_CH_INPUTMODE_SINGLEENDED_gc,
-										 ADC_CH_GAIN_1X_gc);
-
-		ADC_Ch_InputMode_and_Gain_Config (&(adc->CH3),
-										 ADC_CH_INPUTMODE_SINGLEENDED_gc,
-										 ADC_CH_GAIN_1X_gc);
-
-		/* Enable high level sample complete interrupt for channel 3 */
-		ADC_Ch_Interrupts_Config (&(adc->CH0), ADC_CH_INTMODE_COMPLETE_gc, ADC_CH_INTLVL_HI_gc);
-		ADC_Ch_Interrupts_Config (&(adc->CH1), ADC_CH_INTMODE_COMPLETE_gc, ADC_CH_INTLVL_HI_gc);
-		ADC_Ch_Interrupts_Config (&(adc->CH2), ADC_CH_INTMODE_COMPLETE_gc, ADC_CH_INTLVL_HI_gc);
-		ADC_Ch_Interrupts_Config (&(adc->CH3), ADC_CH_INTMODE_COMPLETE_gc, ADC_CH_INTLVL_HI_gc);
-
-		ADC_Enable (adc); // Enable ADC
-		ADC_Wait_32MHz (adc); // Wait until common mode voltage is stable
-	}
-
-	// Motor 1
-	ISR (ADCA_CH0_vect) {
-		ADCA.CH0.INTFLAGS = ADC_CH_CHIF_bm; // clear interrupt flag
-
-		uint8_t result = ADCA.CH0.RES;
-		
-		if (!(passedCenterFlags & (1<<1))) 
-		{
-			if (STATE_SLOPE & (1<<motor1State)) 
-			{ // rising
-				if (risingCount1 > 2) 
-				{
-					if (result > MOTOR_1_THRESH)
-					{
-						TCC1.PER = TCC1.CNT*2;
-						missedCommFlags &= ~(1<<1);
-						passedCenterFlags |= (1<<1); 
-					}
-				}
-			} else 
-			{ // falling
-				if (fallingCount1 > 2) 
-				{
-					if (result < MOTOR_1_THRESH) 
-					{
-						TCC1.PER = TCC1.CNT*2;
-						missedCommFlags &= ~(1<<1);
-						passedCenterFlags |= (1<<1);
-					}
-				}
+	} else {
+		if (data == 0xB5) {
+			getSpiPktFlag = 1;
+			spiIndex = 0;
+		} else if (getSpiPktFlag) {
+			spiBuffer[spiIndex] = data;
+			spiIndex++;
+			if (spiIndex == 8) {
+				getSpiPktFlag = 0;
+				TCF0.CCABUF = ((uint16_t *)spiBuffer)[0];
+				TCF0.CCBBUF = ((uint16_t *)spiBuffer)[1];
+				TCF0.CCCBUF = ((uint16_t *)spiBuffer)[2];
+				TCF0.CCDBUF = ((uint16_t *)spiBuffer)[3];
+				writeBackFlag = 1;
 			}
 		}
-	}
-	
-	// Motor 2
-	ISR (ADCA_CH1_vect) {
-		ADCA.CH1.INTFLAGS = ADC_CH_CHIF_bm; // clear interrupt flag
-
-		uint8_t result = ADCA.CH1.RES;
-		
-		if (!(passedCenterFlags & (1<<2))) 
-		{
-			if (STATE_SLOPE & (1<<motor2State)) 
-			{ // rising
-				if (risingCount2 > 2) 
-				{
-					if (result > MOTOR_2_THRESH)
-					{
-						TCD1.PER = TCD1.CNT*2;
-						missedCommFlags &= ~(1<<2);
-						passedCenterFlags |= (1<<2); 
-					}
-				}
-			} else 
-			{ // falling
-				if (fallingCount2 > 2) 
-				{
-					if (result < MOTOR_2_THRESH) 
-					{
-						TCD1.PER = TCD1.CNT*2;
-						missedCommFlags &= ~(1<<2);
-						passedCenterFlags |= (1<<2);
-					}
-				}
-			}
-		}
-	}
-	
-	// Motor 3
-	ISR (ADCA_CH2_vect) {
-		ADCA.CH2.INTFLAGS = ADC_CH_CHIF_bm; // clear interrupt flag
-
-		uint8_t result = ADCA.CH2.RES;
-		
-		if (!(passedCenterFlags & (1<<3))) 
-		{
-			if (STATE_SLOPE & (1<<motor3State)) 
-			{ // rising
-				if (risingCount3 > 2) 
-				{
-					if (result > MOTOR_3_THRESH)
-					{
-						TCE1.PER = TCE1.CNT*2;
-						missedCommFlags &= ~(1<<3);
-						passedCenterFlags |= (1<<3); 
-					}
-				}
-			} else 
-			{ // falling
-				if (fallingCount3 > 2) 
-				{
-					if (result < MOTOR_3_THRESH) 
-					{
-						TCE1.PER = TCE1.CNT*2;
-						missedCommFlags &= ~(1<<3);
-						passedCenterFlags |= (1<<3);
-					}
-				}
-			}
-		}
-	}
-
-	// Motor 3 - called for phase c (phase c feedback is on adcb)
-	ISR (ADCB_CH2_vect) {
-		ADCB.CH2.INTFLAGS = ADC_CH_CHIF_bm; // clear interrupt flag
-
-		uint8_t result = ADCB.CH2.RES;
-
-		if (!(passedCenterFlags & (1<<3))) 
-		{
-			if (STATE_SLOPE & (1<<motor3State)) 
-			{ // rising
-				if (risingCount3 > 2) 
-				{
-					if (result > MOTOR_3_THRESH)
-					{
-						TCE1.PER = TCE1.CNT*2;
-						missedCommFlags &= ~(1<<3);
-						passedCenterFlags |= (1<<3); 
-					}
-				}
-			} else 
-			{ // falling
-				if (fallingCount3 > 2) 
-				{
-					if (result < MOTOR_3_THRESH) 
-					{
-						TCE1.PER = TCE1.CNT*2;
-						missedCommFlags &= ~(1<<3);
-						passedCenterFlags |= (1<<3);
-					}
-				}
-			}
-		}
-	}
-	
-	// Motor 4
-	ISR (ADCB_CH3_vect) {
-		ADCB.CH3.INTFLAGS = ADC_CH_CHIF_bm; // clear interrupt flag
-
-		uint8_t result = ADCB.CH3.RES;
-
-		if (!(passedCenterFlags & (1<<4)))
-		{
-			if (STATE_SLOPE & (1<<motor4State))
-			{ // rising
-				if (risingCount4 > 2) 
-				{
-					if (result > MOTOR_4_THRESH)
-					{
-						TCD0.PER = TCD0.CNT*2;
-						missedCommFlags &= ~(1<<4);
-						passedCenterFlags |= (1<<4); 
-					}
-				}
-			} else 
-			{ // falling
-				if (fallingCount4 > 2) 
-				{
-					if (result < MOTOR_4_THRESH) 
-					{
-						TCD0.PER = TCD0.CNT*2;
-						missedCommFlags &= ~(1<<4);
-						passedCenterFlags |= (1<<4);
-					}
-				}
-			}
-		}
-	}
-	
-// *************** /ADC **********************
-
-void configDelayTimer (volatile TC0_t * tc) {
-	TC_SetPeriod (tc, (uint16_t)65535); // set tc period
-	TC0_ConfigWGM (tc, TC_WGMODE_NORMAL_gc); // normal timer countermode
-	TC0_ConfigClockSource (tc, TC_CLKSEL_DIV1024_gc);
-}
-
-void startup(void) {
-	
-	TCF0.CCABUF = LOCK_PWM;
-	TCF0.CCBBUF = LOCK_PWM;
-	TCF0.CCCBUF = LOCK_PWM;
-	TCF0.CCDBUF = LOCK_PWM;
-	
-	SET_PHASE_STATE_5_MOT1();
-	SET_PHASE_STATE_5_MOT2();
-	SET_PHASE_STATE_5_MOT3();
-	SET_PHASE_STATE_5_MOT4();
-	
-	TCC0.CNT = 0;
-	while (TCC0.CNT < 65000) {}
-	
-	TCF0.CCABUF = STARTUP_PWM;
-	TCF0.CCBBUF = STARTUP_PWM;
-	TCF0.CCCBUF = STARTUP_PWM;
-	TCF0.CCDBUF = STARTUP_PWM;
-	
-	TCE0.CCABUF = STARTUP_PWM/2;
-	TCE0.CCBBUF = STARTUP_PWM/2;
-	TCE0.CCCBUF = STARTUP_PWM/2;
-	TCE0.CCDBUF = STARTUP_PWM/2;
-	
-	TC_SetPeriod( &TCC1, 6500 );
-	TC1_ConfigClockSource( &TCC1, TC_CLKSEL_DIV4_gc );
-	TC1_SetOverflowIntLevel (&TCC1, TC_OVFINTLVL_HI_gc);
-	
-	TC_SetPeriod( &TCD1, 6500 );
-	TC1_ConfigClockSource( &TCD1, TC_CLKSEL_DIV4_gc );
-	TC1_SetOverflowIntLevel (&TCD1, TC_OVFINTLVL_HI_gc);
-	
-	TC_SetPeriod( &TCE1, 6500 );
-	TC1_ConfigClockSource( &TCE1, TC_CLKSEL_DIV4_gc );
-	TC1_SetOverflowIntLevel (&TCE1, TC_OVFINTLVL_HI_gc);
-		
-	TC_SetPeriod( &TCD0, 6500 );
-	TC0_ConfigClockSource( &TCD0, TC_CLKSEL_DIV4_gc );
-	TC0_SetOverflowIntLevel (&TCD0, TC_OVFINTLVL_HI_gc);
-	
-	missedCommFlags = (1<<1) | (1<<2) | (1<<3) | (1<<4); 
-	
-	SET_PHASE_STATE_0_MOT1();
-	SET_PHASE_STATE_0_MOT2();
-	SET_PHASE_STATE_0_MOT3();
-	SET_PHASE_STATE_0_MOT4();
-	motor1State = 0;
-	motor2State = 0;
-	motor3State = 0;
-	motor4State = 0;
-	
-	while (1);
-}
-
-void setMotor1State (uint8_t state) {
-	if (state == 0) {
-		SET_PHASE_STATE_0_MOT1();
-	} else if (state == 1) {
-		SET_PHASE_STATE_1_MOT1();
-	} else if (state == 2) {
-		SET_PHASE_STATE_2_MOT1();
-	} else if (state == 3) {
-		SET_PHASE_STATE_3_MOT1();
-	} else if (state == 4) {
-		SET_PHASE_STATE_4_MOT1();
-	} else if (state == 5) {
-		SET_PHASE_STATE_5_MOT1();
-	}
-}
-
-void setMotor2State (uint8_t state) {
-	if (state == 0) {
-		SET_PHASE_STATE_0_MOT2();
-	} else if (state == 1) {
-		SET_PHASE_STATE_1_MOT2();
-	} else if (state == 2) {
-		SET_PHASE_STATE_2_MOT2();
-	} else if (state == 3) {
-		SET_PHASE_STATE_3_MOT2();
-	} else if (state == 4) {
-		SET_PHASE_STATE_4_MOT2();
-	} else if (state == 5) {
-		SET_PHASE_STATE_5_MOT2();
-	}
-}
-
-void setMotor3State (uint8_t state) {
-	if (state == 0) {
-		SET_PHASE_STATE_0_MOT3();
-	} else if (state == 1) {
-		SET_PHASE_STATE_1_MOT3();
-	} else if (state == 2) {
-		SET_PHASE_STATE_2_MOT3();
-	} else if (state == 3) {
-		SET_PHASE_STATE_3_MOT3();
-	} else if (state == 4) {
-		SET_PHASE_STATE_4_MOT3();
-	} else if (state == 5) {
-		SET_PHASE_STATE_5_MOT3();
-	}
-}
-
-void setMotor4State (uint8_t state) {
-	if (state == 0) {
-		SET_PHASE_STATE_0_MOT4();
-	} else if (state == 1) {
-		SET_PHASE_STATE_1_MOT4();
-	} else if (state == 2) {
-		SET_PHASE_STATE_2_MOT4();
-	} else if (state == 3) {
-		SET_PHASE_STATE_3_MOT4();
-	} else if (state == 4) {
-		SET_PHASE_STATE_4_MOT4();
-	} else if (state == 5) {
-		SET_PHASE_STATE_5_MOT4();
 	}
 }
