@@ -184,6 +184,8 @@ volatile uint8_t writeBackFlag = 0;
 
 volatile uint8_t spiWriteBuffer[9];
 
+volatile uint8_t globalResult;
+
 //~ PORTE:
 	//~ AH1
 	//~ AL1
@@ -370,6 +372,9 @@ ISR(SPIC_INT_vect) {
 				TCF0.CCBBUF = *((uint16_t *)(spiBuffer+2));
 				TCF0.CCCBUF = *((uint16_t *)(spiBuffer+4));
 				TCF0.CCDBUF = *((uint16_t *)(spiBuffer+6));
+				
+				TCE0.CCBBUF = TCF0.CCBBUF/2;
+				
 				if (TCF0.CCABUF == 0 || TCF0.CCBBUF == 0 || TCF0.CCCBUF == 0 || TCF0.CCDBUF == 0)
 				{
 					PORTD.DIR = 0;
@@ -538,12 +543,14 @@ ISR (TCC1_CCA_vect) {
 }
 
 ISR (TCD1_OVF_vect) {
-	if (missedCommFlag)
-		spiWriteBuffer[1] = 0xFF;
+	if (missedCommFlag) {
+		spiWriteBuffer[2] = 0xFF;
+		spiWriteBuffer[4] = globalResult;
+	}
 	
 	missedCommFlag = 1; // should be set back to 0 before we get here again
 	
-	TCD1.PER = 65000;
+	TCD1.PER = 65535;
 	// time to change motor2 state
 	if (motor2State < 5)
 		motor2State++;
@@ -602,9 +609,12 @@ void initAdc (ADC_t * adc) {
 	ADC_Wait_32MHz (adc); // Wait until common mode voltage is stable
 }
 
+#define min(a,b) ((a)<(b))?(a):(b)
+
 ISR (ADCA_CH1_vect) {
 	ADCA.CH1.INTFLAGS = ADC_CH_CHIF_bm; // clear interrupt flag
 	uint8_t result = ADCA.CH1.RES;
+	globalResult = result;
 	
 	if (!passedCenterFlag) {
         /* rising */
@@ -614,7 +624,11 @@ ISR (ADCA_CH1_vect) {
             {
 				if (result > motor2Thresh) 
                 {
-					TCD1.PER = TCD1.CNT * 2;
+					if( TCD1.CNT < 32768)
+						TCD1.PER = TCD1.CNT * 2;
+					else
+						TCD1.PER = 65535;
+						
 					missedCommFlag = 0;
 					passedCenterFlag = 1;
 				}
@@ -627,7 +641,11 @@ ISR (ADCA_CH1_vect) {
             {
 				if (result < motor2Thresh) 
                 {
-					TCD1.PER = TCD1.CNT * 2;
+					if( TCD1.CNT < 32768)
+						TCD1.PER = TCD1.CNT * 2;
+					else
+						TCD1.PER = 65535;
+					
 					missedCommFlag = 0;
 					passedCenterFlag = 1;
 				}
@@ -646,7 +664,7 @@ void startup(void) {
 	
 	SET_PHASE_STATE_5_MOT2();
 	TCC0.CNT = 0;
-	while (TCC0.CNT < 65000) {}
+	while (TCC0.CNT < 65535) {}
 	
     /*
 	TCF0.CCBBUF = startupPwms[0];
@@ -678,10 +696,10 @@ void startup(void) {
 	TCF0.CCBBUF = startupPwms[5];
 	TCE0.CCBBUF = startupPwms[5]/2;
 
-	TC_SetPeriod( &TCD1, 65000 );
+	TC_SetPeriod( &TCD1, 65535 );
 	//~ xxx TC1_ConfigClockSource( &TCD1, TC_CLKSEL_DIV64_gc );
-	//TC1_ConfigClockSource( &TCD1, TC_CLKSEL_DIV4_gc );
-	TC1_ConfigClockSource( &TCD1, TC_CLKSEL_DIV8_gc);
+	TC1_ConfigClockSource( &TCD1, TC_CLKSEL_DIV4_gc );
+	//TC1_ConfigClockSource( &TCD1, TC_CLKSEL_DIV64_gc);
 	TC1_SetOverflowIntLevel (&TCD1, TC_OVFINTLVL_LO_gc);
 	
 	missedCommFlag = 1;
