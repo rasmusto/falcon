@@ -243,8 +243,6 @@ uint8_t startupDelays[6] = {250, 150, 105, 80, 75, 75}; // 630
 	
 int main (void) {
 	
-    PORTC.DIRSET = PIN5_bm;
-    PORTC.OUTCLR = PIN5_bm;
 	passedCenterFlag = 0;
 	
 	configClock ();
@@ -600,7 +598,6 @@ ISR (ADCA_CH1_vect) {
             {
 				if (result > motor2Thresh) 
                 {
-                    PORTC.OUTSET = PIN5_bm;
 					TCD1.PER = TCD1.CNT * 2;
 					missedCommFlag = 0;
 					passedCenterFlag = 1;
@@ -614,7 +611,6 @@ ISR (ADCA_CH1_vect) {
             {
 				if (result < motor2Thresh) 
                 {
-                    PORTC.OUTCLR = PIN5_bm;
 					TCD1.PER = TCD1.CNT * 2;
 					missedCommFlag = 0;
 					passedCenterFlag = 1;
@@ -635,7 +631,6 @@ void startup(void) {
 	SET_PHASE_STATE_5_MOT2();
 	TCC0.CNT = 0;
 	while (TCC0.CNT < 65000) {}
-    PORTC.OUTSET = PIN5_bm;
 	
     /*
 	TCF0.CCBBUF = startupPwms[0];
