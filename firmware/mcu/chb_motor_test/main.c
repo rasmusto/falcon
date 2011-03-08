@@ -260,8 +260,7 @@ int main (void) {
 	
 	PORTE.DIR = 0b11000000;
 	PORTF.DIR = 0b00001111;
-
-    spiInit ();
+	
 	PMIC.CTRL |= PMIC_HILVLEN_bm;
 	PMIC.CTRL |= PMIC_LOLVLEN_bm;
 	
@@ -292,25 +291,27 @@ int main (void) {
 	//~ autoCommutationFlag = 1;
 	// float everything
 	
-	SET_phaseOutputsEHigh(0);
-	SET_phaseOutputsEHigh(0);
-															
-	SET_phaseOutputsELow(0);
-	SET_phaseOutputsELow(0);
-
-	SET_phaseOutputsFHigh(0);
-	SET_phaseOutputsFHigh(0);
-															
-	SET_phaseOutputsFLow(0);
-	SET_phaseOutputsFLow(0);
-	
-	PORTE.OUT = 0;
-	PORTF.OUT = 0;
+	//~ SET_phaseOutputsEHigh(0);
+	//~ SET_phaseOutputsEHigh(0);
+//~ 
+	//~ SET_phaseOutputsELow(0);
+	//~ SET_phaseOutputsELow(0);
+//~ 
+	//~ SET_phaseOutputsFHigh(0);
+	//~ SET_phaseOutputsFHigh(0);
+//~ 
+	//~ SET_phaseOutputsFLow(0);
+	//~ SET_phaseOutputsFLow(0);
+	//~ 
+	//~ PORTE.OUT = 0;
+	//~ PORTF.OUT = 0;
 	
     _delay_ms(1000);
     _delay_ms(1000);
 	TCF0.CCBBUF = 1600;
 	TCE0.CCBBUF = 1600/2;
+
+	spiInit ();
 
 	while (1) {}
 }
@@ -360,6 +361,20 @@ ISR(SPIC_INT_vect) {
             spiBuffer[spi_index] = data;
             spi_index++;
             SPIC.DATA = 0;
+            if (spi_index == 9) {
+				TCF0.CCABUF = *((uint16_t *)(spiBuffer+0));
+				TCF0.CCBBUF = *((uint16_t *)(spiBuffer+2));
+				TCF0.CCCBUF = *((uint16_t *)(spiBuffer+4));
+				TCF0.CCDBUF = *((uint16_t *)(spiBuffer+6));
+				if (TCF0.CCBBUF == 0)
+				{
+					PORTD.DIR = 0;
+					PORTE.DIR = 0;
+					PORTF.DIR = 0;
+					cli();
+					while(1);
+				}
+			}
         }
     }
     if(readPacketFlag && spi_index >= 9)
