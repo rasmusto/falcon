@@ -116,8 +116,27 @@ ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 
+[Document7]
+DocumentPath=..\REVO Hardware Library\Generic\Diodes.PcbLib
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+
 [GeneratedDocument1]
 DocumentPath=Design Rule Check - imu_cpu.html
+DItemRevisionGUID=
+
+[GeneratedDocument2]
+DocumentPath=Project outputs for imu_cpu\Design Rule Check - imu_cpu.html
 DItemRevisionGUID=
 
 [Generic_SmartPDF]
