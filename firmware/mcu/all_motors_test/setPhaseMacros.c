@@ -48,6 +48,8 @@
 
 // Motor 1
 
+#ifdef MOT1
+
 #define SET_PHASE_STATE_0_MOT1() \
 	/* A PWM, B low, C float */ \
 								\
@@ -120,6 +122,10 @@
 									\
 	PORTE.OUTCLR = 0b00001111; /* set b1 and a1 floating -- important to do this in this order to avoid shoot through!! */ \
 	PORTE.OUTSET = 0b00001000; /* set b1 low */ \
+
+#endif
+
+#ifdef MOT2
 
 // Motor 2
 
@@ -209,6 +215,10 @@
 	PORTF.OUTSET = 0b00000010; /* set b2 low */ \
 									\
 	PORTE.OUTCLR = 0b11000000; /* set a2 floating */
+
+#endif
+
+#ifdef MOT3
 
 // Motor 3
 
@@ -310,6 +320,9 @@
 	PORTF.OUTCLR = 0b11110000; /* set a3 and b1 floating -- important to do this in this order to avoid shoot through!! */ 	\
 	PORTF.OUTSET = 0b10000000; /* set b3 low */
 
+#endif
+
+#ifdef MOT4
 
 // Motor 4
 
@@ -384,3 +397,5 @@
 									\
 	PORTD.OUTCLR = 0b00111100; /* set a4 and b4 floating -- important to do this in this order to avoid shoot through!! */ 	\
 	PORTD.OUTSET = 0b00100000; /* set b4 low */
+
+#endif
