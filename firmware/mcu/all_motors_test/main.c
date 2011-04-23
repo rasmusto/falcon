@@ -17,9 +17,9 @@
 #include "spi_driver.h"
 
 //~ #define MOT1
-#define MOT2
+//~ #define MOT2
 //~ #define MOT3
-//~ #define MOT4
+#define MOT4
 
 // Macros
 
@@ -149,8 +149,19 @@ int main (void) {
 	#endif
 	
 	#ifdef MOT4
-	PORTD.DIR = 0b11111100;
+	PORTD.DIRSET = 0b11111100;
 	#endif
+		
+	while (1) {
+		//high
+		PORTD.OUT = 0b01000000;
+		_delay_us(50);
+		
+		//low
+		PORTD.OUT = 0b00000000;
+		PORTD.OUT = 0b10000000;
+		_delay_us(400);
+	}
 	
 	configPWMTimer (&TCF0, &HIRESF, 5000);
 	configHalfPWMTimer (&TCE0, &HIRESE, 5000);
@@ -164,26 +175,29 @@ int main (void) {
 	PMIC.CTRL |= PMIC_LOLVLEN_bm;
 	
 	#ifdef MOT1
-	TCF0.CCABUF = STARTUP_PWM;
-	TCE0.CCABUF = STARTUP_PWM/2;
+	TCF0.CCABUF = LOCK_PWM;
+	TCE0.CCABUF = LOCK_PWM/2;
 	#endif
 	
 	#ifdef MOT2
-	TCF0.CCBBUF = STARTUP_PWM;
-	TCE0.CCBBUF = STARTUP_PWM/2;
+	TCF0.CCBBUF = LOCK_PWM;
+	TCE0.CCBBUF = LOCK_PWM/2;
 	#endif
 	
 	#ifdef MOT3
-	TCF0.CCCBUF = STARTUP_PWM;
-	TCE0.CCCBUF = STARTUP_PWM/2;
+	TCF0.CCCBUF = LOCK_PWM;
+	TCE0.CCCBUF = LOCK_PWM/2;
 	#endif
 	
 	#ifdef MOT4
-	TCF0.CCDBUF = STARTUP_PWM;
-	TCE0.CCDBUF = STARTUP_PWM/2;
+	TCF0.CCDBUF = LOCK_PWM;
+	TCE0.CCDBUF = LOCK_PWM/2;
 	#endif
 	
 	sei();
+	
+	//~ SET_PHASE_STATE_4_MOT4();
+	//~ while(1);
 	
 	startup();
 	//~ spiInit();
@@ -454,6 +468,7 @@ void configClock (void) {
 		risingCount4 = 0;
 		fallingCount4 = 0;
 		setMotor4State(motor4State);
+		PORTC.OUTTGL = (1<<5);
 	}
 	#endif
 	
@@ -512,7 +527,7 @@ void configClock (void) {
 		{
 			if (STATE_SLOPE & (1<<motor1State)) 
 			{ // rising
-				if (risingCount1 > 0) 
+				if (risingCount1 > 1) 
 				{
 					if (result > MOTOR_1_THRESH)
 					{
@@ -521,9 +536,10 @@ void configClock (void) {
 						passedCenterFlags |= (1<<1); 
 					}
 				}
+				risingCount1++;
 			} else 
 			{ // falling
-				if (fallingCount1 > 0) 
+				if (fallingCount1 > 1) 
 				{
 					if (result < MOTOR_1_THRESH) 
 					{
@@ -532,6 +548,7 @@ void configClock (void) {
 						passedCenterFlags |= (1<<1);
 					}
 				}
+				fallingCount1++;
 			}
 		}
 	}
@@ -548,7 +565,7 @@ void configClock (void) {
 		{
 			if (STATE_SLOPE & (1<<motor2State)) 
 			{ // rising
-				if (risingCount2 > 0) 
+				if (risingCount2 > 1) 
 				{
 					if (result > MOTOR_2_THRESH)
 					{
@@ -557,9 +574,10 @@ void configClock (void) {
 						passedCenterFlags |= (1<<2); 
 					}
 				}
+				risingCount2++;
 			} else 
 			{ // falling
-				if (fallingCount2 > 0) 
+				if (fallingCount2 > 1) 
 				{
 					if (result < MOTOR_2_THRESH) 
 					{
@@ -568,6 +586,7 @@ void configClock (void) {
 						passedCenterFlags |= (1<<2);
 					}
 				}
+				fallingCount2++;
 			}
 		}
 	}
@@ -584,7 +603,7 @@ void configClock (void) {
 		{
 			if (STATE_SLOPE & (1<<motor3State)) 
 			{ // rising
-				if (risingCount3 > 0) 
+				if (risingCount3 > 1) 
 				{
 					if (result > MOTOR_3_THRESH)
 					{
@@ -593,9 +612,10 @@ void configClock (void) {
 						passedCenterFlags |= (1<<3); 
 					}
 				}
+				risingCount3++;
 			} else 
 			{ // falling
-				if (fallingCount3 > 0) 
+				if (fallingCount3 > 1) 
 				{
 					if (result < MOTOR_3_THRESH) 
 					{
@@ -604,6 +624,7 @@ void configClock (void) {
 						passedCenterFlags |= (1<<3);
 					}
 				}
+				fallingCount3++;
 			}
 		}
 	}
@@ -620,7 +641,7 @@ void configClock (void) {
 		{
 			if (STATE_SLOPE & (1<<motor3State)) 
 			{ // rising
-				if (risingCount3 > 0) 
+				if (risingCount3 > 1) 
 				{
 					if (result > MOTOR_3_THRESH)
 					{
@@ -629,9 +650,10 @@ void configClock (void) {
 						passedCenterFlags |= (1<<3); 
 					}
 				}
+				risingCount3++;
 			} else 
 			{ // falling
-				if (fallingCount3 > 0) 
+				if (fallingCount3 > 1) 
 				{
 					if (result < MOTOR_3_THRESH) 
 					{
@@ -640,6 +662,7 @@ void configClock (void) {
 						passedCenterFlags |= (1<<3);
 					}
 				}
+				fallingCount3++;
 			}
 		}
 	}
@@ -656,7 +679,7 @@ void configClock (void) {
 		{
 			if (STATE_SLOPE & (1<<motor4State))
 			{ // rising
-				if (risingCount4 > 0) 
+				if (risingCount4 > 1) 
 				{
 					if (result > MOTOR_4_THRESH)
 					{
@@ -665,9 +688,10 @@ void configClock (void) {
 						passedCenterFlags |= (1<<4); 
 					}
 				}
+				risingCount4++;
 			} else 
 			{ // falling
-				if (fallingCount4 > 0) 
+				if (fallingCount4 > 1) 
 				{
 					if (result < MOTOR_4_THRESH) 
 					{
@@ -676,6 +700,7 @@ void configClock (void) {
 						passedCenterFlags |= (1<<4);
 					}
 				}
+				fallingCount4++;
 			}
 		}
 	}
