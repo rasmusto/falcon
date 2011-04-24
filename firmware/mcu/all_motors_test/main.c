@@ -23,6 +23,9 @@
 
 #define RFCOUNT 2
 
+#define ISR_ENTER() PORTC.OUTSET=(1<<5);
+#define ISR_EXIT() PORTC.OUTCLR=(1<<5);
+
 // Macros
 
 	#include "setPhaseMacros.c"
@@ -252,17 +255,20 @@ void configClock (void) {
 	#ifdef MOT1
 	// Motor 1
 	ISR (TCF0_CCA_vect) {	
+		ISR_ENTER();
 		// motor 1 on pe0-5
 		
 		// force bits 6 and 7 to 1 (for phaseOutputsEHighInv) and 0 (for phaseOutputsEHighInv) so that only pins for motor 1 are turned off 
 		PORTE.OUTCLR = (phaseOutputsEHigh & 0b00111111); // turn off all high bits in phaseOutputsELowInv
 		PORTE.OUTSET = (phaseOutputsELow & 0b00111111); // turn on all low bits in phaseOutputsEHigh	
+		ISR_EXIT();
 	}
 	#endif
 
 	#ifdef MOT2
 	// Motor 2
 	ISR (TCF0_CCB_vect) {
+		ISR_ENTER();
 		// motor 2 on pe6-7 and pf0-3
 		
 		PORTE.OUTCLR = (phaseOutputsEHigh & 0b11000000); // turn off all high bits in phaseOutputsELowInv
@@ -270,12 +276,14 @@ void configClock (void) {
 		
 		PORTF.OUTCLR = (phaseOutputsFHigh & 0b00001111); // turn off all high bits in phaseOutputsELowInv
 		PORTF.OUTSET = (phaseOutputsFLow & 0b00001111); // turn on all low bits in phaseOutputsEHigh
+		ISR_EXIT();
 	}
 	#endif
 	
 	#ifdef MOT3
 	// Motor 3
 	ISR (TCF0_CCC_vect) {
+		ISR_ENTER();
 		// motor 3 on pf4-7 and pd0-1
 		
 		PORTF.OUTCLR = (phaseOutputsFHigh & 0b11110000); // turn off all high bits in phaseOutputsELowInv
@@ -283,6 +291,7 @@ void configClock (void) {
 		
 		PORTD.OUTCLR = (phaseOutputsDHigh & 0b00000011); // turn off all high bits in phaseOutputsELowInv
 		PORTD.OUTSET = (phaseOutputsDLow & 0b00000011); // turn on all low bits in phaseOutputsEHigh	
+		ISR_EXIT();
 	}
 	#endif
 	
@@ -290,20 +299,23 @@ void configClock (void) {
 	// Motor 4
 	ISR (TCF0_CCD_vect) {
 		// motor 4 on pd2-7
-		
+		ISR_ENTER();
 		PORTD.OUTCLR = (phaseOutputsDHigh & 0b11111100); // turn off all high bits in phaseOutputsELowInv
 		PORTD.OUTSET = (phaseOutputsDLow & 0b11111100); // turn on all low bits in phaseOutputsEHigh	
+		ISR_EXIT();
 	}
 	#endif
 	
 	// When TCF0 overflows, high part of pwm cycle starts
 	ISR (TCF0_OVF_vect) {
+		ISR_ENTER();
 		PORTE.OUTCLR = phaseOutputsELow; // turn off all high bits in phaseOutputsELow
 		PORTE.OUTSET = phaseOutputsEHigh; // turn on all high bits in phaseOutputsEHigh
 		PORTF.OUTCLR = phaseOutputsFLow; // turn off all high bits in phaseOutputsFLow
 		PORTF.OUTSET = phaseOutputsFHigh; // turn on all high bits in phaseOutputsFHigh
 		PORTD.OUTCLR = phaseOutputsDLow; // turn off all high bits in phaseOutputsDLow
 		PORTD.OUTSET = phaseOutputsDHigh; // turn on all high bits in phaseOutputsDHigh
+		ISR_EXIT();
 	}
 
 // *************** /PWM **********************
@@ -343,26 +355,31 @@ void configClock (void) {
 	#ifdef MOT1
 	// Motor 1
 	ISR (TCE0_CCA_vect) {
+		ISR_ENTER();
 		// half way into high part of motor 1 pwm
 		// start adc conversion on adca ch1 (this channel is dedicated to this motor)
 		ADC_Ch_InputMux_Config (&ADCA.CH0, motor1StateSenseIndex[motor1State]<<3, 0);
 		ADC_Ch_Conversion_Start (&(ADCA.CH0));
+		ISR_EXIT();
 	}
 	#endif
 	
 	#ifdef MOT2
 	// Motor 2
 	ISR (TCE0_CCB_vect) {
+		ISR_ENTER();
 		// half way into high part of motor 2 pwm
 		// start adc conversion on adca ch1 (this channel is dedicated to this motor)
 		ADC_Ch_InputMux_Config (&ADCA.CH1, motor2StateSenseIndex[motor2State]<<3, 0);
 		ADC_Ch_Conversion_Start (&(ADCA.CH1));
+		ISR_EXIT();
 	}
 	#endif
 	
 	#ifdef MOT3
 	// Motor 3
 	ISR (TCE0_CCC_vect) {
+		ISR_ENTER();
 		// half way into high part of motor 3 pwm
 		// start adc conversion on adca ch1 (this channel is dedicated to this motor)
 		if (motor3StateSenseIndex[motor3State] == 0) { // sense c3 is on adcb, sense a3 and b3 are on adca
@@ -372,16 +389,19 @@ void configClock (void) {
 			ADC_Ch_InputMux_Config (&ADCA.CH2, motor3StateSenseIndex[motor3State]<<3, 0);
 			ADC_Ch_Conversion_Start (&(ADCA.CH2));			
 		}
+		ISR_EXIT();
 	}
 	#endif
 	
 	#ifdef MOT4
 	// Motor 4
 	ISR (TCE0_CCD_vect) {
+		ISR_ENTER();
 		// half way into high part of motor 4 pwm
 		// start adc conversion on adca ch1 (this channel is dedicated to this motor)
 		ADC_Ch_InputMux_Config (&ADCB.CH3, motor4StateSenseIndex[motor4State]<<3, 0);
 		ADC_Ch_Conversion_Start (&(ADCB.CH3));
+		ISR_EXIT();
 	}
 	#endif
 	
@@ -392,6 +412,7 @@ void configClock (void) {
 	#ifdef MOT1
 	// Motor 1
 	ISR (TCC1_OVF_vect) {
+		ISR_ENTER();
 		// time to change motor1 state
 		missedCommFlags |= (1<<1);
 		TCC1.PER = 65000;
@@ -404,12 +425,14 @@ void configClock (void) {
 		risingCount1 = 0;
 		fallingCount1 = 0;
 		setMotor1State(motor1State);
+		ISR_EXIT();
 	}
 	#endif
 	
 	#ifdef MOT2
 	// Motor 2
 	ISR (TCD1_OVF_vect) {
+		ISR_ENTER();
 		// time to change motor2 state
 		missedCommFlags |= (1<<2);
 		TCD1.PER = 65000;
@@ -422,12 +445,14 @@ void configClock (void) {
 		risingCount2 = 0;
 		fallingCount2 = 0;
 		setMotor2State(motor2State);
+		ISR_EXIT();
 	}
 	#endif
 
 	#ifdef MOT3
 	// Motor 3
 	ISR (TCE1_OVF_vect) {
+		ISR_ENTER();
 		missedCommFlags |= (1<<3);
 		TCE1.PER = 65000;
 		if (motor3State < 5)
@@ -439,12 +464,14 @@ void configClock (void) {
 		risingCount3 = 0;
 		fallingCount3 = 0;
 		setMotor3State(motor3State);
+		ISR_EXIT();
 	}
 	#endif
 
 	#ifdef MOT4
 	// Motor 4
 	ISR (TCD0_OVF_vect) {
+		ISR_ENTER();
 		missedCommFlags |= (1<<4);
 		TCD0.PER = 65000;
 		if (motor4State < 5)
@@ -456,6 +483,7 @@ void configClock (void) {
 		risingCount4 = 0;
 		fallingCount4 = 0;
 		setMotor4State(motor4State);
+		ISR_EXIT();
 	}
 	#endif
 	
@@ -506,6 +534,7 @@ void configClock (void) {
 	#ifdef MOT1
 	// Motor 1
 	ISR (ADCA_CH0_vect) {
+		ISR_ENTER();
 		ADCA.CH0.INTFLAGS = ADC_CH_CHIF_bm; // clear interrupt flag
 
 		uint8_t result = ADCA.CH0.RES;
@@ -538,12 +567,14 @@ void configClock (void) {
 				fallingCount1++;
 			}
 		}
+		ISR_EXIT();
 	}
 	#endif
 	
 	#ifdef MOT2
 	// Motor 2
 	ISR (ADCA_CH1_vect) {
+		ISR_ENTER();
 		ADCA.CH1.INTFLAGS = ADC_CH_CHIF_bm; // clear interrupt flag
 
 		uint8_t result = ADCA.CH1.RES;
@@ -576,12 +607,14 @@ void configClock (void) {
 				fallingCount2++;
 			}
 		}
+		ISR_EXIT();
 	}
 	#endif
 	
 	#ifdef MOT3
 	// Motor 3
 	ISR (ADCA_CH2_vect) {
+		ISR_ENTER();
 		ADCA.CH2.INTFLAGS = ADC_CH_CHIF_bm; // clear interrupt flag
 
 		uint8_t result = ADCA.CH2.RES;
@@ -614,12 +647,14 @@ void configClock (void) {
 				fallingCount3++;
 			}
 		}
+		ISR_EXIT();
 	}
 	#endif
 	
 	#ifdef MOT3
 	// Motor 3 - called for phase c (phase c feedback is on adcb)
 	ISR (ADCB_CH2_vect) {
+		ISR_ENTER();
 		ADCB.CH2.INTFLAGS = ADC_CH_CHIF_bm; // clear interrupt flag
 
 		uint8_t result = ADCB.CH2.RES;
@@ -652,12 +687,14 @@ void configClock (void) {
 				fallingCount3++;
 			}
 		}
+		ISR_EXIT();
 	}
 	#endif
 	
 	#ifdef MOT4
 	// Motor 4
 	ISR (ADCB_CH3_vect) {
+		ISR_ENTER();
 		ADCB.CH3.INTFLAGS = ADC_CH_CHIF_bm; // clear interrupt flag
 
 		uint8_t result = ADCB.CH3.RES;
@@ -690,6 +727,7 @@ void configClock (void) {
 				fallingCount4++;
 			}
 		}
+		ISR_EXIT();
 	}
 	#endif
 	
@@ -702,71 +740,23 @@ void configDelayTimer (volatile TC0_t * tc) {
 }
 
 void startup(void) {
-	
-	#ifdef MOT1
-	TCF0.CCABUF = LOCK_PWM;
-	SET_PHASE_STATE_5_MOT1();
-	#endif
-	
-	#ifdef MOT2
-	TCF0.CCBBUF = LOCK_PWM;
-	SET_PHASE_STATE_5_MOT2();
-	#endif
-	
+
+	TCF0.CCABUF = 100;
+	TCF0.CCCBUF = 100;
+
+
 	#ifdef MOT3
 	TCF0.CCCBUF = LOCK_PWM;
 	SET_PHASE_STATE_5_MOT3();
-	#endif
-	
-	#ifdef MOT4
-	TCF0.CCDBUF = LOCK_PWM;
-	SET_PHASE_STATE_5_MOT4();
-	#endif
-	
-	TCC0.CNT = 0;
-	while (TCC0.CNT < 65000) {}
 
-	#ifdef MOT1
-	TCF0.CCABUF = STARTUP_PWM;
-	TCE0.CCABUF = STARTUP_PWM/2;
-	
-	TC_SetPeriod (&TCC1, 65000);
-	TC1_ConfigClockSource (&TCC1, TC_CLKSEL_DIV8_gc);
-	TC1_SetOverflowIntLevel (&TCC1, TC_OVFINTLVL_HI_gc);
-	
-	SET_PHASE_STATE_0_MOT1();
-	motor1State = 0;
-	
-	
-	missedCommFlags |= (1<<1);
-	passedCenterFlags &= ~(1<<1);
-	risingCount1 = 0;
-	fallingCount1 = 0;
-	#endif
-	
-	#ifdef MOT2
-	TCF0.CCBBUF = STARTUP_PWM;
-	TCE0.CCBBUF = STARTUP_PWM/2;
-	
-	TC_SetPeriod (&TCD1, 65000 );
-	TC1_ConfigClockSource (&TCD1, TC_CLKSEL_DIV8_gc );
-	TC1_SetOverflowIntLevel (&TCD1, TC_OVFINTLVL_HI_gc);
-	
-	SET_PHASE_STATE_0_MOT2();
-	motor2State = 0;
-	
-	missedCommFlags |= (1<<2);
-	passedCenterFlags &= ~(1<<2);
-	risingCount2 = 0;
-	fallingCount2 = 0;
-	#endif
-	
-	#ifdef MOT3
+	TCC0.CNT = 0;
+	while (TCC0.CNT < 20000) {}
+
 	TCF0.CCCBUF = STARTUP_PWM;
 	TCE0.CCCBUF = STARTUP_PWM/2;
-	
+
 	TC_SetPeriod (&TCE1, 65000);
-	TC1_ConfigClockSource (&TCE1, TC_CLKSEL_DIV8_gc);
+	TC1_ConfigClockSource (&TCE1, TC_CLKSEL_DIV4_gc);
 	TC1_SetOverflowIntLevel (&TCE1, TC_OVFINTLVL_HI_gc);
 	
 	SET_PHASE_STATE_0_MOT3();
@@ -778,24 +768,124 @@ void startup(void) {
 	fallingCount3 = 0;
 	#endif
 	
-	#ifdef MOT4
-	TCF0.CCDBUF = STARTUP_PWM;
-	TCE0.CCDBUF = STARTUP_PWM/2;
 
-	TC_SetPeriod (&TCD0, 65000);
-	TC0_ConfigClockSource (&TCD0, TC_CLKSEL_DIV8_gc);
-	TC0_SetOverflowIntLevel (&TCD0, TC_OVFINTLVL_HI_gc);
+	#ifdef MOT1
+	TCF0.CCABUF = LOCK_PWM;
+	SET_PHASE_STATE_5_MOT1();
+
+	TCC0.CNT = 0;
+	while (TCC0.CNT < 20000) {}
+
+	TCF0.CCABUF = STARTUP_PWM;
+	TCE0.CCABUF = STARTUP_PWM/2;
 	
-	SET_PHASE_STATE_0_MOT4();
-	motor4State = 0;
+	TC_SetPeriod (&TCC1, 65000);
+	TC1_ConfigClockSource (&TCC1, TC_CLKSEL_DIV4_gc);
+	TC1_SetOverflowIntLevel (&TCC1, TC_OVFINTLVL_HI_gc);
 	
-	missedCommFlags |= (1<<4);
-	passedCenterFlags &= ~(1<<4);
-	risingCount4 = 0;
-	fallingCount4 = 0;
+	SET_PHASE_STATE_0_MOT1();
+	motor1State = 0;
+	
+	missedCommFlags |= (1<<1);
+	passedCenterFlags &= ~(1<<1);
+	risingCount1 = 0;
+	fallingCount1 = 0;
 	#endif
+
 	
-	PORTC.OUTSET = (1<<5);
+	//~ #ifdef MOT1
+	//~ TCF0.CCABUF = LOCK_PWM;
+	//~ SET_PHASE_STATE_5_MOT1();
+	//~ #endif
+	//~ 
+	//~ #ifdef MOT2
+	//~ TCF0.CCBBUF = LOCK_PWM;
+	//~ SET_PHASE_STATE_5_MOT2();
+	//~ #endif
+	//~ 
+	//~ #ifdef MOT3
+	//~ TCF0.CCCBUF = LOCK_PWM;
+	//~ SET_PHASE_STATE_5_MOT3();
+	//~ #endif
+	//~ 
+	//~ #ifdef MOT4
+	//~ TCF0.CCDBUF = LOCK_PWM;
+	//~ SET_PHASE_STATE_5_MOT4();
+	//~ #endif
+	//~ 
+	//~ TCC0.CNT = 0;
+	//~ while (TCC0.CNT < 65000) {}
+
+	//~ #ifdef MOT1
+	//~ TCF0.CCABUF = STARTUP_PWM;
+	//~ TCE0.CCABUF = STARTUP_PWM/2;
+	//~ 
+	//~ TC_SetPeriod (&TCC1, 65000);
+	//~ TC1_ConfigClockSource (&TCC1, TC_CLKSEL_DIV4_gc);
+	//~ TC1_SetOverflowIntLevel (&TCC1, TC_OVFINTLVL_HI_gc);
+	//~ 
+	//~ SET_PHASE_STATE_0_MOT1();
+	//~ motor1State = 0;
+	//~ 
+	//~ 
+	//~ missedCommFlags |= (1<<1);
+	//~ passedCenterFlags &= ~(1<<1);
+	//~ risingCount1 = 0;
+	//~ fallingCount1 = 0;
+	//~ #endif
+	//~ 
+	//~ #ifdef MOT2
+	//~ TCF0.CCBBUF = STARTUP_PWM;
+	//~ TCE0.CCBBUF = STARTUP_PWM/2;
+	//~ 
+	//~ TC_SetPeriod (&TCD1, 65000 );
+	//~ TC1_ConfigClockSource (&TCD1, TC_CLKSEL_DIV4_gc );
+	//~ TC1_SetOverflowIntLevel (&TCD1, TC_OVFINTLVL_HI_gc);
+	//~ 
+	//~ SET_PHASE_STATE_0_MOT2();
+	//~ motor2State = 0;
+	//~ 
+	//~ missedCommFlags |= (1<<2);
+	//~ passedCenterFlags &= ~(1<<2);
+	//~ risingCount2 = 0;
+	//~ fallingCount2 = 0;
+	//~ #endif
+	//~ 
+	//~ #ifdef MOT3
+	//~ TCF0.CCCBUF = STARTUP_PWM;
+	//~ TCE0.CCCBUF = STARTUP_PWM/2;
+	//~ 
+	//~ TC_SetPeriod (&TCE1, 65000);
+	//~ TC1_ConfigClockSource (&TCE1, TC_CLKSEL_DIV4_gc);
+	//~ TC1_SetOverflowIntLevel (&TCE1, TC_OVFINTLVL_HI_gc);
+	//~ 
+	//~ SET_PHASE_STATE_0_MOT3();
+	//~ motor3State = 0;
+	//~ 
+	//~ missedCommFlags |= (1<<3);
+	//~ passedCenterFlags &= ~(1<<3);
+	//~ risingCount3 = 0;
+	//~ fallingCount3 = 0;
+	//~ #endif
+	//~ 
+	//~ #ifdef MOT4
+	//~ TCF0.CCDBUF = STARTUP_PWM;
+	//~ TCE0.CCDBUF = STARTUP_PWM/2;
+//~ 
+	//~ TC_SetPeriod (&TCD0, 65000);
+	//~ TC0_ConfigClockSource (&TCD0, TC_CLKSEL_DIV4_gc);
+	//~ TC0_SetOverflowIntLevel (&TCD0, TC_OVFINTLVL_HI_gc);
+	//~ 
+	//~ SET_PHASE_STATE_0_MOT4();
+	//~ motor4State = 0;
+	//~ 
+	//~ missedCommFlags |= (1<<4);
+	//~ passedCenterFlags &= ~(1<<4);
+	//~ risingCount4 = 0;
+	//~ fallingCount4 = 0;
+	//~ #endif
+	//~ 
+	//~ PORTC.OUTSET = (1<<5);
 }
 
 void spiInit () {
