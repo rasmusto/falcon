@@ -18,8 +18,10 @@
 
 //~ #define MOT1
 //~ #define MOT2
-//~ #define MOT3
-#define MOT4
+#define MOT3
+//~ #define MOT4
+
+#define RFCOUNT 2
 
 // Macros
 
@@ -151,17 +153,6 @@ int main (void) {
 	#ifdef MOT4
 	PORTD.DIRSET = 0b11111100;
 	#endif
-		
-	while (1) {
-		//high
-		PORTD.OUT = 0b01000000;
-		_delay_us(50);
-		
-		//low
-		PORTD.OUT = 0b00000000;
-		PORTD.OUT = 0b10000000;
-		_delay_us(400);
-	}
 	
 	configPWMTimer (&TCF0, &HIRESF, 5000);
 	configHalfPWMTimer (&TCE0, &HIRESE, 5000);
@@ -195,9 +186,6 @@ int main (void) {
 	#endif
 	
 	sei();
-	
-	//~ SET_PHASE_STATE_4_MOT4();
-	//~ while(1);
 	
 	startup();
 	//~ spiInit();
@@ -468,7 +456,6 @@ void configClock (void) {
 		risingCount4 = 0;
 		fallingCount4 = 0;
 		setMotor4State(motor4State);
-		PORTC.OUTTGL = (1<<5);
 	}
 	#endif
 	
@@ -523,11 +510,11 @@ void configClock (void) {
 
 		uint8_t result = ADCA.CH0.RES;
 		
-		if (!(passedCenterFlags & (1<<1))) 
+		if (!(passedCenterFlags & (1<<1)))
 		{
-			if (STATE_SLOPE & (1<<motor1State)) 
+			if (STATE_SLOPE & (1<<motor1State))
 			{ // rising
-				if (risingCount1 > 1) 
+				if (risingCount1 > RFCOUNT)
 				{
 					if (result > MOTOR_1_THRESH)
 					{
@@ -539,9 +526,9 @@ void configClock (void) {
 				risingCount1++;
 			} else 
 			{ // falling
-				if (fallingCount1 > 1) 
+				if (fallingCount1 > RFCOUNT)
 				{
-					if (result < MOTOR_1_THRESH) 
+					if (result < MOTOR_1_THRESH)
 					{
 						TCC1.PER = TCC1.CNT*2;
 						missedCommFlags &= ~(1<<1);
@@ -565,7 +552,7 @@ void configClock (void) {
 		{
 			if (STATE_SLOPE & (1<<motor2State)) 
 			{ // rising
-				if (risingCount2 > 1) 
+				if (risingCount2 > RFCOUNT) 
 				{
 					if (result > MOTOR_2_THRESH)
 					{
@@ -577,7 +564,7 @@ void configClock (void) {
 				risingCount2++;
 			} else 
 			{ // falling
-				if (fallingCount2 > 1) 
+				if (fallingCount2 > RFCOUNT) 
 				{
 					if (result < MOTOR_2_THRESH) 
 					{
@@ -603,7 +590,7 @@ void configClock (void) {
 		{
 			if (STATE_SLOPE & (1<<motor3State)) 
 			{ // rising
-				if (risingCount3 > 1) 
+				if (risingCount3 > RFCOUNT) 
 				{
 					if (result > MOTOR_3_THRESH)
 					{
@@ -615,7 +602,7 @@ void configClock (void) {
 				risingCount3++;
 			} else 
 			{ // falling
-				if (fallingCount3 > 1) 
+				if (fallingCount3 > RFCOUNT) 
 				{
 					if (result < MOTOR_3_THRESH) 
 					{
@@ -641,7 +628,7 @@ void configClock (void) {
 		{
 			if (STATE_SLOPE & (1<<motor3State)) 
 			{ // rising
-				if (risingCount3 > 1) 
+				if (risingCount3 > RFCOUNT) 
 				{
 					if (result > MOTOR_3_THRESH)
 					{
@@ -653,7 +640,7 @@ void configClock (void) {
 				risingCount3++;
 			} else 
 			{ // falling
-				if (fallingCount3 > 1) 
+				if (fallingCount3 > RFCOUNT) 
 				{
 					if (result < MOTOR_3_THRESH) 
 					{
@@ -679,7 +666,7 @@ void configClock (void) {
 		{
 			if (STATE_SLOPE & (1<<motor4State))
 			{ // rising
-				if (risingCount4 > 1) 
+				if (risingCount4 > RFCOUNT) 
 				{
 					if (result > MOTOR_4_THRESH)
 					{
@@ -691,7 +678,7 @@ void configClock (void) {
 				risingCount4++;
 			} else 
 			{ // falling
-				if (fallingCount4 > 1) 
+				if (fallingCount4 > RFCOUNT)
 				{
 					if (result < MOTOR_4_THRESH) 
 					{
@@ -744,7 +731,7 @@ void startup(void) {
 	TCE0.CCABUF = STARTUP_PWM/2;
 	
 	TC_SetPeriod (&TCC1, 65000);
-	TC1_ConfigClockSource (&TCC1, TC_CLKSEL_DIV4_gc);
+	TC1_ConfigClockSource (&TCC1, TC_CLKSEL_DIV8_gc);
 	TC1_SetOverflowIntLevel (&TCC1, TC_OVFINTLVL_HI_gc);
 	
 	SET_PHASE_STATE_0_MOT1();
@@ -762,7 +749,7 @@ void startup(void) {
 	TCE0.CCBBUF = STARTUP_PWM/2;
 	
 	TC_SetPeriod (&TCD1, 65000 );
-	TC1_ConfigClockSource (&TCD1, TC_CLKSEL_DIV4_gc );
+	TC1_ConfigClockSource (&TCD1, TC_CLKSEL_DIV8_gc );
 	TC1_SetOverflowIntLevel (&TCD1, TC_OVFINTLVL_HI_gc);
 	
 	SET_PHASE_STATE_0_MOT2();
@@ -779,7 +766,7 @@ void startup(void) {
 	TCE0.CCCBUF = STARTUP_PWM/2;
 	
 	TC_SetPeriod (&TCE1, 65000);
-	TC1_ConfigClockSource (&TCE1, TC_CLKSEL_DIV4_gc);
+	TC1_ConfigClockSource (&TCE1, TC_CLKSEL_DIV8_gc);
 	TC1_SetOverflowIntLevel (&TCE1, TC_OVFINTLVL_HI_gc);
 	
 	SET_PHASE_STATE_0_MOT3();
@@ -796,7 +783,7 @@ void startup(void) {
 	TCE0.CCDBUF = STARTUP_PWM/2;
 
 	TC_SetPeriod (&TCD0, 65000);
-	TC0_ConfigClockSource (&TCD0, TC_CLKSEL_DIV4_gc);
+	TC0_ConfigClockSource (&TCD0, TC_CLKSEL_DIV8_gc);
 	TC0_SetOverflowIntLevel (&TCD0, TC_OVFINTLVL_HI_gc);
 	
 	SET_PHASE_STATE_0_MOT4();
