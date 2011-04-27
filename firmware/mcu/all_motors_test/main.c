@@ -16,9 +16,9 @@
 #include "usart_driver.h"
 #include "spi_driver.h"
 
-//~ #define MOT1
+#define MOT1
 //~ #define MOT2
-#define MOT3
+//~ #define MOT3
 //~ #define MOT4
 
 #define RFCOUNT 2
