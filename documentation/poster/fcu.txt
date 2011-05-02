@@ -1,0 +1,9 @@
+The central flight control unit (FCU) is responsible for communication between the inertial measurement unit (IMU) and the motor control unit (MCU).
+This device analyzes data from the system's sensors, and interprets them in
+order to send motor speed commands to the motor controller that will put
+the vehicle in the desired state.
+The microcontroller on the FCU is an Atmel AVR XMega 128A3, which is a 32MHz
+8-bit device with a number of integrated SPI, UART, and ADC modules.
+The FCU communicates on with the MCU and IMU on a 2MHz SPI bus, and is able to
+talk to chips separately using up to eight chip select pins.  UART is used
+for off-board communication through a serial to USB converter, and an 802.15 XBee wireless module.
