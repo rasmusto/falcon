@@ -8,12 +8,24 @@ volatile char xbee_rx_buf[128];
 volatile uint8_t xbee_rx_count = 0;
 volatile uint8_t xbee_rx_buf_rdy = 0;
 
+volatile int16_t x_accel_buf[512];
+volatile int16_t y_accel_buf[512];
+volatile int16_t z_accel_buf[512];
+
+volatile uint8_t x_accel_buf_ctr = 0;
+volatile uint8_t y_accel_buf_ctr = 0;
+volatile uint8_t z_accel_buf_ctr = 0;
+
+volatile int16_t x_accel_avg = 0;
+volatile int16_t y_accel_avg = 0;
+volatile int16_t z_accel_avg = 0;
+
 volatile struct mcu_tx_pkt_t mcu_tx;
 volatile struct mcu_rx_pkt_t mcu_rx;
 
 volatile struct imu_tx_pkt_t imu_tx;
 volatile struct imu_rx_pkt_t imu_rx;
-
+volatile uint8_t loop_ctr = 0;
 volatile struct pid_info roll_pid;
 volatile struct pid_info pitch_pid;
 volatile struct pid_info yaw_pid;
@@ -44,7 +56,7 @@ volatile uint8_t receive_mcu_pkt_flag = 0;
 volatile uint8_t mcu_rx_first_packet_flag = 0;
 
 volatile uint8_t first_spi_interrupt_flag = 0;
-volatile uint8_t stream_data_flag = 0;
+volatile uint8_t stream_data_flag = 1;
 volatile uint8_t request_new_pkt_flag = 0;
 
 volatile float roll_pid_output = 0;
@@ -184,7 +196,8 @@ void print_status(void)
     if(stream_data_flag == 0)
     {
         FILE * tmp = stdout;
-        stdout = &usb_out;
+        //stdout = &usb_out;
+        stdout = &xbee_out;
         printf("%c", 12);
 
         /*
@@ -305,7 +318,8 @@ void process_rx_buf(volatile char * rx_buf)
 /***** spi *****/
 ISR(SPIE_INT_vect)
 {
-    stdout = &usb_out;
+    //stdout = &usb_out;
+    stdout = &xbee_out;
     if(first_spi_interrupt_flag)
     {
         first_spi_interrupt_flag = 0;
@@ -337,17 +351,17 @@ ISR(SPIE_INT_vect)
                 }
                 fcu_tx.x_gyro = imu_rx.roll;
                 imu_rx.roll += ROLL_OFFSET;
-                fcu_tx.roll = imu_rx.roll;
+                //fcu_tx.roll = imu_rx.roll;
                 roll += (float)imu_rx.roll/1000;
 
                 fcu_tx.y_gyro = imu_rx.pitch;
                 imu_rx.pitch += PITCH_OFFSET;
-                fcu_tx.pitch = imu_rx.pitch;
+                //fcu_tx.pitch = imu_rx.pitch;
                 pitch += (float)imu_rx.pitch/1000;
 
                 fcu_tx.z_gyro = imu_rx.yaw;
                 imu_rx.yaw += YAW_OFFSET;
-                fcu_tx.yaw = imu_rx.yaw;
+                //fcu_tx.yaw = imu_rx.yaw;
                 yaw += (float)imu_rx.yaw/1000;
 
                 imu_rx.x_accel += X_OFFSET;
@@ -358,21 +372,32 @@ ISR(SPIE_INT_vect)
                 fcu_tx.y_accel = imu_rx.y_accel;
                 fcu_tx.z_accel = imu_rx.z_accel;
 
-                if(stream_data_flag)
+                x_accel_buf[x_accel_buf_ctr] = imu_rx.x_accel;
+                y_accel_buf[y_accel_buf_ctr] = imu_rx.y_accel;
+                z_accel_buf[z_accel_buf_ctr] = imu_rx.z_accel;
+
+                x_accel_buf_ctr++;
+                y_accel_buf_ctr++;
+                z_accel_buf_ctr++;
+
+                if(stream_data_flag && loop_ctr == 100)
                 {
                     char * fcu_ptr = (char *)&fcu_tx;
                     FILE * tmp_ptr = stdout;
-                    stdout = &usb_out;
+                    //stdout = &usb_out;
+                    stdout = &xbee_out;
                     int j;
                     for(j = 0; j < sizeof(struct fcu_pkt_t); j++)
                     {
                         printf("%c", fcu_ptr[j]);
                     }
                     stdout = tmp_ptr;
+                    loop_ctr = 0;
                 }
             }
             else
                 SPIE.DATA = 0;
+            loop_ctr++;
         }
     }
     /*** Handle MCU Transfer ***/
@@ -512,6 +537,7 @@ ISR(ADCA_CH0_vect)
 
 int main (void) 
 {
+    fcu_tx.start = 0xAA;
     cli();
     PORTB.DIRSET = 1<<SS0;
 
@@ -533,7 +559,9 @@ int main (void)
     PORTD.DIRSET=PIN5_bm; //drive rs232 enable low
     PORTD.OUTCLR=PIN5_bm;
 
-    init_xbee_uart  (-5, 3301); //32MHz, 19200 baud
+    //init_xbee_uart  (-5, 3301); //32MHz, 19200 baud
+    //init_xbee_uart  (10, 1047); //32MHz, 115200 baud
+    init_xbee_uart  (-6, 2158); //32MHz, 57600 baud
     init_usb_uart   (10, 1047); //32MHz, 115200 baud
     init_rs232_uart (10, 1047); //32MHz, 115200 baud
     init_sonar_uart (10, 1047); //32MHz, 115200 baud
@@ -577,19 +605,23 @@ int main (void)
                 xbee_rx_buf[xbee_rx_count] = '\0';
                 xbee_rx_count--;
             }
+            printf("\n\r");
             xbee_rx_buf_rdy = 0;
         }
         if(loop_count == 100)
         {
             if(print_status_flag)
             {
-                stdout = &usb_out;
+                //stdout = &usb_out;
+                stdout = &xbee_out;
                 print_status();
             }
             loop_count = 0;
         }
+        stdout = &xbee_out;
         printf("\r");
-        printf("fcu: %s", usb_rx_buf);
+        //printf("fcu: %s", usb_rx_buf);
+        printf("fcu: %s", xbee_rx_buf);
         request_imu_pkt();
         roll_pid_output  = pid_iteration (&roll_pid, imu_rx.roll, 0);
         pitch_pid_output = pid_iteration (&pitch_pid, imu_rx.pitch, 0);
@@ -598,6 +630,42 @@ int main (void)
         char * mcu_ptr = &mcu_tx;
         mcu_ptr++;
         //mcu_tx.crc = crc((char *)mcu_ptr, 8, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
+
+        //AVERAGING
+        int i;
+        if(x_accel_buf_ctr >= 511) {
+            for(i = 0; i < 512; i++){
+                x_accel_avg += x_accel_buf[i];
+            }
+            x_accel_avg /= 512;
+            if(x_accel_avg > 2500) x_accel_avg = 2500;
+            if(x_accel_avg < -2500) x_accel_avg = -2500;
+            fcu_tx.roll = x_accel_avg;
+            x_accel_buf_ctr = 0;
+        }
+        
+        if(y_accel_buf_ctr >= 511) {
+            for(i = 0; i < 512; i++){
+                y_accel_avg += y_accel_buf[i];
+            }
+            y_accel_avg /= 512;
+            if(y_accel_avg > 2500)  y_accel_avg = 2500;
+            if(y_accel_avg < -2500) y_accel_avg = -2500;
+            fcu_tx.pitch = y_accel_avg;
+            y_accel_buf_ctr = 0;
+        }
+
+        if(z_accel_buf_ctr >= 511) {
+            for(i = 0; i < 512; i++){
+                z_accel_avg += z_accel_buf[i];
+            }
+            z_accel_avg /= 512;
+            if(z_accel_avg > 2500)  z_accel_avg = 2500;
+            if(z_accel_avg < -2500) z_accel_avg = -2500;
+            fcu_tx.yaw = z_accel_avg;
+            z_accel_buf_ctr = 0;
+        }
+
         _delay_us(100);
         loop_count++;
     }
