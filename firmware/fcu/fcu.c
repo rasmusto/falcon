@@ -44,7 +44,7 @@ volatile uint8_t receive_mcu_pkt_flag = 0;
 volatile uint8_t mcu_rx_first_packet_flag = 0;
 
 volatile uint8_t first_spi_interrupt_flag = 0;
-volatile uint8_t stream_data_flag = 0;
+volatile uint8_t stream_data_flag = 1;
 volatile uint8_t request_new_pkt_flag = 0;
 
 volatile float roll_pid_output = 0;
@@ -184,7 +184,8 @@ void print_status(void)
     if(stream_data_flag == 0)
     {
         FILE * tmp = stdout;
-        stdout = &usb_out;
+        //stdout = &usb_out;
+        stdout = &xbee_out;
         printf("%c", 12);
 
         /*
@@ -305,7 +306,8 @@ void process_rx_buf(volatile char * rx_buf)
 /***** spi *****/
 ISR(SPIE_INT_vect)
 {
-    stdout = &usb_out;
+    //stdout = &usb_out;
+    stdout = &xbee_out;
     if(first_spi_interrupt_flag)
     {
         first_spi_interrupt_flag = 0;
@@ -362,7 +364,8 @@ ISR(SPIE_INT_vect)
                 {
                     char * fcu_ptr = (char *)&fcu_tx;
                     FILE * tmp_ptr = stdout;
-                    stdout = &usb_out;
+                    //stdout = &usb_out;
+                    stdout = &xbee_out;
                     int j;
                     for(j = 0; j < sizeof(struct fcu_pkt_t); j++)
                     {
@@ -512,6 +515,7 @@ ISR(ADCA_CH0_vect)
 
 int main (void) 
 {
+    fcu_tx.start = 0xAA;
     cli();
     PORTB.DIRSET = 1<<SS0;
 
@@ -533,7 +537,9 @@ int main (void)
     PORTD.DIRSET=PIN5_bm; //drive rs232 enable low
     PORTD.OUTCLR=PIN5_bm;
 
-    init_xbee_uart  (-5, 3301); //32MHz, 19200 baud
+    //init_xbee_uart  (-5, 3301); //32MHz, 19200 baud
+    //init_xbee_uart  (10, 1047); //32MHz, 115200 baud
+    init_xbee_uart  (-6, 2158); //32MHz, 57600 baud
     init_usb_uart   (10, 1047); //32MHz, 115200 baud
     init_rs232_uart (10, 1047); //32MHz, 115200 baud
     init_sonar_uart (10, 1047); //32MHz, 115200 baud
@@ -577,19 +583,23 @@ int main (void)
                 xbee_rx_buf[xbee_rx_count] = '\0';
                 xbee_rx_count--;
             }
+            printf("\n\r");
             xbee_rx_buf_rdy = 0;
         }
         if(loop_count == 100)
         {
             if(print_status_flag)
             {
-                stdout = &usb_out;
+                //stdout = &usb_out;
+                stdout = &xbee_out;
                 print_status();
             }
             loop_count = 0;
         }
+        stdout = &xbee_out;
         printf("\r");
-        printf("fcu: %s", usb_rx_buf);
+        //printf("fcu: %s", usb_rx_buf);
+        printf("fcu: %s", xbee_rx_buf);
         request_imu_pkt();
         roll_pid_output  = pid_iteration (&roll_pid, imu_rx.roll, 0);
         pitch_pid_output = pid_iteration (&pitch_pid, imu_rx.pitch, 0);

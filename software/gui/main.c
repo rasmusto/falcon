@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <unistd.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <gtk/gtk.h>
@@ -277,6 +279,7 @@ guint readSerial (void) {
 			}
 			graphTime += 0.001;
 			graphPacket ((struct fcu_pkt_t*)rxBuffer, graphTime);
+            printf("raed a good packet\n");
 			break;
 		}
 	}
