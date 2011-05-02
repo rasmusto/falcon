@@ -44,7 +44,7 @@ static gint testUpdate (void);
 
 // ***************** Serial Stuff *********************
 
-struct imu_rx_pkt_t
+struct fcu_pkt_t
 {
     volatile uint8_t start;
     volatile uint8_t parity;
@@ -72,7 +72,7 @@ float graphTime = 0;
 int uartfd; 
 struct dyGraph* graph;
 
-void graphPacket (struct imu_rx_pkt_t * packet, float time);
+void graphPacket (struct fcu_pkt_t * packet, float time);
 guint readSerial (void);
 
 int main (int argc, char **argv)
@@ -231,7 +231,7 @@ static gint testUpdate (void)
 	return TRUE; // return true to continue timeout
 }
 
-void graphPacket (struct imu_rx_pkt_t * packet, float time) {
+void graphPacket (struct fcu_pkt_t * packet, float time) {
     
 	dyGraphAddData(dyGraphRawAccelerometer, acclXTrace, time, (float)(packet->x_accel) );
 	dyGraphAddData(dyGraphRawAccelerometer, acclYTrace, time, (float)(packet->y_accel) );
@@ -270,13 +270,13 @@ guint readSerial (void) {
 				j++;
 				i++;
 			}
-			while (j<sizeof(struct imu_rx_pkt_t)) {
+			while (j<sizeof(struct fcu_pkt_t)) {
 				int dataBytesRead = read (uartfd, rxBuffer+j, RX_BUFFER_LENGTH-j-1);
 				j += dataBytesRead;
 				usleep(100);
 			}
 			graphTime += 0.001;
-			graphPacket ((struct imu_rx_pkt_t*)rxBuffer, graphTime);
+			graphPacket ((struct fcu_pkt_t*)rxBuffer, graphTime);
 			break;
 		}
 	}
