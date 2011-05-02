@@ -18,6 +18,8 @@ volatile struct pid_info roll_pid;
 volatile struct pid_info pitch_pid;
 volatile struct pid_info yaw_pid;
 
+volatile struct fcu_pkt_t fcu_tx;
+
 volatile float roll;
 volatile float pitch;
 volatile float yaw;
@@ -235,21 +237,25 @@ void process_rx_buf(volatile char * rx_buf)
         if(val > 3000)
             val = 3000;
         mcu_tx.tgt_1 = (uint16_t)val; 
+        fcu_tx.motor1 = (uint16_t)val;
     }
     else if(strcmp(cmd, "mot2") == 0) { 
         if(val > 3000)
             val = 3000;
         mcu_tx.tgt_2 = (uint16_t)val; 
+        fcu_tx.motor2 = (uint16_t)val;
     }
     else if(strcmp(cmd, "mot3") == 0) { 
         if(val > 3000)
             val = 3000;
         mcu_tx.tgt_3 = (uint16_t)val; 
+        fcu_tx.motor3 = (uint16_t)val;
     }
     else if(strcmp(cmd, "mot4") == 0) { 
         if(val > 3000)
             val = 3000;
         mcu_tx.tgt_4 = (uint16_t)val; 
+        fcu_tx.motor4 = (uint16_t)val;
     }
     else if(strcmp(cmd, "led1g_on") == 0) { LED_1_GREEN_ON(); }
     else if(strcmp(cmd, "led2g_on") == 0) { LED_2_GREEN_ON(); }
@@ -272,17 +278,20 @@ void process_rx_buf(volatile char * rx_buf)
     else if(strcmp(cmd, "rkp") == 0) {      pid_set_kp(     &roll_pid,  val); }
     else if(strcmp(cmd, "rki") == 0) {      pid_set_ki(     &roll_pid,  val); }
     else if(strcmp(cmd, "rkd") == 0) {      pid_set_kd(     &roll_pid,  val); }
-    else if(strcmp(cmd, "rtarget") == 0) {  pid_set_target( &roll_pid,  val); }
+    else if(strcmp(cmd, "rtarget") == 0) {  pid_set_target( &roll_pid,  val);
+                                            fcu_tx.rollTarget = val;}
     else if(strcmp(cmd, "rreset_i") == 0) { pid_reset_i(    &roll_pid); }
     else if(strcmp(cmd, "pkp") == 0) {      pid_set_kp(     &pitch_pid, val); }
     else if(strcmp(cmd, "pki") == 0) {      pid_set_ki(     &pitch_pid, val); }
     else if(strcmp(cmd, "pkd") == 0) {      pid_set_kd(     &pitch_pid, val); }
-    else if(strcmp(cmd, "ptarget") == 0) {  pid_set_target( &pitch_pid, val); }
+    else if(strcmp(cmd, "ptarget") == 0) {  pid_set_target( &pitch_pid, val);
+                                            fcu_tx.pitchTarget = val;}
     else if(strcmp(cmd, "preset_i") == 0) { pid_reset_i(    &pitch_pid); }
     else if(strcmp(cmd, "ykp") == 0) {      pid_set_kp(     &yaw_pid,   val); }
     else if(strcmp(cmd, "yki") == 0) {      pid_set_ki(     &yaw_pid,   val); }
     else if(strcmp(cmd, "ykd") == 0) {      pid_set_kd(     &yaw_pid,   val); }
-    else if(strcmp(cmd, "ytarget") == 0) {  pid_set_target( &yaw_pid,   val); }
+    else if(strcmp(cmd, "ytarget") == 0) {  pid_set_target( &yaw_pid,   val);
+                                            fcu_tx.yawTarget = val;}
     else if(strcmp(cmd, "yreset_i") == 0) { pid_reset_i(    &yaw_pid); }
     //else if(strcmp(cmd, "print_pid") == 0) { print_pid_info(&pid); }
     else if(strcmp(cmd, "request_imu") == 0) { request_imu_pkt(); }
@@ -326,25 +335,38 @@ ISR(SPIE_INT_vect)
                     ptr[i] = ptr[i+1];
                     ptr[i+1] = tmp;
                 }
+                fcu_tx.x_gyro = imu_rx.roll;
                 imu_rx.roll += ROLL_OFFSET;
+                fcu_tx.roll = imu_rx.roll;
                 roll += (float)imu_rx.roll/1000;
+
+                fcu_tx.y_gyro = imu_rx.pitch;
                 imu_rx.pitch += PITCH_OFFSET;
+                fcu_tx.pitch = imu_rx.pitch;
                 pitch += (float)imu_rx.pitch/1000;
+
+                fcu_tx.z_gyro = imu_rx.yaw;
                 imu_rx.yaw += YAW_OFFSET;
+                fcu_tx.yaw = imu_rx.yaw;
                 yaw += (float)imu_rx.yaw/1000;
 
                 imu_rx.x_accel += X_OFFSET;
                 imu_rx.y_accel += Y_OFFSET;
                 imu_rx.z_accel += Z_OFFSET;
 
+                fcu_tx.x_accel = imu_rx.x_accel;
+                fcu_tx.y_accel = imu_rx.y_accel;
+                fcu_tx.z_accel = imu_rx.z_accel;
+
                 if(stream_data_flag)
                 {
+                    char * fcu_ptr = (char *)&fcu_tx;
                     FILE * tmp_ptr = stdout;
                     stdout = &usb_out;
                     int j;
-                    for(j = 0; j < sizeof(struct imu_rx_pkt_t); j++)
+                    for(j = 0; j < sizeof(struct fcu_pkt_t); j++)
                     {
-                        printf("%c", ptr[j]);
+                        printf("%c", fcu_ptr[j]);
                     }
                     stdout = tmp_ptr;
                 }

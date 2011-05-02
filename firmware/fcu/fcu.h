@@ -106,6 +106,30 @@ struct imu_rx_pkt_t
     volatile int16_t y_accel;
 };
 
+struct fcu_pkt_t
+{
+    volatile uint8_t start;
+    volatile uint8_t parity;
+    volatile int16_t x_gyro;
+    volatile int16_t x_gyro_tmp;
+    volatile int16_t y_gyro;
+    volatile int16_t z_gyro;
+    volatile int16_t z_gyro_tmp;
+    volatile int16_t z_accel;
+    volatile int16_t x_accel;
+    volatile int16_t y_accel;
+    volatile int16_t roll;
+    volatile int16_t pitch;
+    volatile int16_t yaw;
+    volatile int16_t rollTarget;
+    volatile int16_t pitchTarget;
+    volatile int16_t yawTarget;
+    volatile int16_t motor1;
+    volatile int16_t motor2;
+    volatile int16_t motor3;
+    volatile int16_t motor4;
+};
+
 /* Function Prototypes */
 void init_mcu_tx_pkt(volatile struct mcu_tx_pkt_t * pkt);
 void init_mcu_rx_pkt(volatile struct mcu_rx_pkt_t * pkt);
