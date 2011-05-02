@@ -1,7 +1,7 @@
 #ifndef __UART_H
 #define __UART_H
 
-#define BAUDRATE B115200
+#define BAUDRATE B57600
 
 int initUART(char *devicePath);
 void initTimeout(void);

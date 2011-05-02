@@ -118,10 +118,10 @@ int main (int argc, char **argv)
     
     //******************* Make dyGraphs **********************
     
-    dyGraphRawAccelerometer = dyGraphInit ("Raw Accelerometer Readings", "", "Time", "", 100, -100, 100, DYGRAPH_SIMPLE, DYGRAPH_AUTO_PAN_X);
-    dyGraphRawGyro = dyGraphInit ("Raw Gyroscope Readings", "", "Time", "", 100, -100, 100, DYGRAPH_SIMPLE, DYGRAPH_AUTO_PAN_X);
-    dyGraphOrientation = dyGraphInit ("Orientation Estimate", "", "Time", "", 100, -100, 100, DYGRAPH_SIMPLE, DYGRAPH_AUTO_PAN_X);
-    dyGraphPid = dyGraphInit ("PID Feedback Control", "", "Time", "", 100, -100, 100, DYGRAPH_SIMPLE, DYGRAPH_AUTO_PAN_X);
+    dyGraphRawAccelerometer = dyGraphInit ("Raw Accelerometer Readings", "", "Time", "", 100, -100, 100, DYGRAPH_SIMPLE, DYGRAPH_AUTO_PAN_X | DYGRAPH_AUTO_SCALE_Y );
+    dyGraphRawGyro = dyGraphInit ("Raw Gyroscope Readings", "", "Time", "", 100, -100, 100, DYGRAPH_SIMPLE, DYGRAPH_AUTO_PAN_X | DYGRAPH_AUTO_SCALE_Y);
+    dyGraphOrientation = dyGraphInit ("Orientation Estimate", "", "Time", "", 100, -100, 100, DYGRAPH_SIMPLE, DYGRAPH_AUTO_PAN_X | DYGRAPH_AUTO_SCALE_Y);
+    dyGraphPid = dyGraphInit ("PID Feedback Control", "", "Time", "", 100, -100, 100, DYGRAPH_SIMPLE, DYGRAPH_AUTO_PAN_X | DYGRAPH_AUTO_SCALE_Y);
 	
 	gtk_container_add(GTK_CONTAINER(windowRawAccelerometer), (GtkWidget*)dyGraphRawAccelerometer->table); // add the graph to the window
 	gtk_container_add(GTK_CONTAINER(windowRawGyro), (GtkWidget*)dyGraphRawGyro->table); // add the graph to the window
@@ -255,6 +255,8 @@ void graphPacket (struct fcu_pkt_t * packet, float time) {
 	dyGraphAddData(dyGraphPid, motor2Trace, time, (float)(packet->motor2) );
 	dyGraphAddData(dyGraphPid, motor3Trace, time, (float)(packet->motor3) );
 	dyGraphAddData(dyGraphPid, motor4Trace, time, (float)(packet->motor4) );
+
+	printf ("%d\t%d\t%d\n", packet->x_accel, packet->y_accel, packet->z_accel);
 }
 
 guint readSerial (void) {
@@ -275,8 +277,9 @@ guint readSerial (void) {
 				j += dataBytesRead;
 				usleep(100);
 			}
-			graphTime += 0.001;
+			graphTime += 1;
 			graphPacket ((struct fcu_pkt_t*)rxBuffer, graphTime);
+			//~ printf ("packet\n");
 			break;
 		}
 	}
