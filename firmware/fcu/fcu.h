@@ -57,7 +57,8 @@
 
 #define X_OFFSET        -11571
 #define Y_OFFSET        -11429
-#define Z_OFFSET        -8728
+//#define Z_OFFSET        -8728
+#define Z_OFFSET        -11500
 
 /* Global Variables */
 

@@ -8,12 +8,24 @@ volatile char xbee_rx_buf[128];
 volatile uint8_t xbee_rx_count = 0;
 volatile uint8_t xbee_rx_buf_rdy = 0;
 
+volatile int16_t x_accel_buf[512];
+volatile int16_t y_accel_buf[512];
+volatile int16_t z_accel_buf[512];
+
+volatile uint8_t x_accel_buf_ctr = 0;
+volatile uint8_t y_accel_buf_ctr = 0;
+volatile uint8_t z_accel_buf_ctr = 0;
+
+volatile int16_t x_accel_avg = 0;
+volatile int16_t y_accel_avg = 0;
+volatile int16_t z_accel_avg = 0;
+
 volatile struct mcu_tx_pkt_t mcu_tx;
 volatile struct mcu_rx_pkt_t mcu_rx;
 
 volatile struct imu_tx_pkt_t imu_tx;
 volatile struct imu_rx_pkt_t imu_rx;
-
+volatile uint8_t loop_ctr = 0;
 volatile struct pid_info roll_pid;
 volatile struct pid_info pitch_pid;
 volatile struct pid_info yaw_pid;
@@ -339,17 +351,17 @@ ISR(SPIE_INT_vect)
                 }
                 fcu_tx.x_gyro = imu_rx.roll;
                 imu_rx.roll += ROLL_OFFSET;
-                fcu_tx.roll = imu_rx.roll;
+                //fcu_tx.roll = imu_rx.roll;
                 roll += (float)imu_rx.roll/1000;
 
                 fcu_tx.y_gyro = imu_rx.pitch;
                 imu_rx.pitch += PITCH_OFFSET;
-                fcu_tx.pitch = imu_rx.pitch;
+                //fcu_tx.pitch = imu_rx.pitch;
                 pitch += (float)imu_rx.pitch/1000;
 
                 fcu_tx.z_gyro = imu_rx.yaw;
                 imu_rx.yaw += YAW_OFFSET;
-                fcu_tx.yaw = imu_rx.yaw;
+                //fcu_tx.yaw = imu_rx.yaw;
                 yaw += (float)imu_rx.yaw/1000;
 
                 imu_rx.x_accel += X_OFFSET;
@@ -360,7 +372,15 @@ ISR(SPIE_INT_vect)
                 fcu_tx.y_accel = imu_rx.y_accel;
                 fcu_tx.z_accel = imu_rx.z_accel;
 
-                if(stream_data_flag)
+                x_accel_buf[x_accel_buf_ctr] = imu_rx.x_accel;
+                y_accel_buf[y_accel_buf_ctr] = imu_rx.y_accel;
+                z_accel_buf[z_accel_buf_ctr] = imu_rx.z_accel;
+
+                x_accel_buf_ctr++;
+                y_accel_buf_ctr++;
+                z_accel_buf_ctr++;
+
+                if(stream_data_flag && loop_ctr == 100)
                 {
                     char * fcu_ptr = (char *)&fcu_tx;
                     FILE * tmp_ptr = stdout;
@@ -372,10 +392,12 @@ ISR(SPIE_INT_vect)
                         printf("%c", fcu_ptr[j]);
                     }
                     stdout = tmp_ptr;
+                    loop_ctr = 0;
                 }
             }
             else
                 SPIE.DATA = 0;
+            loop_ctr++;
         }
     }
     /*** Handle MCU Transfer ***/
@@ -608,6 +630,42 @@ int main (void)
         char * mcu_ptr = &mcu_tx;
         mcu_ptr++;
         //mcu_tx.crc = crc((char *)mcu_ptr, 8, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
+
+        //AVERAGING
+        int i;
+        if(x_accel_buf_ctr >= 511) {
+            for(i = 0; i < 512; i++){
+                x_accel_avg += x_accel_buf[i];
+            }
+            x_accel_avg /= 512;
+            if(x_accel_avg > 2500) x_accel_avg = 2500;
+            if(x_accel_avg < -2500) x_accel_avg = -2500;
+            fcu_tx.roll = x_accel_avg;
+            x_accel_buf_ctr = 0;
+        }
+        
+        if(y_accel_buf_ctr >= 511) {
+            for(i = 0; i < 512; i++){
+                y_accel_avg += y_accel_buf[i];
+            }
+            y_accel_avg /= 512;
+            if(y_accel_avg > 2500)  y_accel_avg = 2500;
+            if(y_accel_avg < -2500) y_accel_avg = -2500;
+            fcu_tx.pitch = y_accel_avg;
+            y_accel_buf_ctr = 0;
+        }
+
+        if(z_accel_buf_ctr >= 511) {
+            for(i = 0; i < 512; i++){
+                z_accel_avg += z_accel_buf[i];
+            }
+            z_accel_avg /= 512;
+            if(z_accel_avg > 2500)  z_accel_avg = 2500;
+            if(z_accel_avg < -2500) z_accel_avg = -2500;
+            fcu_tx.yaw = z_accel_avg;
+            z_accel_buf_ctr = 0;
+        }
+
         _delay_us(100);
         loop_count++;
     }
