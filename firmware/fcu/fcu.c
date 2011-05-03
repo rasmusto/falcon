@@ -1,5 +1,37 @@
 #include "fcu.h"
 
+
+
+// stuff for calman filtering
+
+#define ACCEL_VALUE 0
+#define GYRO_VALUE 0
+
+//~ uint16_t angleLookup[5000];
+#include "lookup_table.c"
+
+#define ACCEL_BUFFER_LENGTH 1000
+#define GYRO_SUM_TIME 500
+
+//~ 78.64200 adc reading increments per degree
+//~ 4506 adc reading increments per radian 
+//~ 2208 adc reading increments per half radian
+
+#define ADC_PER_HALF_RADIAN 2208
+
+int16_t accelBuffer[ACCEL_BUFFER_LENGTH];
+int16_t accelIndex = 0;
+int16_t gyroBuffer[GYRO_SUM_TIME];
+int16_t gyroIndex = 0;
+
+int32_t angleSum = 0;
+int32_t gyroSum;
+uint8_t accelFirstFillFlag = 1;
+
+// ****************************
+
+
+
 volatile char usb_rx_buf[128];
 volatile uint8_t usb_rx_count = 0;
 volatile uint8_t usb_rx_buf_rdy = 0;
@@ -631,40 +663,42 @@ int main (void)
         mcu_ptr++;
         //mcu_tx.crc = crc((char *)mcu_ptr, 8, 7); //calculate the crc on the first 9 bytes of motor packet with divisor 7
 
-        //AVERAGING
-        int i;
-        if(x_accel_buf_ctr >= 511) {
-            for(i = 0; i < 512; i++){
-                x_accel_avg += x_accel_buf[i];
-            }
-            x_accel_avg /= 512;
-            if(x_accel_avg > 2500) x_accel_avg = 2500;
-            if(x_accel_avg < -2500) x_accel_avg = -2500;
-            fcu_tx.roll = x_accel_avg;
-            x_accel_buf_ctr = 0;
-        }
+        //~ //AVERAGING
+        //~ int i;
+        //~ if(x_accel_buf_ctr >= 511) {
+            //~ for(i = 0; i < 512; i++){
+                //~ x_accel_avg += x_accel_buf[i];
+            //~ }
+            //~ x_accel_avg /= 512;
+            //~ if(x_accel_avg > 2500) x_accel_avg = 2500;
+            //~ if(x_accel_avg < -2500) x_accel_avg = -2500;
+            //~ fcu_tx.roll = x_accel_avg;
+            //~ x_accel_buf_ctr = 0;
+        //~ }
+        //~ 
+        //~ if(y_accel_buf_ctr >= 511) {
+            //~ for(i = 0; i < 512; i++){
+                //~ y_accel_avg += y_accel_buf[i];
+            //~ }
+            //~ y_accel_avg /= 512;
+            //~ if(y_accel_avg > 2500)  y_accel_avg = 2500;
+            //~ if(y_accel_avg < -2500) y_accel_avg = -2500;
+            //~ fcu_tx.pitch = y_accel_avg;
+            //~ y_accel_buf_ctr = 0;
+        //~ }
+//~ 
+        //~ if(z_accel_buf_ctr >= 511) {
+            //~ for(i = 0; i < 512; i++){
+                //~ z_accel_avg += z_accel_buf[i];
+            //~ }
+            //~ z_accel_avg /= 512;
+            //~ if(z_accel_avg > 2500)  z_accel_avg = 2500;
+            //~ if(z_accel_avg < -2500) z_accel_avg = -2500;
+            //~ fcu_tx.yaw = z_accel_avg;
+            //~ z_accel_buf_ctr = 0;
+        //~ }
         
-        if(y_accel_buf_ctr >= 511) {
-            for(i = 0; i < 512; i++){
-                y_accel_avg += y_accel_buf[i];
-            }
-            y_accel_avg /= 512;
-            if(y_accel_avg > 2500)  y_accel_avg = 2500;
-            if(y_accel_avg < -2500) y_accel_avg = -2500;
-            fcu_tx.pitch = y_accel_avg;
-            y_accel_buf_ctr = 0;
-        }
-
-        if(z_accel_buf_ctr >= 511) {
-            for(i = 0; i < 512; i++){
-                z_accel_avg += z_accel_buf[i];
-            }
-            z_accel_avg /= 512;
-            if(z_accel_avg > 2500)  z_accel_avg = 2500;
-            if(z_accel_avg < -2500) z_accel_avg = -2500;
-            fcu_tx.yaw = z_accel_avg;
-            z_accel_buf_ctr = 0;
-        }
+        // Calman Filtering
 
         _delay_us(100);
         loop_count++;
