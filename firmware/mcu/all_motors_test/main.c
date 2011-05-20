@@ -17,8 +17,8 @@
 #include "spi_driver.h"
 
 //~ #define MOT1
-//~ #define MOT2
-#define MOT3
+#define MOT2
+//~ #define MOT3
 //~ #define MOT4
 
 #define RFCOUNT 2
@@ -85,7 +85,7 @@
 	#endif
 
 	#define LOCK_PWM 500 // PWM to use to lock rotor to initial position
-	#define STARTUP_PWM 1200 // PWM to use for startup push
+	#define STARTUP_PWM 500 // PWM to use for startup push
 
 // Global variables 
 
@@ -129,10 +129,16 @@
 	
     volatile uint8_t spiWriteBuffer[9];
     volatile uint8_t spiBuffer[8];
+
+	volatile uint8_t sample_on_edge_flag = 1;
+	volatile uint8_t disable_motor_flag = 0;
 	
 int main (void) {
+	//~ while(1);
 	
-	PORTC.DIRSET = (1<<5);
+	PORTC.DIRSET = 1;
+	
+	//~ PORTC.DIRSET = (1<<5);
 	
 	configClock (); // set up 32mhz internal oscillator 
 	
@@ -188,7 +194,12 @@ int main (void) {
 	sei();
 	
 	startup();
-	//~ spiInit();
+	spiInit();
+	
+	_delay_ms(500);
+	_delay_ms(500);
+	_delay_ms(500);
+	_delay_ms(500);
 	
 	while (1);
 }
@@ -298,12 +309,43 @@ void configClock (void) {
 	
 	// When TCF0 overflows, high part of pwm cycle starts
 	ISR (TCF0_OVF_vect) {
-		PORTE.OUTCLR = phaseOutputsELow; // turn off all high bits in phaseOutputsELow
-		PORTE.OUTSET = phaseOutputsEHigh; // turn on all high bits in phaseOutputsEHigh
-		PORTF.OUTCLR = phaseOutputsFLow; // turn off all high bits in phaseOutputsFLow
-		PORTF.OUTSET = phaseOutputsFHigh; // turn on all high bits in phaseOutputsFHigh
-		PORTD.OUTCLR = phaseOutputsDLow; // turn off all high bits in phaseOutputsDLow
-		PORTD.OUTSET = phaseOutputsDHigh; // turn on all high bits in phaseOutputsDHigh
+		if (!disable_motor_flag) {
+			PORTE.OUTCLR = phaseOutputsELow; // turn off all high bits in phaseOutputsELow
+			PORTE.OUTSET = phaseOutputsEHigh; // turn on all high bits in phaseOutputsEHigh
+			PORTF.OUTCLR = phaseOutputsFLow; // turn off all high bits in phaseOutputsFLow
+			PORTF.OUTSET = phaseOutputsFHigh; // turn on all high bits in phaseOutputsFHigh
+			PORTD.OUTCLR = phaseOutputsDLow; // turn off all high bits in phaseOutputsDLow
+			PORTD.OUTSET = phaseOutputsDHigh; // turn on all high bits in phaseOutputsDHigh
+		}
+		
+		if (sample_on_edge_flag) {
+			#ifdef MOT1
+			ADC_Ch_InputMux_Config (&ADCA.CH0, motor1StateSenseIndex[motor1State]<<3, 0);
+			ADC_Ch_Conversion_Start (&(ADCA.CH0));
+			#endif
+			
+			#ifdef MOT2
+			ADC_Ch_InputMux_Config (&ADCA.CH1, motor2StateSenseIndex[motor2State]<<3, 0);
+			ADC_Ch_Conversion_Start (&(ADCA.CH1));
+			#endif
+			
+			#ifdef MOT3
+			if (motor3StateSenseIndex[motor3State] == 0) { // sense c3 is on adcb, sense a3 and b3 are on adca
+				ADC_Ch_InputMux_Config (&ADCB.CH2, motor3StateSenseIndex[motor3State]<<3, 0);
+				ADC_Ch_Conversion_Start (&(ADCB.CH2));
+			} else {
+				ADC_Ch_InputMux_Config (&ADCA.CH2, motor3StateSenseIndex[motor3State]<<3, 0);
+				ADC_Ch_Conversion_Start (&(ADCA.CH2));			
+			}
+			#endif
+			
+			#ifdef MOT4
+			ADC_Ch_InputMux_Config (&ADCB.CH3, motor4StateSenseIndex[motor4State]<<3, 0);
+			ADC_Ch_Conversion_Start (&(ADCB.CH3));
+			#endif
+			
+			
+		}
 	}
 
 // *************** /PWM **********************
@@ -345,8 +387,10 @@ void configClock (void) {
 	ISR (TCE0_CCA_vect) {
 		// half way into high part of motor 1 pwm
 		// start adc conversion on adca ch1 (this channel is dedicated to this motor)
-		ADC_Ch_InputMux_Config (&ADCA.CH0, motor1StateSenseIndex[motor1State]<<3, 0);
-		ADC_Ch_Conversion_Start (&(ADCA.CH0));
+		if (!sample_on_edge_flag) {
+			ADC_Ch_InputMux_Config (&ADCA.CH0, motor1StateSenseIndex[motor1State]<<3, 0);
+			ADC_Ch_Conversion_Start (&(ADCA.CH0));
+		}
 	}
 	#endif
 	
@@ -355,8 +399,10 @@ void configClock (void) {
 	ISR (TCE0_CCB_vect) {
 		// half way into high part of motor 2 pwm
 		// start adc conversion on adca ch1 (this channel is dedicated to this motor)
-		ADC_Ch_InputMux_Config (&ADCA.CH1, motor2StateSenseIndex[motor2State]<<3, 0);
-		ADC_Ch_Conversion_Start (&(ADCA.CH1));
+		if (!sample_on_edge_flag) {
+			ADC_Ch_InputMux_Config (&ADCA.CH1, motor2StateSenseIndex[motor2State]<<3, 0);
+			ADC_Ch_Conversion_Start (&(ADCA.CH1));
+		}
 	}
 	#endif
 	
@@ -365,12 +411,14 @@ void configClock (void) {
 	ISR (TCE0_CCC_vect) {
 		// half way into high part of motor 3 pwm
 		// start adc conversion on adca ch1 (this channel is dedicated to this motor)
-		if (motor3StateSenseIndex[motor3State] == 0) { // sense c3 is on adcb, sense a3 and b3 are on adca
-			ADC_Ch_InputMux_Config (&ADCB.CH2, motor3StateSenseIndex[motor3State]<<3, 0);
-			ADC_Ch_Conversion_Start (&(ADCB.CH2));
-		} else {
-			ADC_Ch_InputMux_Config (&ADCA.CH2, motor3StateSenseIndex[motor3State]<<3, 0);
-			ADC_Ch_Conversion_Start (&(ADCA.CH2));			
+		if (!sample_on_edge_flag) {
+			if (motor3StateSenseIndex[motor3State] == 0) { // sense c3 is on adcb, sense a3 and b3 are on adca
+				ADC_Ch_InputMux_Config (&ADCB.CH2, motor3StateSenseIndex[motor3State]<<3, 0);
+				ADC_Ch_Conversion_Start (&(ADCB.CH2));
+			} else {
+				ADC_Ch_InputMux_Config (&ADCA.CH2, motor3StateSenseIndex[motor3State]<<3, 0);
+				ADC_Ch_Conversion_Start (&(ADCA.CH2));			
+			}
 		}
 	}
 	#endif
@@ -380,8 +428,10 @@ void configClock (void) {
 	ISR (TCE0_CCD_vect) {
 		// half way into high part of motor 4 pwm
 		// start adc conversion on adca ch1 (this channel is dedicated to this motor)
-		ADC_Ch_InputMux_Config (&ADCB.CH3, motor4StateSenseIndex[motor4State]<<3, 0);
-		ADC_Ch_Conversion_Start (&(ADCB.CH3));
+		if (!sample_on_edge_flag) {
+			ADC_Ch_InputMux_Config (&ADCB.CH3, motor4StateSenseIndex[motor4State]<<3, 0);
+			ADC_Ch_Conversion_Start (&(ADCB.CH3));
+		}
 	}
 	#endif
 	
@@ -703,28 +753,28 @@ void configDelayTimer (volatile TC0_t * tc) {
 
 void startup(void) {
 	
-	#ifdef MOT1
-	TCF0.CCABUF = LOCK_PWM;
-	SET_PHASE_STATE_5_MOT1();
-	#endif
+	//~ #ifdef MOT1
+	//~ TCF0.CCABUF = LOCK_PWM;
+	//~ SET_PHASE_STATE_5_MOT1();
+	//~ #endif
+	//~ 
+	//~ #ifdef MOT2
+	//~ TCF0.CCBBUF = LOCK_PWM;
+	//~ SET_PHASE_STATE_5_MOT2();
+	//~ #endif
+	//~ 
+	//~ #ifdef MOT3
+	//~ TCF0.CCCBUF = LOCK_PWM;
+	//~ SET_PHASE_STATE_5_MOT3();
+	//~ #endif
+	//~ 
+	//~ #ifdef MOT4
+	//~ TCF0.CCDBUF = LOCK_PWM;
+	//~ SET_PHASE_STATE_5_MOT4();
+	//~ #endif
 	
-	#ifdef MOT2
-	TCF0.CCBBUF = LOCK_PWM;
-	SET_PHASE_STATE_5_MOT2();
-	#endif
-	
-	#ifdef MOT3
-	TCF0.CCCBUF = LOCK_PWM;
-	SET_PHASE_STATE_5_MOT3();
-	#endif
-	
-	#ifdef MOT4
-	TCF0.CCDBUF = LOCK_PWM;
-	SET_PHASE_STATE_5_MOT4();
-	#endif
-	
-	TCC0.CNT = 0;
-	while (TCC0.CNT < 65000) {}
+	//~ TCC0.CNT = 0;
+	//~ while (TCC0.CNT < 65000) {}
 
 	#ifdef MOT1
 	TCF0.CCABUF = STARTUP_PWM;
@@ -795,7 +845,7 @@ void startup(void) {
 	fallingCount4 = 0;
 	#endif
 	
-	PORTC.OUTSET = (1<<5);
+	//~ PORTC.OUTSET = (1<<5);
 }
 
 void spiInit () {
@@ -811,39 +861,123 @@ ISR (SPIC_INT_vect) {
     static uint8_t readPacketFlag = 0;
     static uint8_t writePacketFlag = 0;
 	uint8_t data = SPIC.DATA;
+    //~ if(data == 0xB5) {
+		//~ disable_motor_flag =1;
+		//~ return;
+	//~ }
     if(data == 0xB5)
     {
         readPacketFlag = 1;
         writePacketFlag = 0;
         spi_index = 0;
+        return;
     }
+    
     if(readPacketFlag)
     {
-        if(data != 0xB5)
-        {
-            spiBuffer[spi_index] = data;
-            spi_index++;
-            SPIC.DATA = 0;
-            if (spi_index == 9) {
-				TCF0.CCABUF = *((uint16_t *)(spiBuffer+0));
-				TCF0.CCBBUF = *((uint16_t *)(spiBuffer+2));
-				TCF0.CCCBUF = *((uint16_t *)(spiBuffer+4));
-				TCF0.CCDBUF = *((uint16_t *)(spiBuffer+6));
-				
-				TCE0.CCBBUF = TCF0.CCABUF/2;
-				TCE0.CCBBUF = TCF0.CCBBUF/2;
-				TCE0.CCBBUF = TCF0.CCCBUF/2;
-				TCE0.CCBBUF = TCF0.CCDBUF/2;
-				
-				if (TCF0.CCABUF == 0 || TCF0.CCBBUF == 0 || TCF0.CCCBUF == 0 || TCF0.CCDBUF == 0)
-				{
-					PORTD.DIR = 0;
-					PORTE.DIR = 0;
-					PORTF.DIR = 0;
-					cli();
-					while(1);
+		spiBuffer[spi_index] = data;
+		spi_index++;
+		SPIC.DATA = 0;
+		if (spi_index == 9) {
+			
+			#ifdef MOT1;
+			uint16_t mot1Speed = *((uint16_t *)(spiBuffer+0));
+			
+			if (mot1Speed == 0) {
+				disable_motor_flag = 1;
+			}
+			else if (mot1Speed < 1700) {
+				disable_motor_flag = 0;
+				TCF0.CCABUF = mot1Speed;
+				if (mot1Speed > 1000) {
+					sample_on_edge_flag = 0;
+					TCE0.CCABUF = mot1Speed/2;
+				} else {
+					sample_on_edge_flag = 1;
 				}
 			}
+			else {
+				disable_motor_flag = 0;
+				TCF0.CCABUF = 1700;
+				sample_on_edge_flag = 0;
+				TCE0.CCABUF = 1700/2;
+			}
+			
+			//~ TCF0.CCABUF = mot1Speed;
+			
+			#endif
+			
+			#ifdef MOT2
+			uint16_t mot2Speed = *((uint16_t *)(spiBuffer+2));
+
+			if (mot2Speed == 0) {
+				disable_motor_flag = 1;	
+			}			
+			else if (mot2Speed < 1700) {
+				disable_motor_flag = 0;
+				TCF0.CCBBUF = mot2Speed;
+				if (mot2Speed > 1000) {
+					sample_on_edge_flag = 0;
+					TCE0.CCBBUF = mot2Speed/2;
+				} else {
+					sample_on_edge_flag = 1;
+				}
+			}
+			else {
+				disable_motor_flag = 0;
+				TCF0.CCBBUF = 1700;
+				sample_on_edge_flag = 0;
+				TCE0.CCBBUF = 1700/2;
+			}
+			#endif
+			
+			#ifdef MOT3				
+			uint16_t mot3Speed = *((uint16_t *)(spiBuffer+4));
+			
+			if (mot3Speed == 0) {
+				disable_motor_flag = 1;
+			}
+			else if (mot3Speed < 1700) {
+				disable_motor_flag = 0;
+				TCF0.CCCBUF = mot3Speed;
+				if (mot3Speed > 1000) {
+					sample_on_edge_flag = 0;
+					TCE0.CCCBUF = mot3Speed/2;
+				} else {
+					sample_on_edge_flag = 1;
+				}
+			}
+			else {
+				disable_motor_flag = 0;
+				TCF0.CCCBUF = 1700;
+				sample_on_edge_flag = 0;
+				TCE0.CCCBUF = 1700/2;
+			}
+			#endif
+			
+			#ifdef MOT4
+			uint16_t mot4Speed = *((uint16_t *)(spiBuffer+6));			
+
+			if (mot4Speed == 0) {
+				disable_motor_flag = 1;
+			}
+			else if (mot4Speed < 1700) {
+				disable_motor_flag = 0;
+				TCF0.CCDBUF = mot4Speed;
+				if (mot4Speed > 1000) {
+					sample_on_edge_flag = 0;
+					TCE0.CCDBUF = mot4Speed/2;
+				} else {
+					sample_on_edge_flag = 1;
+				}
+			}
+			else {
+				disable_motor_flag = 0;
+				TCF0.CCDBUF = 1700;
+				sample_on_edge_flag = 0;
+				TCE0.CCDBUF = 1700/2;
+			}
+			#endif
         }
     }
     if(readPacketFlag && spi_index >= 9)

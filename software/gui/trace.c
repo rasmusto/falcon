@@ -116,28 +116,49 @@ void gtk_graph_trace_set_data(GtkGraph *graph, gint trace_id, gfloat *xd, gfloat
 {
 	GtkGraphTrace *t;
 	gint i;
-
+	
 	g_return_if_fail (graph != NULL);
 	g_return_if_fail (GTK_IS_GRAPH (graph));
 	g_return_if_fail (graph->traces != NULL);
 	g_return_if_fail (trace_id < graph->num_traces);
 
+	float timestep = (xd[n-1] - xd[0])/n;
+	
+	int min_index;
+	int n_in_window;
+	
+	if (xd[0] < graph-> independant->axis_min)
+		min_index = (graph->independant->axis_min - xd[0]) / timestep;
+	else
+		min_index = 0;
+		
+	if (xd[n-1] >= graph->independant->axis_max && xd[0] <= graph->independant->axis_min)
+		n_in_window = ((graph->independant->axis_max - graph->independant->axis_min) / timestep) -1;
+	else if (xd[n-1] >= graph->independant->axis_max)
+		n_in_window = (graph->independant->axis_max - xd[0]) / timestep;
+	else if (xd[0] <= graph->independant->axis_min)
+		n-1 - min_index;
+	else
+		n_in_window = n;
+	
+	printf ("%f (%d %f) - %f (%d %f)\n", graph->independant->axis_min, min_index, xd[min_index], (graph->independant->axis_max - graph->independant->axis_min), n_in_window, xd[n_in_window-1]);
+	
 	t = graph->traces;
 	for (i = 0 ; i < trace_id ; i++) // linked list of traces - find the one that we want to update
 		t = t->next;
 		
-	if (n<=1000) {			
-		t->num_points = n;
+	if (n_in_window<=1000) {			
+		t->num_points = n_in_window;
 		t->incrementFactor = 1;
 	} else {		
-		t->incrementFactor = n/1000;
-		t->num_points = n/(t->incrementFactor);
+		t->incrementFactor = n_in_window/1000;
+		t->num_points = n_in_window/(t->incrementFactor);
 	}
 	
 	//~ printf ("n=%d if=%d np=%d\n", n, t->incrementFactor, t->num_points);
 	
-	t->Xdata = xd;
-	t->Ydata = yd;
+	t->Xdata = xd+min_index;
+	t->Ydata = yd+min_index;
 
 	t->ymax = yMax;
 	t->ymin = yMin;
