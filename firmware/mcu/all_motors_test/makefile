@@ -110,12 +110,14 @@ OPTLEVEL=2
 # one of the valid "-c PROGRAMMER-ID" values 
 # described in the avrdude info page.
 # 
-AVRDUDE_PROGRAMMERID=jtag2pdi
+#~ AVRDUDE_PROGRAMMERID=jtag2pdi
+AVRDUDE_PROGRAMMERID = avrisp2
 
 # port--serial or parallel port to which your 
 # hardware programmer is attached
 #
-AVRDUDE_PORT=usb:00A000401033
+#~ AVRDUDE_PORT=usb:00A000401033
+AVRDUDE_PORT = usb
 
 
 ####################################################

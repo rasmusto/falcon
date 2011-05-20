@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <unistd.h>
 #include <stdint.h>
@@ -5,8 +6,10 @@
 #include <gtk/gtk.h>
 #include <glib.h>
 #include <math.h>
+#include <fcntl.h>
 #include "gtkgraph.h"
 #include "dyGraph.h"
+#include "joystick.h"
 
 #include "uart.h"
 
@@ -77,6 +80,27 @@ struct dyGraph* graph;
 void graphPacket (struct fcu_pkt_t * packet, float time);
 guint readSerial (void);
 
+// joystick stuff
+
+static joystick (void);
+int open_joystick (void);
+
+static int joystick_fd = -1;
+struct js_event jse;
+
+int fd, rc;
+int done = 0;
+
+volatile int16_t roll = 0;
+volatile int16_t pitch = 0;
+volatile int16_t yaw = 0;
+volatile int16_t power = 0;
+
+volatile int16_t triangle, circle, square, cross;
+volatile int16_t up, right, down, left;
+
+volatile int16_t pitch_offset, roll_offset;
+
 int main (int argc, char **argv)
 {	
 	if (argc != 2) {
@@ -85,6 +109,14 @@ int main (int argc, char **argv)
 	} 
 
 	uartfd = initUART(argv[1]);
+	
+	// joystick
+
+	fd = open_joystick();
+	if (fd < 0) {
+		printf("open failed.\n");
+		exit(1);
+	}
 	
 	//******************* Set up GTK window **********************
 	
@@ -196,12 +228,111 @@ int main (int argc, char **argv)
 
     //~ g_timeout_add (100, (GSourceFunc) testUpdate, NULL);    
     g_timeout_add(1, (GSourceFunc) readSerial, NULL);   
+    g_timeout_add(1, (GSourceFunc) joystick, NULL);   
     
     //******************* GTK main **********************
     
     gtk_main ();
 
 	return 0;
+}
+
+int open_joystick()
+{
+	joystick_fd = open(JOYSTICK_DEVNAME, O_RDONLY | O_NONBLOCK); /* read write for force feedback? */
+	if (joystick_fd < 0)
+		return joystick_fd;
+
+	return joystick_fd;
+}
+
+int read_joystick_event(struct js_event *jse)
+{
+	int bytes;
+
+	bytes = read(joystick_fd, jse, sizeof(*jse)); 
+
+	if (bytes == -1)
+		return 0;
+
+	if (bytes == sizeof(*jse))
+		return 1;
+
+	printf("Unexpected bytes from joystick:%d\n", bytes);
+
+	return -1;
+}
+
+static gint joystick (void) 
+{
+	rc = read_joystick_event(&jse);
+	usleep(100);
+	if (rc == 1) {
+		//~ printf("Event: time %8u, value %8hd, type: %3u, axis/button: %u\n", jse.time, jse.value, jse.type, jse.number);
+		if (jse.number == 0) { 
+			//printf("roll = %d at time = %d\n", jse.value, jse.time);
+			roll = jse.value;
+		}
+		if (jse.number == 1) {
+			//printf("pitch = %d at time = %d\n", jse.value, jse.time);
+			pitch = jse.value;
+		}
+		if (jse.number == 2) {
+			//printf("yaw? = %d at time = %d\n", jse.value, jse.time);
+			yaw = jse.value;
+		}
+		if (jse.number == 3) { //power/start
+			//printf("power = %d at time = %d\n", jse.value, jse.time);
+			if(jse.type == 1 && jse.value == 1) {
+				roll = 0;
+				pitch = 0;
+				yaw = 0;
+			}
+			else if (jse.type == 2)
+				power = jse.value;
+		}
+		if (jse.number == 16) { //triangle
+			triangle = jse.value;
+		}
+		if (jse.number == 17) { //circle
+			circle = jse.value;
+		}
+		if (jse.number == 18) { //cross
+			cross = jse.value;
+		}
+		if (jse.number == 19) { //square
+			square = jse.value;
+		}
+
+		if (jse.number == 8 && jse.type == 2) { //up
+			up = jse.value;
+		}
+		if (jse.number == 9 && jse.type == 2) { //right
+			right = jse.value;
+		}
+		if (jse.number == 10 && jse.type == 2) { //down
+			down = jse.value;
+		}
+		if (jse.number == 11 && jse.type == 2) { //left
+			left = jse.value;
+		}
+	}
+
+	if(up > 20000)      pitch_offset += 1;
+	if(right > 20000)   roll_offset += 1;
+	if(down > 20000)    pitch_offset -= 1;
+	if(left == 1)    roll_offset -= 1;
+	if(triangle > 20000) {
+				roll = 0;
+				pitch = 0;
+				yaw = 0; 
+				roll_offset = 0;
+				pitch_offset = 0;
+	}
+	
+	printf ("%d\n", roll);
+	
+	return TRUE;
 }
 
 // testUpdate is called every time the testTimer timeout is triggered (every 500mS currently)

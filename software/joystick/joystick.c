@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
 		rc = read_joystick_event(&jse);
 		usleep(100);
 		if (rc == 1) {
-			//printf("Event: time %8u, value %8hd, type: %3u, axis/button: %u\n", jse.time, jse.value, jse.type, jse.number);
+			//~ printf("Event: time %8u, value %8hd, type: %3u, axis/button: %u\n", jse.time, jse.value, jse.type, jse.number);
             if (jse.number == 0) { 
                 //printf("roll = %d at time = %d\n", jse.value, jse.time);
                 roll = jse.value;
@@ -123,7 +123,7 @@ int main(int argc, char *argv[])
                     pitch = 0;
                     yaw = 0;
                 }
-                else if (jse.type == 0)
+                else if (jse.type == 2)
                     power = jse.value;
             }
             if (jse.number == 16) { //triangle
@@ -156,7 +156,14 @@ int main(int argc, char *argv[])
         if(up > 20000)      pitch_offset += 1;
         if(right > 20000)   roll_offset += 1;
         if(down > 20000)    pitch_offset -= 1;
-        if(left > 20000)    roll_offset -= 1;
+        if(left == 1)    roll_offset -= 1;
+        if(triangle > 20000) {
+			        roll = 0;
+                    pitch = 0;
+                    yaw = 0; 
+			        roll_offset = 0;
+                    pitch_offset = 0;
+        }
 
         system("clear");
         printf("roll\t=\t%d\npitch\t=\t%d\nyaw\t=\t%d\npower\t=\t%d\n", roll + roll_offset, pitch + pitch_offset, yaw, power);

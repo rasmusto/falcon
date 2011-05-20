@@ -114,9 +114,9 @@ OPTLEVEL=s
 # 
 
 #AVRDUDE_PROGRAMMERID=jtag2pdi
-#AVRDUDE_PROGRAMMERID=avrispmkII
-#AVRDUDE_PROGRAMMERID=avrisp2
-AVRDUDE_PROGRAMMERID=avr109
+AVRDUDE_PROGRAMMERID=avrispmkII
+#~ AVRDUDE_PROGRAMMERID=avrisp2
+#~ AVRDUDE_PROGRAMMERID=avr109
 
 
 # port--serial or parallel port to which your 
@@ -124,8 +124,8 @@ AVRDUDE_PROGRAMMERID=avr109
 #
 
 #AVRDUDE_PORT=usb:00A000401033
-#AVRDUDE_PORT=usb
-AVRDUDE_PORT=/dev/ttyUSB0 -b 115200
+AVRDUDE_PORT=usb
+#~ AVRDUDE_PORT=/dev/ttyUSB0 -b 115200
 
 
 ####################################################
