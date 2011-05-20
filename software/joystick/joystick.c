@@ -103,6 +103,7 @@ int main(int argc, char *argv[])
 		rc = read_joystick_event(&jse);
 		usleep(100);
 		if (rc == 1) {
+			//printf("Event: time %8u, value %8hd, type: %3u, axis/button: %u\n", jse.time, jse.value, jse.type, jse.number);
             if (jse.number == 0) { 
                 //printf("roll = %d at time = %d\n", jse.value, jse.time);
                 roll = jse.value;
