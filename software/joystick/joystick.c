@@ -82,6 +82,8 @@ int main(int argc, char *argv[])
 	int done = 0;
     
     int16_t roll, pitch, yaw, power;
+    int16_t triangle, circle, square, cross;
+    int16_t up, right, down, left;
 
 	struct js_event jse;
 
@@ -95,8 +97,7 @@ int main(int argc, char *argv[])
 		rc = read_joystick_event(&jse);
 		usleep(100);
 		if (rc == 1) {
-			printf("Event: time %8u, value %8hd, type: %3u, axis/button: %u\n", 
-				jse.time, jse.value, jse.type, jse.number);
+			//printf("Event: time %8u, value %8hd, type: %3u, axis/button: %u\n", jse.time, jse.value, jse.type, jse.number);
             if (jse.number == 0) { 
                 //printf("roll = %d at time = %d\n", jse.value, jse.time);
                 roll = jse.value;
@@ -113,10 +114,35 @@ int main(int argc, char *argv[])
                 //printf("power = %d at time = %d\n", jse.value, jse.time);
                 power = jse.value;
             }
-			//printf("Event: time %8u, value %8hd, type: %3u, axis/button: %u\n", 
-			//	jse.time, jse.value, jse.type, jse.number);
+            if (jse.number == 16) { //triangle
+                triangle = jse.value;
+            }
+            if (jse.number == 17) { //circle
+                circle = jse.value;
+            }
+            if (jse.number == 18) { //cross
+                cross = jse.value;
+            }
+            if (jse.number == 19) { //square
+                square = jse.value;
+            }
+
+            if (jse.number == 8 && jse.type == 2) { //up
+                up = jse.value;
+            }
+            if (jse.number == 9 && jse.type == 2) { //right
+                right = jse.value;
+            }
+            if (jse.number == 10 && jse.type == 2) { //down
+                down = jse.value;
+            }
+            if (jse.number == 11 && jse.type == 2) { //left
+                left = jse.value;
+            }
 		}
         system("clear");
         printf("roll\t=\t%d\npitch\t=\t%d\nyaw\t=\t%d\npower\t=\t%d\n", roll, pitch, yaw, power);
+        printf("triangle=\t%d\nsquare\t=\t%d\ncircle\t=\t%d\ncross\t=\t%d\n", triangle, square, circle, cross);
+        printf("up\t=\t%d\nright\t=\t%d\ndown\t=\t%d\nleft\t=\t%d\n", up, right, down, left);
 	}
 }
