@@ -123,24 +123,24 @@ int main (int argc, char **argv)
 	GtkWidget *windowRawAccelerometer;
 	GtkWidget *windowRawGyro;
 	GtkWidget *windowOrientation;
-	GtkWidget *windowPid;
+	//~ GtkWidget *windowPid;
 	
 	gtk_init (&argc, &argv);
 	
 	windowRawAccelerometer = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	windowRawGyro = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	windowOrientation = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	windowPid = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	//~ windowPid = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	
 	gtk_window_set_title (GTK_WINDOW(windowRawAccelerometer), "Falcon - Accelerometer");
 	gtk_window_set_title (GTK_WINDOW(windowRawGyro), "Falcon - Gyroscopes");
 	gtk_window_set_title (GTK_WINDOW(windowOrientation), "Falcon - Kalman Filter Output");
-	gtk_window_set_title (GTK_WINDOW(windowPid), "Falcon - Kalman Filter Output");
+	//~ gtk_window_set_title (GTK_WINDOW(windowPid), "Falcon - Kalman Filter Output");
 	
 	gtk_widget_show(windowRawAccelerometer);
 	gtk_widget_show(windowRawGyro);
 	gtk_widget_show(windowOrientation);
-	gtk_widget_show(windowPid);
+	//~ gtk_widget_show(windowPid);
 	
 	//~ g_signal_connect (windowRawAccelerometer, "destroy", G_CALLBACK (gtk_main_quit), NULL);
 	//~ g_signal_connect (windowRawGyro, "destroy", G_CALLBACK (gtk_main_quit), NULL);
@@ -155,17 +155,17 @@ int main (int argc, char **argv)
     dyGraphRawAccelerometer = dyGraphInit ("Raw Accelerometer Readings", "", "Time", "", 5, -5, 5, DYGRAPH_SIMPLE, DYGRAPH_AUTO_PAN_X | DYGRAPH_AUTO_SCALE_Y );
     dyGraphRawGyro = dyGraphInit ("Raw Gyroscope Readings", "", "Time", "", 5, -5, 5, DYGRAPH_SIMPLE, DYGRAPH_AUTO_PAN_X | DYGRAPH_AUTO_SCALE_Y);
     dyGraphOrientation = dyGraphInit ("Orientation Estimate", "", "Time", "", 5, -5, 5, DYGRAPH_SIMPLE, DYGRAPH_AUTO_PAN_X | DYGRAPH_AUTO_SCALE_Y);
-    dyGraphPid = dyGraphInit ("PID Feedback Control", "", "Time", "", 5, -5, 5, DYGRAPH_SIMPLE, DYGRAPH_AUTO_PAN_X | DYGRAPH_AUTO_SCALE_Y);
+    //~ dyGraphPid = dyGraphInit ("PID Feedback Control", "", "Time", "", 5, -5, 5, DYGRAPH_SIMPLE, DYGRAPH_AUTO_PAN_X | DYGRAPH_AUTO_SCALE_Y);
 	
 	gtk_container_add(GTK_CONTAINER(windowRawAccelerometer), (GtkWidget*)dyGraphRawAccelerometer->table); // add the graph to the window
 	gtk_container_add(GTK_CONTAINER(windowRawGyro), (GtkWidget*)dyGraphRawGyro->table); // add the graph to the window
 	gtk_container_add(GTK_CONTAINER(windowOrientation), (GtkWidget*)dyGraphOrientation->table); // add the graph to the window
-	gtk_container_add(GTK_CONTAINER(windowPid), (GtkWidget*)dyGraphPid->table); // add the graph to the window
+	//~ gtk_container_add(GTK_CONTAINER(windowPid), (GtkWidget*)dyGraphPid->table); // add the graph to the window
 	
     gtk_widget_show(dyGraphRawAccelerometer->table);
     gtk_widget_show(dyGraphRawGyro->table);
     gtk_widget_show(dyGraphOrientation->table);
-    gtk_widget_show(dyGraphPid->table);
+    //~ gtk_widget_show(dyGraphPid->table);
     
     //******************** Add Traces **********************
     
@@ -181,18 +181,18 @@ int main (int argc, char **argv)
     eulerPitchTrace = dyGraphAddTrace (dyGraphOrientation, SOLID, 2, GREEN, "Pitch");
     eulerYawTrace = dyGraphAddTrace (dyGraphOrientation, SOLID, 2, RED, "Yaw");
     
-    pidRollTrace = dyGraphAddTrace (dyGraphPid, SOLID, 2, BLUE, "Roll");
-    pidPitchTrace = dyGraphAddTrace (dyGraphPid, SOLID, 2, GREEN, "Pitch");
-    pidYawTrace = dyGraphAddTrace (dyGraphPid, SOLID, 2, RED, "Yaw");
+    //~ pidRollTrace = dyGraphAddTrace (dyGraphPid, SOLID, 2, BLUE, "Roll");
+    //~ pidPitchTrace = dyGraphAddTrace (dyGraphPid, SOLID, 2, GREEN, "Pitch");
+    //~ pidYawTrace = dyGraphAddTrace (dyGraphPid, SOLID, 2, RED, "Yaw");
     
-    pidRollTargetTrace = dyGraphAddTrace (dyGraphPid, DOTTED, 2, BLUE, "Roll Target");
-    pidPitchTargetTrace = dyGraphAddTrace (dyGraphPid, DOTTED, 2, GREEN, "Pitch Target");
-    pidYawTargetTrace = dyGraphAddTrace (dyGraphPid, DOTTED, 2, RED, "Yaw Target");
-    
-    motor1Trace = dyGraphAddTrace (dyGraphPid, DOTTED, 2, BLACK, "Roll Target");
-    motor2Trace = dyGraphAddTrace (dyGraphPid, DOTTED, 2, BLACK, "Pitch Target");
-    motor3Trace = dyGraphAddTrace (dyGraphPid, DOTTED, 2, BLACK, "Yaw Target");
-    motor4Trace = dyGraphAddTrace (dyGraphPid, DOTTED, 2, BLACK, "Yaw Target");
+    //~ pidRollTargetTrace = dyGraphAddTrace (dyGraphPid, DOTTED, 2, BLUE, "Roll Target");
+    //~ pidPitchTargetTrace = dyGraphAddTrace (dyGraphPid, DOTTED, 2, GREEN, "Pitch Target");
+    //~ pidYawTargetTrace = dyGraphAddTrace (dyGraphPid, DOTTED, 2, RED, "Yaw Target");
+    //~ 
+    //~ motor1Trace = dyGraphAddTrace (dyGraphPid, DOTTED, 2, BLACK, "Roll Target");
+    //~ motor2Trace = dyGraphAddTrace (dyGraphPid, DOTTED, 2, BLACK, "Pitch Target");
+    //~ motor3Trace = dyGraphAddTrace (dyGraphPid, DOTTED, 2, BLACK, "Yaw Target");
+    //~ motor4Trace = dyGraphAddTrace (dyGraphPid, DOTTED, 2, BLACK, "Yaw Target");
     
     //******************* Add timeout to add more data to traces **********************
     
@@ -224,7 +224,7 @@ int main (int argc, char **argv)
 	dyGraphRawAccelerometer = dyGraphRawAccelerometer;
 	dyGraphRawGyro = dyGraphRawGyro;
 	dyGraphOrientation = dyGraphOrientation;
-	dyGraphPid = dyGraphPid;
+	//~ dyGraphPid = dyGraphPid;
 
     //~ g_timeout_add (100, (GSourceFunc) testUpdate, NULL);    
     g_timeout_add(1, (GSourceFunc) readSerial, NULL);   
@@ -350,46 +350,50 @@ static gint testUpdate (void)
 	dyGraphAddData(dyGraphOrientation, eulerPitchTrace, (float)(eulerPitchTrace->dataCurr), (60.)*sin((float)(eulerPitchTrace->dataCurr/10.)) );
 	dyGraphAddData(dyGraphOrientation, eulerYawTrace, (float)(eulerYawTrace->dataCurr), (30.)*sin((float)(eulerYawTrace->dataCurr/10.)) );	
 
-	dyGraphAddData(dyGraphPid, pidRollTrace, (float)(pidRollTrace->dataCurr), (90.)*sin((float)(pidRollTrace->dataCurr/10.)) );
-	dyGraphAddData(dyGraphPid, pidPitchTrace, (float)(pidPitchTrace->dataCurr), (60.)*sin((float)(pidPitchTrace->dataCurr/10.)) );
-	dyGraphAddData(dyGraphPid, pidYawTrace, (float)(pidYawTrace->dataCurr), (30.)*sin((float)(pidYawTrace->dataCurr/10.)) );	
-	dyGraphAddData(dyGraphPid, pidRollTargetTrace, (float)(pidRollTargetTrace->dataCurr), (90.)*sin((float)(pidRollTargetTrace->dataCurr/10.)) );
-	dyGraphAddData(dyGraphPid, pidPitchTargetTrace, (float)(pidPitchTargetTrace->dataCurr), (60.)*sin((float)(pidPitchTargetTrace->dataCurr/10.)) );
-	dyGraphAddData(dyGraphPid, pidYawTargetTrace, (float)(pidYawTargetTrace->dataCurr), (30.)*sin((float)(pidYawTargetTrace->dataCurr/10.)) );	
-	dyGraphAddData(dyGraphPid, motor1Trace, (float)(motor1Trace->dataCurr), (90.)*sin((float)(motor1Trace->dataCurr/10.)) );
-	dyGraphAddData(dyGraphPid, motor2Trace, (float)(motor2Trace->dataCurr), (60.)*sin((float)(motor2Trace->dataCurr/10.)) );
-	dyGraphAddData(dyGraphPid, motor3Trace, (float)(motor3Trace->dataCurr), (30.)*sin((float)(motor3Trace->dataCurr/10.)) );	
-	dyGraphAddData(dyGraphPid, motor4Trace, (float)(motor4Trace->dataCurr), (30.)*sin((float)(motor4Trace->dataCurr/10.)) );	
+	//~ dyGraphAddData(dyGraphPid, pidRollTrace, (float)(pidRollTrace->dataCurr), (90.)*sin((float)(pidRollTrace->dataCurr/10.)) );
+	//~ dyGraphAddData(dyGraphPid, pidPitchTrace, (float)(pidPitchTrace->dataCurr), (60.)*sin((float)(pidPitchTrace->dataCurr/10.)) );
+	//~ dyGraphAddData(dyGraphPid, pidYawTrace, (float)(pidYawTrace->dataCurr), (30.)*sin((float)(pidYawTrace->dataCurr/10.)) );	
+	//~ dyGraphAddData(dyGraphPid, pidRollTargetTrace, (float)(pidRollTargetTrace->dataCurr), (90.)*sin((float)(pidRollTargetTrace->dataCurr/10.)) );
+	//~ dyGraphAddData(dyGraphPid, pidPitchTargetTrace, (float)(pidPitchTargetTrace->dataCurr), (60.)*sin((float)(pidPitchTargetTrace->dataCurr/10.)) );
+	//~ dyGraphAddData(dyGraphPid, pidYawTargetTrace, (float)(pidYawTargetTrace->dataCurr), (30.)*sin((float)(pidYawTargetTrace->dataCurr/10.)) );	
+	//~ dyGraphAddData(dyGraphPid, motor1Trace, (float)(motor1Trace->dataCurr), (90.)*sin((float)(motor1Trace->dataCurr/10.)) );
+	//~ dyGraphAddData(dyGraphPid, motor2Trace, (float)(motor2Trace->dataCurr), (60.)*sin((float)(motor2Trace->dataCurr/10.)) );
+	//~ dyGraphAddData(dyGraphPid, motor3Trace, (float)(motor3Trace->dataCurr), (30.)*sin((float)(motor3Trace->dataCurr/10.)) );	
+	//~ dyGraphAddData(dyGraphPid, motor4Trace, (float)(motor4Trace->dataCurr), (30.)*sin((float)(motor4Trace->dataCurr/10.)) );	
 	
 	return TRUE; // return true to continue timeout
 }
 
 void graphPacket (struct fcu_pkt_t * packet, float time) {
     
-	dyGraphAddData(dyGraphRawAccelerometer, acclXTrace, time, (float)(packet->x_accel) );
-	dyGraphAddData(dyGraphRawAccelerometer, acclYTrace, time, (float)(packet->y_accel) );
-	dyGraphAddData(dyGraphRawAccelerometer, acclZTrace, time, (float)(packet->z_accel) );
+    static uint8_t anothercounterthinggy = 0;
     
-	dyGraphAddData(dyGraphRawGyro, gyroXTrace, time, (float)(packet->x_gyro) );
-	dyGraphAddData(dyGraphRawGyro, gyroYTrace, time, (float)(packet->y_gyro) );
-	dyGraphAddData(dyGraphRawGyro, gyroZTrace, time, (float)(packet->z_gyro) );
+    if (anothercounterthinggy%5 == 0) {
+		dyGraphAddData(dyGraphRawAccelerometer, acclXTrace, time, (float)(packet->x_accel) );
+		dyGraphAddData(dyGraphRawAccelerometer, acclYTrace, time, (float)(packet->y_accel) );
+		dyGraphAddData(dyGraphRawAccelerometer, acclZTrace, time, (float)(packet->z_accel) );
+		
+		dyGraphAddData(dyGraphRawGyro, gyroXTrace, time, (float)(packet->x_gyro) );
+		dyGraphAddData(dyGraphRawGyro, gyroYTrace, time, (float)(packet->y_gyro) );
+		dyGraphAddData(dyGraphRawGyro, gyroZTrace, time, (float)(packet->z_gyro) );
 
-	dyGraphAddData(dyGraphOrientation, eulerRollTrace, time, (float)(packet->roll) );
-	dyGraphAddData(dyGraphOrientation, eulerPitchTrace, time, (float)(packet->pitch) );
-	dyGraphAddData(dyGraphOrientation, eulerYawTrace, time, (float)(packet->yaw) );
+		dyGraphAddData(dyGraphOrientation, eulerRollTrace, time, (float)(packet->roll) );
+		dyGraphAddData(dyGraphOrientation, eulerPitchTrace, time, (float)(packet->pitch) );
+		dyGraphAddData(dyGraphOrientation, eulerYawTrace, time, (float)(packet->yaw) );
+	}
+	
+	//~ dyGraphAddData(dyGraphPid, pidRollTrace, time, (float)(packet->roll) );
+	//~ dyGraphAddData(dyGraphPid, pidPitchTrace, time, (float)(packet->pitch) );
+	//~ dyGraphAddData(dyGraphPid, pidYawTrace, time, (float)(packet->yaw) );
+	//~ dyGraphAddData(dyGraphPid, pidRollTargetTrace, time, (float)(packet->rollTarget) );
+	//~ dyGraphAddData(dyGraphPid, pidPitchTargetTrace, time, (float)(packet->pitchTarget) );
+	//~ dyGraphAddData(dyGraphPid, pidYawTargetTrace, time, (float)(packet->yawTarget) );
+	//~ dyGraphAddData(dyGraphPid, motor1Trace, time, (float)(packet->motor1) );
+	//~ dyGraphAddData(dyGraphPid, motor2Trace, time, (float)(packet->motor2) );
+	//~ dyGraphAddData(dyGraphPid, motor3Trace, time, (float)(packet->motor3) );
+	//~ dyGraphAddData(dyGraphPid, motor4Trace, time, (float)(packet->motor4) );
 
-	dyGraphAddData(dyGraphPid, pidRollTrace, time, (float)(packet->roll) );
-	dyGraphAddData(dyGraphPid, pidPitchTrace, time, (float)(packet->pitch) );
-	dyGraphAddData(dyGraphPid, pidYawTrace, time, (float)(packet->yaw) );
-	dyGraphAddData(dyGraphPid, pidRollTargetTrace, time, (float)(packet->rollTarget) );
-	dyGraphAddData(dyGraphPid, pidPitchTargetTrace, time, (float)(packet->pitchTarget) );
-	dyGraphAddData(dyGraphPid, pidYawTargetTrace, time, (float)(packet->yawTarget) );
-	dyGraphAddData(dyGraphPid, motor1Trace, time, (float)(packet->motor1) );
-	dyGraphAddData(dyGraphPid, motor2Trace, time, (float)(packet->motor2) );
-	dyGraphAddData(dyGraphPid, motor3Trace, time, (float)(packet->motor3) );
-	dyGraphAddData(dyGraphPid, motor4Trace, time, (float)(packet->motor4) );
-
-	printf ("%d\t%d\t%d\n", packet->x_accel, packet->y_accel, packet->z_accel);
+	//~ printf ("%d\t%d\t%d\n", packet->x_accel, packet->y_accel, packet->z_accel);
 }
 
 guint readSerial (void) {

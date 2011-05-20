@@ -141,6 +141,9 @@ void gtk_graph_trace_set_data(GtkGraph *graph, gint trace_id, gfloat *xd, gfloat
 	else
 		n_in_window = n;
 	
+	if (n_in_window < 0)
+		n_in_window = 1;
+	
 	//~ printf ("%f (%d %f) - %f (%d %f)\n", graph->independant->axis_min, min_index, xd[min_index], (graph->independant->axis_max - graph->independant->axis_min), n_in_window, xd[n_in_window-1]);
 	
 	t = graph->traces;
