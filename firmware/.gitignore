@@ -1,0 +1,7 @@
+*.elf
+*.map
+*.hex
+*.o
+*.out
+*.lst
+tags
