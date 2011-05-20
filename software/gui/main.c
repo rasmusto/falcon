@@ -112,11 +112,11 @@ int main (int argc, char **argv)
 	
 	// joystick
 
-	fd = open_joystick();
-	if (fd < 0) {
-		printf("open failed.\n");
-		exit(1);
-	}
+	//~ fd = open_joystick();
+	//~ if (fd < 0) {
+		//~ printf("open failed.\n");
+		//~ exit(1);
+	//~ }
 	
 	//******************* Set up GTK window **********************
 	
