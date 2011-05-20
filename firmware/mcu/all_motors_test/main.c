@@ -136,6 +136,8 @@
 int main (void) {
 	//~ while(1);
 	
+	PORTC.DIRSET = 1;
+	
 	//~ PORTC.DIRSET = (1<<5);
 	
 	configClock (); // set up 32mhz internal oscillator 
@@ -859,121 +861,123 @@ ISR (SPIC_INT_vect) {
     static uint8_t readPacketFlag = 0;
     static uint8_t writePacketFlag = 0;
 	uint8_t data = SPIC.DATA;
+    //~ if(data == 0xB5) {
+		//~ disable_motor_flag =1;
+		//~ return;
+	//~ }
     if(data == 0xB5)
     {
         readPacketFlag = 1;
         writePacketFlag = 0;
         spi_index = 0;
+        return;
     }
+    
     if(readPacketFlag)
     {
-        if(data != 0xB5)
-        {
-            spiBuffer[spi_index] = data;
-            spi_index++;
-            SPIC.DATA = 0;
-            if (spi_index == 9) {
-				
-				#ifdef MOT1
-				uint16_t mot1Speed = *((uint16_t *)(spiBuffer+0));
-				
-				if (mot1Speed == 0) {
-					disable_motor_flag = 1;
-				}
-				else if (mot1Speed < 1700) {
-					disable_motor_flag = 0;
-					TCF0.CCABUF = mot1Speed;
-					if (mot1Speed > 1000) {
-						sample_on_edge_flag = 0;
-						TCE0.CCABUF = mot1Speed/2;
-					} else {
-						sample_on_edge_flag = 1;
-					}
-				}
-				else {
-					disable_motor_flag = 0;
-					TCF0.CCABUF = 1700;
-					sample_on_edge_flag = 0;
-					TCE0.CCABUF = 1700/2;
-				}
-				
-				//~ TCF0.CCABUF = mot1Speed;
-				
-				#endif
-				
-				#ifdef MOT2
-				uint16_t mot2Speed = *((uint16_t *)(spiBuffer+2));
-
-				if (mot2Speed == 0) {
-					disable_motor_flag = 1;	
-				}			
-				else if (mot2Speed < 1700) {
-					disable_motor_flag = 0;
-					TCF0.CCBBUF = mot2Speed;
-					if (mot2Speed > 1000) {
-						sample_on_edge_flag = 0;
-						TCE0.CCBBUF = mot2Speed/2;
-					} else {
-						sample_on_edge_flag = 1;
-					}
-				}
-				else {
-					disable_motor_flag = 0;
-					TCF0.CCBBUF = 1700;
-					sample_on_edge_flag = 0;
-					TCE0.CCBBUF = 1700/2;
-				}
-				#endif
-				
-				#ifdef MOT3				
-				uint16_t mot3Speed = *((uint16_t *)(spiBuffer+4));
-				
-				if (mot3Speed == 0) {
-					disable_motor_flag = 1;
-				}
-				else if (mot3Speed < 1700) {
-					disable_motor_flag = 0;
-					TCF0.CCCBUF = mot3Speed;
-					if (mot3Speed > 1000) {
-						sample_on_edge_flag = 0;
-						TCE0.CCCBUF = mot3Speed/2;
-					} else {
-						sample_on_edge_flag = 1;
-					}
-				}
-				else {
-					disable_motor_flag = 0;
-					TCF0.CCCBUF = 1700;
-					sample_on_edge_flag = 0;
-					TCE0.CCCBUF = 1700/2;
-				}
-				#endif
-				
-				#ifdef MOT4
-				uint16_t mot4Speed = *((uint16_t *)(spiBuffer+6));			
-
-				if (mot4Speed == 0) {
-					disable_motor_flag = 1;
-				}
-				else if (mot4Speed < 1700) {
-					disable_motor_flag = 0;
-					TCF0.CCDBUF = mot4Speed;
-					if (mot4Speed > 1000) {
-						sample_on_edge_flag = 0;
-						TCE0.CCDBUF = mot4Speed/2;
-					} else {
-						sample_on_edge_flag = 1;
-					}
-				}
-				else {
-					disable_motor_flag = 0;
-					TCF0.CCDBUF = 1700;
-					sample_on_edge_flag = 0;
-					TCE0.CCDBUF = 1700/2;
-				}
-				#endif
-				
+		spiBuffer[spi_index] = data;
+		spi_index++;
+		SPIC.DATA = 0;
+		if (spi_index == 9) {
+			
+			#ifdef MOT1;
+			uint16_t mot1Speed = *((uint16_t *)(spiBuffer+0));
+			
+			if (mot1Speed == 0) {
+				disable_motor_flag = 1;
 			}
+			else if (mot1Speed < 1700) {
+				disable_motor_flag = 0;
+				TCF0.CCABUF = mot1Speed;
+				if (mot1Speed > 1000) {
+					sample_on_edge_flag = 0;
+					TCE0.CCABUF = mot1Speed/2;
+				} else {
+					sample_on_edge_flag = 1;
+				}
+			}
+			else {
+				disable_motor_flag = 0;
+				TCF0.CCABUF = 1700;
+				sample_on_edge_flag = 0;
+				TCE0.CCABUF = 1700/2;
+			}
+			
+			//~ TCF0.CCABUF = mot1Speed;
+			
+			#endif
+			
+			#ifdef MOT2
+			uint16_t mot2Speed = *((uint16_t *)(spiBuffer+2));
+
+			if (mot2Speed == 0) {
+				disable_motor_flag = 1;	
+			}			
+			else if (mot2Speed < 1700) {
+				disable_motor_flag = 0;
+				TCF0.CCBBUF = mot2Speed;
+				if (mot2Speed > 1000) {
+					sample_on_edge_flag = 0;
+					TCE0.CCBBUF = mot2Speed/2;
+				} else {
+					sample_on_edge_flag = 1;
+				}
+			}
+			else {
+				disable_motor_flag = 0;
+				TCF0.CCBBUF = 1700;
+				sample_on_edge_flag = 0;
+				TCE0.CCBBUF = 1700/2;
+			}
+			#endif
+			
+			#ifdef MOT3				
+			uint16_t mot3Speed = *((uint16_t *)(spiBuffer+4));
+			
+			if (mot3Speed == 0) {
+				disable_motor_flag = 1;
+			}
+			else if (mot3Speed < 1700) {
+				disable_motor_flag = 0;
+				TCF0.CCCBUF = mot3Speed;
+				if (mot3Speed > 1000) {
+					sample_on_edge_flag = 0;
+					TCE0.CCCBUF = mot3Speed/2;
+				} else {
+					sample_on_edge_flag = 1;
+				}
+			}
+			else {
+				disable_motor_flag = 0;
+				TCF0.CCCBUF = 1700;
+				sample_on_edge_flag = 0;
+				TCE0.CCCBUF = 1700/2;
+			}
+			#endif
+			
+			#ifdef MOT4
+			uint16_t mot4Speed = *((uint16_t *)(spiBuffer+6));			
+
+			if (mot4Speed == 0) {
+				disable_motor_flag = 1;
+			}
+			else if (mot4Speed < 1700) {
+				disable_motor_flag = 0;
+				TCF0.CCDBUF = mot4Speed;
+				if (mot4Speed > 1000) {
+					sample_on_edge_flag = 0;
+					TCE0.CCDBUF = mot4Speed/2;
+				} else {
+					sample_on_edge_flag = 1;
+				}
+			}
+			else {
+				disable_motor_flag = 0;
+				TCF0.CCDBUF = 1700;
+				sample_on_edge_flag = 0;
+				TCE0.CCDBUF = 1700/2;
+			}
+			#endif
         }
     }
     if(readPacketFlag && spi_index >= 9)
