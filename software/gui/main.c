@@ -228,7 +228,7 @@ int main (int argc, char **argv)
 
     //~ g_timeout_add (100, (GSourceFunc) testUpdate, NULL);    
     g_timeout_add(1, (GSourceFunc) readSerial, NULL);   
-    g_timeout_add(1, (GSourceFunc) joystick, NULL);   
+    //~ g_timeout_add(1, (GSourceFunc) joystick, NULL);   
     
     //******************* GTK main **********************
     
@@ -389,7 +389,7 @@ void graphPacket (struct fcu_pkt_t * packet, float time) {
 	dyGraphAddData(dyGraphPid, motor3Trace, time, (float)(packet->motor3) );
 	dyGraphAddData(dyGraphPid, motor4Trace, time, (float)(packet->motor4) );
 
-	//~ printf ("%d\t%d\t%d\n", packet->x_accel, packet->y_accel, packet->z_accel);
+	printf ("%d\t%d\t%d\n", packet->x_accel, packet->y_accel, packet->z_accel);
 }
 
 guint readSerial (void) {
