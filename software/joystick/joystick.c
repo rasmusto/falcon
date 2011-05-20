@@ -112,9 +112,15 @@ int main(int argc, char *argv[])
                 //printf("yaw? = %d at time = %d\n", jse.value, jse.time);
                 yaw = jse.value;
             }
-            if (jse.number == 3) {
+            if (jse.number == 3) { //power/start
                 //printf("power = %d at time = %d\n", jse.value, jse.time);
-                power = jse.value;
+                if(jse.value == 1) {
+                    roll = 0;
+                    pitch = 0;
+                    yaw = 0;
+                }
+                else
+                    power = jse.value;
             }
             if (jse.number == 16) { //triangle
                 triangle = jse.value;
@@ -131,25 +137,25 @@ int main(int argc, char *argv[])
 
             if (jse.number == 8 && jse.type == 2) { //up
                 up = jse.value;
-                if(up > 1000)
-                    pitch_offset += 1;
             }
             if (jse.number == 9 && jse.type == 2) { //right
                 right = jse.value;
-                if(right > 1000)
-                    roll_offset += 1;
             }
             if (jse.number == 10 && jse.type == 2) { //down
                 down = jse.value;
-                if(down > 1000)
-                    pitch_offset -= 1;
             }
             if (jse.number == 11 && jse.type == 2) { //left
                 left = jse.value;
-                if(left > 1000)
-                    roll_offset -= 1;
             }
 		}
+        if(up == 32767)
+            pitch_offset += 1;
+        if(right == 32767)
+            roll_offset += 1;
+        if(down == 32767)
+            pitch_offset -= 1;
+        if(left == 32767)
+            roll_offset -= 1;
         system("clear");
         printf("roll\t=\t%d\npitch\t=\t%d\nyaw\t=\t%d\npower\t=\t%d\n", roll + roll_offset, pitch + pitch_offset, yaw, power);
         printf("triangle=\t%d\nsquare\t=\t%d\ncircle\t=\t%d\ncross\t=\t%d\n", triangle, square, circle, cross);
