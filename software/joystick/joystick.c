@@ -85,6 +85,8 @@ int main(int argc, char *argv[])
     int16_t triangle, circle, square, cross;
     int16_t up, right, down, left;
 
+    int16_t pitch_offset, roll_offset;
+
 	struct js_event jse;
 
 	fd = open_joystick();
@@ -129,19 +131,27 @@ int main(int argc, char *argv[])
 
             if (jse.number == 8 && jse.type == 2) { //up
                 up = jse.value;
+                if(up > 1000)
+                    pitch_offset += 1;
             }
             if (jse.number == 9 && jse.type == 2) { //right
                 right = jse.value;
+                if(right > 1000)
+                    roll_offset += 1;
             }
             if (jse.number == 10 && jse.type == 2) { //down
                 down = jse.value;
+                if(down > 1000)
+                    pitch_offset -= 1;
             }
             if (jse.number == 11 && jse.type == 2) { //left
                 left = jse.value;
+                if(left > 1000)
+                    roll_offset -= 1;
             }
 		}
         system("clear");
-        printf("roll\t=\t%d\npitch\t=\t%d\nyaw\t=\t%d\npower\t=\t%d\n", roll, pitch, yaw, power);
+        printf("roll\t=\t%d\npitch\t=\t%d\nyaw\t=\t%d\npower\t=\t%d\n", roll + roll_offset, pitch + pitch_offset, yaw, power);
         printf("triangle=\t%d\nsquare\t=\t%d\ncircle\t=\t%d\ncross\t=\t%d\n", triangle, square, circle, cross);
         printf("up\t=\t%d\nright\t=\t%d\ndown\t=\t%d\nleft\t=\t%d\n", up, right, down, left);
 	}
