@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <inttypes.h>
 
 #include "joystick.h"
 
@@ -15,8 +16,6 @@ int open_joystick()
 	joystick_fd = open(JOYSTICK_DEVNAME, O_RDONLY | O_NONBLOCK); /* read write for force feedback? */
 	if (joystick_fd < 0)
 		return joystick_fd;
-
-	/* maybe ioctls to interrogate features here? */
 
 	return joystick_fd;
 }
@@ -50,7 +49,6 @@ int get_joystick_status(struct wwvi_js_event *wjse)
 	if (joystick_fd < 0)
 		return -1;
 
-	// memset(wjse, 0, sizeof(*wjse));
 	while ((rc = read_joystick_event(&jse) == 1)) {
 		jse.type &= ~JS_EVENT_INIT; /* ignore synthetic events */
 		if (jse.type == JS_EVENT_AXIS) {
@@ -74,7 +72,6 @@ int get_joystick_status(struct wwvi_js_event *wjse)
 			}
 		}
 	}
-	// printf("%d\n", wjse->stick1_y);
 	return 0;
 }
 
@@ -83,6 +80,8 @@ int main(int argc, char *argv[])
 {
 	int fd, rc;
 	int done = 0;
+    
+    int16_t roll, pitch, yaw, power;
 
 	struct js_event jse;
 
@@ -94,10 +93,30 @@ int main(int argc, char *argv[])
 
 	while (!done) {
 		rc = read_joystick_event(&jse);
-		usleep(1000);
+		usleep(100);
 		if (rc == 1) {
 			printf("Event: time %8u, value %8hd, type: %3u, axis/button: %u\n", 
 				jse.time, jse.value, jse.type, jse.number);
+            if (jse.number == 0) { 
+                //printf("roll = %d at time = %d\n", jse.value, jse.time);
+                roll = jse.value;
+            }
+            if (jse.number == 1) {
+                //printf("pitch = %d at time = %d\n", jse.value, jse.time);
+                pitch = jse.value;
+            }
+            if (jse.number == 2) {
+                //printf("yaw? = %d at time = %d\n", jse.value, jse.time);
+                yaw = jse.value;
+            }
+            if (jse.number == 3) {
+                //printf("power = %d at time = %d\n", jse.value, jse.time);
+                power = jse.value;
+            }
+			//printf("Event: time %8u, value %8hd, type: %3u, axis/button: %u\n", 
+			//	jse.time, jse.value, jse.type, jse.number);
 		}
+        system("clear");
+        printf("roll\t=\t%d\npitch\t=\t%d\nyaw\t=\t%d\npower\t=\t%d\n", roll, pitch, yaw, power);
 	}
 }
